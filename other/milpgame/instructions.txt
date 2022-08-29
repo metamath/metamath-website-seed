@@ -1,0 +1,51 @@
+Instructions about using Milpgame
+
+Milpgame cannot modify set.mm. After you prove a theorem you must paste manually the proof into set.mm using a text editor. Prior to the proving you must enter in set.mm manually the empty (a theorem without the proof) theorem with a text editor.
+
+After you start Milpgame you must go to the  File->Open and choose where set.mm it is.(To play with test1 ….test6, you must download one of the test.mm file and set04.06.2013.mm in the same folder and then Open the test.mm in Milpgame).
+
+Enter in Edit-> Search, check Search by name,enter the name of the theorem that you want to prove, from the list click on the wanted theorem and Go to the source, then click on the theorem and then click on button: Edit this proof(a new tab will appear).
+
+Now I will present Forward Chaining Strategy:
+
+In the tab with theorem name on it, click on  Change strategy to: Forward Chaining to enter the proof 
+starting with the hypotheses and ending with the theorem statement.
+
+In order to prove the theorem you must fill the List of Rules with axioms,theorems and hypotheses.
+The List of Rules can be filled with axioms and theorem using Edit->Search.(You enter the name of axiom or theorem in place holder, check Search by name and the click on Search and  a list of result will appear, choose the axiom/theorem and then  click on Add to the List of  Rules).To add a hypothesis
+to the List of Rules, after the button : Edit this proof are the hypotheses that are owned by the theorem you want to prove, click on the hypothesis (if  has one) and then click on  button :Add to the List of Rules :Hypothesis.....
+
+(Simple axiom or theorem is a theorem/axiom that has no hypotheses. Complex axiom/theorem is a axiom/theorem that has hypotheses)
+
+To add a hypothesis to the proof you must in enter in List of Rules,click on the hypothesis, click Select, then click on: Apply Rule:Hypothesis of ….
+
+To add an simple axiom or simple theorem to the proof you must also enter in List of Rules, click on the axiom,click Select,then click on: Apply Rule: Axiom of …..(Theorem of...)
+
+To move up or down the hypotheses and statements click on Move Up or Move Down.
+
+In order to fill variables like:$v0, $v1,....., you must click on the statement where the variables are and then click on Edit proof variables(fill the variables with the correct content according with class variable)
+
+To add  a complex theorem or complex axiom you must click on the first statement that you want to apply the complex theorem or axiom, enter in List of Rules, click on theorem/axiom,click Select, then  click on: Apply Rule: Theorem of ….(Axiom of....)
+
+
+
+
+Now I will present Backward Chaining Strategy:
+In the tab with theorem name on it, click on  Change strategy to:Backward Chaining to enter the proof 
+starting with the theorem statement and ending with the hypotheses.
+
+To add a simple or complex theorem/axiom  to statement you must click on statement, enter in List of Rules, choose a theorem/axiom,then click Apply Rule: Theorem of ...(Axiom of …)
+
+Above instructions are similar in case of a hypothesis.
+
+In order to fill variables like:$v0, $v1,....., you must click on the statement where the variables are and then click on Edit proof variables(fill the variables with the correct content according with class variable)
+
+Other instructions:
+
+If you want to add an existing statement to the proof click on: Add an existing statement.
+If you want to delete a branch, click on statement that you want to delete and then  click: Delete branch.
+The button:Syntax is used to show the syntactic definitions for  wff,class,set variables
+In Edit--> Formula editor you can create statement using symbols(Html definitions)and then obtain 
+ASCII result that can be used to edit set.mm.(with a text editor)
+To increase the memory used by the Java application modify the -Xmx number from run.bat, ex: -Xmx4500m
+

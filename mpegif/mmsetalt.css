@@ -1,0 +1,8 @@
+/* These give modest improvement in readability for some people.
+   Courtesy of Cris Perdue, 10-Oct-2017. */
+.symvar { border-bottom:none !important;}
+.wff { color: deepskyblue !important; }
+.set { color: #FF8847 !important; }
+.class { color:  violet !important; }
+.typecode { color: silver !important;  }
+.hidden { color: silver !important;  }

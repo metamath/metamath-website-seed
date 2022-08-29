@@ -1,0 +1,2482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+
+<!-- improve mobile display -->
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Quantum Logic Explorer Home Page</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+
+<STYLE TYPE="text/css">
+<!--
+/* Math symbol image will be shifted down 4 pixels to align with normal
+  text for compatibility with various browsers.  The old ALIGN=TOP for
+  math symbol images did not align in all browsers and should be deleted.
+  All other images must override this shift with STYLE="margin-bottom:0px".
+  (2-Oct-2015 nm) */
+img { margin-bottom: -4px }
+-->
+</STYLE>
+
+</HEAD>
+<!-- <BODY BGCOLOR="#EEFFFA"> -->
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP><A HREF="../index.html"><IMG SRC="l46-7icon.gif"
+      BORDER=0
+      ALT="Metamath Home"
+      TITLE="Metamath Home"
+      HEIGHT=32 WIDTH=32 ALIGN=TOP STYLE="margin-bottom:0px"></A>
+    </TD>
+    <TD ALIGN=CENTER VALIGN=TOP><FONT SIZE="+3"
+      COLOR="#006633"><B>Quantum Logic Explorer Home Page</B></FONT>
+    </TD>
+
+    <TD NOWRAP ALIGN=RIGHT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif> <A HREF="wb.html">First &gt;</A><BR><A
+      HREF="wddi-4.html">Last &gt;</A></FONT>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD COLSPAN=3 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif>
+      <A HREF="../mm.html">Mirrors</A>&nbsp; &gt;
+        &nbsp;<A HREF="../index.html">Home</A>&nbsp; &gt;
+      &nbsp;QLE Home&nbsp; &gt;
+      &nbsp;<A HREF="mmtheorems.html">Th. List</A>
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>
+
+<HR NOSHADE SIZE=1>
+
+
+<TABLE><TR><TD>
+
+<B><FONT COLOR="#006633">Quantum Logic
+Explorer</FONT></B>&nbsp;&nbsp;&nbsp; You are about to enter uncharted
+territory.  Unlike elementary Set Theory which is polished and mature
+mathematics, Quantum Logic is wild and barely explored.  <!-- ,
+unexplored cowboy country.  --> An ornery, intractable logic, nobody
+even knows if it's decidable!  (In other words no one knows if an
+algorithm is even possible that tells you if a given expression is a
+theorem, much less what such an algorithm might look like.)  These pages
+contain a collection of around 1,000 proofs of my own, my colleague <A
+HREF="http://m3k.grad.hr/pavicic">Mladen Pavi&#269;i&#263;</A> [external], and
+others.  My own proofs are experiments to scout out new terrain, often
+finding it barren but occasionally stumbling on a small gem or two.  All
+proofs are complete and correct though, verified by the <A
+HREF="../index.html#mmprog">Metamath program</A> with the
+database file <A HREF="../metamath/ql.mm">ql.mm</A>.
+
+</TD>
+<TD>
+<IMG SRC="debyrinth.jpg"
+ALT=
+"Credit: Deborah Megill c. 1997.  Released to public domain by her estate."
+TITLE=
+"Credit: Deborah Megill c. 1997.  Released to public domain by her estate."
+WIDTH=180 HEIGHT=131 ALIGN=RIGHT STYLE="margin-bottom:-3px">
+<!--
+<IMG SRC="wagon.gif" ALT="Image of wagon" WIDTH=81 HEIGHT=88 ALIGN=RIGHT
+ STYLE="margin-bottom:0px">
+<IMG SRC="wagontrain.jpg" ALT="Wagon Train" WIDTH=170 HEIGHT=120 ALIGN=RIGHT
+ STYLE="margin-bottom:0px">
+-->
+<!--
+http://lincoln.lib.niu.edu/fimage/image.php?id=145 17-Jan-04
+Wagon Train
+Date: unknown
+Creator: unknown
+Image Source: Harper's Monthly
+Permission: Public domain
+-->
+</TD>
+</TR>
+</TABLE>
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE><TR>
+
+<TD VALIGN=top>
+<B><FONT COLOR="#006633">Contents of this page</FONT></B>
+<MENU>
+<LI> <A HREF="#what">What is Quantum Logic?</A>
+
+<!--
+<FONT SIZE=-2 FACE="Comic Sans MS" COLOR=ORANGE>New</FONT> <FONT
+SIZE=-1><I>24-Sep-2003</I></FONT>
+-->
+
+</LI>
+<LI> <A HREF="#follow">How to Follow Proofs</A></LI>
+<LI> <A HREF="#axioms">The Axioms</A></LI>
+<LI> <A HREF="#def">Some Definitions</A></LI>
+<LI> <A HREF="#hilbert">Relationship to Hilbert Space</A></LI>
+<LI> <A HREF="#theorems">Some Well-Known Theorems</A></LI>
+<LI> <A HREF="#unify">Unifying the Arrow</A></LI>
+<LI> <A HREF="#weak">Weaker Systems</A></LI>
+<LI> <A HREF="#prop">Quantum Propositional Calculus, and a Classical Surprise</A></LI>
+<LI> <A HREF="#strong">Stronger Systems</A></LI>
+<LI> <A HREF="#ref">References</A></LI>
+</MENU></TD>
+
+<TD VALIGN=top>
+<B><FONT COLOR="#006633">Related pages</FONT></B>
+<MENU>
+<LI> <A HREF="mmtheorems.html">Table of Contents and Theorem List</A></LI>
+<LI> <A HREF="mmdefinitions.html">Definition List</A></LI>
+<LI> <A HREF="../mpeuni/mmhil.html">Hilbert Space Explorer Home Page</A></LI>
+<LI> <A HREF="mmascii.html">ASCII Equivalents for Text-Only Browsers</A></LI>
+</MENU>
+
+<TABLE><TR><TD>&nbsp;&nbsp;</TD>
+<TD><A HREF="#L46-7"><IMG SRC="l46-7icon.gif" BORDER=0 ALT="Lattice
+L46-7" HEIGHT=32 WIDTH=32 ALIGN=LEFT STYLE="margin-bottom:0px"></A></TD>
+<TD VALIGN=MIDDLE><B><FONT COLOR="#006633">What's
+this?</FONT></B> Look for
+L46-7 at the bottom of this page.</TD>
+</TR></TABLE>
+
+</TD>
+</TR></TABLE>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="what"></A><B><FONT COLOR="#006633">What Is
+Quantum Logic?</FONT></B>&nbsp;&nbsp;&nbsp;
+
+The definition of "quantum logic" varies among authors.  What we mean by
+<I>quantum logic</I> is a <I>Hilbert lattice</I>, which is the set of
+closed subspaces of an infinite dimensional complex Hilbert space.  In
+particular, we are interested in studying the the set of all equations
+that hold in this lattice.  The subset of these equations that has been
+studied the most are the equations for <I>orthomodular lattices</I> that
+we show below.  These simple equations can be manipulated with no
+knowledge of advanced math, and the Quantum Logic Explorer uses them to
+derive some interesting results worked out in complete detail that
+anyone with patience can follow.
+
+<P>There are other slightly different, but related, definitions of
+quantum logic.  Some authors use "quantum logics" to mean <A
+HREF="http://www.phys.uni-paderborn.de/~ziegler/qlogic.html">orthomodular
+posets</A> [external], whose equations are weaker than those for
+orthomodular lattices and therefore apply to a larger class of algebras.
+(An algebra is a set of elements together with operations on those
+elements.  The class of all algebras that obey a given set of equations
+is called an equational variety.)  Other authors mean a propositional
+calculus based on orthomodular lattices.  Below we show how to translate
+our quantum logic equations to and from this propositional calculus,
+which is similar to translating the equations for Boolean algebras to
+and from ordinary classical propositional calculus.
+
+<P><B><FONT COLOR="#006633">Does quantum logic have anything to do with
+qubits or quantum computing?</FONT></B> The brief answer is "no," and if
+that's what you are interested in you have probably come to the wrong
+place.  However, there is a connection - our quantum logic, with some
+additional axioms, determines an infinite dimensional Hilbert space over
+the field of complex numbers (proved by Maria Sol&egrave;r in 1995 and
+refined by Ren&eacute; Mayet in 1998 <A
+HREF="#MegPav2000">[MegPav2000]</A>).  Hilbert space, in turn, provides
+the theoretical foundation for quantum mechanics and thus quantum
+computing.  But a theory that allows our quantum logic results to be
+exploited in a practical sense for quantum computing has so far remained
+an elusive unsolved problem.
+
+<P>Quantum logic together with the additional axioms needed for
+Sol&egrave;r's theorem is called the theory of <I>Hilbert lattices</I>.
+Hilbert lattices and Hilbert space provide dual and equivalent
+foundations for quantum mechanics, just as the frequency domain and the
+time domain provide dual descriptions of electrical signals.  Just as
+Fourier transforms have led to greater insight into the nature of
+electrical signals, it may be possible that, via Sol&egrave;r's theorem,
+quantum logic and Hilbert lattices will lead to new results in quantum
+mechanics.  Since Sol&egrave;r's theorem is so new, very little
+is known, making the theory of Hilbert lattices an interesting and
+exciting topic to explore.
+
+<P><HR NOSHADE SIZE=1><A NAME="follow"></A><B><FONT COLOR="#006633">How to
+Follow Proofs</FONT></B>&nbsp;&nbsp;&nbsp; For quantum logic, there is
+only one type of variable, a term variable (<FONT
+COLOR="#CC4400">brown</FONT> color).  Simply stated, a proof step
+results from the substitution of term expressions for the variables in
+an earlier axiom, definition, or theorem, matching its hypotheses, if
+any, to either previous steps of the proof or the hypotheses of the
+theorem being proved.  Term expressions are constructed according to the
+syntax specified in the <A HREF="mmdefinitions.html">definition
+list</A>.  To get some practice in following proofs, start with the
+simple theorems in the <A HREF="#theorems">Some Well-Known Theorems</A>
+section below, and this rule should become apparent.  It may also be
+helpful to read the Metamath Proof Explorer's <A
+HREF="../mpeuni/mmset.html#proofs">How Proofs Work</A>.  The rules are
+essentially the same those as for the propositional calculus proofs in
+the Metamath Proof Explorer, except that we use "term" instead of "wff."
+
+<P><HR NOSHADE SIZE=1><A NAME="axioms"></A><B><FONT COLOR="#006633">The
+Axioms</FONT></B>&nbsp;&nbsp;&nbsp;
+
+Quantum logic can be conveniently broken down into 3 sets of axioms:
+the ortholattice axioms, the orthomodular law (which holds in those
+ortholattices that are also orthomodular lattices), and stronger axioms
+(which hold in those orthomodular lattices that are also
+Hilbert lattices).
+
+<P>The first two sets of axioms are show below in this section, and
+the stronger axioms are discussed in the section <A
+HREF="#strong">Stronger Systems</A> below.  Whereas the first two sets
+of axioms have been widely studied, only a few of the stronger axioms,
+such as the Godowski and orthoarguesian equations discussed below, are
+known; it is known that they are infinite in number, but it is not known
+whether they are recursively enumerable.
+
+<P> The theory of ortholattices is decidable,
+meaning that given any equation, there is an algorithm that will either
+find a proof for it or show that it is not a theorem.  (William McCune
+wrote a program called <A
+HREF="http://www-unix.mcs.anl.gov/~mccune/papers/olsax/programs/">olfilter</A>
+[external] that implements Brun's decision procedure for ortholattices.)
+It is not known whether the theory of orthomodular lattices, as well as
+the theories involving the stronger axioms, are decidable, although
+equations with only two variables are decidable.  (The program <A
+HREF="../index.html#qldownload">beran</A> implements the decision
+procedure for orthomodular lattice equations with two variables.  The
+program <A HREF="../index.html#qldownload">lattice</A> is a handy
+preliminary filter that tests orthomodular lattice conjectures
+with three or more variables against a
+collection of useful counterexamples.)
+
+<P>All axioms involve two primitive operations:  a negation-like unary
+postfix operation called orthocomplementation <A HREF="wn.html">wn</A>
+(<IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>), and an
+OR-like binary operation called join (or disjunction or supremum) <A
+HREF="wo.html">wo</A> (<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP>).  (The join should not be confused with the union operation
+of set theory.  The <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> symbol is a traditional one used in this field.)
+
+<!--
+In the literature, you will often see the symbols
+<IMG SRC='perp.gif' WIDTH=11 HEIGHT=19 ALT='_|_'> (as
+a superscript) or ' (prime) as postfix operators for orthocomplementation instead of
+our prefix operation <IMG
+SRC='shortminus.gif' WIDTH=8 HEIGHT=19 ALT='-'>.
+-->
+
+Formally, an ortholattice or an orthomodular lattice is an algebra
+<IMG
+SRC='langle.gif' WIDTH=4 HEIGHT=19 ALT='&lt;.'><I>A</I>,
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'>, <IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'><IMG
+SRC='rangle.gif' WIDTH=4 HEIGHT=19 ALT='&gt;.'> where <I>A</I> is
+the base set, <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> is a binary operation, and <IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> is
+a unary operation, obeying the axioms below for an ortholattice
+or orthomodular lattice respectively.
+
+<P>The axioms for an ortholattice are the following equations and
+inferences.  For completeness, we include axioms for equality that
+are necessary for any algebra.
+
+
+<!-- The turnstile -->
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> -->
+<!-- is
+a symbol (introduced by Frege in 1879) used in formal logic
+to indicate that the expression that follows is provable; it
+can be ignored for informal reading.  (The Metamath program uses -->
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> -->
+<!-- as a
+token indicating the kind of expression that follows.) -->
+The <IMG SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'> and
+<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'>
+are informal symbols indicating the relationship between
+hypotheses and conclusion.
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Axioms for an Ortholattice</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-a1.html">ax-a1</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-a2.html">ax-a2</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-a3.html">ax-a3</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-a4.html">ax-a4</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-a5.html">ax-a5</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-r1.html">ax-r1</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif'
+WIDTH=15 HEIGHT=19 ALT='=&gt;'>&nbsp;&nbsp;&nbsp; <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-r2.html">ax-r2</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif'
+WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif'
+WIDTH=15 HEIGHT=19 ALT='=&gt;'>&nbsp;&nbsp;&nbsp; <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-r4.html">ax-r4</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif'
+WIDTH=15 HEIGHT=19 ALT='=&gt;'>&nbsp;&nbsp;&nbsp; <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-r5.html">ax-r5</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif'
+WIDTH=15 HEIGHT=19 ALT='=&gt;'>&nbsp;&nbsp;&nbsp; <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+
+</TABLE></CENTER>
+
+<P>To these we add the orthomodular law, which turns the equational
+system for ortholattices into the stronger equational system for
+into orthomodular lattices.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Orthomodular Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-r3.html">ax-r3</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP>
+
+&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19
+ALT='=&gt;'>&nbsp;&nbsp;&nbsp;
+
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> -->
+<IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'></TD></TR>
+
+
+</TABLE></CENTER>
+
+<P><HR NOSHADE SIZE=1><A NAME="def"></A><B><FONT COLOR="#006633">Some
+Definitions</FONT></B>&nbsp;&nbsp;&nbsp;
+
+Definitions are introduced by connecting, via the equality symbol, a new
+constant or new term on the left-hand side to the expression it
+abbreviates on the right-hand side.  (In the Metamath language, <A
+HREF="../mpeuni/mmset.html#definitions">definitions</A> are introduced in the
+same way as axioms, with their metalogical soundness justification done
+outside of the database.)
+
+<P>Some convenient definitions are equivalence (or biconditional or
+identity), meet (or conjunction or infimum or AND), unit (or true), and
+zero (or false).  Note that the theorem <A HREF="tt.html">tt</A>
+justifies our definition of the unit (needed since there is a free
+variable on the right-hand side that is not on the left-hand side).
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Some Definitions</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="df-b.html">df-b</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-a.html">df-a</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-t.html">df-t</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-f.html">df-f</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='0.gif' WIDTH=8 HEIGHT=19 ALT='0'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19
+ALT='1'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP></TD></TR>
+
+
+
+</TABLE></CENTER>
+
+<P>With these definitions, the orthomodular law can be rewritten
+more compactly:
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Orthomodular Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="r3a.html">r3a</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+
+<P>For the complete list of syntax and definitions, see the <A
+HREF="mmdefinitions.html">definition list</A>.
+
+
+<P><HR NOSHADE SIZE=1><A NAME="hilbert"></A><B><FONT
+COLOR="#006633">Relationship to Hilbert
+Space</FONT></B>&nbsp;&nbsp;&nbsp; The set of closed subspaces of
+Hilbert space, <IMG SRC='_scrch.gif' WIDTH=22 HEIGHT=19 ALT='CH'
+ALIGN=TOP>, determines a special case of an orthomodular lattice <IMG
+SRC='langle.gif' WIDTH=4 HEIGHT=19 ALT='&lt;.' ><I>A</I>, <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>, <IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'><IMG
+SRC='rangle.gif' WIDTH=4 HEIGHT=19 ALT='&gt;.' >.
+Specifically, it is the algebra <IMG SRC='langle.gif' WIDTH=4 HEIGHT=19
+ALT='&lt;.' ><IMG SRC='_scrch.gif' WIDTH=22 HEIGHT=19 ALT='CH'
+ALIGN=TOP>, <IMG SRC='_veeh.gif' WIDTH=21 HEIGHT=19 ALT='vH'>,
+<IMG SRC='perp.gif' WIDTH=11 HEIGHT=19 ALT='_|_'><IMG
+SRC='rangle.gif' WIDTH=4 HEIGHT=19 ALT='&gt;.' >, where the
+base set and operations are defined as <A
+HREF="../mpeuni/df-ch.html">df-ch</A>, <A
+HREF="../mpeuni/df-chj.html">df-chj</A>, and <A
+HREF="../mpeuni/df-oc.html">df-oc</A> in the Hilbert Space Explorer,
+where we <A HREF="../mpeuni/mmhil.html#quantum">prove</A> that the
+orthomodular lattice axioms above hold for this algebra.
+
+<P>Only relatively recently it was discovered that equations <A
+HREF="#strong">stronger</A> than just the orthomodular lattice axioms
+hold in this algebra.  An important open problem is identifying all
+such equations.
+
+
+<P><HR NOSHADE SIZE=1><A NAME="theorems"></A><B><FONT
+COLOR="#006633">Some Well-Known Theorems</FONT></B>&nbsp;&nbsp;&nbsp;
+First we show some simple consequences of the axioms.  You may want to
+study their proofs to become acquainted with the Quantum Logic
+Explorer's proof notation and to get a feel for the axioms.  None of
+these simple theorems require the use of axiom <A
+HREF="ax-r3.html">ax-r3</A>.  The list of axioms involved in the proof
+of each theorem is shown below its proof.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Some Simple Theorems</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="id.html">id</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP></TD></TR>
+
+
+<TR ALIGN=LEFT><TD><A HREF="or1.html">or1</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'></TD></TR>
+
+
+<TR ALIGN=LEFT><TD><A HREF="an1.html">an1</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>
+<IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="oridm.html">oridm</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP></TD></TR>
+
+
+</TABLE></CENTER>
+
+
+
+<P> Any theorem that is equivalent to the orthomodular law axiom <A
+HREF="ax-r3.html">ax-r3</A> (in the presence of the ortholattice axioms)
+is called an orthomodular law (OM law).  Without <A
+HREF="ax-r3.html">ax-r3</A>, quantum logic is decidable; with it
+decidability is unknown.  The following version of the OM law, derived
+using <A HREF="ax-r3.html">ax-r3</A>, is frequently used.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Orthomodular Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="oml.html">oml</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P>An outstanding feature of quantum logic compared to ordinary Boolean
+algebras is that the distributive law of conjunction (AND) over
+disjunction (OR) fails, i.e., the system lacks this law.  The
+Foulis-Holland theorems (proved independently by Foulis and Holland)
+provide weak but very useful versions of the distributive law.  The
+relation "<IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'>", defined as
+
+"<IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP>", is read "<IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> commutes with <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'>" (see <A HREF="df-c1.html">df-c1</A>).
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Foulis-Holland Theorems</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="fh1.html">fh1</A></TD><TD><!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="fh2.html">fh2</A></TD><TD><!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="fh3.html">fh3</A></TD><TD><!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="fh4.html">fh4</A></TD><TD><!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P>There are several interesting "exchange theorems" involving the
+"commutes" relationship.  One of them is Gudder-Schelp's Theorem, later
+strengthened by Beran.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Gudder-Schelp-Beran Theorem</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="gsth2.html">gsth2</A></TD><TD><!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19
+ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P>Another remarkable distributive law was discovered by Marsden and
+Herman.  The hypotheses for this law state that the variables form a
+commutative "chain."
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Marsden-Herman Distributive Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="mh2.html">mh2</A></TD><TD><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cc.gif' WIDTH=12
+HEIGHT=19 ALT='C'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP> <IMG SRC='cc.gif' WIDTH=12 HEIGHT=19 ALT='C'> <IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'> <IMG SRC='cc.gif' WIDTH=12
+HEIGHT=19 ALT='C'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bd.gif' WIDTH=9
+HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+<P>One consequence of the Marsden-Herman law is the
+following interesting distributive law involving the
+biconditional.  Previously it was known only that this law
+followed from the stronger Godowski equations <A
+HREF="#MegPav2001">[MegPav2001]</A>;
+here we show a new proof <A
+HREF="#MegPav2003a">[MegPav2003a]</A> that requires only
+the axioms for orthomodular lattices.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Distributive Law for Biconditional</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="distid.html">distid</A></TD><TD>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='
+ALIGN=TOP> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='
+ALIGN=TOP> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+
+
+<P>The complete list of theorems in the Quantum Logic Explorer
+database is provided by the <A HREF="mmtheorems.html">theorem list</A>.
+
+
+<P><HR NOSHADE SIZE=1><A NAME="unify"></A><B><FONT
+COLOR="#006633">Unifying the Arrow</FONT></B>&nbsp;&nbsp;&nbsp; The
+"natural" primitives of quantum logic are conjunction, disjunction, and
+negation.  There are five possibilities for definining implication in
+quantum logic in terms of them:  Sasaki (<A
+HREF="df-i1.html">df-i1</A>), Dishkant (<A HREF="df-i2.html">df-i2</A>),
+Kalmbach (<A HREF="df-i3.html">df-i3</A>), non-tollens (<A
+HREF="df-i4.html">df-i4</A>), and relevance (<A
+HREF="df-i5.html">df-i5</A>).  It has been shown that these are the only
+possibilities that satisfy an important ordering relationship known as
+the Birkhoff-von Neumann requirement.  In a Boolean algebra, these all
+reduce to classical implication <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> (<A HREF="df-i0.html">df-i0</A>).
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>The Five Quantum Implications</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="df-i1.html">df-i1</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif' WIDTH=19
+HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-i2.html">df-i2</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;2'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-i3.html">df-i3</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to3.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;3'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>
+<IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-i4.html">df-i4</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to4.gif' WIDTH=20
+HEIGHT=19 ALT='-&gt;4'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="df-i5.html">df-i5</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to5.gif' WIDTH=20
+HEIGHT=19 ALT='-&gt;5'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+</TABLE></CENTER>
+
+<P>Attempts to justify the "true" implication has been a topic of much
+investigation and philosophical debate.  So we were surprised to
+discover <A HREF="#PavMeg1998b">[PavMeg1998b]</A> that they can all be
+unified into one, allowing a quantum logic axiom system to be devised
+with a "universal" implication (which could be any one of the five) and
+negation as the only primitives.
+
+<P>The way this is done is as follows.  We show that disjunction is
+equivalent to (and thus can be defined by) a structural formula with an
+arbitrary implicational connective that could be any one of the five.
+We then use this formula for disjunction to replace the disjunction
+symbol in a formulation (axiom system) of quantum logic with disjunction
+and negation as the only primitives.  This gives us an axiom system with
+only implication and negation as the only primitives, where the
+implication can be any one of the five.
+
+<P>Here are the structurally identical formulas for disjunction in terms
+of implication.  Pretty neat, don't you think?  Their proofs are quite
+tedious, though - take a peek at them.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Disjunction in Terms of the Five Implications</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="ud1.html">ud1</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif' WIDTH=19
+HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ud2.html">ud2</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19
+ALT='-&gt;2'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;2'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19
+ALT='-&gt;2'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ud3.html">ud3</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to3.gif' WIDTH=21 HEIGHT=19
+ALT='-&gt;3'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to3.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;3'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to3.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;3'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to3.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;3'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to3.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;3'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='_to3.gif' WIDTH=21 HEIGHT=19
+ALT='-&gt;3'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ud4.html">ud4</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to4.gif' WIDTH=20 HEIGHT=19
+ALT='-&gt;4'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to4.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;4'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to4.gif' WIDTH=20
+HEIGHT=19 ALT='-&gt;4'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to4.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;4'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to4.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;4'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='_to4.gif' WIDTH=20 HEIGHT=19
+ALT='-&gt;4'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ud5.html">ud5</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'>
+<IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to5.gif' WIDTH=20 HEIGHT=19
+ALT='-&gt;5'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to5.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;5'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to5.gif' WIDTH=20
+HEIGHT=19 ALT='-&gt;5'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='_to5.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;5'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to5.gif' WIDTH=20 HEIGHT=19 ALT='-&gt;5'
+ALIGN=TOP> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='_to5.gif' WIDTH=20 HEIGHT=19
+ALT='-&gt;5'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="weak"></A><B><FONT COLOR="#006633">Weaker
+Systems</FONT></B>&nbsp;&nbsp;&nbsp; An interesting system to study is
+one in which an orthomodular lattice's <A HREF="ax-r3.html">ax-r3</A> is
+replaced by a weaker axiom called the weakly orthomodular
+(WOM) law <A HREF="#PavMeg1998a">[PavMeg1998a]</A>.  We show three
+equivalent forms below.  In the Quantum Logic Explorer database we have
+called the first one an axiom, and the other two are derived from it
+using only the axioms for ortholattices (look at the line called "The
+theorem was proved from these axioms" at the end of each proof listing,
+and there will be no mention of <A HREF="ax-r3.html">ax-r3</A>).  In <A
+HREF="#PavMeg1998a">[PavMeg1998a]</A> we show that <A
+HREF="ax-wom.html">ax-wom</A> is strictly weaker than <A
+HREF="ax-r3.html">ax-r3</A>.
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Weakly Orthomodular Law Equivalents</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-wom.html">ax-wom</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19
+ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19
+ALT='1'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="woml6.html">woml6</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ka4ot.html">ka4ot</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19
+ALT='1'></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P>In a WOM system we can prove a set of theorems that are isomorphic to
+(structurally resemble) the axioms and rules of orthomodular lattices.
+The analogous theorem is created by replacing
+"<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='>"
+with
+"<IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='>"
+in an orthomodular lattice theorem, then suffixing it with
+"<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'>".  This
+means that
+the axiom system for for orthomodular lattices
+can effectively be embedded in a strictly weaker subset of itself!
+In particular, decidability of the weaker system implies decidability of
+the stronger one and vice-versa.  (The decision problem is one of the most important
+unsolved problems in quantum logic.)  Counterintuitively, <A
+HREF="wr3.html">wr3</A>, which is the structural analog for the
+orthomodular law <A
+HREF="ax-r3.html">ax-r3</A>, can be proved with only
+the ortholattice axioms and does not require even the WOM law
+(whereas <A HREF="ax-r3.html">ax-r3</A> <I>is</I> the OM law).
+However,
+the structural analogs for an ortholattice's <A HREF="ax-r2.html">ax-r2</A>
+and <A
+HREF="ax-r5.html">ax-r5</A> (which are really nothing more than equality
+laws holding in any algebra) do require the WOM law.  In each particular
+case, the axioms used for the proof are shown below the proof in the
+page referenced by the hyperlink; note that
+<A HREF="ax-r3.html">ax-r3</A> is not used for any of them.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Weakly Orthomodular Structural Analogs for Orthomodular Lattice
+Axioms</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="wa1.html">wa1</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wa2.html">wa2</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='equiv.gif'
+WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wa3.html">wa3</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wa4.html">wa4</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wa5.html">wa5</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='equiv.gif'
+WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wr1.html">wr1</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='>
+<IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wr2.html">wr2</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif'
+WIDTH=12 HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='>
+<IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wr3.html">wr3</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='
+ALIGN=TOP> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wr4.html">wr4</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>
+<IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="wr5.html">wr5</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='equiv.gif' WIDTH=12
+HEIGHT=19 ALT='=='> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'></TD></TR>
+
+
+</TABLE></CENTER>
+
+<P>These structural analogs to the orthomodular lattice
+axioms come in handy for proving
+various properties of weakly orthomodular systems.  We can prove a
+theorem in the normal way with the standard axioms, then mimic the
+proof with the structural analogs above to obtain the weakly
+orthomodular analog.  For example, we can derive weakly orthomodular
+analogs of the Foulis-Holland theorems: <A HREF="wfh1.html">wfh1</A>, <A
+HREF="wfh2.html">wfh2</A>, <A HREF="wfh3.html">wfh3</A>, and <A
+HREF="wfh4.html">wfh4</A>.  Note that for each of these, <A
+HREF="ax-r3.html">ax-r3</A> is never required for the proof, but only <A
+HREF="ax-wom.html">ax-wom</A>.
+
+<P>A very interesting result <A HREF="#PavMeg1998a">[PavMeg1998a]</A> is
+that we can derive the structural analog of the OM law <A
+HREF="oml.html">oml</A> without referring even to <A
+HREF="ax-wom.html">ax-wom</A>!  In the past it seems it was believed
+that this law supplied the orthomodular property for quantum
+propositional calculus axiomatizations called "unary logics," but
+instead it turns out to be a law of pure ortholattice theory.  Thus we
+call it the "faux orthomodular law."  In fact, the (weakly) orthomodular
+property for such logics is hidden in the innocent-looking <A
+HREF="wr5.html">wr5</A>, which has the appearance of a simple equality
+axiom.  Such are the surprises to be found in quantum logic.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Faux orthomodular law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="woml.html">woml</A></TD><TD> <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='supperp.gif'
+WIDTH=9 HEIGHT=19 ALT='_|_'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='equiv.gif' WIDTH=12 HEIGHT=19 ALT='=='> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='1.gif' WIDTH=7 HEIGHT=19 ALT='1'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="prop"></A><B><FONT COLOR="#006633">Quantum
+Propositional Calculus</FONT></B>&nbsp;&nbsp;&nbsp; Quantum logic is often
+expressed and
+studied as
+a propositional calculus.  Just as classical propositional calculus is based
+on Boolean algebras, quantum propositional calculus is based on orthomodular
+lattices.  Going from the lattice equations to the propositional calculus is
+completely analogous to the classical case:  any equality whose
+right-hand side is 1 (this is
+called a <I>valuation</I>) corresponds to the proposition with the right-hand
+side removed.  (Technically, this is called a <I>unary</I> propositional
+calculus).  Thus, for example, the law of excluded middle
+
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='1.gif'
+WIDTH=7 HEIGHT=19 ALT='1'>
+
+(which is a theorem of quantum logic that follows from <A
+HREF="tt.html">tt</A> and <A HREF="df-t.html">df-t</A>) corresponds to
+the proposition "<I>A</I> <IMG SRC='vee.gif' WIDTH=11 HEIGHT=19 ALT='\/'
+ALIGN=TOP> <IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'
+ALIGN=TOP><I>A</I>" (where <I>A</I> is a wff, or propositional,
+variable).  Thus each of the WOM structural analogs for the orthomodular
+lattice axioms, shown in the previous section, corresponds to a
+statement of quantum propositional calculus; in fact these are the exact
+axioms of quantum propositional calculus.
+
+<P> <IMG SRC="_o6.gif" ALT="Lattice O6" WIDTH=88 HEIGHT=127 ALIGN=RIGHT
+ STYLE="margin-bottom:0px">
+What is particularly interesting is that quantum propositional calculus
+can be modeled by any WOM lattice.  The class of WOM lattices includes
+all orthomodular lattices but some non-orthomodular ones as well.  For
+example, a hexagonal-shaped WOM lattice called O6 is non-orthomodular,
+but is still a model for quantum propositional calculus.  This
+apparently was not known prior to 1998 <A
+HREF="#PavMeg1998a">[PavMeg1998a]</A> <A
+HREF="#PavMeg1999">[PavMeg1999]</A>.
+
+<P>Quantum propositional calculus can be formalized with modus ponens as
+its sole rule of inference,and negation and implication as its sole
+primitive connectives, as long as we use for the implication either <IMG
+SRC='_to0.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;0'> (<A
+HREF="wi0.html">wi0</A>) or <IMG SRC='_to3.gif' WIDTH=21 HEIGHT=19
+ALT='-&gt;3'> (<A HREF="wi3.html">wi3</A>).  Kalmbach proved
+that these are the only two implications that work.  We prove soundness
+for <A HREF="kalmbach.txt">her axiom system</A> as theorems <A
+HREF="ska1.html">ska1</A>, <A HREF="ska2.html">ska2</A> (500K), <A
+HREF="ska3.html">ska3</A>, <A HREF="ska4.html">ska4</A>, <A
+HREF="ska5.html">ska5</A>, <A HREF="ska6.html">ska6</A>, <A
+HREF="ska7.html">ska7</A>, <A HREF="ska8.html">ska8</A>, <A
+HREF="ska9.html">ska9</A>, <A HREF="ska10.html">ska10</A>, <A
+HREF="ska11.html">ska11</A>, <A HREF="ska12.html">ska12</A>, <A
+HREF="ska13.html">ska13</A>, <A HREF="ska14.html">ska14</A>, <A
+HREF="ska15.html">ska15</A>, and (for the two possible rules) <A
+HREF="skr0.html">skr0</A> and <A HREF="skmp3.html">skmp3</A>.  In the
+soundness proofs, we never use the orthomodular law <A
+HREF="ax-r3.html">ax-r3</A>, but only the weaker WOM law <A
+HREF="ax-wom.html">ax-wom</A>, so these theorems provide a rigorous
+proof that the full strength of orthomodular lattice theory is not
+needed for quantum propositional calculus.
+
+<P><B>Classical propositional calculus has non-Boolean lattice
+models</B> &nbsp;&nbsp;&nbsp; Related to this and even more surprising
+is that <EM>classical</EM> propositional calculus can be modeled by a
+non-Boolean lattice <A HREF="#PavMeg1999">[PavMeg1999]</A>, a fact
+apparently overlooked for over 100 years!  Common intuition is that
+classical propositional calculus and Boolean algebras go hand-in-hand.
+Lattice O6 is a counterexample that shows this intuition is false.
+Specifically, lattice O6 is a model for classical propositional
+calculus, but it violates the axioms for Boolean algebras (the
+distributive law fails).  This is proved as follows.  If we define
+<I>a</I><IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'
+ALIGN=TOP><I>b</I> as <I>a</I><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'><IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP><I>b</I>, then the 3 <A
+HREF="../mpeuni/mmset.html#scaxioms">axioms of classical propositional
+calculus</A> evaluate to 1 (true), and modus ponens is sound.  So O6 is
+a model for classical propositional calculus.  However, the distributive
+law <I>x</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP>(<I>y</I><IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP><I>z</I>)=(<I>x</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'><I>y</I>)<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP>(<I>x</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP><I>z</I>) fails in this lattice:  Let <I>x</I>=<I>a</I>,
+<I>y</I>=<I>b</I>, <I>z</I>=<I>b</I><IMG SRC='supperp.gif' WIDTH=9
+HEIGHT=19 ALT='_|_'>.  Then <I>x</I><IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'>(<I>y</I><IMG SRC='cup.gif'
+WIDTH=10 HEIGHT=19 ALT='v'><I>z</I>)=<I>a</I><IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>(<I>b</I><IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'><I>b</I><IMG
+SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'>)=<I>a</I><IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'>1=<I>a</I>, but
+(<I>x</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP><I>y</I>)<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP>(<I>x</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP><I>z</I>)=(<I>a</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19
+ALT='^'><I>b</I>)<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP>(<I>a</I><IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP><I>b</I><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19 ALT='_|_'
+ALIGN=TOP>)=<I>b</I><IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP>0=<I>b</I>.  Therefore lattice O6 is a non-distributive model
+for classical propositional calculus.
+
+<P>More generally, classical propositional calculus can be modelled by a
+class of algebras known as "weakly distributive ortholattices" (WDOLs),
+which in general are non-Boolean.  In particular, O6 is a WDOL.  The
+WDOL axiom (which when added to an ortholattice, provides an equational
+base for WDOLs) is <A HREF="ax-wdol.html">ax-wdol</A>.  The theorems
+from there to the end of the database are currently (as of 16-Mar-2006)
+WDOL theorems.
+
+
+<P><HR NOSHADE SIZE=1><A NAME="strong"></A><B><FONT COLOR="#006633">Stronger
+Systems</FONT></B>&nbsp;&nbsp;&nbsp;
+
+The motivation for studying quantum logic (and the related orthomodular
+lattices) derives from the fact that the lattice of closed subspaces of
+a Hilbert space, called <IMG SRC='_scrch.gif' WIDTH=22 HEIGHT=19
+ALT='CH'>, obeys the properties of an orthomodular lattice
+(see <A HREF="../mpeuni/mmhil.html#quantum">Quantum Logic</A> on the
+Hilbert Space Explorer Home Page).  Hilbert space underlies the
+foundation of quantum mechanics, and there is a strong physical and
+philosophical motivation to understand its properties.  In addition,
+understanding the properties of Hilbert space is important for
+understanding what kinds of operations are possible in the new field of
+quantum computers.
+
+<P>It turns out that Hilbert space obeys not only the
+equations of orthomodular lattices but some stronger
+equations as well.  This was not known until 1975, when Alan
+Day discovered the "orthoarguesian law," an equation closely
+related to a famous law of projective geometry discovered by
+Desargues in the 1600's as part of an effort to help
+artists, stonecutters, and engineers.
+
+<P>The orthoarguesian (4OA) law can be added as an additional axiom to
+orthomodular lattices to obtain an axiom system that is stronger than
+that for orthomodular lattices but still true in <IMG SRC='_scrch.gif'
+WIDTH=22 HEIGHT=19 ALT='CH'>.  This axiom system is still
+weaker than that for Boolean algebras because the distributive law does
+not hold, so the resulting axioms fall somewhere between those for
+orthomodular lattices and those for Boolean algebras.  We have studied
+the 4-variable 4OA law as well as a weaker 3-variable consequence called
+3OA <A HREF="#MegPav2000">[MegPav2000]</A>.  The 3OA law was originally
+found by Godowski and Greechie and is easier to work with.  Many of the
+properties of 3OA can be easily generalized to 4OA, and that is one of
+the reasons to investigate 3OA as well as the more general 4OA.  (See <A
+HREF="wle.html">wle</A> for the notation "<IMG SRC='le.gif' WIDTH=11
+HEIGHT=19 ALT='=&lt;'>".)
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>3OA Law and 4OA (Orthoarguesian) Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-3oa.html">ax-3oa</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='le.gif' WIDTH=11
+HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+<TR ALIGN=LEFT><TD><A HREF="ax-4oa.html">ax-4oa</A></TD><TD>
+<!-- <IMG SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif'
+WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='_to1.gif' WIDTH=19
+HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9
+HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'> <IMG SRC='_to1.gif' WIDTH=19
+HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='le.gif' WIDTH=11
+HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif'
+WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+
+<P>The original discovery of Alan Day was an inference rule involving 6
+variables.  Our 4OA equation is equivalent to it in the presence of the
+orthomodular lattice axioms.  Below we show the original orthoarguesian
+law as a theorem derived from 4OA.
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>Original 6-variable Orthoarguesian Law</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="oa6.html">oa6</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='le.gif'
+WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12
+HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'> <IMG SRC='le.gif'
+WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='_bd.gif' WIDTH=9
+HEIGHT=19 ALT='d'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12
+HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'> <IMG SRC='le.gif'
+WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='_bf.gif' WIDTH=9
+HEIGHT=19 ALT='f'><IMG SRC='supperp.gif' WIDTH=9 HEIGHT=19
+ALT='_|_'>&nbsp;&nbsp;&nbsp;<IMG SRC='bigto.gif' WIDTH=15
+HEIGHT=19 ALT='=&gt;'>&nbsp;&nbsp;&nbsp; <!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bd.gif'
+WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_be.gif'
+WIDTH=8 HEIGHT=19 ALT='e'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bf.gif' WIDTH=9 HEIGHT=19
+ALT='f'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='le.gif' WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bd.gif'
+WIDTH=9 HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bf.gif'
+WIDTH=9 HEIGHT=19 ALT='f'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='_bf.gif' WIDTH=9 HEIGHT=19 ALT='f'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'></TD></TR>
+
+</TABLE></CENTER>
+
+<P>Using the orthoarguesian law we can derive distributive laws that are
+stronger than those provided by the Foulis-Holland theorems.  Below we
+show two of them, derived respectively from 3OA and 4OA.  In fact, they
+can be shown to be equivalent to 3OA and 4OA respectively.  Theorem <A
+HREF="d4oa.html">d4oa</A>, not shown here, derives 4OA from the second
+distributive law below.  (See <A HREF="wi0.html">wi0</A> for the notation
+"<IMG SRC='_to0.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;0'
+ALIGN=TOP>".) While the hypotheses for these laws are complex and
+non-intuitive, look at the conclusion - there you will see the distributive
+law.
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA">
+<CAPTION><B>3OA and 4OA Distributive Laws</B></CAPTION>
+
+<TR ALIGN=LEFT><TD><A HREF="oadistd.html">oadistd</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'> <IMG SRC='le.gif'
+WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='_be.gif' WIDTH=8 HEIGHT=19
+ALT='e'> <IMG SRC='le.gif' WIDTH=11 HEIGHT=19 ALT='=&lt;'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='_to0.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;0'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'
+ALIGN=TOP> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP> <IMG SRC='_to2.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;2'
+ALIGN=TOP> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12
+HEIGHT=19 ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_bf.gif' WIDTH=9 HEIGHT=19 ALT='f'> <IMG SRC='le.gif'
+WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG
+SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='_to0.gif' WIDTH=21 HEIGHT=19 ALT='-&gt;0'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;2'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;2'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to2.gif' WIDTH=21
+HEIGHT=19 ALT='-&gt;2'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='le.gif' WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG
+SRC='_bf.gif' WIDTH=9 HEIGHT=19 ALT='f'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_be.gif'
+WIDTH=8 HEIGHT=19 ALT='e'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bf.gif' WIDTH=9 HEIGHT=19
+ALT='f'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bf.gif'
+WIDTH=9 HEIGHT=19 ALT='f'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+
+<TR ALIGN=LEFT><TD><A HREF="4oadist.html">4oadist</A></TD><TD><!-- <IMG
+SRC='_vdash.gif' WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG
+SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19
+ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12 HEIGHT=19
+ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif'
+WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_bf.gif' WIDTH=9
+HEIGHT=19 ALT='f'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19
+ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+<IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19
+ALT='a'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif'
+WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'
+ALIGN=TOP> <IMG SRC='_bd.gif' WIDTH=9 HEIGHT=19 ALT='d'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='v'
+ALIGN=TOP> <IMG SRC='_be.gif' WIDTH=8 HEIGHT=19 ALT='e'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='amp.gif' WIDTH=12 HEIGHT=19 ALT='&amp;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='_bh.gif' WIDTH=10 HEIGHT=19
+ALT='h'> <IMG SRC='le.gif' WIDTH=11 HEIGHT=19 ALT='=&lt;'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG SRC='_to1.gif'
+WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif' WIDTH=9
+HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12 HEIGHT=19
+ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif'
+WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_bj.gif' WIDTH=7
+HEIGHT=19 ALT='j'> <IMG SRC='le.gif' WIDTH=11 HEIGHT=19
+ALT='=&lt;'> <IMG SRC='_bf.gif' WIDTH=9 HEIGHT=19 ALT='f'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12 HEIGHT=19
+ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif'
+WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='_bk.gif' WIDTH=9
+HEIGHT=19 ALT='k'> <IMG SRC='le.gif' WIDTH=11 HEIGHT=19
+ALT='=&lt;'> <IMG SRC='_bf.gif' WIDTH=9 HEIGHT=19 ALT='f'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp;<IMG SRC='amp.gif' WIDTH=12 HEIGHT=19
+ALT='&amp;'>&nbsp;&nbsp;&nbsp;<!-- <IMG SRC='_vdash.gif'
+WIDTH=10 HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='_bh.gif' WIDTH=10 HEIGHT=19
+ALT='h'> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'
+ALIGN=TOP> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'> <IMG SRC='_to1.gif'
+WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bd.gif' WIDTH=9
+HEIGHT=19 ALT='d'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='le.gif' WIDTH=11 HEIGHT=19 ALT='=&lt;'> <IMG
+SRC='_bk.gif' WIDTH=9 HEIGHT=19 ALT='k'>&nbsp;&nbsp;&nbsp;<IMG
+SRC='bigto.gif' WIDTH=15 HEIGHT=19 ALT='=&gt;'
+ALIGN=TOP>&nbsp;&nbsp;&nbsp; <!-- <IMG SRC='_vdash.gif' WIDTH=10
+HEIGHT=19 ALT='|-'> --> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bh.gif' WIDTH=10 HEIGHT=19 ALT='h'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bj.gif'
+WIDTH=7 HEIGHT=19 ALT='j'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='_bk.gif' WIDTH=9 HEIGHT=19
+ALT='k'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_bh.gif' WIDTH=10 HEIGHT=19 ALT='h'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='_bj.gif' WIDTH=7 HEIGHT=19 ALT='j'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cup.gif' WIDTH=10
+HEIGHT=19 ALT='v'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bh.gif' WIDTH=10 HEIGHT=19 ALT='h'> <IMG
+SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG SRC='_bk.gif'
+WIDTH=9 HEIGHT=19 ALT='k'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+
+</TABLE></CENTER>
+
+<P> Recently <A HREF="#MegPav2000">[MegPav2000]</A> we found an infinite
+series of even stronger orthoarguesian-like laws that hold in Hilbert
+space, that we call 5OA, 6OA, 7OA... with 5, 6, 7... variables.  We
+proved that 5OA is strictly stronger than 4OA <A
+HREF="#MegPav2000">[MegPav2000]</A> and more recently that 6OA is
+strictly stronger than <A NAME="L46-7"></A> <IMG BORDER=1
+SRC="l46-7.png" WIDTH=169 HEIGHT=175 ALT="Greechie diagram for L46-7"
+ALIGN=RIGHT STYLE="margin-bottom:0px"> 5OA and that
+7OA is strictly stronger than 6OA (a task that took many CPU years of
+computer time on a supercomputer cluster).
+The status of the higher-order ones is unknown
+but they are conjectured to be even stronger.
+
+<P> There are currently no theorems involving 5OA and up in the Quantum
+Logic Explorer, but a proof that 5OA holds in Hilbert space is <A
+HREF="../mpeuni/mmhil.html#next">shown</A> in the Hilbert Space
+Explorer.  A proof that 5OA is strictly stronger than 4OA is provided by
+orthomodular lattice L46-7 (found by our computer search), shown in the
+form of a "Greechie diagram" in the figure.  Lattice L46-7 provides a
+counterexample that holds in 4OA but not in 5OA.  (Greechie diagrams
+provide a compact way of representing orthomodular lattices.  Reference
+9, PDF file p. 13 has a tutorial explaining how they correspond to
+lattices.  The Greechie diagram for L46-7 represents a 46-node lattice.)
+
+<P>As <I>n</I> increases, the formula for
+<I>n</I>OA grows quite long and is inconvenient to work with directly.
+In the box below we show an abbreviated notation for <I>n</I>OA used in
+Reference 7.
+
+<TABLE ALIGN=CENTER><TR><TD>
+<IMG SRC="_noa.gif" WIDTH=577 HEIGHT=345 ALT="nOA equation definition"
+ STYLE="margin-bottom:0px">
+</TD></TR></TABLE>
+
+
+
+<P>Another set of stronger equations that hold in Hilbert space is
+derived from the properties strong states on a Hilbert lattice.  One
+family of these was discovered by Godowski in 1981.  The simplest one is
+the <A HREF="../mpeuni/mmhil.html#next">3-variable Godowski
+equation</A>.  In the Quantum Logic Explorer, we prove that two
+equations from the literature, <A HREF="gomaex3.html">gomaex3</A> and <A
+HREF="gomaex4.html">gomaex4</A>, apparently believed to be independent
+of Godowki's, in fact follow from them <A
+HREF="#MegPav2000">[MegPav2000]</A>.  Recently we found a series of new
+equations related to strong states, holding in the set of closed
+subspaces of Hilbert space, that are independent from Godowski's.  These
+have not been published yet.  The simplest one is shown below.
+
+
+<P><CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Assertion">
+<CAPTION><B>A New Axiom Extending Quantum Logic</B></CAPTION>
+<TR ALIGN=LEFT><TD><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bb.gif'
+WIDTH=8 HEIGHT=19 ALT='b'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bc.gif' WIDTH=7
+HEIGHT=19 ALT='c'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_bb.gif' WIDTH=8 HEIGHT=19 ALT='b'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='^'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_bc.gif'
+WIDTH=7 HEIGHT=19 ALT='c'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='^'> <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_bb.gif' WIDTH=8
+HEIGHT=19 ALT='b'> <IMG SRC='_to1.gif' WIDTH=19 HEIGHT=19
+ALT='-&gt;1'> <IMG SRC='_ba.gif' WIDTH=9 HEIGHT=19 ALT='a'
+ALIGN=TOP><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='le.gif' WIDTH=11
+HEIGHT=19 ALT='=&lt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('
+ALIGN=TOP><IMG SRC='_bc.gif' WIDTH=7 HEIGHT=19 ALT='c'> <IMG
+SRC='_to1.gif' WIDTH=19 HEIGHT=19 ALT='-&gt;1'> <IMG SRC='_ba.gif'
+WIDTH=9 HEIGHT=19 ALT='a'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'
+ALIGN=TOP></TD></TR>
+</TABLE></CENTER>
+
+<P><HR NOSHADE SIZE=1><A NAME="ref"></A><B><FONT COLOR="#006633">References</FONT></B>&nbsp;&nbsp;&nbsp;
+
+<P>(See also the
+<A HREF="../mpeuni/mmhil.html#ref">References</A> for the Hilbert Space Explorer.)
+
+<OL>
+
+<LI> <A NAME="Kalmbach"></A> [Kalmbach]
+Gudrun Kalmbach, <I>Orthomodular Lattices</I>, Academic Press, London
+(1983).
+</LI>
+
+<LI> <A NAME="Beran"></A> [Beran]
+Ladislav Beran, <I>Orthomodular Lattices; Algebraic Approach</I>,
+D. Reidel, Dordrecht (1985).
+</LI>
+
+<LI> <A NAME="Pavicic1987"></A> [Pavicic1987] M. Pavi&#269;i&#263;,
+"Minimal Quantum Logic with Merged Implications," <I>Int.  J. of Theor.
+Phys.</I> 26, 845-852 (1987).
+</LI>
+
+<LI> <A NAME="Pavicic1993"></A> [Pavicic1993] M. Pavi&#269;i&#263;,
+"Nonordered Quantum Logic," <I>Int.  J. of Theor.  Phys.</I> 32,
+1481-1505 (1993), <A
+HREF="http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1993-int-j-theor-phys-2.pdf">
+http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1993-int-j-theor-phys-2.pdf</A>
+[external].
+</LI>
+
+<LI> <A NAME="PavMeg1998a"></A> [PavMeg1998a] M. Pavi&#269;i&#263; and
+N. Megill, "Binary Orthologic with Modus Ponens Is either Orthomodular
+or Distributive," <I>Helv.  Phys.  Acta</I> 71, 610-628 (1998), <A
+HREF="http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1998-helv-phys-acta.pdf">
+http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1998-helv-phys-acta.pdf</A>
+[external].
+</LI>
+
+<LI> <A NAME="PavMeg1998b"></A> [PavMeg1998b] M. Pavi&#269;i&#263; and
+N. Megill, "Quantum and Classical Implicational Algebras with Primitive
+Implication," <I>Int.  J. of Theor.  Phys.</I> 37, 2091-2098 (1998), <A
+HREF="http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1998-int-j-theor-phys-2.pdf">
+http://m3k.grad.hr/papers-ps-pdf/quantum-logic/1998-int-j-theor-phys-2.pdf</A>
+[external].
+</LI>
+
+<LI> <A NAME="PavMeg1999"></A> [PavMeg1999]
+M. Pavi&#269;i&#263; and N. Megill, "Non-Orthomodular Models for Both
+Standard Quantum Logic and Standard Classical Logic:  Repercussions
+for Quantum Computers,"
+<I>Helv. Phys. Acta</I> 72, 189-210 (1999),
+<A HREF="http://xxx.lanl.gov/abs/quant-ph/9906101"
+>http://xxx.lanl.gov/abs/quant-ph/9906101</A> [external].
+</LI>
+
+<LI> <A NAME="MegPav2000"></A> [MegPav2000]
+N. Megill and M. Pavi&#269;i&#263;, "Equations, States, and Lattices of
+Infinite-Dimensional Hilbert Space," <I>Int. J. Theor. Phys.</I> 39,
+2337-2379 (2000),
+<A HREF="http://xxx.lanl.gov/abs/quant-ph/0009038"
+>http://xxx.lanl.gov/abs/quant-ph/0009038</A> [external].
+</LI>
+
+<LI> <A NAME="McKMegPav"></A> [McKMegPav]
+B. McKay, N. Megill, and M. Pavi&#269;i&#263;, "Algorithms for Greechie
+Diagrams," <I>Int. J. Theor. Phys.</I> 39, 2393-2417 (2000),
+<A HREF="http://xxx.lanl.gov/abs/quant-ph//0009039"
+>http://xxx.lanl.gov/abs/quant-ph/0009039</A> [external].
+</LI>
+
+<LI> <A NAME="MegPav2001"></A> [MegPav2001] N. Megill and M.
+Pavi&#269;i&#263;, "Orthomodular Lattices and a Quantum Algebra,"
+<I>Int.  J. Theor.  Phys.</I> 40, 1387-1410 (2001), <A
+HREF="http://xxx.lanl.gov/abs/quant-ph/0103135"
+>http://xxx.lanl.gov/abs/quant-ph/0103135</A> [external].
+</LI>
+
+<LI> <A NAME="MegPav2002"></A> [MegPav2002]
+N. Megill and M. Pavi&#269;i&#263; "Deduction, ordering, and operations in
+quantum logic," <I>Found.  Phys.</I> 32, 357-378 (2002), <A
+HREF="http://xxx.lanl.gov/abs/quant-ph/0108074"
+>http://xxx.lanl.gov/abs/quant-ph/0108074</A> [external].
+</LI>
+
+<LI> <A NAME="MegPav2003a"></A> [MegPav2003a]
+N. Megill and M. Pavi&#269;i&#263;, "Equivalences, Identities, Symmetric
+Differences, and Congruences in Orthomodular Lattices," <I>Int.  J.
+Theor.  Phys.</I> 42, 2797-2805 (2003), <A
+HREF="http://xxx.lanl.gov/abs/quant-ph/0310063"
+>http://xxx.lanl.gov/abs/quant-ph/0310063</A> [external].
+</LI>
+
+<LI> <A NAME="MegPav2003b"></A> [MegPav2003b]
+N. Megill and M. Pavi&#269;i&#263;, "Quantum Implication Algebras,"
+<I>Int. J. Theor. Phys.</I> 42, 2807-2822 (2003),
+<A HREF="http://xxx.lanl.gov/abs/quant-ph/0310062"
+>http://xxx.lanl.gov/abs/quant-ph/0310062</A> [external].
+</LI>
+
+<LI> <A NAME="PavMerMcKMeg"></A> [PavMerMcKMeg]
+M. Pavi&#269;i&#263;, J.-P. Merlet, B. McKay, and N. Megill,
+"Kochen-Specker Vectors," preprint (2004),
+<A HREF="http://arxiv.org/quant-ph/0409014"
+>http://arxiv.org/quant-ph/0409014</A> [external].
+</LI>
+
+</OL>
+
+
+<HR NOSHADE SIZE=1><CENTER>
+Note:  For on-line copies of some of these and other
+quantum logic papers, visit the <A
+HREF="http://m3k.grad.hr/pavicic">Home
+Page of Mladen Pavi&#269;i&#263;</A> [external].</CENTER>
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD NOWRAP ALIGN=CENTER><I><FONT SIZE=-1>This
+ page was last updated on
+<!-- 8-Jun-2014. -->
+27-Jul-2019.
+</FONT></I><BR><FONT
+FACE="ARIAL" SIZE=-2>Your
+ comments are welcome:
+Norman Megill <A HREF="../email.html"><IMG BORDER=0
+SRC="_nmemail.gif"
+ALT="nm at alum dot mit dot edu"
+TITLE="nm at alum dot mit dot edu"
+ WIDTH=90 HEIGHT=13 STYLE="margin-bottom:0px"></A><BR>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A></FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C HTML validation</A>
+[external]
+</FONT>
+</TD>
+
+</TR></TABLE>
+
+<!-- <SCRIPT SRC="http://www.google-analytics.com/urchin.js" TYPE="text/javascript">
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+_uacct = "UA-1862729-1";
+urchinTracker();
+</SCRIPT>
+-->
+
+</BODY>
+</HTML>

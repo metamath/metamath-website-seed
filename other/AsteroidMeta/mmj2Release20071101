@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2Release20071101</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2Release20071101" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2Release20071101" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2Release20071101">mmj2Release20071101</a></h1></div><div class="content browse"><h1>9-Oct-2007</h1><p>"Testable"&#x2026;"beta" version of Release 20071101 available now.</p><p>&#x2026;I just uploaded another mmj2jar.zip and .md5 to </p><p><a class="url" href="http://us2.metamath.org:8888/ocat/mmj2/mmj2jar.zip">http://us2.metamath.org:8888/ocat/mmj2/mmj2jar.zip</a></p><p>and</p><p><a class="url" href="http://us2.metamath.org:8888/ocat/mmj2/mmj2jar.md5">http://us2.metamath.org:8888/ocat/mmj2/mmj2jar.md5</a></p><p>This version contains the following new feature (see the CHGLOG.TXT file in the mmj2jar.zip  download for complete list):</p><p>(from CHGLOG.TXT):</p><pre>    6. Generates "info" message 
+       "I-PA-0119 Theorem xyz RPN-format Metamath proof generated!"
+       when Ctrl-U (unification) is successful and the RPN-format
+       proof is generated. Previously, no message was output. Also,
+       positions to the last remaining (if any) incomplete proof
+       step -- or the 'qed' step if there are no incomplete proof
+       steps and the cursor has not already been set. 
+     
+       This modification allows a user to use a "dummy" 'qed'
+       step and incrementally build a proof, with cursor 
+       positioning somewhere reasonable (a "dummy" incomplete
+       proof step could be manually input for this purpose.)
+       The new info message is intended to provide confirmation
+       of the success of unification -- which was previously
+       provided by positioning the cursor at the end of the
+       generated RPN-format proof.  
+     </pre><p>&#x2014;</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2Release20071101">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2Release20071101">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2Release20071101">Administration</a></span><span class="time"><br /> Last edited 2007-10-09 22:33 UTC by <a class="author" title="from 66-81-75-12.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2Release20071101">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

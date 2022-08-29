@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2slawekk</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2slawekk" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2slawekk" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2slawekk">mmj2slawekk</a></h1></div><div class="content browse"><p>Here is an excerpt (partial) from mmj2 RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> command PrintSyntaxDetails<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=PrintSyntaxDetails">?</a>. It shows the grammar rules in familiar style summarized (detail GrammarRule<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=GrammarRule">?</a> listings provided also by the command). As shall be seen, each SyntaxAxiom<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SyntaxAxiom">?</a> is subjected to a process I call the "combinatorial explosion" which repetitively applies all TypeConversion<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TypeConversion">?</a> and NullsPermitted<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=NullsPermitted">?</a> Syntax Axioms to the base SyntaxAxioms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SyntaxAxioms">?</a> to eliminate nulls and type conversions; in effect, a syntax item with a "class" operand will be repeated with a "set" item. The result is Chomsky Normal form, context free grammar. The resulting rules are then fed into my hand-coded EarleyParser<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=EarleyParser">?</a> algorithm to generate syntax trees. (mmj2 has more details in the /doc directory).</p><p>Note: this listing excludes other grammar items &#x2013; variables, which of course are necessary for the grammatician. The original output has all of that.</p><pre>    The Grammar
+    ===========
+      wff =: ( wff \/ wff \/ wff ) 
+           | ( wff \/ wff ) 
+           | ( wff &lt;-&gt; wff ) 
+           | ( wff /\ wff /\ wff ) 
+           | ( wff /\ wff ) 
+           | ( wff -&gt; wff ) 
+           | -. wff 
+           | A. set wff 
+           | A. set e. set wff 
+           | A. set e. class wff 
+           | E! set wff 
+           | E! set e. set wff 
+           | E! set e. class wff 
+           | E* set wff 
+           | E. set wff 
+           | E. set e. set wff 
+           | E. set e. class wff 
+           | Er set 
+           | Er class 
+           | Fun set 
+           | Fun class 
+           | Lim set 
+           | Lim class 
+           | Ord set 
+           | Ord class 
+           | Rel set 
+           | Rel class 
+           | Tr set 
+           | Tr class 
+           | [ set / set ] wff 
+           | [ class / set ] wff 
+           | class set set 
+           | class set class 
+           | class e/ set 
+           | class e/ class 
+           | class e. set 
+           | class e. class 
+           | class class set 
+           | class class class 
+           | class We set 
+           | class We class 
+           | class Po set 
+           | class Po class 
+           | class Or set 
+           | class Or class 
+           | class Isom set , set ( set , set ) 
+           | class Isom set , set ( set , class ) 
+           | class Isom set , set ( class , set ) 
+           | class Isom set , set ( class , class ) 
+           | class Isom set , class ( set , set ) 
+           | class Isom set , class ( set , class ) 
+           | class Isom set , class ( class , set ) 
+           | class Isom set , class ( class , class ) 
+           | class Isom class , set ( set , set ) 
+           | class Isom class , set ( set , class ) 
+           | class Isom class , set ( class , set ) 
+           | class Isom class , set ( class , class ) 
+           | class Isom class , class ( set , set ) 
+           | class Isom class , class ( set , class ) 
+           | class Isom class , class ( class , set ) 
+           | class Isom class , class ( class , class ) 
+           | class Fr set 
+           | class Fr class 
+           | class Fn set 
+           | class Fn class 
+           | class =/= set 
+           | class =/= class 
+           | class = set 
+           | class = class 
+           | class : set -onto-&gt; set 
+           | class : set -onto-&gt; class 
+           | class : set -1-1-onto-&gt; set 
+           | class : set -1-1-onto-&gt; class 
+           | class : set -1-1-&gt; set 
+           | class : set -1-1-&gt; class 
+           | class : set --&gt; set 
+           | class : set --&gt; class 
+           | class : class -onto-&gt; set 
+           | class : class -onto-&gt; class 
+           | class : class -1-1-onto-&gt; set 
+           | class : class -1-1-onto-&gt; class 
+           | class : class -1-1-&gt; set 
+           | class : class -1-1-&gt; class 
+           | class : class --&gt; set 
+           | class : class --&gt; class 
+           | class (_ set 
+           | class (_ class 
+           | class (. set 
+           | class (. class 
+           | set set set 
+           | set set class 
+           | set e/ set 
+           | set e/ class 
+           | set e. set 
+           | set e. class 
+           | set class set 
+           | set class class 
+           | set We set 
+           | set We class 
+           | set Po set 
+           | set Po class 
+           | set Or set 
+           | set Or class 
+           | set Isom set , set ( set , set ) 
+           | set Isom set , set ( set , class ) 
+           | set Isom set , set ( class , set ) 
+           | set Isom set , set ( class , class ) 
+           | set Isom set , class ( set , set ) 
+           | set Isom set , class ( set , class ) 
+           | set Isom set , class ( class , set ) 
+           | set Isom set , class ( class , class ) 
+           | set Isom class , set ( set , set ) 
+           | set Isom class , set ( set , class ) 
+           | set Isom class , set ( class , set ) 
+           | set Isom class , set ( class , class ) 
+           | set Isom class , class ( set , set ) 
+           | set Isom class , class ( set , class ) 
+           | set Isom class , class ( class , set ) 
+           | set Isom class , class ( class , class ) 
+           | set Fr set 
+           | set Fr class 
+           | set Fn set 
+           | set Fn class 
+           | set =/= set 
+           | set =/= class 
+           | set = set 
+           | set = class 
+           | set : set -onto-&gt; set 
+           | set : set -onto-&gt; class 
+           | set : set -1-1-onto-&gt; set 
+           | set : set -1-1-onto-&gt; class 
+           | set : set -1-1-&gt; set 
+           | set : set -1-1-&gt; class 
+           | set : set --&gt; set 
+           | set : set --&gt; class 
+           | set : class -onto-&gt; set 
+           | set : class -onto-&gt; class 
+           | set : class -1-1-onto-&gt; set 
+           | set : class -1-1-onto-&gt; class 
+           | set : class -1-1-&gt; set 
+           | set : class -1-1-&gt; class 
+           | set : class --&gt; set 
+           | set : class --&gt; class 
+           | set (_ set 
+           | set (_ class 
+           | set (. set 
+           | set (. class 
+ 
+      class =: ! 
+             | ( set |` set ) 
+             | ( set |` class ) 
+             | ( set u. set ) 
+             | ( set u. class ) 
+             | ( set set set ) 
+             | ( set set class ) 
+             | ( set o. set ) 
+             | ( set o. class ) 
+             | ( set i^i set ) 
+             | ( set i^i class ) 
+             | ( set class set ) 
+             | ( set class class ) 
+             | ( set ` set ) 
+             | ( set ` class ) 
+             | ( set \ set ) 
+             | ( set \ class ) 
+             | ( set X. set ) 
+             | ( set X. class ) 
+             | ( set /. set ) 
+             | ( set /. class ) 
+             | ( set " set ) 
+             | ( set " class ) 
+             | ( class |` set ) 
+             | ( class |` class ) 
+             | ( class u. set ) 
+             | ( class u. class ) 
+             | ( class set set ) 
+             | ( class set class ) 
+             | ( class o. set ) 
+             | ( class o. class ) 
+             | ( class i^i set ) 
+             | ( class i^i class ) 
+             | ( class class set ) 
+             | ( class class class ) 
+             | ( class ` set ) 
+             | ( class ` class ) 
+             | ( class \ set ) 
+             | ( class \ class ) 
+             | ( class X. set ) 
+             | ( class X. class ) 
+             | ( class /. set ) 
+             | ( class /. class ) 
+             | ( class " set ) 
+             | ( class " class ) 
+             | (/) 
+             | * 
+             | *Q 
+             | + 
+             | +H 
+             | +N 
+             | +P. 
+             | +Q 
+             | +R 
+             | +c 
+             | +fn 
+             | +o 
+             | +oo 
+             | +op 
+             | +pQ 
+             | +pR 
+             | +v 
+             | - 
+             | -1R 
+             | -oo 
+             | -op 
+             | -u set 
+             | -u class 
+             | -v 
+             | ... 
+             | .N 
+             | .P. 
+             | .Q 
+             | .R 
+             | .fn 
+             | .i 
+             | .o 
+             | .op 
+             | .pQ 
+             | .pR 
+             | .s 
+             | / 
+             | 0 
+             | 0H 
+             | 0R 
+             | 0op 
+             | 0v 
+             | 1 
+             | 1P 
+             | 1Q 
+             | 1R 
+             | 1o 
+             | 1st 
+             | 2 
+             | 2nd 
+             | 2o 
+             | 3 
+             | 4 
+             | 5 
+             | 6 
+             | 7 
+             | 8 
+             | 9 
+             | &lt; 
+             | &lt;. set , set &gt;. 
+             | &lt;. set , class &gt;. 
+             | &lt;. class , set &gt;. 
+             | &lt;. class , class &gt;. 
+             | &lt;N 
+             | &lt;P 
+             | &lt;Q 
+             | &lt;R 
+             | &lt;RR 
+             | &lt;_ 
+             | &lt;_op 
+             | &lt;o 
+             | Atoms 
+             | Bases 
+             | BndLinOp 
+             | C. 
+             | CC 
+             | CH 
+             | CHStates 
+             | C_H 
+             | Cauchy 
+             | Cm 
+             | ConFn 
+             | ConOp 
+             | E 
+             | HrmOp 
+             | H~ 
+             | I 
+             | Im 
+             | Iop 
+             | Lambda 
+             | LinFn 
+             | LinOp 
+             | MH 
+             | MH* 
+             | Met 
+             | N. 
+             | NN 
+             | NN0 
+             | On 
+             | P. 
+             | P~ set 
+             | P~ class 
+             | Q. 
+             | QQ 
+             | R. 
+             | R1 
+             | RR 
+             | RR* 
+             | Re 
+             | SH 
+             | States 
+             | Top 
+             | TopSp 
+             | U. set 
+             | U. class 
+             | U_ set e. set set 
+             | U_ set e. set class 
+             | U_ set e. class set 
+             | U_ set e. class class 
+             | UniOp 
+             | V 
+             | ZZ 
+             | ZZ&gt; 
+             | [ set ] set 
+             | [ set ] class 
+             | [ class ] set 
+             | [ class ] class 
+             | [_ set / set ]_ set 
+             | [_ set / set ]_ class 
+             | [_ class / set ]_ set 
+             | [_ class / set ]_ class 
+             | \/H 
+             | ^ 
+             | ^m 
+             | ^o 
+             | _|_ 
+             | `' set 
+             | `' class 
+             | abs 
+             | adj 
+             | aleph 
+             | ball 
+             | bra 
+             | card 
+             | cau 
+             | cf 
+             | cls 
+             | cos 
+             | dom set 
+             | dom class 
+             | e 
+             | eigval 
+             | eigvec 
+             | exp 
+             | floor 
+             | i 
+             | if ( wff , set , set ) 
+             | if ( wff , set , class ) 
+             | if ( wff , class , set ) 
+             | if ( wff , class , class ) 
+             | int 
+             | ketbra 
+             | limsup 
+             | norm 
+             | normfn 
+             | normop 
+             | null 
+             | om 
+             | open 
+             | pi 
+             | proj 
+             | ran set 
+             | ran class 
+             | rank 
+             | rec ( set , set ) 
+             | rec ( set , class ) 
+             | rec ( class , set ) 
+             | rec ( class , class ) 
+             | seq 
+             | seq0 
+             | seq1 
+             | shift 
+             | sin 
+             | span 
+             | sqr 
+             | suc set 
+             | suc class 
+             | sum_ set e. set set 
+             | sum_ set e. set class 
+             | sum_ set e. class set 
+             | sum_ set e. class class 
+             | sup ( set , set , set ) 
+             | sup ( set , set , class ) 
+             | sup ( set , class , set ) 
+             | sup ( set , class , class ) 
+             | sup ( class , set , set ) 
+             | sup ( class , set , class ) 
+             | sup ( class , class , set ) 
+             | sup ( class , class , class ) 
+             | topGen 
+             | vH 
+             | x. 
+             | { set } 
+             | { set | wff } 
+             | { set e. set | wff } 
+             | { set e. class | wff } 
+             | { set , set } 
+             | { set , set , set } 
+             | { set , set , class } 
+             | { set , class } 
+             | { set , class , set } 
+             | { set , class , class } 
+             | { class } 
+             | { class , set } 
+             | { class , set , set } 
+             | { class , set , class } 
+             | { class , class } 
+             | { class , class , set } 
+             | { class , class , class } 
+             | { &lt;. set , set &gt;. | wff } 
+             | { &lt;. &lt;. set , set &gt;. , set &gt;. | wff } 
+             | |^| set 
+             | |^| class 
+             | |^|_ set e. set set 
+             | |^|_ set e. set class 
+             | |^|_ set e. class set 
+             | |^|_ set e. class class 
+             | ~&lt; 
+             | ~&lt;_ 
+             | ~Q 
+             | ~R 
+             | ~~ 
+             | ~~&gt; 
+             | ~~&gt;m 
+             | ~~&gt;v 
+      </pre><hr /><p>OK, now here is what we would do.</p><p>1. Create a conversion specification file for input to mmj2. Hypothetical example follows using situation with just wi, wn, ph, and ps in set.mm grammar.</p><pre>     wi:
+       ( #1 implies #2 )
+     wn:
+       not #1
+     ph:
+       p
+     ps: 
+       q</pre><p>OK? the line after the label contains a "template" providing #1, which is the first variable in Syntax Axiom "wi" and #2, the 2nd variable.</p><p>The program then takes the syntax tree for a set.mm formula and regurgitates another formula in the new format.</p><dl class="quote"><dt /><dd>I think that what would make this proposal more general, useful and interesting to program would be to use a grammar specifying the output. Specifically, the program would  recognize certain left-hand symbols and would provide a vocabulary of keywords naming information about contents of the .mm database which can be output. For expediency a small amount of hardcoded logic for specific translations is not a problem, but the core conversion grammar would handle most cases &#x2013; whether to hcode, ghilbert, Isar, Haskell, etc. (and more importantly, would not be so incredibly boring to program (I have written enough conversions for a lifetime)). --<a class="local" href="ocat">ocat</a></dd></dl><p>2. Create new RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> commands specifying the input conversion specification file name (+ optional character encoding), the output file name (+ encoding), plus any other parameters we find useful (such as "#" might be parameterized to allow for a different character. We might also want to provide output header lines or trailer lines to precede or follow the translated formulas. Also, we may want to select only theorems and ignore axioms (and $d's&#x2026;) That depends on your needs. (I am assuming that you don't want "|-" output in your formulas&#x2026;)</p><hr /><p>OK, one other consideration is the format of the output lines. It is possible to provide no line breaks &#x2013; one formula per line. Or, the output can be formatted using mmj2's TMFF facility (text mode formula formatting.) The TMFF route is a bit more work, maybe. Since we could (obviously) use this to generate hcode-like output, maybe TMFF should be requested right from the start (it has a one line per formula option anyway&#x2026;)</p><hr /><p>Thanks for the Metamath formulas grammar. That is exactly what I needed. I have one more question. In Metamath when one writes p /\ q /\ r , is this the same as  ( p /\ q ) /\ r , or p /\ ( q  /\ r ) ? Can the answer to this question be read from the grammar provided?</p><p>It is unlikely that I will use mmj2 for translation. One reason for that is that I am using this project to learn Haskell. The second one is that it seems to me that the amount of work to write the grammar for Isabelle's ZF formulas that would be the basis for translation is similar to the work needed to write the corresponding Haskell code.</p><p>I kind of wish I had started the translation project extending mmj2 rather than writing my own code. Proper parsing of set.mm would provide much more solid basis for  the translation than my ad-hoc parsing of the output of Metamath show theorem, show proof commands. And learning Java is useful, too. Although probably not as much fun&#x2026;</p><p>However, I still would like to know how you would handle cases like translating Metamath's  "X e. V" to Isabelle's "X = X" or Metamath's "E! x e. X ph" to Isabelle's  "\&lt;exists&gt;! x . x \&lt;in&gt; X \&lt;and&gt; \&lt;phi&gt;". Could you write the pieces of the template file that correspond to these cases? --<a class="local" href="slawekk">slawekk</a> 8-Dec-2006</p><hr /><p><i>In Metamath when one writes</i> p /\ q /\ r , <i>is</i> <i>this the same as</i> ( p /\ q ) /\ r , or p /\ ( q /\ r ) ?</p><p>According to set.mm,</p><pre>     df-3an $a |- ( ( ph /\ ps /\ ch ) &lt;-&gt; ( ( ph /\ ps ) /\ ch ) ) $.
+     </pre><p>Therefore, during conversion it would be logically  save to convert the triple <b>and</b> into two, with  left precedence. But set.mm proof steps would need adjustment, as Syntax Axiom w3a was created (one supposes) to abbreviate repetitive operations, and this affects the proof steps used.</p><p>Metamath does not employ operator precedence explicitly. Thus to Metamath, w3a <b>is</b> the abstract syntax. To convert to another language with only 2-ary <i>and</i> operations, a conversion would be needed. The idea with the conversion grammar template would be this:</p><pre>     w3a =: ( ( &lt;#1&gt; /\ &lt;#2&gt; ) /\ (#3) )
+     
+     thus accomplishing the tranlation from 3-ary to 2-ary.</pre><hr /><p><i>handle cases like translating Metamath's</i> (1)</p><pre>     "X e. V" to Isabelle's "X = X" 
+     </pre><p><i>or</i> (2) <i>Metamath's</i></p><pre>     "E! x e. X ph" to Isabelle's 
+     "\&lt;exists&gt;! x . x \&lt;in&gt; X \&lt;and&gt; \&lt;phi&gt;".
+     </pre><p>OK, #2 is simply an instance of Syntax Axiom wreu:</p><pre>     wreu $a wff E! x e. A ph $.
+     </pre><p>So I might have lines in the output grammar (template) something like this (note: no need to define variables here because the VarHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=VarHyps">?</a> point to exactly one variable in Metamath files):</p><pre>     vx   =: x
+     wph  =: \&lt;phi&gt;
+     cX   =: X
+     wreu =: \&lt;exists&gt;! &lt;#1&gt; . &lt;#1&gt; \&lt;in&gt; &lt;#2&gt; \&lt;and&gt; &lt;#3&gt;
+     </pre><p>where we are using by our convention "&lt;#" and "&gt;" as delimiters for our conversion operands (the "#" would be set at runtime via RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> for flexibility).</p><p>But note that set.mm's "V" is a special class and is defined by what I call a "Named Typed Constant" Syntax Axiom, plus a definition and theorem:</p><pre>   $( Extend class notation to include the universal class symbol. $)
+   cvv $a class V $.
+     
+   $( Define the universal class.  Definition 5.20 of [TakeutiZaring] p. 21. $)
+   df-v $a |- V = { x | x = x } $.
+     
+   $( All set variables are sets (see ~ isset ).  Theorem 6.8 of [Quine]
+      p. 43. $)
+   visset $p |- x e. V $=
+     ( cv cvv wcel wceq eqid df-v abeq2i mpbir ) ABZCDJJEZJFKACAGHI $.
+     $( [5-Aug-1993] $)
+     </pre><p>So in your example #1 we have a special case: "X e. V" is really just saying that X is a set. The standard conversion of Syntax Axiom wceq, ("A e. B"), would need a hardcoded override (somewhere) to see if B = "V", in which case the output would be written as "X = X" instead of Isar's equivalent for wceq. The reason  is that, apparently, the conversion between Metamath's concepts and Isar's is not one-to-one; Isar has built-in knowledge of the meaning of "X = X", it seems to me.</p><p>A possible modified output grammar (template) using overrides (note that cvv is defined in set.mm as  "cvv <img class='InlineMath' src='_latex_data/cXWAxLDPauUo1pkmeLS9+A.png' alt='$ a class V  $'/>."):</p><pre>     cA   =: A
+     cB   =: B
+     cX   =: X
+     wcel =: &lt;#1&gt; e. &lt;#2&gt;
+     wcel(,cvv) =: &lt;#1&gt; = &lt;#1&gt;</pre><hr /><p> </p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2slawekk">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2slawekk">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2slawekk">Administration</a></span><span class="time"><br /> Last edited 2006-12-09 05:18 UTC by <a class="author" title="from 66-81-74-46.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2slawekk">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

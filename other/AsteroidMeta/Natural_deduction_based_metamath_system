@@ -1,0 +1,3354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: Natural deduction based metamath system</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: Natural_deduction_based_metamath_system" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=Natural_deduction_based_metamath_system" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=Natural+deduction+based+metamath+system">Natural deduction based metamath system</a></h1></div><div class="content browse"><pre> $(
+  #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+                                 Introduction                                 
+            Metamath source file for a natural deduction based logic
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+ 
+ nat.mm - $Revision: 1.12.2.4 $ - $Date: 2006/07/05 10:21:26 $
+ 
+ This file (specifically, the version of this file with the above date)
+ is placed in the public domain per the Creative Commons Public Domain
+ Dedication.  http://creativecommons.org/licenses/publicdomain/
+ 
+ Many theorems are borrowed from Megill's set.mm. When a theorem is in
+ this case, it is marked by a  '(#05)' or by '(#06)' which means that 
+ the theorem has been borrowed from set.mm v. 6-Jun-2005 or v. 22-Jan-2006.
+ When the name of the theorem is different it is indicated. When a
+ theorem has not been borrowed from set.mm an underscore is
+ appended to its front. 
+ 
+ In the rest of this file a ??? means I have a doubt, whatever the doubt
+ can be: a doubt about a logic concept, the english language, a
+ fact... Anybody giving me some relief about any of these doubts will
+ be welcome.
+ 
+ This file is a work in progress. I prefer to give it now in case it
+ can be useful. But it can be widely improved.
+ 
+ This file is the work of an amateur. It can be not completely sound 
+ (I know... the wording seems strange but it means exactly what I mean).
+ For a completely sound piece of work see set.mm
+ 
+ Natural deduction was invented by Gentzen in the 30's (cf. Gentzen, 
+ Untersuchungen uber das logische Schliessen (Mathematische Zeitschrift 
+ 39, pp. 176-210, 405-431 1934-5)). His aim was to give a logic system
+ where propositional and predicate calculus proofs would be easier to
+ make than in previously designed systems (cf. for example D.Hilbert,
+ W.Ackermann. Grundzuge der theoretischen Logik. Berlin (Springer),
+ 1928).
+ 
+ To achieve this goal Gentzen uses a list of hypotheses (called
+ context in this file).
+ 
+ Our system is not exactly the system designed by Gentzen but it can be
+ considered as a descendant of it. A descendant of the Hilbert
+ system is obviously the system described by Norman Megill in set.mm
+ 
+ To understand exactly how Gentzen derived his own system from the
+ Hilbert's system I recommend the reading of ` Introduction to 
+ metamathematics ` by Kleene chapter V (In fact I'm not sure in
+ this chapter Kleene tries to derive Gentzen's system from Hilbert's one 
+ but it can really be read that way.
+ 
+ In ` nat.mm `  every formula has the following form : ` # G |- ph `.
+ ` # ` has no particular meaning. It is mandatory in metamath to begin
+ formula with a constant and it is the only purpose of this symbol. ` G `
+ is the context. ` ph ` is the formula we want to prove and '|-' signals
+ a derivation. Then ` # G |- ph ` should be read: from the
+ hypotheses in G we can derive ph. In a certain way in Hilbert's
+ system we make proof about propositions and in Gentzen's we make
+ proof about derivations. 
+ 
+ The system described below has been inspired by slides by
+ Christoph Benzmuller called from 'Natural Deduction to
+ Sequent Calculus and back'. It can be found there:
+ 
+    http://www.ags.uni-sb.de/~chris/papers/2002-pisa.pdf
+ 
+ In this set of slides, the relationship between various forms of
+ natural deduction, and between natural deduction and sequent calculus
+ (another logic system designed by Gentzen) is exposed. Some reasons
+ explaining why Gentzen's systems are theoritically important are also
+ described. 
+ 
+ In particular I borrow to Benzmuller's slides the way to represent
+ the list of hypotheses by a context appended to the left of a
+ formula. 
+ 
+ Benzmuller himself had used, among other sources, a paper by Franck
+ Pfenning called  ` Automated theorem proving `. 
+ 
+   http://www.cs.cmu.edu/~fp/courses/atp/handouts.html
+ 
+ All the axioms concerning propositional calculus, predicate calculus,
+ equality come from this paper.
+ 
+ However the system described by Pfenning is not rich enough to work
+ with in metamath. En effet ??? it presupposes substitutions are
+ realized at a metalogical level  (i. e. by an independant device). In
+ metamath such a device doesn't  exist. Thus we must add axioms to
+ make our system able to deal with substitution simply by handling
+ axioms and inferences belonging to the system ). To achieve
+ metalogical completeness I simply added 'set.mm' axioms (thanks to a
+ suggestion by Norman Megill).
+ 
+ O'cat suggests me to add an empty context. This is a great idea: see
+ ax-con for more explanation.
+ 
+ In his paper Pfenning asks some variables are new. However he doesn't
+ describe what he means by 'new'. This proviso ( this is the technical 
+ name of that sort of requirement ) can be a $d statement. Or it can simply 
+ mean there is no free occurence of the variable.
+ 
+ Norman Megill urged me to interpret 'new' as meaning distinct (i.e. using a $d 
+ statement), because it is easier to make a parallel between proofs in
+ nat.mm and in set.mm this way.
+ 
+ I have tried to realize a natural deduction system with a 
+ $d x G $. statement as its proviso. And I found it very difficult
+ to be used. If anybody  wants to know what pain and sorrow mean in
+ logic I agree to send him/her this attempt.
+ 
+ Realizing this sort of proviso is too much for my humble strenght, I
+ replaced them with a 'bound x G' proviso. This is much more
+ comfortable.
+ 
+ Note: [ terminology ] In this file we call axiom a rule which has no 
+ proof. We call theorem a rule which has a proof. When a rule has one 
+ hypothesis or more we call it a rule of inference. When it has no 
+ hypothesis we simply call it an axiom or a theorem. A synonym for 
+ hypothesis is premisse. A formula or a statement is any group of symbols that
+ respect the rules of syntax. The last statement of a rule of
+ inference is its conclusion. In a ` # G |- ph ` statement any formula
+ in G is called an hypothesis, ph is called a conclusion. We are aware
+ that our terms are higly overloaded and correspond to various
+ reality. In ` Introduction to metamathematics ` Kleene uses a more
+ precise dictionary. However we think these overloadings can be used
+ quite naturally and correspond to the structure of ` metamath ` itself
+ and to the the usual use of these terms.
+ 
+ Note: [ Scheme ] We use the term axiom for brievity sake but we
+ should say 'scheme of axiom' to speak correctly.
+ 
+ Note: [ Importation ] When we import a theorem from set.mm we can use 
+ several strategy. The simplest one consists in adding a '# bound x G' 
+ hypothesis (it is useless in propositional calculus but it may be
+ mandatory in predicate calculus). As an alternative we can prefer
+ binding the hypotheses. In that case we can remove the '# bound x G' 
+ hypothesis. The third way for importing theorems is to transform a 
+ set.mm theorem into a closed form. To do that simply turn the
+ hypotheses into antecedents. ph &amp; ps =&gt; ch is changed into 
+ ( ph -&gt; ( ps -&gt; ch ) ). You can have to quantify the hypothesis if
+ you have a predicate calculus theorem. In that case the closed form
+ will be ( A. x ph -&gt; ( A. x ps -&gt; ch ) ) .
+ 
+ Note: [ Syntax of this file ] In the first column there must always
+ be a space in order that nat.mm looks nice on the wiki. 
+ 
+ Note: Here is a plan of the system.
+ 
+ 1 -- Natural deduction propositional calculus axioms are introduced.
+ 
+  1.1 -- I proved back set.mm propositional calculus axioms
+ 
+   'set.mm' propositional calculus axioms have been slightly
+   transformed. I appended G in front of them. According to ax-con I
+   can do this.
+ 
+   This shows my own system is complete regarding propositional
+   calculus.
+ 
+ 2 -- Natural deduction predicate calculus axioms are introduced.
+ 
+  2.1 -- These are ax-ui, ax-ue, ax-ee, ax-ei, ax-eq.
+ 
+  2.2 -- When Pfenning asked that a variable should be 'new' I've
+  translated it by 'bound'.
+ 
+      3.2.1 According to me, 'new' in ax-ui means the variable must
+      be bound in  all the statements in G.
+ 
+      3.2.2 According to me 'new' in ax-ee means the variable must be
+      bound in all the staments in G and in ps (but not in ps since
+      in this case the inference would be meaningless).
+ 
+  2.3 -- Pfenning's system supposes variable substitution is managed
+  at a metalogical level. Since in metamath we can't do that I added
+  axioms.
+ 
+ 3 -- I added axioms to decide if a variable is bound in a formula. 
+ 
+      4.1 These axioms are in some way independant from the rest of
+      the system. On the contrary theorems about bound variables in
+      set.mm are completely integre to the system.
+ 
+         4.1.1 The reason why I add axioms about bound variables is
+         that I don't want to use the $d statement and therefore I
+         need a device to emulate the 'new' proviso used by
+         Pfenning. This device is the set of axioms about binding.
+ 
+ 4 -- I added an axiom to manage substitution.
+ 
+      4.1 This is fs.
+ 
+ 5 -- I added an axiom to manage equality.
+ 
+      5.1 This axiom is equsb1
+ 
+          5.1.1 I don't know if we must add to axiom. I have added it
+          because it was difficult for me to prove it. But perhaps it
+          will reveal itself to be redundant.
+ 
+ 6 -- There remains some axioms that can't be proved.
+ 
+     6.1 These axioms are setax-10, setax-11, setax-12 and setax-16.
+ 
+ 7 -- I added a meta property about context.
+ 
+     7.1 This is called ax-con.
+ 
+     7.2 This inference rule allows me to remove unnecessary
+     provisos.
+ 
+     7.3 It is a justification of the reason why I can import closed
+    form theorems from set.mm.
+ 
+ Bibliography
+ ------------
+ 
+ Bibliographical references are made by bracketing an identifer in a
+ theorem's comment, such as [RussellWhitehead].
+ 
+ BourbakiTe : N. Bourbaki. Elements de mathematique. Theorie des ensembles. 
+   Chapitre 1 a 4. Nouveau tirage. Masson. Paris Milan Barcelone Mexico.
+   1990.
+ 
+ $)
+ 
+ $(
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+                            Propositional calculus                            
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+ $)
+ 
+ $( In metamath the first character of a statement must be
+ a constant. Megill uses '|-' for this purpose. However in a natural
+ deduction system the turnstile is normally used to separate the
+ context from the statement. I will use then # instead of '|-' as the
+ first character of a statement $)
+ 
+ $c # $. $( beginning of a statement $) 
+ 
+ $c , $. $( coma (used to separate hypothesis in a context) $)
+ $c [] $. $( empty context $) 
+ $c |- $. $( read 'the following sequence is provable from the previous 
+             list of hypotheses (called a context)' $)
+ $c [ $. $( beginning of the context $)
+ $c ] $. $( end of the context $)
+ 
+ $c ( $. $( opening parenthesis (used by infix operator) $)
+ $c ) $. $( closing parenthesis (used by infix operator) $)
+ $c -&gt; $. $( read 'implies' $)
+ $c &lt;-&gt; $. $( read 'if and only if' $)
+ $c -. $. $( read 'not' $) 
+ $c /\ $. $( read 'and' $)
+ $c \/ $. $( read 'or' $)
+ $c Abs $. $( read 'absurd' $)
+ 
+ $c con $. $( read 'the following sequence is a context' $)
+ $c wff $. $( read 'the following sequence is a well-formed formula' $)
+ 
+ 
+ $( context variable $)
+ $v G $.
+ cong $f con G $.
+ 
+ $( propositional variables $)
+ $v ph $. $( Greek phi $)
+ $v ps $. $( Greek psi $)
+ $v ch $. $( Greek chi $)
+ $v th $. $( Greek theta $)
+ $v ta $. $( Greek tau $)
+ 
+ $( The propositional variable 'phi' is a well-formed formula $) 
+ wph $f wff ph $. 
+ $( The propositional variable 'psi' is a well-formed formula $) 
+ wps $f wff ps $.
+ $( The propositional variable 'chi' is a well-formed formula $) 
+ wch $f wff ch $.
+ $( The propositional variable 'theta' is a well-formed formula $) 
+ wth $f wff th $.
+ $( The propositional variable 'tau' is a well-formed formula $) 
+ wta $f wff ta $.
+ 
+ 
+ $( Recursively defines context. If G is a context and ph is a wff then 
+ [ G , ph ] is a context. $)
+ conr $a con [ G , ph ] $.
+ 
+ $( The empty context is a context. $)
+ cone $a con [] $.
+ 
+ $( Recursively defines well formed formula $)
+ 
+ $( if ph is a wff, -. ph is a wff. $)
+ wn $a wff -. ph $.
+ 
+ $( If ph and ps are wffs, ( ph -&gt; ps ) is a wff. $)
+ wi $a wff ( ph -&gt; ps ) $.
+ 
+ $( If ph and ps are wffs, ( ph &lt;-&gt; ps ) is a wff. $)
+ wb $a wff ( ph &lt;-&gt; ps ) $.
+ 
+ $( If ph and ps are wffs, ( ph /\ ps ) is a wff. $)
+ wa $a wff ( ph /\ ps ) $.
+ 
+ $( If ph and ps are wffs, ( ph \/ ps ) is a wff. $)
+ wo $a wff ( ph \/ ps ) $.
+ 
+ $( 'Abs' (absurdity) is a wff. $)
+ wabs $a wff Abs $.
+ 
+ $( Mmj2 type. These 4 statements are only used by mmj2. They have no 
+ logical meaning. mmj2 uses a strict grammatical parser. To use such a 
+ parser one needs to know which rule is the first one. This is the aim 
+ of these four rules. If one wants to work with metamath 
+ only one can remove them  without danger. $)
+ 
+ $c LSTYP $.
+ $v lstyp $.
+ wlstyp $f LSTYP lstyp $.
+ 
+ $( G |- ph is the top rule used by Mmj2 $)
+ lstyp1 $a LSTYP G  |- ph   $. 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Axioms
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ ${ 
+   ax-con.1 $e # [] |- ph $.
+ 
+ $(  This axiom means that if a statement can be derived from an empty context,
+ it can be derived from any context. It's a sort of ax-we axiom but with an 
+ undefined number of hypotheses. ( Since this axiom is a sort of extension
+ of ax-we I think we could prove it as a meta theorem. That's the reason
+ why I called it a meta axiom. )
+ 
+ This meta axioms explains why we can import closed form theorem
+ from set.mm into nat.mm. By closed form I mean $p statement without
+ $e hypotheses. But we can't import inferences as easily. (??? example)
+ 
+ This meta axiom has another function: it is used to prevent a
+ 'bound x G' proviso in theorems without hypotheses ($e statement):
+ see for instance eqcom. $)
+ 
+   ax-con $a # G |- ph $.
+ $}
+ 
+ $( [ big bang ] Contrary to the system describes in 'set.mm' in a
+ natural deduction system all the operators are introduced in one
+ step. It is a bit confusing and it prevents from achieving the
+ beautiful architecture of 'set.mm' where the axioms only deal with
+ '-.' and '-&gt;', the other operators being defined with these two
+ operators only. However we will hold out for the traditional way of
+ defining natural deduction axioms. $)
+ 
+ $( The only axiom of the natural deduction. $)
+ ax-hyp $a # [ G , ph ] |- ph $.
+ 
+ ${
+   ax-we.1 $e # G |- ph $.
+   $( Hypothesis weakening. $)
+   ax-we $a # [ G , ps ] |- ph $.
+ $}
+ 
+ ${
+   ax-ii.1 $e # [ G , ph ] |- ps $.
+   $( Implication introduction. It is the deduction theorem that is
+   embedded here. In the context of a Hilbert system this theorem is
+   a meta theorem. In the context of natural deduction it is an axiom. $)
+   ax-ii $a # G |- ( ph -&gt; ps ) $.
+ $}
+ 
+ ${
+   ax-ie.1 $e # G |- ph $.
+   ax-ie.2 $e # G |- ( ph -&gt; ps ) $.
+   $( Implication elimination. $)
+   ax-ie $a # G |- ps $.
+ $}
+ 
+ ${
+   ax-ai.1 $e # G |- ph $.
+   ax-ai.2 $e # G |- ps $.
+   $( And introduction. $)
+   ax-ai $a # G |- ( ph /\ ps ) $.
+ $}
+ 
+ ${
+   ax-are.1 $e # G |- ( ph /\ ps ) $.
+   $( And elimination ( right argument remains ). $)
+   ax-are $a # G |- ps $.
+ $}
+ 
+ ${
+   ax-ale.1 $e # G |- ( ph /\ ps ) $.
+   $( And elimination ( left argument remains ). $)
+   ax-ale $a # G |- ph $.
+ $}
+ 
+ ${
+   ax-oli.1 $e # G |- ph $.
+   $( Or introduction (  ph is the left argument ). $)
+   ax-oli $a # G |- ( ph \/ ps ) $.
+ $}
+ 
+ ${
+   ax-ori.1 $e # G |- ps $.
+   $( Or introduction ( ps is the right argument ). $)
+   ax-ori $a # G |- ( ph \/ ps ) $.
+ $}
+ 
+ ${
+   ax-oe.1 $e # G |- ( ph \/ ps ) $.
+   ax-oe.2 $e # [ G , ph ] |- ch $.
+   ax-oe.3 $e # [ G , ps ] |- ch $.
+   $( Or elimination. $)
+   ax-oe $a # G |- ch $.
+ $}
+ 
+ ${
+   ax-ni.1 $e # [ G , ph ] |- Abs $.
+   $( Not introduction. $)
+   ax-ni $a # G |- -. ph  $.
+ $}
+ 
+ ${
+   ax-ne.1 $e # G |- ph $.
+   ax-ne.2 $e # G |- -. ph $.
+   $( Not elimination. $)
+   ax-ne $a # G |- Abs  $.
+ $}
+ 
+ ${
+   ax-cl.1 $e # [ G , -. ph ] |- Abs $.
+   $( contra ( classical logic ). See axin for intuitionistic logic. $)
+   ax-cl $a # G |- ph  $.
+ $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Structural properties
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ Structural properties ( = theorems to manage the context ).
+ All the theorems about context can be proved with the axioms dealing
+ with simple implications. The reason for that equivalence is that the
+ usual interpretation of [ [ [] , ph ] , ps ] |- ch is 
+ ( ( ph /\ ps ) -&gt; ch ) which is equivalent to ( ph -&gt; ( ps -&gt; ch ) ) 
+ ( see ~ impexp ) . $)
+ 
+  ${
+    cut.1 $e # G |- ph $.
+    cut.2 $e # [ G , ph ] |- ps $.
+    $( A hypothesis can be removed if you prove it is a theorem. $)
+    cut $p # G |- ps  $=
+      ( ax-ii ax-ie ) ABCDABCEFG $.
+      $( [1-Oct-05] $)
+  $}
+ 
+  ${
+    int2.1 $e # [ [ G , ph ] , ps ] |- ch $.
+    $( Introduction of two hypotheses. $)
+    int2 $p # G |- ( ph -&gt; ( ps -&gt; ch ) ) $=
+      ( wi conr ax-ii ) ABCDFABGCDEHH $.
+      $( [?] $) $( [1-Oct-05] $)
+  $}
+ 
+  ${
+    elim2.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Elimination of two antecedents. Adding a hypothesis to
+    the context or an antecedent to a statement are equivalent in
+    some way. $)
+    elim2 $p # [ [ G , ph ] , ps ] |- ch $=
+      ( conr ax-hyp wi ax-we ax-ie ) ABFZCFZCDKCGLBCDHZKBCABGIKBMHZCANBEIIJJ $.
+      $( [?] $) $( [1-Oct-05] $)
+  $}
+ 
+  ${
+    exch.1 $e # [ [ G , ph ] , ps ] |- ch $.
+    $( Exchange: any two hypotheses can be swapped. $)
+    exch $p # [ [ G , ps ] , ph ] |- ch $=
+      ( conr ax-hyp ax-we wi int2 ax-ie ) ACFZBFZCDLCBACGHMBCDIZLBGLBNIZBAOCABC
+      DEJHHKK $.
+      $( [?] $) $( [1-Oct-05] $)
+  $}
+ 
+  ${
+    cont.1 $e # [ [ G , ph ] , ph ] |- ps $.
+    $( Contraction: we can remove a duplicated hypothesis. $)
+    cont $p # [ G , ph ] |- ps $=
+      ( conr ax-hyp ax-ii ax-ie ) ABEZBCABFIBCDGH $.
+      $( [?] $) $( [1-Oct-05] $)
+  $}
+ 
+  ${
+    weak2.1 $e # G |- ph $.
+    $( Two weakenings. $)
+    weak2 $p # [ [ G , ps ] , ch ] |- ph $=
+      ( conr ax-we ) ACFBDABCEGG $.
+      $( [?] $) $( [15-May-06] $)
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Intuitionism
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  ${
+    axin.1 $e # G |- Abs $.
+    $( To have an intuitionistic propositional + predicate calculus system 
+    ax-cl should be replaced by axin. The other axioms should remain 
+    untouched. However to work with an intuitionistic system you will have to 
+    be cautious.  Not all the definitions traditional in a classic system are 
+    allowed. For instance we could not have 
+    defined ' E. x ph 'as ' -. A. x -. ph '. $)
+    axin $p # G |- ph  $=
+      ( wabs wn ax-we ax-cl ) ABADBECFG $.
+      $( [?] $) $( [15-Oct-05] $)
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         set.mm axioms for propositional calculus proved back
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ 
+ We can see that only ax-ii, ax-ie, ax-cl, ax-ne, ax-we and ax-hyp
+ are needed to prove setax-1, setax-2, setax-3 and setax-mp. So the 
+ other axioms in our natural deduction system could be removed and
+ the other connectors could be introduced by defining them.
+ 
+ However in natural deduction it is traditional to use axioms and
+ not definitions to introduce the propositional calculus connectors.
+ 
+ $)
+ 
+  $( If ph is true, we can append any wff on its left. $)
+  setax-1 $p # G |- ( ph -&gt; ( ps -&gt; ph ) ) $=
+    ( wi conr ax-hyp ax-we ax-ii ) ABCBDABEZCBIBCABFGHH $.
+    $( [?] $) $( [29-Dec-05] $)
+ 
+  $( A sort of distributivity of implication on itself. $)
+  setax-2 $p # G |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( ( ph -&gt; ps ) -&gt; 
+    ( ph -&gt; ch ) ) ) $=
+    ( wi conr ax-hyp ax-we ax-ie ax-ii ) ABCDEZEZBCEZBDEZEALFZMNOMFZBDPBFZCDQBC
+    PBGZPMBOMGHIQBKRPLBOLMALGHHIIJJJ $.
+    $( [?] $) $( [29-Dec-05] $)
+ 
+  $( Contraposition. $)
+  setax-3 $p # G |- ( ( -. ph -&gt; -. ps ) -&gt; ( ps -&gt; ph ) ) $=
+    ( wn wi conr ax-hyp ax-we ax-ie ax-ne ax-cl ax-ii ) ABDZCDZEZCBEAOFZCBPCFZB
+    QMFZCQCMPCGHRMNQMGQOMPOCAOGHHIJKLL $.
+    $( [?] $) $( [29-Dec-05] $)
+ 
+  ${
+    min $e # G |- ph $.
+    maj $e # G |- ( ph -&gt; ps ) $.
+    $( Modus ponens is simply anoter name for ax-ie $)
+    setax-mp $p # G |- ps $=
+      ( ax-ie ) ABCDEF $.
+      $( [?] $) $( [29-Dec-05] $)
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Implication
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  ${
+    a1i.1 $e # G |- ph $.
+    $( We can always add an antecedent to a theorem. Analogue to
+    ~ ax-we . Should be compared with ~ ax-ii as well since in a
+    certain way it is the opposite. (#05). $)
+    a1i $p # G |- ( ps -&gt; ph ) $=
+      ( ax-we ax-ii ) ACBABCDEF $.
+      $( [?] $) $( [15-Nov-05] $)
+  $}
+ 
+ $( I normally don't add 'deductions' (cf. 'set.mm' a1d for an
+ instance of what Megill calls a deduction) because the deduction 
+ theorem is one of the 'natural deduction' axioms and 'deductions' 
+ in set.mm are due to the absence of the deduction theorem. $)
+ 
+  ${
+    $( Premise for ~ a2i . $)
+    a2i.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Inference derived from axiom ~ setax-2 . (#05) $)
+    a2i $p # G |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie ax-ii ) ABCFZBDFALGZBDMBGZCDNBCMBHZMLBALHIJN
+      BCDFZOMBPFZBAQLEIIJJKK $.
+      $( [?] $) $( [1-Jul-05] $)
+  $} 
+ 
+  ${
+    $( First of 2 premises for ~ syl . $)
+    syl.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Second of 2 premises for ~ syl . $)
+    syl.2 $e # G |- ( ps -&gt; ch ) $.
+    $( Syllogisme. Megill uses this word to call this theorem. However
+    a syllogism in the normal language is something else. (#05) $)
+    syl $p # G |- ( ph -&gt; ch ) $=
+      ( conr ax-hyp wi ax-we ax-ie ax-ii ) ABDABGZCDMBCABHABCIBEJKACDIBFJKL $.
+      $( [?] $) $( [14-Nov-05] $)
+  $}
+ 
+  ${
+    $( Premise for ~ com12 . $)
+    com12.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Inference that swaps (commutes) antecedents in an implication. $)
+    com12 $p # G |- ( ps -&gt; ( ph -&gt; ch ) ) $=
+      ( wi conr ax-hyp ax-we weak2 ax-ie ax-ii ) ACBDFACGZBDMBGZCDMCBACHINBCDFZ
+      MBHABOFCBEJKKLL $.
+      $( [?] $) $( [15-May-06] $) 
+  $}
+ 
+  ${
+    imim2i.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Inference adding common antecedents to an implication. $)
+    imim2i $p # G |- ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie ax-ii ) ADBFZDCFALGZDCMDGZBCNDBMDHMLDALHIJMB
+      CFZDAOLEIIJKK $.
+      $( [?] $) $( [16-Nov-05] $)
+  $}
+ 
+  ${
+    imim1i.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Inference adding common consequents to an implication, thereby
+       interchanging the original antecedent and consequent. $)
+    imim1i $p # G |- ( ( ps -&gt; ch ) -&gt; ( ph -&gt; ch ) ) $=
+      ( wi conr wn ax-hyp ax-we ax-ie ax-ne ax-cl ax-ii ) ACDFZBDFAOGZBDPBGZDQD
+      HZGZDSCDSBCQBRPBIJQBCFZRPTBATOEJJJKQORPOBAOIJJKQRILMNN $.
+      $( [?] $) $( [16-Nov-05] $)
+  $}
+ 
+ 
+  ${
+    imim12i.1 $e # G |- ( ph -&gt; ps ) $.
+    imim12i.2 $e # G |- ( ch -&gt; th ) $.
+    $( Inference joining two implications. $)
+    imim12i $p # G |- ( ( ps -&gt; ch ) -&gt; ( ph -&gt; th ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie ax-ii ) ACDHZBEHANIZBEOBIZDEPCDPBCOBJOBCHZBA
+      QNFKKLONBANJKLODEHZBARNGKKLMM $.
+      $( [?] $) $( [15-Nov-05] $)
+  $}
+ 
+  ${
+    3syl.1 $e # G |- ( ph -&gt; ps ) $.
+    3syl.2 $e # G |- ( ps -&gt; ch ) $.
+    3syl.3 $e # G |- ( ch -&gt; th ) $.
+    $( Inference chaining two syllogisms. (#05) $)
+    3syl $p # G |- ( ph -&gt; th ) $=
+      ( conr ax-hyp wi ax-we ax-ie ax-ii ) ABEABIZDEOCDOBCABJABCKBFLMACDKBGLMAD
+      EKBHLMN $.
+      $( [?] $) $( [21-Nov-05] $)
+  $}
+ 
+  ${
+    syl5.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    syl5.2 $e # G |- ( th -&gt; ps ) $.
+    $( A syllogism rule of inference.  The second premise is used to replace
+    the second antecedent of the first premise. This sort of rule
+    can be considered as a precursor of biimplication replacing rules
+    like rembi4b. It can be used when only the implication holds
+    but not the biimplication. (#05) $)
+    syl5 $p # G |- ( ph -&gt; ( th -&gt; ch ) ) $=
+      ( wi conr ax-we ax-hyp ax-ie syl ax-ii ) ABEDHABIZECDAECHBGJOBCDHZABKABPH
+      BFJLMN $.
+      $( [?] $) $( [21-Nov-05] $)
+  $}
+ 
+  ${
+    syl6.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    syl6.2 $e # G |- ( ch -&gt; th ) $.
+    $( A syllogism rule of inference.  The second premise is used to replace
+    the consequent of the first premise. (#05) $)
+    syl6 $p # G |- ( ph -&gt; ( ps -&gt; th ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie syl ax-ii ) ABCEHABIZCDEOBCDHZABJABPHBFKLADE
+      HBGKMN $.
+      $( [?] $) $( [21-Nov-05] $)
+  $}
+ 
+  ${
+    syl7.1 $e # G |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) $.
+    syl7.2 $e # G |- ( ta -&gt; ch ) $.
+    $( A syllogism rule of inference.  The second premise is used to replace
+       the third antecedent of the first premise. $)
+    syl7 $p # G |- ( ph -&gt; ( ps -&gt; ( ta -&gt; th ) ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie syl5 ax-ii ) ABCFEIIABJZCDEFPBCDEIIZABKABQIB
+      GLMAFDIBHLNO $.
+      $( [?] $) $( [21-Nov-05] $)
+  $}
+ 
+  ${
+    syl8.1 $e # G |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) $.
+    syl8.2 $e # G |- ( th -&gt; ta ) $.
+    $( A syllogism rule of inference.  The second premise is used to replace
+       the consequent of the first premise. $)
+    syl8 $p # G |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie syl6 ax-ii ) ABCDFIIABJZCDEFPBCDEIIZABKABQIB
+      GLMAEFIBHLNO $.
+      $( [?] $) $( [21-Nov-05] $)
+  $}
+ 
+  $( imim1d not added. $)
+ 
+  $( syld not added. $)
+ 
+  $( imim2d not added. $)
+ 
+  $( imim12d not added. $)
+ 
+  $( Swap antecedents.  Compare with ~ exch . (#06)  $)
+  pm2.04 $p # G |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( ps -&gt; ( ph -&gt; ch ) ) ) $=
+    ( wi conr ax-hyp com12 ax-ii ) ABCDEEZCBDEEAJFBCDAJGHI $.
+    $( [?] $) $( [27-Jun-2006] $) 
+ 
+  $( com23 not added. $)
+ 
+  ${
+    mpi.1 $e # G |- ps $.
+    mpi.2 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( A nested modus ponens inference. Compare with ~ax-we . (#06) $)
+    mpi $p # G |- ( ph -&gt; ch ) $=
+      ( conr ax-we wi ax-hyp ax-ie ax-ii ) ABDABGZCDACBEHMBCDIZABJABNIBFHKKL $.
+      $( [?] $) $( [27-Jun-2006] $) 
+  $}
+ 
+  ${
+    mpii.1 $e # G |- ch $.
+    mpii.2 $e # G |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) $.
+    $( A doubly nested modus ponens inference. (#06) $)
+    mpii $p # G |- ( ph -&gt; ( ps -&gt; th ) ) $=
+      ( wi conr ax-we ax-hyp ax-ie mpi ax-ii ) ABCEHABIZCDEADBFJOBCDEHHZABKABPH
+      BGJLMN $.
+      $( [?] $) $( [27-Jun-2006] $) 
+  $}
+ 
+  $( mpd not added. $)
+ 
+  $( syl5d not added. $)
+ 
+  $( syl6d not added. $)
+ 
+  ${
+    syl9.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    syl9.2 $e # G |- ( th -&gt; ( ch -&gt; ta ) ) $.
+    $( A nested syllogism inference with different antecedents. (#06) $)
+    syl9 $p # G |- ( ph -&gt; ( th -&gt; ( ps -&gt; ta ) ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie ax-ii ) ABECFIZIABJZEOPEJZCFQCJZDFRCDQCKQCDI
+      ZCPSEPBSABKABSIBGLMLLMQDFIZCQETPEKPETIZEAUABHLLMLMNNN $.
+      $( [?] $) $( [27-Jun-2006] $)
+  $}
+ 
+  ${
+    syl9r.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    syl9r.2 $e # G |- ( th -&gt; ( ch -&gt; ta ) ) $.
+    $( A nested syllogism inference with different antecedents. (#06) $)
+    syl9r $p # G |- ( th -&gt; ( ph -&gt; ( ps -&gt; ta ) ) ) $=
+      ( wi conr ax-hyp ax-we ax-ie ax-ii ) AEBCFIZIAEJZBOPBJZCFQCJZDFRCDQCKRBCD
+      IZQBCPBKLQBSIZCPTBATEGLLLMMREDFIZQECPEBAEKLLQEUAIZCPUBBAUBEHLLLMMNNN $.
+      $( [?] $) $( [27-Jun-2006] $)
+  $}
+ 
+  $( Identity. Analogue to ~ ax-hyp . (#05) $)
+  id $p # G |- ( ph -&gt; ph ) $=
+    ( ax-hyp ax-ii ) ABBABCD $.
+    $( [?] $) $( [20-Oct-05] $)
+ 
+  $( idd not added. $)
+ 
+  $( Absorption of redundant antecedent.  Also called the "Contraction" or
+     "Hilbert" axiom.  (#06)  $)
+  pm2.43 $p # G |- ( ( ph -&gt; ( ph -&gt; ps ) ) -&gt; ( ph -&gt; ps ) ) $=
+    ( wi conr ax-hyp ax-we ax-ie ax-ii ) ABBCDZDZJAKEZBCLBEZBCLBFZMBJNLKBAKFGHH
+    II $.
+    $( [?] $) $( [27-Jun-2006] $)
+ 
+  ${
+    pm2.43i.1 $e # G |- ( ph -&gt; ( ph -&gt; ps ) ) $.
+    $( Inference absorbing redundant antecedent. (#06) $)
+    pm2.43i $p # G |- ( ph -&gt; ps ) $=
+      ( wi pm2.43 ax-ie ) ABBCEZEHDABCFG $.
+      $( [?] $) $( [27-Jun-2006] $)
+  $}
+ 
+  $( pm2.43d not added. $)
+ 
+  ${
+    pm2.86i.1 $e # G |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) $.
+    $( Consequents can be joined. (#06) $)
+    pm2.86i $p # G |- ( ph -&gt; ( ps -&gt; ch ) ) $=
+      ( conr ax-hyp ax-we wi a1i weak2 ax-ie int2 ) ABCDABFZCFZBDNBCABGHOBCIZBD
+      IZOCBNCGJAPQIBCEKLLM $.
+      $( [?] $) $( [27-Jun-2006] $)
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Biimplication
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ 
+ $( Biimplication definition. I could have added axioms to manage the
+ biimplication operator since some natural deduction systems add
+ them. I have prefered to give a definition of the biimplication
+ definition. This is set.mm definition for biimplication except that 
+ I have replaced '-. ( ph -&gt; -. ps )' by the /\ operator. 
+ (#05) $)
+  df-bi $a # G |- ( ( ( ph &lt;-&gt; ps ) -&gt; ( ( ph -&gt; ps ) /\ ( ps -&gt; ph ) ) ) 
+        /\ ( ( ( ph -&gt; ps ) /\ ( ps -&gt; ph ) ) -&gt; ( ph &lt;-&gt; ps ) ) ) $. 
+ 
+  $( Biimplication turned into a simple implication. $)
+  bi1 $p # G |- ( ( ph &lt;-&gt; ps ) -&gt; ( ph -&gt; ps ) ) $=
+    ( wb wi conr wa ax-hyp df-bi ax-ale ax-we ax-ie ax-ii ) ABCDZBCEZANFZOCBEZP
+    NOQGZANHANREZNASRNEABCIJKLJM $.
+    $( [30-Jun-06] $) $( [17-Jun-05] $)
+ 
+  $( Biimplication transformed into a simple implication. $)
+  bi2 $p # G |- ( ( ph &lt;-&gt; ps ) -&gt; ( ps -&gt; ph ) ) $=
+    ( wb wi conr wa ax-hyp df-bi ax-we ax-ale ax-ie ax-are ax-ii ) ABCDZCBEZAOF
+    ZBCEZPQORPGZAOHQOSEZSOEZATUAGOABCIJKLMN $.
+    $( [18-Jun-05] $) $( [18-Jun-05] $)  
+ 
+  ${
+    biimp.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    $( Biimplication trnasormed into a simple implication (inference). $)
+    biimp $p # G |- ( ph -&gt; ps ) $=
+      ( wb wi bi1 ax-ie ) ABCEBCFDABCGH $.
+      $( [28-Feb-06] $) $( [28-Feb-06] $) 
+  $}
+ 
+  ${
+    biimpr.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    $( Biimplication transformed into a simple implication (inference). $)
+    biimpr $p # G |- ( ps -&gt; ph ) $=
+      ( wb wi bi2 ax-ie ) ABCECBFDABCGH $.
+      $( [28-Feb-06] $) $( [28-Feb-06] $) 
+  $}
+ 
+  $( biimpd is not included $)
+ 
+  $( biimprd is not included $)
+ 
+  $( biimpcd is not included $)
+ 
+  $( biimpd is not included $)
+ 
+  ${
+    impbi.1 $e # G |- ( ph -&gt; ps ) $.
+    impbi.2 $e # G |- ( ps -&gt; ph ) $.
+    $( Simple implications transformed into a biimplication. $)
+    impbi $p # G |- ( ph &lt;-&gt; ps ) $=
+      ( wi wa wb ax-ai df-bi ax-are ax-ie ) ABCFZCBFZGZBCHZAMNDEIAPOFOPFABCJKL 
+      $.
+      $( [?] $) $( [18-Jun-05] $)
+  $}  
+ 
+ 
+  ${
+    bicomi.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    $( Biimplication is reflexive. $)
+    bicomi $p # G |- ( ps &lt;-&gt; ph ) $=
+      ( wb wi bi2 ax-ie bi1 impbi ) ACBABCEZCBFDABCGHAKBCFDABCIHJ $.
+      $( [?] $) $( [18-Jun-05] $)
+  $}  
+ 
+  ${
+    mpbi.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    mpbi.2 $e # G |- ph $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    mpbi $p # G |- ps $=
+      ( wb wi bi1 ax-ie ) ABCEABCFBCGDABCHII $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}  
+ 
+  ${
+    mpbir.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    mpbir.2 $e # G |- ps $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    mpbir $p # G |- ph $=
+      ( wb wi bi2 ax-ie ) ACBEABCFCBGDABCHII $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}  
+ 
+  ${
+    sylbir.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    sylbir.2 $e # G |- ( ph -&gt; ch ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    sylbir $p # G |- ( ps -&gt; ch ) $=
+      ( conr wb ax-we ax-hyp mpbir wi ax-ie ax-ii ) ACDACGZBDOBCABCHCEIACJKABDL
+      CFIMN $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}
+ 
+  ${
+    sylbi.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    sylbi.2 $e # G |- ( ps -&gt; ch ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    sylbi $p # G |- ( ph -&gt; ch ) $=
+      ( bicomi sylbir ) ACBDABCEGFH $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}
+ 
+  ${
+    sylib.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    sylib.2 $e # G |- ( ch -&gt; ph ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    sylib $p # G |- ( ch -&gt; ps ) $=
+      ( biimp syl ) ADBCFABCEGH $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}  
+ 
+  ${
+    sylibr.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    sylibr.2 $e # G |- ( ch -&gt; ps ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    sylibr $p # G |- ( ch -&gt; ph ) $=
+      ( bicomi sylib ) ACBDABCEGFH $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}  
+ 
+  ${
+    syl5ibr.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    syl5ibr.2 $e # G |- ( ch -&gt; ( ph -&gt; th ) ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    syl5ibr $p # G |- ( ch -&gt; ( ps -&gt; th ) ) $=
+      ( wi conr wb ax-we ax-hyp ax-ie sylbir ax-ii ) ADCEHADIZBCEABCJDFKPDBEHZA
+      DLADQHDGKMNO $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}
+ 
+  ${
+    syl6ib.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    syl6ib.2 $e # G |- ( ch -&gt; ( th -&gt; ph ) ) $.
+    $( rembi* theorems make it easy to replace any definiens by its
+    definiendum and vice versa. $)
+    syl6ib $p # G |- ( ch -&gt; ( th -&gt; ps ) ) $=
+      ( wi conr wb ax-we ax-hyp ax-ie sylib ax-ii ) ADECHADIZBCEABCJDFKPDEBHZAD
+      LADQHDGKMNO $.
+      $( [?] $) $( [1-Jul-05] $)
+  $}
+ 
+  ${
+    remphyp.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    remphyp.2 $e # [ G , ph ] |- ch $.
+    $( A hypothesis is replaced by its definiens. $)
+    remphyp $p # [ G , ps ] |- ch $=
+      ( conr ax-hyp wi ax-ii sylbir ax-we ax-ie ) ACGCDACHACDICABCDEABDFJKLM $.
+      $( [?] $) $( [31-Dec-05] $)
+  $}
+ 
+  ${
+    3imtr4.1 $e # G |- ( ph -&gt; ps ) $.
+    3imtr4.2 $e # G |- ( ch &lt;-&gt; ph ) $.
+    3imtr4.3 $e # G |- ( th &lt;-&gt; ps ) $.
+    $( A mixed syllogism inference, useful for applying a definition to both
+       sides of an implication. (#05) $)
+    3imtr4 $p # G |- ( ch -&gt; th ) $=
+      ( bicomi sylib sylbir ) ABDEADBGIACEBAECHIFJK $.
+      $( [?] $) $( [12-Nov-05] $)
+  $}
+ 
+  ${
+    bitr.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    bitr.2 $e # G |- ( ps &lt;-&gt; ch ) $.
+    $( Biimplications is transitive. Replacement of the second member
+    of a biimplication. $)
+    bitr $p # G |- ( ph &lt;-&gt; ch ) $=
+      ( conr wb ax-we ax-hyp wi bi1 ax-ie mpbi ax-ii mpbir impbi ) ABDABDABGZCD
+      ACDHZBFIRBCABJABCKZBABCHZTEABCLMIMNOADBADGZBCAUADEIUBCDASDFIADJPPOQ $.
+      $( [?] $) $( [30-Dec-05] $)
+  $}
+ 
+  ${
+    bitr2.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    bitr2.2 $e # G |- ( ph &lt;-&gt; ch ) $.
+    $( Replacement of the first member of a biimplication. $)
+    bitr2 $p # G |- ( ch &lt;-&gt; ps ) $=
+      ( bicomi bitr ) ACDACBDABCEGFHG $.
+      $( [?] $) $( [1-Jan-06] $)
+  $}
+ 
+  ${
+    imbi2i.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    $( We can add the same antecedent to both sides of a biimplication. $)
+    imbi2i $p # G |- ( ( ch -&gt; ph ) &lt;-&gt; ( ch -&gt; ps ) ) $=
+      ( wi biimp imim2i biimpr impbi ) ADBFDCFABCDABCEGHACBDABCEIHJ $. 
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Not
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Not definition. $)
+  dfnot $p # G |- ( -. ph &lt;-&gt; ( ph -&gt; Abs ) ) $=
+    ( wn wabs wi conr ax-hyp ax-we ax-ne ax-ii ax-ie ax-ni impbi ) ABCZBDEZANOA
+    NFZBDPBFBPBGPNBANGHIJJAONAOFZBQBFBDQBGQOBAOGHKLJM $.
+    $( [?] $) $( [15-Aug-05] $)
+ 
+  ${
+    a3i.1 $e # G |- ( -. ph -&gt; -. ps ) $.
+    $( An item of the contraposition species. $)
+    a3i $p # G |- ( ps -&gt; ph ) $=
+      ( conr wn ax-hyp wi ax-we ax-ie ax-ne ax-ni ax-cl ax-ii ) ACBACEZBOBFZEZC
+      FZQPROPGOPRHZPASCDIIJQRQRECQCROCPACGIIQRGKLKMN $.
+      $( [?] $) $( [3-0ct-05] $)
+  $}
+ 
+  ${
+    con3i.1 $e # G |- ( ph -&gt; ps ) $.
+    $( An item of the contraposition species. $)
+    con3i $p # G |- ( -. ps -&gt; -. ph ) $=
+      ( wn conr ax-hyp wi ax-we ax-ie ax-ne ax-ni ax-ii ) ACEZBEANFZBOBFZCPBCOB
+      GOBCHZBAQNDIIJONBANGIKLM $.
+      $( [?] $) $( [20-Oct-05] $)
+  $}
+ 
+  ${
+    dsl.1 $e # G |- ph $.
+    dsl.2 $e # G |- -. ph $.
+    $( Duns Scotus law. $)
+    dsl $p # G |- ps $=
+      ( ax-ne axin ) ACABDEFG $.
+      $( [?] $) $( [15-Aug-05] $)
+  $}
+ 
+  $( A theorem of the Duns Scotus law species. We can as well see this 
+  theorem as a variant of setaxin-1 when the first antecedent is a 
+  negation. $)
+  pm2.21 $p # G |- ( -. ph -&gt; ( ph -&gt; ps ) ) $=
+    ( wn wi conr ax-hyp ax-we dsl ax-ii ) ABDZBCEAKFZBCLBFBCLBGLKBAKGHIJJ $.
+    $( [?] $) $( [22-Nov-05] $)
+ 
+  $( A theorem of the Duns Scotus law species. $)
+  pm2.21b $p # [ [ G , -. ph ] , ph ] |- ps $=
+    ( wn conr ax-hyp ax-we dsl ) ABDZEZBEBCJBFJIBAIFGH $.
+    $( [?] $) $( [22-Nov-05] $)
+ 
+  ${
+    pm2.21i.1 $e # G |- -. ph $.
+    $( A contradiction implies anything. $)
+    pm2.21i $p # G |- ( ph -&gt; ps ) $=
+      ( conr ax-hyp wn ax-we dsl ax-ii ) ABCABEBCABFABGBDHIJ $.
+      $( [?] $) $( [29-Nov-05] $)
+  $}
+ 
+  $( Proof by contradiction. 
+  Note: the 'not' operator is a sort of reverser. Without 'not' we can
+  only prove theorems with a right to left implication priority [ ( ph
+  -&gt; ( ps -&gt; ch ) ) ]. With 'not' we can consider left  to right
+  implication priority [ ( ( ph -&gt; ps ) -&gt; ch ) ]. $)
+  pm2.18 $p # G |- ( ( -. ph -&gt; ph ) -&gt; ph ) $=
+    ( wn wi conr ax-hyp ax-we ax-ie ax-ne ax-cl ax-ii ) ABCZBDZBAMEZBNLEZBOLBNL
+    FZNMLAMFGHPIJK $.
+    $( [?] $) $( [29-Nov-05] $)
+ 
+ 
+  $( Double negation (#05) $)
+  dn $p # G |- ( -. -. ph &lt;-&gt; ph ) $=
+    ( wn conr ax-hyp ax-we ax-ne ax-cl ax-ii ax-ni impbi ) ABCZCZBAMBAMDZBNLDLN
+    LENMLAMEFGHIABMABDZLOLDBOBLABEFOLEGJIK $.
+    $( [?] $) $( [13-Aug-05] $)    
+ 
+  $( Contraposition $)
+  ctpt $p # G |- ( ( -. ph -&gt; -. ps ) &lt;-&gt; ( ps -&gt; ph ) ) $=
+    ( wn wi setax-3 conr ax-hyp weak2 ax-ie ax-we ax-ne ax-ni int2 impbi ) ABDZ
+    CDZECBEZABCFARPQARGZPGZCTCGZBUACBTCHSRPCARHIJTPCSPHKLMNO $.
+    $( [?] $) $( [13-Aug-05] $)
+ 
+  ${
+    con2.1 $e # G |- ( ph -&gt; -. ps ) $.
+    $( In these theorems about contraposition, I use double negation
+    and ctpt. (#05) $)
+    con2 $p # G |- ( ps -&gt; -. ph ) $=
+      ( wn wi ctpt dn bicomi sylbir mpbi ) ABEZEZCEZFCLFALCGABMNAMBABHIDJK $.
+      $( [?] $) $( [29-Aug-05] $)
+  $}
+ 
+  ${
+    a2in.1 $e # G |- ( ph -&gt; -. ps ) $.
+    $( A sort of modus tollens. $)
+    a2in $p # G |- ( ( ph -&gt; ps ) -&gt; -. ph ) $=
+      ( wabs wi wn dfnot bicomi sylib a2i ) ABEFZBGZBCFAMLABHIABCEACGCEFBACHDJK
+      J $.
+      $( [?] $) $( [15-Aug-05] $)
+  $}
+ 
+  ${
+    pm3.26im.1 $e # G |- -. ( ph -&gt; -. ps ) $.
+    $( Simplification. In fact it is ~ ax-ale in disguise (#05) $)
+    pm3.26im $p # G |- ph $=
+      ( wn conr wi ax-hyp ax-we ax-ne axin ax-ii ax-cl ) ABABEZFZBCEZGZOBPOBFZP
+      RBOBHONBANHIJKLAQENDIJM $.
+      $( [?] $) $( [19-Aug-05] $)
+  $}  
+ 
+  ${
+    pm2.51.1 $e # G |-  -. ( ph -&gt; ps ) $.
+    $( (#05) $)
+    pm2.51 $p # G |- ( ph -&gt; -. ps ) $=
+      ( wn conr wi ax-hyp ax-we ax-ii ax-ne ax-ni ) ABCEABFZCMCFZBCGZNBCNCBMCHI
+      JMOEZCAPBDIIKLJ $.
+      $( [?] $) $( [29-Aug-05] $)
+  $}
+ 
+  ${
+    pm2.5.1 $e # G |-  -. ( ph -&gt; ps ) $.
+    $( (#05) $)
+    pm2.5 $p # G |- ( -. ph -&gt; ps ) $=
+      ( wn conr wi ax-hyp ax-we ax-ne axin ax-ii ) ABEZCAMFZCNBCGZNBCNBFZCPBNBH
+      NMBAMHIJKLAOEMDIJKL $.
+      $( [?] $) $( [22-Apr-06] $)
+  $}
+ 
+  ${
+    mto.1 $e # G |- -. ps $.
+    mto.2 $e # G |- ( ph -&gt; ps ) $.
+    $( The rule of modus tollens. $)
+    mto $p # G |- -. ph $=
+      ( conr ax-hyp wi ax-we ax-ie wn ax-ne ax-ni ) ABABFZCNBCABGABCHBEIJACKBDI
+      LM $.
+      $( [?] $) $( [11-Dec-05] $)
+  $}
+ 
+  ${
+    nsyl4.1 $e # G |- ( ph -&gt; ps ) $.
+    nsyl4.2 $e # G |- ( -. ph -&gt; ch ) $.
+    $( A negated syllogism inference. $)
+    nsyl4 $p # G |- ( -. ch -&gt; ps ) $=
+      ( wn conr ax-hyp wi ax-we ax-ie ax-ne ax-cl ax-ii ) ADGZCAPHZBCQBQBGZHZDS
+      RDQRIQRDJZRATPFKKLQPRAPIKMNABCJPEKLO $.
+      $( [?] $) $( [11-Dec-05] $)
+  $}
+ 
+  $( Useful for eliminating an antecedent. (#06) $)
+  pm2.61 $p # G |- ( ( ph -&gt; ps ) -&gt; ( ( -. ph -&gt; ps ) -&gt; ps ) ) $=
+    ( wi wn conr ax-hyp ax-we mto ax-ne ax-cl ax-ii ) ABCDZBEZCDZCDAMFZOCPOFZCQ
+    CEZFZNSBCQRGZQMRPMOAMGHHISNCTQORPOGHIJKLL $.
+    $( [?] $) $( [6-May-06] $)
+ 
+  ${
+    pm2.61i.1 $e # G |- ( ph -&gt; ps ) $.
+    pm2.61i.2 $e # G |- ( -. ph -&gt; ps ) $.
+    $( Inference eliminating an antecedent. $)
+    pm2.61i $p # G |- ps $=
+      ( wn wi pm2.61 ax-ie ) ABFCGZCEABCGJCGDABCHII $.
+      $( [?] $) $( [6-May-06] $)
+  $}
+ 
+  ${
+    negbii.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    $( Negate both sides of a logical equivalence. 
+    (#05) $)
+    negbii $p # G |- ( -. ph &lt;-&gt; -. ps ) $=
+      ( wn wi ctpt wb bicomi bi1 ax-ie mpbir impbi ) ABEZCEZANOFCBFZABCGACBHPAB
+      CDIACBJKLAONFBCFZACBGABCHQDABCJKLM $.
+      $( [?] $) $( [4-Jan-06] $)
+  $}
+ 
+  ${
+    negbii2.1 $e # G |- ( -. ph &lt;-&gt; -. ps ) $.
+    $( Remove negate from both sides of a logical equivalence. $)
+    negbii2 $p # G |- ( ph &lt;-&gt; ps ) $=
+      ( wn biimpr a3i biimp impbi ) ABCACBABEZCEZDFGABCAJKDHGI $.
+      $( [?] $) $( [18-May-06] $)
+  $}
+ 
+  ${
+    repnot.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    repnot.2 $e # G |- -. ph $.
+    $( Replacement of a wff behing a '-.' operator $)
+    repnot $p # G |- -. ps $=
+      ( wn wabs wi dfnot mpbi sylbir mpbir ) ACFCGHACIABCGDABFBGHABIEJKL $.
+      $( [?] $) $( [26-Jan-06] $)
+  $}
+ 
+  ${
+    ja.1 $e # G |- ( -. ph -&gt; ch ) $.
+    ja.2 $e # G |- ( ps -&gt; ch ) $.
+    $( Inference joining the antecedents of two premises. (#06) $)
+    ja $p # G |- ( ( ph -&gt; ps ) -&gt; ch ) $=
+      ( wi conr wn dn ax-hyp ax-we mto mpbi ax-ie ax-ne ax-cl ax-ii ) ABCGZDASH
+      ZDTDIZHZDUBCDUBBCUBBIZIBUBBJUBUCDTUAKZTUCDGZUAAUESELLMNTSUAASKLOTCDGZUAAU
+      FSFLLOUDPQR $.
+      $( [?] $) $( [22-Apr-06] $)
+  $}
+ 
+  $( Contraposition.  Theorem *4.11 of [WhiteheadRussell] p. 117. $)
+  pm4.11 $p # G |- ( ( ph &lt;-&gt; ps ) &lt;-&gt; ( -. ph &lt;-&gt; -. ps ) ) $=
+    ( wb wn conr ax-hyp negbii ax-ii ax-we weak2 mpbir ax-ne ax-cl mpbi impbi 
+    ) ABCDZBEZCEZDZAQTAQFBCAQGHIATQATFZBCUABCUABFZCUBSFZBUBBSUABGJUCRSUATBSATGZ
+    KUBSGLMNIUACBUACFZBUERFZCUECRUACGJUFRSUATCRUDKUERGOMNIPIP $. 
+ 
+  ${
+    _con3bii.1 $e # G |- ( ph &lt;-&gt; -. ps ) $.
+    $( An inference of the contraposition series. $)
+    _con3bii $p # G |- ( -. ph &lt;-&gt; ps ) $=
+      ( wn dn bitr negbii2 ) ABEZCAIEBCEABFDGH $.
+      $( [?] $) $( [13-Jun-2006] $) 
+  $}
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         And
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $( Conjunction can be expressed in terms of implication and not
+ connectors. (#05) $)
+ dfan $p # G |- ( ( ph /\ ps ) &lt;-&gt; -. ( ph -&gt; -. ps ) ) $=
+   ( wa wn wi conr ax-hyp ax-we ax-are ax-ale ax-ie ax-ne ax-ni ax-ii pm3.26im 
+   dn pm2.51 mpbi ax-ai impbi ) ABCDZBCEZFZEZAUBUEAUBGZUDUFUDGZCUGBCUFUBUDAUBHI
+   ZJUGBUCUGBCUHKUFUDHLMNOAUEUBAUEGZBCUIBCAUEHZPZUIUCEZCUICQUIBULUKUIBUCUJRLSTO
+   UA $.
+   $( [?] $) $( [22-Nov-05] $)
+ 
+  $( Negated disjunction in terms of conjunction (DeMorgan's law). (#05) $)
+  ioran $p # G |- ( -. ( ph \/ ps ) &lt;-&gt; ( -. ph /\ -. ps ) ) $=
+    ( wo wn wa conr dn ax-hyp mpbi ax-oli ax-we ax-ne ax-cl ax-ori ax-ai ax-ii 
+    ax-are axin ax-oe ax-ale impbi ) ABCDZEZBEZCEZFZAUDUGAUDGZUEUFUHUEUHUEEZGZU
+    CUJBCUJUIBUJBHUHUIIJKUHUDUIAUDIZLMNUHUFUHUFEZGZUCUMBCUMULCUMCHUHULIJOUHUDUL
+    UKLMNPQAUGUDAUGGZUDUNUDEZGZBUPBCBUPUOUCUPUCHUNUOIJUPBIUPCGZBUQCUPCIUQUEUFUP
+    UGCUNUGUOAUGILZLRMSTUPUEUFURUAMNQUB $.
+    $( [?] $) $( [30-Nov-05] $)
+ 
+  $( or can be expressed in terms of implication and not
+  connectors. (#05) $)
+  dfor $p # G |- ( ( ph \/ ps ) &lt;-&gt; ( -. ph -&gt; ps ) ) $=
+    ( wo wn wi conr ax-hyp ax-we dsl ax-oe ax-ii wa ioran mpbi ax-ale ax-ie 
+    ax-are ax-ne ax-cl impbi ) ABCDZBEZCFZAUBUDAUBGZUCCUEUCGZBCCUEUBUCAUBHIUFBG
+    BCUFBHUFUCBUEUCHIJUFCHKLLAUDUBAUDGZUBUGUBEZGZCUIUCCUIUCCEZUIUHUCUJMUIBCNUGU
+    HHOZPUGUDUHAUDHIQUIUCUJUKRSTLUA $.
+    $( [?] $) $( [30-Nov-05] $)
+ 
+ 
+  ${
+    jca.1 $e # G |- ( ph -&gt; ps ) $.
+    jca.2 $e # G |- ( ph -&gt; ch ) $.
+    $( Join consequents with 'and'. (#05) $)
+    jca $p # G |- ( ph -&gt; ( ps /\ ch ) ) $=
+      ( wa conr ax-hyp wi ax-we ax-ie ax-ai ax-ii ) ABCDGABHZCDOBCABIZABCJBEKLO
+      BDPABDJBFKLMN $.
+      $( [?] $) $( [4-Jan-06] $)
+  $}
+ 
+  ${
+    jcai.1 $e # G |- ( ph -&gt; ps ) $.
+    jcai.2 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Deduction replacing implication with conjunction. (#05) $)
+    jcai $p # G |- ( ph -&gt; ( ps /\ ch ) ) $=
+      ( conr ax-hyp wi ax-we ax-ie ax-ii jca ) ABCDEABDABGZCDNBCABHZABCIBEJKNBC
+      DIZOABPIBFJKKLM $.
+      $( [?] $) $( [29-Jun-2006] $) 
+  $}
+ 
+  ${
+    jctl.1 $e # G |- ps $.
+    $( Inference conjoining a theorem to the left of a consequent. 
+    (#05) $)
+    jctl $p # G |- ( ph -&gt; ( ps /\ ph ) ) $=
+      ( a1i id jca ) ABCBACBDEABFG $.
+      $( [?] $) $( [29-Jun-2006] $)
+  $}
+ 
+  ${
+    jctr.1 $e # G |- ps $.
+    $( Inference conjoining a theorem to the right of a consequent. (#05) $)
+    jctr $p # G |- ( ph -&gt; ( ph /\ ps ) ) $=
+      ( id a1i jca ) ABBCABEACBDFG $.
+      $( [?] $) $( [29-Jun-2006] $)
+  $}
+ 
+  ${
+    jctil.1 $e # G |- ( ph -&gt; ps ) $.
+    jctil.2 $e # G |- ch $.
+    $( Inference conjoining a theorem to left of consequent in an
+       implication. (#05) $)
+    jctil $p # G |- ( ph -&gt; ( ch /\ ps ) ) $=
+      ( a1i jca ) ABDCADBFGEH $.
+      $( [?] $) $( [29-Jun-2006] $)
+  $}
+ 
+  ${
+    jctir.1 $e # G |- ( ph -&gt; ps ) $.
+    jctir.2 $e # G |- ch $.
+    $( Inference conjoining a theorem to right of consequent in an
+       implication. (#05) $)
+    jctir $p # G |- ( ph -&gt; ( ps /\ ch ) ) $=
+      ( a1i jca ) ABCDEADBFGH $.
+      $( [?] $) $( [29-Jun-2006] $)
+  $}
+ 
+  ${
+    ancli.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Deduction conjoining antecedent to left of consequent. (#05) $)
+    ancli $p # G |- ( ph -&gt; ( ph /\ ps ) ) $=
+      ( wa conr ax-hyp wi ax-we ax-ie ax-ai ax-ii ) ABBCEABFZBCABGZMBCNABCHBDIJ
+      KL $. 
+  $}
+ 
+  ${ 
+    _con2bi.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    _con2bi.2 $e # G |- ( ch &lt;-&gt; ta ) $.
+    $( Conjunction of both sides of a biimplication. $)
+    _con2bi $p # G |- ( ( ph /\ ch ) &lt;-&gt; ( ps /\ ta ) ) $=
+      ( wa conr wb ax-we ax-hyp ax-ale mpbi ax-are ax-ai ax-ii mpbir impbi ) AB
+      DHZCEHZATUAATIZCEUBBCABCJZTFKUBBDATLZMNUBDEADEJZTGKUBBDUDONPQAUATAUAIZBDU
+      FBCAUCUAFKUFCEAUALZMRUFDEAUEUAGKUFCEUGORPQS $.
+  $}
+ 
+  $( Conjunction in terms of disjunction (DeMorgan's law). (#05) $)
+  anor $p # G |- ( ( ph /\ ps ) &lt;-&gt; -. ( -. ph \/ -. ps ) ) $=
+    ( wn wo wa ioran dn _con2bi bitr bicomi ) ABDZCDZEDZBCFZANLDZMDZFOALMGAPBQC
+    ABHACHIJK $. 
+ 
+  $( Negated conjunction in terms of disjunction (DeMorgan's law). (#05) $)
+  ianor $p # G |- ( -. ( ph /\ ps ) &lt;-&gt; ( -. ph \/ -. ps ) ) $=
+    ( wa wn wo anor _con3bii ) ABCDBECEFABCGH $. 
+ 
+  $( ioran see above $)
+ 
+  $( Disjunction in terms of conjunction (DeMorgan's law). (#05) $)
+  oran $p # G |- ( ( ph \/ ps ) &lt;-&gt; -. ( -. ph /\ -. ps ) ) $=
+    ( wn wa wo ioran bicomi _con3bii ) ABDCDEZDBCFZAJKAKDJABCGHIH $. 
+ 
+  $( Elimination of a conjunct. (#05) $)
+  pm3.26 $p # G |- ( ( ph /\ ps ) -&gt; ph ) $=
+    ( wa conr ax-hyp ax-ale ax-ii ) ABCDZBAIEBCAIFGH $. 
+ 
+  ${
+    pm3.26d.1 $e # G |- ( ph -&gt; ( ps /\ ch ) ) $.
+    $( Elimination of a conjunct. (#05) $)
+    pm3.26d $p # G |- ( ph -&gt; ps ) $=
+      ( conr wa ax-hyp wi ax-we ax-ie ax-ale ax-ii ) ABCABFZCDNBCDGZABHABOIBEJK
+      LM $.
+      $( [?] $) $( [23-Jun-05] $)
+  $}
+ 
+  $( Elimination of a conjunct. (#05) $)
+  pm3.27 $p # G |- ( ( ph /\ ps ) -&gt; ps ) $=
+    ( wa conr ax-hyp ax-are ax-ii ) ABCDZCAIEBCAIFGH $. 
+ 
+  $( pm3.27d not added. $)
+ 
+  ${
+    anim12i.1 $e # G |- ( ph -&gt; ps ) $.
+    anim12i.2 $e # G |- ( ch -&gt; th ) $.
+    $( Conjoin antecedents and consequents of two premises. 
+       (#05) $)
+    anim12i $p # G |- ( ( ph /\ ch ) -&gt; ( ps /\ th ) ) $=
+      ( wa conr ax-hyp ax-ale wi ax-we ax-ie ax-are ax-ai ax-ii ) ABDHZCEHARIZC
+      ESBCSBDARJZKABCLRFMNSDESBDTOADELRGMNPQ $.
+      $( [?] $) $( [12-Nov-05] $)
+  $}
+ 
+  ${
+    anim1i.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Introduce conjunct to both sides of an implication. (#05) $)
+    anim1i $p # G |- ( ( ph /\ ch ) -&gt; ( ps /\ ch ) ) $=
+      ( id anim12i ) ABCDDEADFG $.
+      $( [?] $) $( [1-Jan-06] $)
+ 
+    $( Introduce conjunct to both sides of an implication. (#05) $)
+    anim2i $p # G |- ( ( ch /\ ph ) -&gt; ( ch /\ ps ) ) $=
+      ( id anim12i ) ADDBCADFEG $.
+      $( [?] $) $( [1-Jan-06] $)
+  $}
+ 
+  ${
+    _hypsp.1 $e # [ G , ( ph /\ ps ) ] |- ch $.
+    $( A 'and' hypothesis is splitted. $)
+    _hypsp $p # [ [ G , ph ] , ps ] |- ch $=
+      ( conr wa ax-hyp ax-we ax-ai wi ax-ii ax-ie ) ABFZCFZBCGZDOBCNBCABHINCHJN
+      PDKZCAQBAPDELIIM $.
+      $( [?] $) $( [15-Nov-05] $)
+  $}
+ 
+  ${
+    _hypunif.1 $e # [ [ G , ph ] ,  ps ] |- ch $.
+    $( Two hypothesis are unified with a ' /\ '. $)
+    _hypunif $p # [ G , ( ph /\ ps ) ] |- ch $=
+      ( wa conr ax-hyp ax-ale wi ax-are exch ax-ii ax-we ax-ie ) ABCFZGZBDQBCAP
+      HZIQCBDJZQBCRKACSJPACSACGBDABCDELMMNOO $.
+      $( [?] $) $( [31-Dec-05] $)
+  $}
+ 
+  ${
+    imp.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Importation inference. (#05) $)
+    imp $p # G |- ( ( ph /\ ps ) -&gt; ch ) $=
+      ( wa conr ax-hyp wi ax-we ax-ie _hypunif ax-ii ) ABCFDABCDABGZCGZCDNCHOBC
+      DIZNBCABHJNBPIZCAQBEJJKKLM $. 
+  $}
+ 
+  $( Syllogisme with and. $)
+  pm3.33 $p # G |-  ( ( ( ph -&gt; ps ) /\ ( ps -&gt; ch ) ) -&gt; ( ph -&gt; ch ) ) $=
+    (  ) ? $.
+ 
+  ${
+    exp.1 $e # G |- ( ( ph /\ ps ) -&gt; ch ) $.
+    $( Exportation inference. (#05) $)
+    exp $p # G |- ( ph -&gt; ( ps -&gt; ch ) ) $=
+      ( wi conr wa ax-hyp ax-we ax-ie _hypsp ax-ii ) ABCDFABGCDABCDABCHZGNDANIA
+      NDFNEJKLMM $. 
+  $}
+ 
+  $( Import-export theorem. In fact "ph , ps |- ch" ( I have removed
+  the square brackets because metamath don't like them ) can be
+  translated in ( ( ph /\ ps ) -&gt; ch ). This theorem says that it could
+  as well be translated into ( ph -&gt; ( ps -&gt; ch ) ) (#05) $)
+  impexp $p # G |- ( ( ( ph /\ ps ) -&gt; ch ) &lt;-&gt; 
+    ( ph -&gt; ( ps -&gt; ch ) ) ) $=
+    ( wa wi conr ax-hyp exp ax-ii imp impbi ) ABCEDFZBCDFFZAMNAMGBCDAMHIJANMANG
+    BCDANHKJL $. 
+ 
+  $( exp3a not added. $)
+ 
+  ${
+    adantl.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Inference adding a conjunct to the left of an antecedent. 
+    (#05) $)
+    adantl $p # G |- ( ( ch /\ ph ) -&gt; ps ) $=
+      ( wa conr ax-hyp wi ax-we ax-ie _hypunif ax-ii ) ADBFCADBCADGZBGBCNBHNBCI
+      ZBAODEJJKLM $. 
+  $}
+ 
+  ${
+    adantr.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Inference adding a conjunct to the right of an
+    antecedent. (#05) $)
+    adantr $p # G |- ( ( ph /\ ch ) -&gt; ps ) $=
+      ( wa conr ax-hyp ax-we wi ax-ie _hypunif ax-ii ) ABDFCABDCABGZDGBCNBDABHI
+      NBCJZDAOBEIIKLM $. 
+  $}
+ 
+  $( Idempotent law for conjunction. (#05)  $)
+  anidm $p # G |- ( ( ph /\ ph ) &lt;-&gt; ph ) $=
+    ( wa pm3.26 conr ax-hyp ax-ai ax-ii impbi ) ABBCZBABBDABJABEBBABFZKGHI $. 
+ 
+ 
+  $( Associative law for conjunction. (#05) $)
+  anass $p # G |- ( ( ( ph /\ ps ) /\ ch ) &lt;-&gt; 
+    ( ph /\ ( ps /\ ch ) ) ) $=
+    ( wa conr ax-hyp ax-we _hypunif ax-ai ax-ii impbi ) ABCEZDEZBCDEZEZANPAMDPA
+    MFZDFZBOQBDABCBABFZBCABGHZIHRCDQCDABCCSCGZIHQDGJJIKAPNABONSCDNSCFZDFZMDUCBC
+    UBBDTHUBCDUAHJUBDGJIIKL $. 
+ 
+  $( set.mm uses syld to demonstrate the next theorem. It really
+  shortens the proof. That's the reason why I wonder if I shouldn't
+  include deductions in this file. $)
+ 
+  ${
+    sylan9.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    sylan9.2 $e # G |- ( th -&gt; ( ch -&gt; ta ) ) $.
+    $( Nested syllogism inference conjoining dissimilar antecedents. $)
+    sylan9 $p # G |- ( ( ph /\ th ) -&gt; ( ps -&gt; ta ) ) $=
+      ( wa wi conr ax-hyp adantr ax-we ax-ie adantl syl ax-ii ) ABEIZCFJASKZCDF
+      TSCDJZASLZASUAJSABUAEGMNOTSDFJZUBASUCJSAEUCBHPNOQR $. 
+  $}
+ 
+  ${
+    sylan9r.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    sylan9r.2 $e # G |- ( th -&gt; ( ch -&gt; ta ) ) $.
+    $( Nested syllogism inference conjoining dissimilar antecedents. $)
+    sylan9r $p # G |- ( ( th /\ ph ) -&gt; ( ps -&gt; ta ) ) $=
+      ( wa wi conr ax-hyp ax-we ax-ie syl _hypunif ax-ii ) AEBICFJZAEBRAEKZBKZC
+      DFTBCDJZSBLSBUAJZBAUBEGMMNTEDFJZSEBAELMSEUCJZBAUDEHMMNOPQ $. 
+  $}
+ 
+  $( Introduce one conjunct as an antecedent to the another. $)
+  abai $p # G |- ( ( ph /\ ps ) &lt;-&gt; ( ph /\ ( ph -&gt; ps ) ) ) $=
+    ( wa wi conr ax-hyp ax-ale _hypunif ax-we ax-ii ax-ai ax-ie impbi ) ABCDZBB
+    CEZDZAOQAOFZBPRBCAOGHRBCRCBABCCABFZCGIJKLKAQOAQFZBCTBPAQGHABPCSPFBCSBPABGJS
+    PGMILKN $. 
+ 
+  ${
+    bi.aa $e # G |- ( ph &lt;-&gt; ps ) $.
+ 
+    $( Introduce a left conjunct to both sides of a logical equivalence. $)
+    anbi2i $p # G |- ( ( ch /\ ph ) &lt;-&gt; ( ch /\ ps ) ) $=
+      ( id impbi _con2bi ) ADDBCADDADFZIGEH $. 
+ 
+    $( Introduce a right conjunct to both sides of a logical equivalence. $)
+    anbi1i $p # G |- ( ( ph /\ ch ) &lt;-&gt; ( ps /\ ch ) ) $=
+      ( id impbi _con2bi ) ABCDDEADDADFZIGH $. 
+  $}
+ 
+  ${
+    bi2an.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    bi2an.2 $e # G |- ( ch &lt;-&gt; th ) $.
+    $( Conjoin both sides of two equivalences. $)
+    anbi12i $p # G |- ( ( ph /\ ch ) &lt;-&gt; ( ps /\ th ) ) $=
+      ( wa biimp anim12i biimpr impbi ) ABDHCEHABCDEABCFIADEGIJACBEDABCFKADEGKJ
+      L $. 
+  $}
+ 
+  $( A biimplication is equivalent to two implications. $)
+  bi $p # G |- ( ( ph &lt;-&gt; ps ) &lt;-&gt; 
+    ( ( ph -&gt; ps ) /\ ( ps -&gt; ph ) ) ) $=
+    ( wb wi wa conr ax-hyp bi1 ax-ie bi2 ax-ai ax-ii ax-ale ax-are impbi ) ABCD
+    ZBCEZCBEZFZAQTAQGZRSUAQRAQHZUABCIJUAQSUBUABCKJLMATQATGZBCUCRSATHZNUCRSUDOPM
+    P $.
+    $( [?] $) $( [2-Jan-06] $)
+ 
+  $( impbid not added. $)
+ 
+  $( Commutative law for equivalence. $)
+  bicom $p # G |- ( ( ph &lt;-&gt; ps ) &lt;-&gt; ( ps &lt;-&gt; ph ) ) $=
+    ( wb conr ax-hyp bicomi ax-ii impbi ) ABCDZCBDZAJKAJEBCAJFGHAKJAKECBAKFGHI 
+    $. 
+ 
+  $( bicomd not added. $)
+ 
+  $( bitrd not added. $)
+ 
+  $( bitr3d not added. $)
+ 
+  $( bitr4d not added. $)
+ 
+  ${
+    syl5bb.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl5bb.2 $e # G |- ( th &lt;-&gt; ps ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl5bb $p # G |- ( ph -&gt; ( th &lt;-&gt; ch ) ) $=
+      ( wb conr ax-hyp wi ax-we ax-ie bicomi bitr2 ax-ii ) ABEDHABIZCDEQBCDHZAB
+      JABRKBFLMQECAECHBGLNOP $. 
+  $}
+ 
+  ${
+    syl5rbb.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl5rbb.2 $e # G |- ( th &lt;-&gt; ps ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl5rbb $p # G |- ( ph -&gt; ( ch &lt;-&gt; th ) ) $=
+      ( wb conr ax-we bicomi ax-hyp wi ax-ie bitr2 ax-ii ) ABDEHABIZCEDQECAECHB
+      GJKQBCDHZABLABRMBFJNOP $. 
+  $}
+ 
+  ${
+    syl5bbr.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl5bbr.2 $e # G |- ( ps &lt;-&gt; th ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl5bbr $p # G |- ( ph -&gt; ( th &lt;-&gt; ch ) ) $=
+      ( wb conr ax-hyp wi ax-we ax-ie bitr2 ax-ii ) ABEDHABIZCDEPBCDHZABJABQKBF
+      LMACEHBGLNO $. 
+  $}
+ 
+  ${
+    syl6bb.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl6bb.2 $e # G |- ( ch &lt;-&gt; th ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl6bb $p # G |- ( ph -&gt; ( ps &lt;-&gt; th ) ) $=
+      ( wb conr ax-hyp wi ax-we ax-ie bitr ax-ii ) ABCEHABIZCDEPBCDHZABJABQKBFL
+      MADEHBGLNO $.
+      $( [?] $) $( [8-Jul-2006] $) 
+  $}
+ 
+  ${
+    syl6rbb.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl6rbb.2 $e # G |- ( ch &lt;-&gt; th ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl6rbb $p # G |- ( ph -&gt; ( th &lt;-&gt; ps ) ) $=
+      ( wb conr ax-hyp wi ax-we syl6bb ax-ie bicomi ax-ii ) ABECHABIZCEQBCEHABJ
+      QBCDEABCDHKBFLADEHBGLMNOP $.
+      $( [?] $) $( [8-Jul-2006] $) 
+ 
+  $}
+ 
+  ${
+    syl6bbr.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    syl6bbr.2 $e # G |- ( th &lt;-&gt; ch ) $.
+    $( A syllogism inference from two biconditionals. (#06) $)
+    syl6bbr $p # G |- ( ph -&gt; ( ps &lt;-&gt; th ) ) $=
+    cong wph wps wch wth syl6bbr.1 cong wth wch syl6bbr.2 bicomi syl6bb $. 
+  $}
+ 
+  ${
+    3bitr4g.1 $e # G |- ( ph -&gt; ( ps &lt;-&gt; ch ) ) $.
+    3bitr4g.2 $e # G |- ( th &lt;-&gt; ps ) $.
+    3bitr4g.3 $e # G |- ( ta &lt;-&gt; ch ) $.
+    $( More general version of ~ 3bitr4 .  Useful for converting
+       definitions in a formula. (#06) $)
+    3bitr4g $p # G |- ( ph -&gt; ( th &lt;-&gt; ta ) ) $=
+    cong wph wth wch wta cong wph wps wch wth 3bitr4g.1 cong wth wps 3bitr4g.2
+    bicomi syl5bbr 3bitr4g.3 syl6bbr $. 
+  $}
+ 
+  $( It was proved by Leibniz, and it evidently pleased him enough to call 
+     it 'praeclarum theorema.' (#06) $)
+  prth $p # G |- ( ( ( ph -&gt; ps ) /\ ( ch -&gt; th ) ) -&gt;
+               ( ( ph /\ ch ) -&gt; ( ps /\ th ) ) ) $=
+    ( wi wa conr ax-hyp ax-we anim12i _hypunif ax-ii ) ABCFZDEFZGBDGCEGFZANOPAN
+    HZOHBCDEQNOANIJQOIKLM $.
+    $( [?] $) $( [8-Jul-2006] $) 
+ 
+  $( anim2d (#06) not added. $)
+ 
+  $( Absorption of redundant internal disjunct. (#06) $)
+  orabs $p # G |- ( ph &lt;-&gt; ( ( ph \/ ps ) /\ ph ) ) $=
+    wps wo wph cong wph conr wph wps cong wph ax-hyp ax-oli cong wph ax-hyp ax-ai
+    ax-ii cong wph wps wo wph pm3.27 impbi $. 
+ 
+  $( Distributive law for disjunction. (#06) $)
+  ordi $p # G |- ( ( ph \/ ( ps /\ ch ) ) &lt;-&gt; ( ( ph \/ ps ) /\ ( ph \/ ch ) ) ) $= ? $.
+ 
+  $( Introduction of a disjunct.  Axiom *1.3 of [WhiteheadRussell] p. 96. (#06) $)
+  olc $p # G |- ( ph -&gt; ( ps \/ ph ) ) $=
+    ( wn ax-1 orrd ) ABAABCDE $.
+    $( [30-Aug-93] (#06) $)
+ 
+  $( Introduction of a disjunct.  Theorem *2.2 of [WhiteheadRussell] p. 104. (#06) $)
+  orc $p # G |- ( ph -&gt; ( ph \/ ps ) ) $=
+    ( pm2.24 orrd ) AABABCD $.
+    $( [30-Aug-93] (#06) $)
+ 
+  $( Join antecedents with conjunction.  Theorem *3.21 of
+     [WhiteheadRussell] p. 111. (#06) $)
+  pm3.21 $p # G |- ( ph -&gt; ( ps -&gt; ( ps /\ ph ) ) ) $=
+    ( wa pm3.2 com12 ) BABACBADE $.
+    $( [5-Aug-93] (#06) $)
+ 
+  ${
+    pm3.2i.1 $e # G |- ph $.
+    pm3.2i.2 $e # G |- ps $.
+    $( Infer conjunction of premises. (#06) $)
+    pm3.2i $p # G |- ( ph /\ ps ) $=
+      ( wa pm3.2 mp2 ) ABABECDABFG $.
+      $( [5-Aug-93] (#06) $)
+  $}
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Biimplication and 'and' operator
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ 
+  ${ 
+    symand.1 $e # G |- ( ph /\ ps ) $.
+    $( 'and' id symmetrical $)
+    symand $p # G |- ( ps /\ ph ) $=
+      ( ax-are ax-ale ax-ai ) ACBABCDEABCDFG $.
+      $( [?] $) $( [26-Jan-06] $)
+  $}
+ 
+  $( And is commutative. (#06) $)
+  ancom $p # G |- ( ( ph /\ ps ) &lt;-&gt; ( ps /\ ph ) ) $=
+    ( wa conr ax-hyp symand ax-ii impbi ) ABCDZCBDZAJKAJEBCAJFGHAKJAKECBAKFGHI 
+    $. 
+ 
+  ${
+    biandl.1 $e # G |- ( ph /\ ps ) $.
+    biandl.2 $e # G |- ( ph &lt;-&gt; ch ) $.
+    $( Replacement of the left member of a 'and'. $)
+    biandl $p # G |- ( ch /\ ps ) $=
+      ( ax-ale mpbi ax-are ax-ai ) ADCABDFABCEGHABCEIJ $.
+      $( [?] $) $( [26-Jan-06] $)
+  $}
+ 
+  ${
+    biandr.1 $e # G |- ( ph /\ ps ) $.
+    biandr.2 $e # G |- ( ps &lt;-&gt; ch ) $.
+    $( Replacement of the right member of a 'and'. $)
+    biandr $p # G |- ( ph /\ ch ) $=
+      ( symand biandl ) ADBACBDABCEGFHG $.
+      $( [?] $) $( [26-Jan-06] $)
+  $}
+ 
+  ${
+    cii.1 $e # G |- ( ( ph -&gt; ps ) /\ ( ch -&gt; ta ) ) $.
+    $(  Moving a conjunction inside both sides of an implication. $)
+    cii $p # G |- ( ( ph /\ ch ) -&gt; ( ps /\ ta ) ) $=
+      ( wa conr ax-hyp ax-ale wi ax-we ax-ie ax-are ax-ai ax-ii ) ABDGZCEGAQHZC
+      ERBCRBDAQIZJABCKZQATDEKZFJLMRDERBDSNAUAQATUAFNLMOP $. 
+  $}
+  
+  ${
+    apbi.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Appending a proposition to both sides of an implication $)
+    apbi $p # G |- ( ( ch /\ ph ) -&gt; ( ch /\ ps ) ) $=
+      ( wa conr ax-hyp ax-ale ax-are wi ax-we ax-ie ax-ai ax-ii ) ADBFZDCFAPGZD
+      CQDBAPHZIQBCQDBRJABCKPELMNO $. 
+  $}
+ 
+  $( Principle of identity for logical equivalence.  (#05)  $)
+  pm4.2 $p # G |- ( ph &lt;-&gt; ph ) $=
+    ( id impbi ) ABBABCZED $.
+    $( [?] $) $( [15-Nov-05] $)
+ 
+  $( When a proposition is duplicated in a and-wff we can remove one of 
+  them. (#05) $)
+  pm4.24 $p # G |-  ( ph &lt;-&gt; ( ph /\ ph ) ) $=
+    ( wa wi cone id jca ax-con conr ax-hyp _hypunif ax-ii impbi ) ABBBCZABNDEBB
+    BEBFZOGHANBABBBABIBJKLM $.
+    $( [?] $) $( [8-May-06] $)
+ 
+  ${
+    jcad.1 $e # G |- ( ph -&gt; ( ps -&gt; ch ) ) $.
+    jcad.2 $e # G |- ( ph -&gt; ( ps -&gt; th ) ) $.
+    $( Deduction conjoining the consequents of two implications. (#06) $)
+    jcad $p # G |- ( ph -&gt; ( ps -&gt; ( ch /\ th ) ) ) $= ? $.
+  $}
+ 
+  $( Distributive law for conjunction.  Theorem *4.4 of [WhiteheadRussell]
+     p. 118. (#06) $)
+  andi $p # G |- ( ( ph /\ ( ps \/ ch ) ) &lt;-&gt; ( ( ph /\ ps ) \/ ( ph /\ ch ) ) ) $=
+    ( wn wo wa ordi ioran orbi2i ianor anbi12i 3bitr4 negbii anor oran ) ADZBCE
+    ZDZEZDABFZDZACFZDZFZDAQFTUBESUDPBDZCDZFZEPUEEZPUFEZFSUDPUEUFGRUGPBCHIUAUHUC
+    UIABJACJKLMAQNTUBOL $.
+    $( [5-Aug-93] (#06) $)
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Or
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ 
+ 
+ 
+  $( (Mgl) $)
+  pm4.25 $p # G |-  ( ph &lt;-&gt; ( ph \/ ph ) ) $=
+    ( wo conr ax-hyp ax-oli ax-ii ax-oe impbi ) ABBBCZABJABDBBABEFGAJBAJDZBBBAJ
+    EKBEZLHGI $.
+    $( [?] $) $( [29-Nov-05] $)
+ 
+ 
+  $( An implication can be replaced by a disjunction. 
+     (#05) $)
+  imor $p # G |- ( ( ph -&gt; ps ) &lt;-&gt; ( -. ph \/ ps ) ) $=
+    ( wi wn wo conr dfor dn ax-hyp mpbi ax-we ax-ie ax-ii mpbir sylbir impbi ) 
+    ABCDZBEZCFZARTARGZTSEZCDZUASCHUAUBCUAUBGZBCUDUBBUDBIUAUBJKUARUBARJLMNONATRA
+    TGZUBBCUEBIUETUCUESCHATJKPNQ $.
+    $( [?] $) $( [25-Dec-05] $)
+ 
+  $( Express implication in terms of conjunction. A theorem of the 'and'
+     definition species. (#05) $)
+  iman $p # G |- ( ( ph -&gt; ps ) &lt;-&gt; -. ( ph /\ -. ps ) ) $=
+    ( wi wn wa conr ax-hyp ax-we dn bicomi sylib dfan mpbi ax-ne axin ax-ni 
+    ax-ii mpbir impbi ) ABCDZBCEZFZEZAUAUDAUAGZUCUEUCGZUAUEUAUCAUAHIZUFUAEUFBUB
+    EZDZUFCUHBUFUHCUFCJKUGLUFUCUIEZUFBUBMUEUCHNOPOQRAUDUAAUDGZUHCBUKCJUKUJEUIUK
+    UIJUKUJUKUJGZUCULUCUJULBUBMUKUJHSUKUDUJAUDHIOQNLRT $.
+    $( [?] $) $( [25-Dec-05] $)
+ 
+ 
+  $( Excluded middle. $)
+  exmid $p # G |- ( ph \/ -. ph ) $=
+    ( wn wo wi dfor id mpbir ) ABBCZDIIEABIFAIGH $.
+    $( [?] $) $( [30-Nov-05] $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Abs
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( When the antecedent is absurd, any implication is true. $)
+  antabs $p # G |- ( Abs -&gt; ph ) $=
+    ( wabs conr wn ax-hyp ax-we ax-cl ax-ii ) ACBACDZBJCBEACFGHI $.
+    $( [?] $) $( [22-Apr-06] $)
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Truth
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $c Truth $.
+  $( Truth is a well-formed formula. $)
+  wtru $a wff Truth $.
+  $( Truth is the opposite of Absurdity. $)
+ 
+  df-truth $a # G |- ( Truth &lt;-&gt; -. Abs ) $.
+ 
+  ${
+    $( Truth is always true. $)
+    inft $p # G |- Truth $=
+      ( wtru wabs wn df-truth ax-hyp ax-ni mpbir ) ABCDAEACACFGH $.
+  $}
+  
+  $( Truth can be removed from or added to a and-wff. $)
+  elmtrand $p # G |- ( ( ph /\ Truth ) &lt;-&gt; ph ) $=
+    ( wtru wa conr ax-hyp ax-ale ax-ii inft ax-ai impbi ) ABCDZBALBALEBCALFGHAB
+    LABEZBCABFMIJHK $. 
+ 
+  $( When Truth is an antecedent of an implication it can be remove. $)
+  elmtrimp $p # G |- ( ( Truth -&gt; ph ) -&gt; ph ) $=
+    ( wtru wi conr inft ax-hyp ax-ie ax-ii ) ACBDZBAJEZCBKFAJGHI $.
+    $( [?] $) $( [7-May-06] $)
+ 
+  ${
+    treqth.1 $e # G |- ph $.
+    $( Any theorem is equivalent to Truth. $)
+    treqth $p # G |- ( Truth &lt;-&gt; ph ) $=
+      ( wtru ax-we ax-ii conr inft impbi ) ADBADBABDCEFABDABGHFI $. 
+  $}
+ 
+  ${
+    elmthand.1 $e # G |- ph $.
+    $( A theorem can be removed from or added to a and-wff. $)
+    elmthand $p # G |- ( ( ps /\ ph ) &lt;-&gt; ps ) $=
+      ( wa conr ax-hyp ax-ale ax-ii ax-we ax-ai impbi ) ACBEZCAMCAMFCBAMGHIACMA
+      CFCBACGABCDJKIL $. 
+  $}
+ 
+  ${
+    elmthimp.1 $e # G |- ph $.
+    $( When a theorem is the antecedent of an implication it can be removed. $)
+    elmthimp $p # G |- ( ( ph -&gt; ps ) -&gt; ps ) $=
+      ( wi conr ax-we ax-hyp ax-ie ax-ii ) ABCEZCAKFBCABKDGAKHIJ $.
+      $( [?] $) $( [7-May-06] $)
+  $}
+ 
+ 
+ 
+ $(
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+                            Predicate calculus                              
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+ $)
+ 
+ $c / $. $( read 'is replaced by' $)
+ $c = $. $( read 'is equal to' $)
+ 
+ $c set $. $( read 'the following sequence is a set' $)
+ 
+ $c A. $. $( read 'for all' $)
+ $c E. $. $( read 'there exists' $)
+ 
+ $c bound $. $( ' bound x G ' is read ' x is bound in all the formula of G ' $)
+ 
+ $( individual variables $)
+ $v u $.
+ $v v $.
+ $v w $.
+ $v x $.
+ $v y $.
+ $v z $.
+ 
+ su $f set u $.
+ sv $f set v $.
+ sw $f set w $.
+ sx $f set x $.
+ sy $f set y $.
+ sz $f set z $.
+ 
+ $(
+ ------------------------------------------------------------------------------
+         Syntactic rules
+ ------------------------------------------------------------------------------
+ $)
+ 
+ $( If ph is a wff, x and y are individual variables [ x / y ] ph  is a wff. $)
+ ws $a wff [ x / y ] ph $.
+ 
+ $( If ph is a wff and x is an individual variable A. x ph is a wff. $)
+ wu $a wff A. x ph $.
+ 
+ $( If ph is a wff and x is an individual variable E. x ph is a wff. $)
+ we $a wff E. x ph $.
+ 
+ $( if x and y are individual variables, x = y is a wff. $)
+ wq $a wff x = y $.
+ 
+ $( Mmj2 type. This statement is only used by mmj2. $)
+ 
+ $( bound x G is a formula. $)
+ lstyp2 $a LSTYP bound x G  $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Predicate calculus axioms and inference rules
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $( Bondage axioms. $)
+ 
+  ${
+    ax-bg.1 $e # bound x G $.
+    ax-bg.2 $e # [] |- ( ph -&gt; A. x ph ) $.
+    $( To prove that a variable is bound in all the hypotheses of a context
+    you have to prove that it is bound in each hypothesis.  $)
+    ax-bg $a # bound x [ G , ph ] $.
+  $}
+ 
+  $( Any variable is bound in the empty context. $)
+  ax-voi $a # bound x [] $.
+ 
+ $( Axioms about the quantifiers. $)
+ 
+  ${
+    ax-ui.1 $e # G |- ph $.
+    ax-ui.2 $e # bound x G $.
+    $( Universal quantifier introduction. $)
+    ax-ui $a # G |- A. x ph $.
+  $}
+ 
+  ${
+    ax-ue.1 $e # G |- A. x ph $.
+    $( Universal quantifier elimination. If a statement is true for
+    all x it is true for a special value of x. $)
+    ax-ue $a # G |- ph $.
+  $}
+ 
+  ${
+    ax-ei.1 $e # G |- ph $.
+    $( Universal quantifier introduction. Strangely enough there is no
+    need that x is bound in G whereas it is mandatory in
+    ax-ui. However if we had imported 19.8a from set.mm into nat.mm
+    ax-ei could be proved. Consequently ax-ei is correct. $)
+    ax-ei $a # G |- E. x ph $.
+  $}
+ 
+  ${
+    ax-ee.1 $e # G |- E. x ph $.
+    ax-ee.2 $e # [ G , ph ] |-  ps $.
+    ax-ee.3 $e # bound x G $.
+    ax-ee.4 $e # G |- A. x ( ps -&gt; A. x ps ) $.
+    $( Existential quantifier elimination. This axiom looks like \/
+    elimination. It is normal. Informally we can consider that E. x ph 
+    is equivalent to [ a / x ] ph \/ [ b / x ] ph \/ ..., a, b, ... being 
+    all the possible value of the variable.  $)
+    ax-ee $a # G |- ps $.
+  $}
+ 
+ 
+  $( Extra axioms. The following  axioms are closed form theorems borrowed 
+  to set.mm. I need them to prove several axioms in 'set.mm' (called setax-* 
+  in this file). $)
+ 
+  $( x is bound in A. x ph. $)
+  ax-uqb $a # G |- ( A. x ph -&gt; A. x A. x ph ) $.
+ 
+  $( x is bound in E. x ph. $)
+  ax-eqb $a # G |- ( E. x ph -&gt; A. x E. x ph ) $.
+ 
+  ${
+    ax-nb.1 $e # [] |- ( ph -&gt; A. x ph ) $.
+    $( If x is bound in ph it is bound in -. ph $)
+    ax-nb $a # [] |- ( -. ph -&gt; A. x -. ph ) $.
+  $}
+ 
+  ${
+    ax-bvrb.1 $e # [] |- ( ph -&gt; A. x ph ) $.
+    $( If x is bound in ph, it is bound in A. y ph. $)
+    ax-bvrb $a # [] |- ( A. y ph -&gt; A. x A. y ph ) $.
+  $}
+ 
+ $( The stuff specific to natural deduction finished here. Beyond the axioms are 
+    only those of set.mm $)
+ 
+  $( Definition of the existential quantifier. (#06) $)
+  df-ex $a # G |- ( E. x ph &lt;-&gt; -. A. x -. ph ) $.
+ 
+  $( set.mm axioms proved back. It is important to be able to prove setax-* 
+  since it ensures our system is logically and metalogically complete. $)
+ 
+  $( Closed form of ~ax-ue . (#06) $)
+  setax-4 $p # G |- ( A. x ph -&gt; ph ) $=
+    ( wu conr ax-hyp ax-ue ax-ii ) ABCDZBAIEBCAIFGH $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( Axiom of Quantified Implication.  This axiom moves a quantifier from
+  outside to inside an implication, quantifying ` ps `. (#06) $)
+  setax-5 $p # G |- ( A. x ( A. x ph -&gt; ps ) -&gt; 
+                   ( A. x ph -&gt; A. x ps ) ) $=
+    ( wu wi cone conr ax-hyp ax-we ax-ue ax-ie ax-voi ax-uqb ax-bg ax-ui int2 
+    ax-con ) ABDEZCFZDEZSCDEZFFGUASUBGUAHZSHZCDUDSCUCSIUDTDUCUASGUAIJKLUCSDGUAD
+    DMGTDNOGBDNOPQR $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( Axiom of Quantified Negation.  This axiom is used to manipulate negated
+  quantifiers. (#06) $)
+  setax-6 $p # G |- ( -. A. x -. A. x ph -&gt; ph ) $=
+    ( wu wn wi cone conr ax-hyp ax-voi ax-uqb ax-nb ax-bg ax-ui ax-we ax-ne 
+    ax-cl ax-ue ax-ii ax-con ) ABCDZEZCDZEZBFGUDBGUDHZBCUEUAUEUBHZUCUFUBCUEUBIU
+    EUBCGUDCCJUCCGUBCKLMUACGBCKLMNUEUDUBGUDIOPQRST $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( Quantifier commutation. (#06) $)
+  setax-7 $p # G |- ( A. x A. y ph -&gt; A. y A. x ph ) $=
+    ( wu wi cone conr ax-hyp ax-ue ax-voi ax-uqb ax-bg ax-ui ax-bvrb ax-ii 
+    ax-con ) ABDEZCEZBCEZDEZFGSUAGSHZTDUBBCUBBDUBRCGSIJJGSCCKGRCLMNGSDDKRDCGBDL
+    OMNPQ $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  ${
+    setax-gen.1 $e # G |- ph $.
+    setax-gen.2 $e # bound x G $.
+    $( universal quantifier introduction. It's a synonym for ax-ui. (#06) $)
+    setax-gen $p # G |- A. x ph $=
+      ( ax-ui ) ABCDEF $. 
+  $}
+   
+  $( Other theorems. $)
+ 
+  $( a4i s a synonym for ax-ue. It is not included in this file. $)
+ 
+  ${
+    a4s.1 $e # G |- ( ph -&gt; ps ) $.
+    $( Generalization of antecedent. (#06) $)
+    a4s $p # G |- ( A. x ph -&gt; ps ) $=
+      ( wu conr ax-hyp ax-ue ax-ii syl ) ABDFZBCALBALGBDALHIJEK $. 
+  $}
+ 
+  ${
+    mpg.1 $e # G |- ( A. x ph -&gt; ps ) $.
+    mpg.2 $e # G |- ph $.
+    mpg.3 $e # bound x G $.
+    $( Modus ponens combined with generalization. (#06) $)
+    mpg $p # G |- ps $=
+      ( wu ax-ui ax-ie ) ABDHCABDFGIEJ $.
+      $( [?] $) $( [11-May-06] $)
+  $}
+  
+  ${
+    a5i.1 $e # G |- ( A. x ph -&gt; ps ) $.
+    a5i.2 $e # bound x G $.
+    $( If x is bound in the antecedents, we can generalize the conclusion. 
+    (#06) $)
+    a5i $p # G |- ( A. x ph -&gt; A. x ps ) $=
+      ( wu conr ax-hyp wi ax-we ax-ie cone ax-uqb ax-bg ax-ui ax-ii ) ABDGZCDGA
+      RHZCDSRCARIARCJREKLARDFMBDNOPQ $.
+      $( [?] $) $( [8-May-06] $) 
+  $}
+ 
+  $( Abbreviated version of ~ setax-6 . (#06) $)
+  a6e $p # G |- ( E. x A. x ph -&gt; ph ) $=
+    ( wu we wn df-ex setax-6 sylbi ) ABCDZCEJFCDFBAJCGABCHI $.
+    $( [9-Apr-06] $) $( [9-Apr-06] $)
+ 
+  ${
+    a7s.1 $e # G |- ( A. x A. y ph -&gt; ps ) $.
+    $( Swap quantifiers in an antecedent. (#06) $)
+    a7s $p # G |- ( A. y A. x ph -&gt; ps ) $=
+      ( wu setax-7 syl ) ABDGEGBEGDGCABEDHFI $.
+      $( [9-Apr-06] $) $( [9-Apr-06] $)
+  $}
+ 
+  $( A universal quantifier can move from outside to inside the members of an
+  implication (#06) $)
+  19.20 $p # G |- ( A. x ( ph -&gt; ps ) -&gt; ( A. x ph -&gt; A. x ps ) ) $=
+    ( wi wu cone conr ax-hyp ax-ue a4s ax-voi ax-uqb ax-bg a5i ax-ii ax-con ) 
+    ABCEZDFZBDFCDFEZEGSTGSHZBCDUABCDUARDGSIJKGSDDLGRDMNOPQ $.
+    $( [9-Apr-06] $) $( [9-Apr-06] $)
+ 
+  ${
+    19.20i.1 $e # G |- A. x ( ph -&gt; ps ) $.
+    $( Inference quantifying both antecedent and consequent. Note: In set.mm 
+    the hypothesis is not quantified. But the presence of a context makes the 
+    quantification mandatory. See also ~ 19.20i2 (#06) $)
+    19.20i $p # G |- ( A. x ph -&gt; A. x ps ) $=
+      ( wi wu 19.20 ax-ie ) ABCFDGBDGCDGFEABCDHI $.
+      $( [10-Apr-06] $) $( [10-Apr-06] $)
+  $}
+ 
+  ${
+    19.20i2.1 $e # G |- ( ph -&gt; ps ) $.
+    19.20i2.2 $e # bound x G $.
+    $( Inference quantifying both antecedent and consequent. Note: as an 
+    alternative to quantifiying hypotheses when we import them from set.mm
+    we can also asked that x is bound in G. See ~ 19.20i . (#06) $)
+    19.20i2 $p # G |- ( A. x ph -&gt; A. x ps ) $=
+      ( a4s a5i ) ABCDABCDEGFH $.
+      $( [?] $) $( [11-May-06] $)
+  $}
+ 
+  ${
+    19.20ii.1 $e # G |- A. x ( ph -&gt; ( ps -&gt; ch ) ) $.
+    $( Inference quantifying antecedent, nested antecedent, and consequent. 
+    (#06) $)
+    19.20ii $p # G |- ( A. x ph -&gt; ( A. x ps -&gt; A. x ch ) ) $=
+      ( wu wi conr ax-hyp ax-we 19.20i ax-ie ax-ii ) ABEGZCEGDEGHAOIZCDEPOCDHZE
+      GAOJPBQEABQHEGOFKLMLN $.
+      $( [10-Apr-06] $) $( [10-Apr-06] $)
+  $}
+ 
+  $( A universal quantifier can be moved from outside to inside the
+  members of a biimplication (#06) $)
+  19.15 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( A. x ph &lt;-&gt; A. x ps ) ) $=
+    ( wb wu wi cone conr ax-hyp ax-ue biimp ax-voi ax-uqb ax-bg ax-ui 19.20i 
+    biimpr impbi ax-ii ax-con ) ABCEZDFZBDFZCDFZEZGHUCUFHUCIZUDUEUGBCDUGBCGDUGB
+    CUGUBDHUCJKZLHUCDDMHUBDNOZPQUGCBDUGCBGDUGBCUHRUIPQSTUA $.
+    $( [10-Apr-06] $) $( [10-Apr-06] $)
+ 
+  ${
+    albii.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    albii.2 $e # bound x G $.
+    $( Quantification of both sides of a biimplication. (#06) $)
+    albii $p # G |- ( A. x ph &lt;-&gt; A. x ps ) $=
+      ( wb wu setax-gen 19.15 ax-ie ) ABCGZDHBDHCDHGALDEFIABCDJK $.
+      $( [?] $) $( [22-Apr-06] $)
+  $}
+ 
+  ${
+    hbth.1 $e # G |- ph $.
+    hbth.2 $e # bound x G $.
+    $( This inference would be wrong with the normal textbook notion of 
+    bondage. But it is true if we use ' ( ph -&gt; A. x ph ) ' as a mean to say 
+    that ' x is bound in ph '. (#06) $)
+    hbth $p # G |- ( ph -&gt; A. x ph ) $=
+      ( wu ax-ui a1i ) ABCFBABCDEGH $.
+      $( [10-Apr-06] $) $( [10-Apr-06] $)
+  $}
+ 
+  $( ` x ` is not free in ` A. x ph `. In set.mm hba1 is proved. In nat.mm it's
+  a synonym for ax-uqb. (#06) $)
+  hba1 $p # G |- ( A. x ph -&gt; A. x A. x ph ) $=
+    ( ax-uqb ) ABCD $.
+    $( [10-Apr-06] $) $( [10-Apr-06] $)
+ 
+  ${
+    hb.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hb.2 $e # bound x G $.
+    $( If ` x ` is not free in ` ph ` , it is not free in ` -. ph `. (#06) $)
+    hbne $p # G |- ( -. ph -&gt; A. x -. ph ) $=
+      ( wu wn con3i a4s a5i setax-6 nsyl4 ) ABCFZGZCFBGZCFBANOCANOCABMDHIEJABCK
+      L $.
+      $( [10-Apr-06] $) $( [10-Apr-06] $)
+      
+    ${
+    
+      hb.4 $e # bound y G $.
+      $( If ` x ` is not free in ` ph ` , it is not free in ` A. y ph ` . 
+      (#06) $)
+      hbal $p # G |- ( A. y ph -&gt; A. x A. y ph ) $=
+        ( wu conr ax-hyp wi ax-ui 19.20i ax-we ax-ie setax-7 ax-ii ) ABDHZRCHZA
+        RIZBCHZDHZSTRUBARJARUBKRABUADABUAKDEGLMNOTBDCPOQ $.
+        $( [14-Apr-06] $) $( [14-Apr-06] $)
+    $}  
+ 
+  $}
+ 
+  ${
+    hbex.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hbex.2 $e # bound x G $.
+    hbex.3 $e # bound y G $.
+ 
+    $( If ` x ` is not free in ` ph ` , it is not free in ` E. y ph `. (#06) $)
+    hbex $p # G |- ( E. y ph -&gt; A. x E. y ph ) $=
+      ( wn wu we conr ax-hyp wi hbne setax-gen 19.20i ax-we ax-ie setax-7 
+      ax-ii df-ex albii 3imtr4 ) ABHZDIZHZUFCIBDJZUGCIAUECAUEUECIZAUEKZUDCIZDIZ
+      UHUIUEUKAUELAUEUKMUEAUDUJDAUDUJMDABCEFNGOPQRUIUDDCSRTFNABDUAZAUGUFCULFUBU
+      C $.
+      $( [14-Apr-06] $) $( [14-Apr-06] $)
+  $}
+ 
+  $( A lemme to prove hbim. This lemme show how to import a rule of
+  induction from set.mm. We replace hypotheses by quantified
+  antecedents. This way the theorem can be imported (using ~
+  ax-con ). We prove back the theorem as a lemme in nat.mm then we use
+  this lemme to prove a theorem where hypotheses are newly added. We
+  add the needed provisos. (#06) $)
+  hbimlem $p # G |- ( A. x ( ph -&gt; A. x ph ) -&gt; ( A. x ( ps -&gt; A. x ps ) -&gt; 
+      ( ( ph -&gt; ps ) -&gt; A. x ( ph -&gt; ps ) ) ) ) $=
+    ( wu wi cone conr wn ax-hyp ax-we ax-ue ax-voi hba1 ax-bg hbne pm2.21 
+    ax-ui 19.20i syl setax-1 ja ax-ii ax-con ) ABBDEFZDEZCCDEZFZDEZBCFZUJDEZFZF
+    ZFGUFUMGUFHZUIULUNUIHZBCUKUOBIZUPDEUKUOBDUOUEDUNUFUIGUFJKLUNUIDGUFDDMGUEDNO
+    GUHDNOZPUOUPUJDUOUPUJFDUOBCQUQRSTUOCUGUKUOUHDUOUHDUOUHDUNUIJLUQRLUOCUJDUOCU
+    JFDUOCBUAUQRSTUBUCUCUD $.
+    $( [?] $) $( [30-Apr-06] $)
+ 
+ 
+  ${
+    hbim.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hbim.2 $e # bound x G $.      
+    hbim.3 $e # G |- ( ps -&gt; A. x ps ) $.
+    $( If ` x ` is not free in ` ph ` and ` ps ` , it is not free in
+       ` ( ph -&gt; ps ) ` . (#06) $)
+    hbim $p # G |- ( ( ph -&gt; ps ) -&gt; A. x ( ph -&gt; ps ) ) $=
+      ( wu wi ax-ui hbimlem ax-ie ) ACCDHIZDHZBCIZODHIZAMDGFJABBDHIZDHNPIAQDEFJ
+      ABCDKLL $.
+      $( [14-Apr-06] $) $( [14-Apr-06] $)
+  $}
+ 
+  ${
+    althbim.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    althbim.3 $e # G |- A. x ( ps -&gt; A. x ps ) $.
+    $( If ` x ` is not free in ` ph ` and ` ps ` , it is not free in
+       ` ( ph -&gt; ps ) ` . Here is an example of a theorem with a bound x G
+      hypothesis ( see ~hbim )  transformed in a theorem without this 
+      hypothesis. (#06) $)
+    althbim $p # G |- ( ( ph -&gt; ps ) -&gt; A. x ( ph -&gt; ps ) ) $=
+      ( wu wi cone hbimlem ax-con ax-ie ) ACCDGHDGZBCHZNDGHZFABBDGHDGZMOHZEAPQH
+      IBCDJKLL $.
+  $}
+ 
+ 
+  ${
+    hbor.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hbor.2 $e # bound x G $.      
+    hbor.3 $e # G |- ( ps -&gt; A. x ps ) $.
+    $( If ` x ` is not free in ` ph ` and ` ps ` , it is not free in
+       ` ( ph \/ ps ) ` . (#06) $)
+    hbor $p # G |- ( ( ph \/ ps ) -&gt; A. x ( ph \/ ps ) ) $=
+      ( wn wi wu wo hbne hbim dfor albii 3imtr4 ) ABHZCIZRDJBCKZSDJAQCDABDEFLFG
+      MABCNZASRDTFOP $.
+      $( [?] $) $( [1-May-06] $)
+  $}
+ 
+  ${
+    hban.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hban.2 $e # bound x G $.      
+    hban.3 $e # G |- ( ps -&gt; A. x ps ) $.
+    $( If ` x ` is not free in ` ph ` and ` ps ` , it is not free in
+       ` ( ph /\ ps ) ` . (#06) $)
+    hban $p # G |- ( ( ph /\ ps ) -&gt; A. x ( ph /\ ps ) ) $=
+      ( wn wi wu wa hbne hbim dfan albii 3imtr4 ) ABCHZIZHZSDJBCKZTDJARDABQDEFA
+      CDGFLMFLABCNZATSDUAFOP $.
+      $( [?] $) $( [1-May-06] $)
+  $}
+ 
+  ${
+    hbbi.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    hbbi.2 $e # bound x G $.      
+    hbbi.3 $e # G |- ( ps -&gt; A. x ps ) $.
+    $( If ` x ` is not free in ` ph ` and ` ps ` , it is not free in
+       ` ( ph &lt;-&gt; ps ) ` . (#06) $)
+    hbbi $p # G |- ( ( ph &lt;-&gt; ps ) -&gt; A. x ( ph &lt;-&gt; ps ) ) $=
+      ( wi wa wu wb hbim hban bi albii 3imtr4 ) ABCHZCBHZIZSDJBCKZTDJAQRDABCDEF
+      GLFACBDGFELMABCNZATSDUAFOP $.
+      $( [?] $) $( [1-May-06] $)
+  $}
+ 
+  $( ` x ` is not free in ` -. A. x ph ` . (#06) $)
+  hbn1 $p # G |- ( -. A. x ph -&gt; A. x -. A. x ph ) $=
+    ( wu wn wi cone ax-uqb ax-voi hbne ax-con ) ABCDZEZMCDFGLCGBCHCIJK $.
+    $( [?] $) $( [16-May-06] $) 
+ 
+  $( ` x ` is not free in ` E. x ph ` . ??? cf ax-eqb (#06) $)
+  hbe1 $p # G |- ( E. x ph -&gt; A. x E. x ph ) $=
+    ( we wu wi cone wn hbn1 df-ex ax-voi albii 3imtr4 ax-con ) ABCDZOCEZFGBHZCE
+    HZRCEOPGQCIGBCJZGORCSCKLMN $.
+    $( [?] $) $( [16-May-06] $) 
+ 
+  $( A closed form of hypothesis builder ~ hbne . (#06) $)
+  hbnt $p # G |- ( A. x ( ph -&gt; A. x ph ) -&gt; ( -. ph -&gt; A. x -. ph ) ) $=
+    ( wu wi wn cone conr ax-hyp ax-ue ax-voi ax-uqb ax-bg hbne ax-ii ax-con ) 
+    ABBCDEZCDZBFZSCDEZEGRTGRHZBCUAQCGRIJGRCCKGQCLMNOP $.
+    $( [?] $) $( [16-May-06] $)
+ 
+  $( If a wff is true, it is true for at least one set. (#06) $)
+  19.8a $p # G |- ( ph -&gt; E. x ph )  $=
+    ( we conr ax-hyp ax-ei ax-ii ) ABBCDABEBCABFGH $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( If a wff is universally true, it is true for at least one set. (#06) $)
+  19.2 $p # G |- ( A. x ph -&gt; E. x ph )  $=
+    ( wu we conr ax-hyp ax-ue ax-ei ax-ii ) ABCDZBCEAKFZBCLBCAKGHIJ $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  ${
+    19.3r.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    19.3r.2 $e # bound x G $.
+    $( A wff may be quantified with a variable not free in it. (#06) $)
+    19.3r $p # G |- ( ph &lt;-&gt; A. x ph ) $=
+      ( wu conr ax-hyp ax-ue ax-ii impbi ) ABBCFZDALBALGBCALHIJK $.
+      $( [?] $) $( [5-May-06] $)
+  $}
+ 
+  $( We can swap universal quantifiers. (#06) $)
+  alcom $p # G |- ( A. x A. y ph &lt;-&gt; A. y A. x ph ) $=
+    ( wu setax-7 impbi ) ABDECEBCEDEABCDFABDCFG $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( How to get the -. symbol out from a universal quantification (or inside 
+  an existential one). (#06) $)
+  alnex $p # G |- ( A. x -. ph &lt;-&gt; -. E. x ph ) $=
+    ( wn wu we df-ex bicomi negbii dn bitr2 ) ABDCEZDZDBCFZDLAMNANMABCGHIALJK 
+    $.
+    $( [?] $) $( [5-May-06] $)
+ 
+  $( Definition of the universal quantifier using the existential
+  quantifier.  (#06) $)
+  alex $p # G |- ( A. x ph &lt;-&gt; -. E. x -. ph ) $=
+    ( wu wn we wb cone dn bicomi ax-voi albii alnex bitr ax-con ) ABCDZBEZCFEZG
+    HPQEZCDRHBSCHSBHBIJCKLHQCMNO $.
+    $( [?] $) $( [6-May-06] $)
+ 
+  ${
+    19.9r.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    19.9r.2 $e # bound x G $.
+    $( If x is bound in ph, we can add or remove the existential
+    quantifier. (#06) $)
+    19.9r $p # G |- ( ph &lt;-&gt; E. x ph ) $=
+      ( we 19.8a wn wu alnex hbne sylib a3i impbi ) ABBCFZABCGABOABHZCIOHPABCJA
+      BCDEKLMN $.
+      $( [?] $) $( [17-May-06] $) 
+  $}
+ 
+  $( A closed version of one direction of ~ 19.9r . Perhaps a way to remove
+     a bondage proviso. ??? (#06) $)
+  19.9t $p # G |- ( A. x ( ph -&gt; A. x ph ) -&gt; ( E. x ph -&gt; ph ) ) $=
+    ( wu wi we cone conr ax-hyp ax-ue ax-voi ax-uqb ax-bg 19.9r bicomi biimp 
+    ax-ii ax-con ) ABBCDEZCDZBCFZBEZEGTUBGTHZUABUCBUAUCBCUCSCGTIJGTCCKGSCLMNOPQ
+    R $.
+    $( [?] $) $( [17-May-06] $) 
+ 
+   $( 19.9d is not included in this file because it is a ' deduction ' $)
+ 
+  $( How to move a negation inside or ouside the scope of a
+  quantifier. (#06) $)
+  exnal $p # G |- ( E. x -. ph &lt;-&gt; -. A. x ph ) $=
+    ( wn we wu dn bicomi alex bitr2 negbii2 ) ABDCEZBCFZDZAMNDZLDAOMAMGHABCIJK 
+    $.
+    $( [?] $) $( [18-May-06] $) 
+ 
+  $( A way to move a universal quantifier from outside to inside an 
+  implication. Compare with ~ 19.20 . (#06) $)
+  19.22 $p # G |- ( A. x ( ph -&gt; ps ) -&gt; ( E. x ph -&gt; E. x ps ) ) $=
+    ( wi wu we cone conr wn ax-hyp ax-ue con3i ax-voi ax-uqb ax-bg 19.20i2 
+    df-ex 3imtr4 ax-ii ax-con ) ABCEZDFZBDGZCDGZEZEHUCUFHUCIZBJZDFZJCJZDFZJUDUE
+    UGUKUIUGUJUHDUGBCUGUBDHUCKLMHUCDDNHUBDOPQMUGBDRUGCDRSTUA $.
+    $( [?] $) $( [8-May-06] $)
+ 
+  ${
+    19.22i.1 $e # bound x G $.
+    19.22i.2 $e # G |- ( ph -&gt; ps ) $.
+    $( Both antecedent and consequent can be quantified with an
+    exitential quantifier. (#06) $)
+    19.22i $p # G |- ( E. x ph -&gt; E. x ps ) $=
+      ( wi wu we ax-ui 19.22 ax-ie ) ABCGZDHBDICDIGAMDFEJABCDKL $.
+      $( [?] $) $( [11-May-06] $)
+  $}
+ 
+  ${
+    bi19.22i.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    bi19.22i.2 $e # bound x G $.
+    $( Both members of a biimplication can be quantified with an
+    exitential quantifier. (#06) $)
+    bi19.22i $p # G |- ( E. x ph &lt;-&gt; E. x ps ) $=
+      ( we biimp 19.22i biimpr impbi ) ABDGCDGABCDFABCEHIACBDFABCEJIK $. 
+  $}
+ 
+  $( A transformation of quantifiers and logical connectives. (#06) $)
+  alinexa $p # G |- ( A. x ( ph -&gt; -. ps ) &lt;-&gt; -. E. x ( ph /\ ps ) ) $=
+    ( wn wi wu wa we wb cone alex dfan bicomi ax-voi bi19.22i negbii bitr 
+    ax-con ) ABCEFZDGZBCHZDIZEZJKUATEZDIZEUDKTDLKUFUCKUEUBDKUBUEKBCMNDOPQRS $.
+    $( [?] $) $( [18-May-06] $)
+ 
+  $( A relationship between two quantifiers and negation. (#06) $)
+  alexn $p # G |- ( A. x E. y -. ph &lt;-&gt; -. E. x A. y ph ) $=
+    ( wn we wu wb cone alex ax-voi bi19.22i negbii bicomi bitr ax-con ) ABEDFZC
+    GZBDGZCFZEZHIRQEZCFZEZUAIQCJIUAUDITUCISUBCIBDJCKLMNOP $.
+    $( [?] $) $( [19-May-06] $) 
+ 
+  $( Existential quantifiers can be swapped. (#06) $)
+  excomim $p # G |- ( E. x E. y ph -&gt; E. y E. x ph ) $=
+    ( we wi cone ax-eqb ax-voi hbex 19.9r 19.8a 19.22i sylibr ax-con ) ABDEZCEZ
+    BCEZDEZFGSSCEQGSCGRCDGBCHCIZDIZJTKGPSCTGBRDUAGBCLMMNO $.
+ 
+  $( Existential quantfiers can be swapped. (#06) $)
+  excom $p # G |- ( E. x E. y ph &lt;-&gt; E. y E. x ph ) $=
+    ( we wb cone excomim impbi ax-con ) ABDECEZBCEDEZFGKLGBCDHGBDCHIJ $. 
+ 
+  $( Swapping existential and universal quantifiers. This theorem
+  holds only for one direction of the implication. The converse is a
+  mistake sometimes made by beginners!   But sometimes the converse
+  does hold. Example of a proof where the "obvious" way doesn't
+  work. By obvious way I mean ax-con ax-ii ax-ue ax-ee. (#06) $)
+  19.12 $p # G |- ( E. x A. y ph -&gt; A. y E. x ph ) $=
+    ( wu we wi cone ax-uqb ax-voi hbex setax-4 19.22i 19.20i2 syl ax-con ) ABDE
+    ZCFZBCFZDEZGHRRDETHQDCHBDIDJZCJZKHRSDHQBCUBHBDLMUANOP $. 
+ 
+  $( Importation of ~ 19.16 from set.mm as a closed form. (#06) $)
+  19.16lem $p # G |-  ( A. x ( ph -&gt; A. x ph ) -&gt; 
+      ( A. x ( ph &lt;-&gt; ps ) -&gt; ( ph &lt;-&gt; A. x ps ) ) ) $=
+    ( wu wi wb cone conr ax-hyp ax-we ax-ue biimp ax-voi ax-uqb ax-bg 19.20i2 
+    syl 19.15 ax-ie setax-4 sylbir impbi int2 ax-con ) ABBDEZFZDEZBCGZDEZBCDEZG
+    ZFFHUHUJULHUHIZUJIZBUKUNBUFUKUNUGDUMUHUJHUHJKLUNBCDUNBCUNUIDUMUJJZLMUMUJDHU
+    HDDNHUGDOPHUIDOPQRUNUFUKBUNUJUFUKGUOUNBCDSTUNBDUAUBUCUDUE $.
+    $( [?] $) $( [29-May-2006] $)
+ 
+  ${
+    19.16.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    19.16.2 $e # bound x G $.
+    $( Moving a universal quantifier inside a biimplication when x is bound
+    in one of the wffs. (#06) $)
+    19.16 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( ph &lt;-&gt; A. x ps ) ) $=
+      ( wu wi wb ax-ui 19.16lem ax-ie ) ABBDGHZDGBCIDGBCDGIHAMDEFJABCDKL $. 
+  $}
+ 
+  ${
+    19.16alt.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    $( An alternative to ~ 19.16 with a universal quantifier quantifying
+    the condition instead of a bondage condition. $)
+    19.16alt $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( ph &lt;-&gt; A. x ps ) ) $=
+      ( wu wi wb 19.16lem ax-ie ) ABBDFGDFBCHDFBCDFHGEABCDIJ $. 
+  $}
+ 
+  ${
+    alt19.17.1 $e # G |- ( ps -&gt; A. x ps ) $.
+    alt19.17.2 $e # bound x G $.
+    $( Derived from ~ 19.16 . We can prove first the version of the theorem 
+    with a bound x ph hypothesis. Then we prove the closed form. Eventually 
+    we prove the version without the bound x ph hypothesis. $)
+    alt19.17 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( A. x ph &lt;-&gt; ps ) ) $=
+      ( wb wu conr ax-hyp ax-ue bicomi cone ax-uqb ax-bg ax-ui wi 19.16 ax-we 
+      ax-ie ax-ii ) ABCGZDHZBDHZCGAUCIZCUDUECBGZDHZCUDGZUEUFDUEBCUEUBDAUCJKLAUC
+      DFMUBDNOPAUGUHQUCACBDEFRSTLUA $. 
+  $}
+ 
+  $( Derived from ~ 19.16 . Closed version. Compare with ~ alt19.17
+  and ~ 19.17 for two other versions. $)
+  cf19.17 $p # G |- ( A. x ( ps -&gt; A. x ps ) -&gt; ( A. x ( ph &lt;-&gt; ps ) -&gt; 
+      ( A. x ph &lt;-&gt; ps ) ) ) $=
+    ( wu wi wb cone conr ax-hyp ax-ue ax-voi ax-uqb ax-bg alt19.17 ax-ii 
+    ax-con ) ACCDEFZDEZBCGDEBDECGFZFHSTHSIZBCDUARDHSJKHSDDLHRDMNOPQ $.
+ 
+  ${
+    19.17.1 $e # G |- A. x ( ps -&gt; A. x ps ) $.
+    $( Derived from ~ 19.16 . (#06) $)
+    19.17 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( A. x ph &lt;-&gt; ps ) ) $=
+      ( wu wi wb cf19.17 ax-ie ) ACCDFGDFBCHDFBDFCHGEABCDIJ $. 
+  $}
+ 
+  $( Compare with ~ 19.22 . (#06) $)
+  19.18 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( E. x ph &lt;-&gt; E. x ps ) ) $=
+    ( wb wu we wi cone conr ax-hyp ax-ue ax-voi ax-uqb ax-bg bi19.22i ax-ii 
+    ax-con ) ABCEZDFZBDGCDGEZHITUAITJZBCDUBSDITKLITDDMISDNOPQR $.
+    $( [?] $) $( [5-Jun-2006] $) 
+ 
+  $( Commutation of conjunction inside an existential quantifier. 
+  Compare with ~ ancom . (#06) $)
+  exancom $p # G |- ( E. x ( ph /\ ps ) &lt;-&gt; E. x ( ps /\ ph ) ) $=
+    ( wa wb wu we cone ancom ax-voi ax-ui ax-con 19.18 ax-ie ) ABCEZCBEZFZDGZPD
+    HQDHFASIRDIBCJDKLMAPQDNO $.
+ 
+  ${
+    19.19.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    $( A sort of ~ 19.18 when x is bound in ph. Note: In this proof I used 
+       a new trick to remove the bound x G hypothesis. (#06) $)
+    19.19 $p # G |- ( A. x ( ph &lt;-&gt; ps ) -&gt; ( ph &lt;-&gt; E. x ps ) ) $=
+      ( wu wi wb we cone conr ax-hyp ax-ue ax-we ax-voi ax-uqb ax-bg 19.9r 
+      19.18 ax-ie bitr int2 ax-con ) ABBDFGZDFZBCHZDFZBCDIZHZGZEAUEUJGJUEUGUIJU
+      EKZUGKZBBDIZUHULBDUKUDUGUKUDDJUELMNUKUGDJUEDDOJUDDPQJUFDPQRULUGUMUHHUKUGL
+      ULBCDSTUAUBUCT $.
+      $( [?] $) $( [5-Jun-2006] $) 
+  $}
+ 
+  ${
+    19.21.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    $( A theorem of the ~ 19.20 species. x is bound in the antecedent. (#06) $)
+    19.21 $p # G |- ( A. x ( ph -&gt; ps ) &lt;-&gt; ( ph -&gt; A. x ps ) ) $=
+      ( wi wu conr ax-ue ax-we ax-hyp 19.20i syl ax-ii cone ax-uqb ax-voi 
+      ax-ui ax-con althbim setax-4 imim2i impbi ) ABCFZDGZBCDGZFZAUEUGAUEHZBBDG
+      ZUFABUIFZUEAUJDEIJUHBCDAUEKLMNAUGUGDGUEABUFDEAUFUFDGFZDGOUKDOCDPDQZRSTAUG
+      UDDAUGUDFZDGOUMDOUFCBOCDUAUBULRSLMUC $.
+      $( [?] $) $( [5-Jun-2006] $) 
+ 
+  $}
+ 
+  ${
+    stdpc5.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    $( A theorem of the ~ 19.20 species. An axiom of standard predicate 
+       calculus.  (#06) $)
+    stdpc5 $p # G |- ( A. x ( ph -&gt; ps ) -&gt; ( ph -&gt; A. x ps ) ) $=
+      ( wi wu 19.21 biimp ) ABCFDGBCDGFABCDEHI $. 
+  $}
+ 
+  ${
+    alt19.21ai.1 $e # G |- A. x ( ph -&gt; A. x ph ) $.
+    alt19.21ai.2 $e # G |- A. x ( ph -&gt; ps ) $.
+    $( An inference of the ~19.20 species. (#06) $)
+    alt19.21ai $p # G |- ( ph -&gt; A. x ps ) $=
+      ( wi wu 19.21 biimp ax-ie ) ABCGDHZBCDHGZFALMABCDEIJK $. 
+  $}
+ 
+  ${
+    19.21ai.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    19.21ai.2 $e # G |- ( ph -&gt; ps ) $.
+    19.21ai.3 $e # bound x G $.
+    $( An inference of the ~ 19.20 species. (#06) $)
+    19.21ai $p # G |- ( ph -&gt; A. x ps ) $=
+      ( wu wi ax-ui alt19.21ai ) ABCDABBDHIDEGJABCIDFGJK $. 
+  $}
+ 
+  ${
+    19.21bi.1 $e # G |- A. x ( ph -&gt; A. x ps ) $.
+    $( A universal quantifier can be removed in the consequence. 
+      Compare with ~ ax-ue . (#06) $)
+    19.21bi $p # G |- ( ph -&gt; ps ) $=
+      ( wu wi ax-ue setax-4 syl ) ABCDFZCABKGDEHACDIJ $. 
+  $}
+ 
+  ${
+    19.23.1 $e # G |- ( ps -&gt; A. x ps ) $.
+    19.23.2 $e # bound x G $.
+    $( Similar to ~ 19.22 with the additional condition that x is bound in ps. 
+     (#06) $)
+    19.23 $p # G |- ( A. x ( ph -&gt; ps ) &lt;-&gt; ( E. x ph -&gt; ps ) ) $=
+      ( wi wu we conr ax-hyp 19.22 ax-ie 19.9t ax-we cone ax-uqb ax-bg mpg syl 
+      ax-ii ax-eqb hbim 19.8a imim1i 19.21ai impbi ) ABCGZDHZBDIZCGZAUIUKAUIJZU
+      JCDIZCULUIUJUMGAUIKULBCDLMULCCDHGZUMCGDULCDNAUNUIEOAUIDFPUHDQRSTUAAUKUHDA
+      UJCDABDUBFEUCABUJCABDUDUEFUFUG $.
+      $( [?] $) $( [5-Jun-2006] $) 
+ 
+  $}
+ 
+  ${
+    19.23ai.1 $e # G |- ( ps -&gt; A. x ps ) $.
+    19.23ai.2 $e # G |- ( ph -&gt; ps ) $.
+    19.23ai.3 $e # bound x G $.
+    $( Adding an existential quantifier to the antecedent. (#06) $)
+    19.23ai $p # G |- ( E. x ph -&gt; ps ) $=
+      ( wi wu we ax-ui 19.23 biimp ax-ie ) ABCHZDIZBDJCHZAODFGKAPQABCDEGLMN $. 
+  $}
+ 
+  ${
+    19.23bi.1 $e # G |- ( E. x ph -&gt; ps ) $.
+    $( Removal of the existential quantifier in the antecedent. (#06) $)
+    19.23bi $p # G |- ( ph -&gt; ps ) $=
+      ( we 19.8a syl ) ABBDFCABDGEH $. 
+  $}
+ 
+  $( The universal quantifier can quantify equivocally a wff-and or each 
+     member of the and-wff. (#06) $)
+  19.26 $p # G |- ( A. x ( ph /\ ps ) &lt;-&gt; ( A. x ph /\ A. x ps ) ) $=
+    ( wa wu wb cone conr ax-hyp ax-ue ax-ale ax-voi ax-uqb ax-bg ax-ui ax-are 
+    ax-ai ax-ii ax-we _hypunif hban impbi ax-con ) ABCEZDFZBDFZCDFZEZGHUFUIHUFU
+    IHUFIZUGUHUJBDUJBCUJUEDHUFJKZLHUFDDMZHUEDNOZPUJCDUJBCUKQUMPRSHUIUFHUIIZUEDU
+    NBCHUGUHBHUGIZBUHUOBDHUGJKTUAHUGUHCUOUHICDUOUHJKUARHUIDULHUGUHDHBDNULHCDNUB
+    OPSUCUD $. 
+ 
+  ${
+    19.27.1 $e # G |- ( ps -&gt; A. x ps ) $.
+    19.27.2 $e # bound x G $.
+    $( Compare with ~ 19.26 . Example of a proof where only natural
+    deduction technics are used. Compare with the set.mm proof to feel how
+    a natural deduction can differ from a hilbert-style proof. (#06) $)
+    19.27 $p # G |- ( A. x ( ph /\ ps ) &lt;-&gt; ( A. x ph /\ ps ) ) $=
+      ( wa wu conr ax-hyp ax-ue ax-ale cone ax-uqb ax-bg ax-ui ax-are ax-ai 
+      ax-ii 19.26 wi ax-we ax-ie mpbir impbi ) ABCGZDHZBDHZCGZAUGUIAUGIZUHCUJBD
+      UJBCUJUFDAUGJKZLAUGDFMUFDNOPUJBCUKQRSAUIUGAUIIZUGUHCDHZGULBCDTULUHUMULUHC
+      AUIJZLULCUMULUHCUNQACUMUAUIEUBUCRUDSUE $. 
+  $}
+ 
+  ${
+    19.28.1 $e # G |- ( ph -&gt; A. x ph ) $.
+    19.28.2 $e # bound x G $.
+    $( Compare with ~ 19.26 and ~ 19.27 . (#06) $)
+    19.28 $p # G |- ( A. x ( ph /\ ps ) &lt;-&gt; ( ph /\ A. x ps ) ) $=
+      ( wa wu 19.27 ancom albii bitr2 bitr ) ABCGZDHZCDHZBGZBPGACBGZDHQOACBDEFI
+      ARNDACBJFKLAPBJM $.
+      $( [?] $) $( [5-Jun-2006] $) 
+ 
+  $}
+ 
+  $( A way to move a universal and an existential operator out from a 
+   and. ( (#06) $)
+  19.29 $p # G |- ( ( A. x ph /\ E. x ps ) -&gt; E. x ( ph /\ ps ) ) $=
+    ( wu we wa wi cone wn alex _con3bii dfan bicomi ax-voi bi19.22i bitr alnex 
+    imbi2i negbii 19.20 con3i sylbir sylbi sylib ax-con ) ABDEZCDFZGZBCGZDFZHIB
+    CJZHZDEZJZUKUIIUOUMJZDFZUKIUNUQIUMDKLIUPUJDIUJUPIBCMNDOPQIUIUGUHJZHZJZUOIUG
+    UHMIUGULDEZHZJUTUOIVBUSIVAURUGICDRSTIUNVBIBULDUAUBUCUDUEUF $.
+    $( [?] $) $( [13-Jun-2006] $) 
+ 
+  $( A way to move a universal and an existential operator out from a 
+     and. See ~ 19.29 . (#06) $)
+  19.29r $p # G |- ( ( E. x ph /\ A. x ps ) -&gt; E. x ( ph /\ ps ) ) $=
+    ( we wu wa wi cone ancom ax-voi bi19.22i 19.29 sylibr sylbi ax-con ) ABDEZC
+    DFZGZBCGZDEZHISRQGZUAIQRJIUACBGZDEUBITUCDIBCJDKLICBDMNOP $. 
+ 
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The axioms for equality.
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $( My first idea was adding the axioms for equality used by
+ Pfenning. But I think now this was not a good idea because most
+ set.mm axioms remained unproved. So I changed my mind, I removed
+ Pfenning's axioms and I simply use set.mm ones. All that changes are
+ for clarity sake. $)
+ 
+  $( A sort of transitivity for equality. $)
+  ax-8 $a # G |- ( x = y -&gt; ( x = z -&gt; y = z ) ) $.
+ 
+  $( At least one thing exists. $)  
+  ax-9 $a # G |- -. A. x -. x = y $.
+ 
+  $( If two variables are equal we can quantified a wff by one or by
+  the other. $)
+  ax-10 $a # G |- ( A. x x = y -&gt; ( A. x ph -&gt; A. y ph ) ) $.
+ 
+  $( Variable replacement. $)
+  ax-11 $a # G |- ( -. A. x x = y -&gt;
+              ( x = y -&gt; ( ph -&gt; A. x ( x = y -&gt; ph ) ) ) ) $.
+ 
+  $( An equality can be quantified by a variable distinct from its
+  two members. $)
+  ax-12 $a # G |- ( -. A. z z = x -&gt; ( -. A. z z = y -&gt;
+             ( x = y -&gt; A. z x = y ) ) ) $.
+ 
+  $( This is a variant of ~ ax-9 .  (#06) $)
+  ax9 $p  # G |- ( A. x ( x = y -&gt; A. x ph ) -&gt; ph ) $=
+    ( wq wu wi we 19.22 wn df-ex ax-9 mpbir elmthimp syl a6e ) ACDEZBCFZGCFZRCH
+    ZBASQCHZTGTAQRCIAUATAUAQJCFJAQCKACDLMNOABCPO $.
+    $( [?] $) $( [8-May-06] $)
+ 
+  $( This theorem is a re-derivation of ~ ax-9 from ~ ax9 . (#06)  $)
+  ax9a $p # G |- -. A. x -. x = y $=
+    ( wq wn wu cone wi ax9 setax-6 a3i ax-voi mpg ax-con ) ABCDZEZBFEZGOQBFZHQB
+    GQBCIGROGPBJKBLMN $.
+    $( [?] $) $( [11-May-06] $)
+ 
+  $( At least one individual exists. (#06) $)
+  a9e $p # G |- E. x x = y $=
+    ( wq we wn wu df-ex ax-9 mpbir ) ABCDZBEKFBGFAKBHABCIJ $.
+    $( [?] $) $( [6-May-06] $)
+ 
+ 
+  $( Identity law for equality (reflexivity). (#06) $)
+  equid $p # G |- x = x $=
+    (  ) ? $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Substitution
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Define proper substitution. (#06) $)
+  df-sb $a # G |- ( [ y / x ] ph &lt;-&gt;
+              ( ( x = y -&gt; ph ) /\ E. x ( x = y /\ ph ) ) ) $.
+ 
+ 
+  ${
+    sbimi.1 $e # G |- ( ph -&gt; ps ) $.
+    sbimi.2 $e # bound x G $.
+    $( If an implication is true it remains so if we do the same substitution
+    in both sides of the implication (#06). $)
+    sbimi $p # G |- ( [ y / x ] ph -&gt; [ y / x ] ps ) $=
+      ( wq wi wa we ws a1i a2i anim2i 19.22i anim12i df-sb 3imtr4 ) ADEHZBIZTBJ
+      ZDKZJTCIZTCJZDKZJBEDLCEDLAUAUDUCUFATBCABCITFMNAUBUEDGABCTFOPQABDERACDERS 
+      $.
+      $( [?] $) $( [6-May-06] $)
+  $}
+ 
+  ${
+    sbbii.1 $e # G |- ( ph &lt;-&gt; ps ) $.
+    sbbii.2 $e # bound x G $.
+    $( If a biimplication is true it remains so if we do the same substitution
+    in both sides of the biimplication (#06). $)
+    sbbii $p # G |- ( [ y / x ] ph &lt;-&gt; [ y / x ] ps ) $=
+      ( ws biimp sbimi biimpr impbi ) ABEDHCEDHABCDEABCFIGJACBDEABCFKGJL $.
+      $( [?] $) $( [15-May-06] $)
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The axioms for a binary non-logical predicate
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+   Introduce a binary non-logical predicate symbol. For more explanations 
+   about these axioms see set.mm.
+ $)
+ 
+  $c e. $. $( Stylized epsilon $)
+ 
+  $( Extend wff definition to include atomic formulas with the epsilon
+     (membership) predicate.  This is read " ` x ` is an element of ` y ` ,"
+     " ` x ` is a member of ` y ` ," " ` x ` belongs to ` y ` ," or " ` y `
+     contains ` x ` ."   Note:  The phrase " ` y ` includes ` x ` " means
+     " ` x ` is a subset of ` y ` "; to use it also for ` x e. y ` (as some
+     authors occasionally do) is poor form and causes confusion.
+ 
+     After we introduce ~ cv and ~ wcel in set theory, this syntax construction
+     becomes redundant, since it can be derived with the proof
+     "vx cv vy cv wcel". $)
+  wel $a wff x e. y $.
+ 
+  $( Axiom of Equality.  One of the 3 non-logical predicate axioms of our
+     predicate calculus. $)
+  ax-13 $a # G |- ( x = y -&gt; ( x e. z -&gt; y e. z ) ) $.
+ 
+  $( Axiom of Equality.  One of the 3 non-logical predicate axioms of our
+     predicate calculus. $)
+  ax-14 $a # G |- ( x = y -&gt; ( z e. x -&gt; z e. y ) ) $.
+ 
+  $( Axiom of Quantifier Introduction.  One of the 3 non-logical predicate
+     axioms of our predicate calculus. $)
+  ax-15 $a # G |- ( -. A. z z = x -&gt; ( -. A. z z = y -&gt;
+              ( x e. y -&gt; A. z x e. y ) ) ) $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        The axioms of distinct variables and quantifier introduction.
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ $)
+ 
+  ${
+    $d x y $.
+    $( Axiom of Distinct Variables. $)
+    ax-16 $a G |- ( A. x x = y -&gt; ( ph -&gt; A. x ph ) ) $.
+  $}
+ 
+  ${
+    $d x ph $.
+    $( Axiom to quantify a variable over a formula in which it does not occur.
+       Certainly the most useful axiom in set.mm. Those who don't like bound 
+       variables will like this axiom. $)
+    ax-17 $a G |- ( ph -&gt; A. x ph ) $.
+  $}
+ 
+ 
+ $(
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+                       Zermelo-Fraenkel Set Theory                          
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The axioms of set theory
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $( Postulate the Zermelo-Fraenkel axioms plus the Axiom of Choice.
+ For more information see set.mm. $)
+ 
+ $v t $.
+ $( Let ' t ' be an individual variable. $)
+ vt $f set t $.
+ 
+ ${
+   $d x y z w v u t $.
+ 
+   $( Two sets are equals when they have the same elements. Note: why
+   must x and y be distinct ? $)
+   ax-ext $a # G |- ( A. z ( z e. x &lt;-&gt; z e. y ) -&gt; x = y ) $.
+ 
+   $( "Axiom of Replacement. It tells us that that the image of any
+   set under a function is also a set". $)
+   ax-rep $a # G |- ( A. w E. y A. z ( A. y ph -&gt; z = y ) -&gt;
+                    E. y A. z ( z e. y &lt;-&gt; E. w ( w e. x /\ A. y ph ) ) ) $.
+ 
+   $( "Axiom of Union.  It states that the union of any set exists." $)
+   ax-un $a # G |- E. y A. z ( E. w ( z e. w /\ w e. x ) -&gt; z e. y ) $.
+ 
+   $( "Axiom of power. It states that the collection of all subsets
+   of a set is also a set". $)
+   ax-pow $a # G |- E. y A. z ( A. w ( w e. z -&gt; w e. x ) -&gt; z e. y ) $.
+ 
+   $( "Axiom of Regularity. Every non-empty set contains a set
+   disjoint from itself". $)
+   ax-reg $a # G |- ( E. y y e. x -&gt;
+                E. y ( y e. x /\ A. z ( z e. y -&gt; -. z e. x ) ) ) $.
+ 
+   $( "Axiom of Infinity. It asserts that given a starting set ` x ` ,
+   an infinite set built from it exists". $)
+   ax-inf $a # G |- E. y ( x e. y /\
+                A. z ( z e. y -&gt; E. w ( z e. w /\ w e. y ) ) ) $.
+ 
+   $( "Axiom of Choice. AC (in a common version given in textbooks)
+   asserts that given a family of mutually disjoint nonempty sets, a
+   set exists containing exactly one member from each set in the
+   family". $)
+   ax-ac $a  # G |- E. y A. z A. w ( ( z e. w /\ w e. x ) -&gt; E. v A. u ( E. t
+             ( ( u e. w /\ w e. t ) /\ ( u e. t /\ t e. y ) ) &lt;-&gt; u = v ) ) $.
+ $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Class abstraction
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Declare new constants used in class definition. $)
+  $c { $. $( Left brace $)
+  $c | $. $( Vertical bar $)
+  $c } $. $( Right brace $)
+  $c class $. $( Class variable type $)
+ 
+  $v A $.
+  $v B $.
+  $v C $.
+  $v D $.
+  $v R $.
+  $v S $.
+  $v T $.
+ 
+  $( A set is a class. But some classes are not sets. The dichotomy of
+  sets and classes are used to avoid Russel's paradox (???). $)
+  cv $a class x $.
+ 
+  $( The class builder. $)
+  cab $a class { x | ph } $.
+ 
+  $( Let ' A ' be a class variable. $)
+  cA $f class A $.
+  $( Let ' B ' be a class variable. $)
+  cB $f class B $.
+  $( Let ' C ' be a class variable. $)
+  cC $f class C $.
+  $( Let ' D ' be a class variable. $)
+  cD $f class D $.
+  $( Let ' R ' be a class variable. $)
+  cR $f class R $.
+  $( Let ' S ' be a class variable. $)
+  cS $f class S $.
+  $( Let ' T ' be a class variable. $)
+  cT $f class T $.
+ 
+  $( Extend wff definition to include class equality.  $)
+  wceq $a wff A = B $.
+ 
+  $( Extend wff definition to include the membership connective between
+  classes. $)
+  wcel $a wff A e. B $.
+ 
+  $( Definition of class. $)
+  df-clab $a # G |- ( x e. { y | ph } &lt;-&gt; [ x / y ] ph ) $.
+ 
+ 
+  ${
+    $d x A $.  $d x B $.  $d x y z $.
+    df-cleq.1 $e # G |- ( A. x ( x e. y &lt;-&gt; x e. z ) -&gt; y = z ) $.
+    $( Define the equality connective between classes. (#06) $)
+    df-cleq $a # G |- ( A = B &lt;-&gt; A. x ( x e. A &lt;-&gt; x e. B ) ) $.
+ 
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Negated equality and membership
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Declare new connectives. $)
+  $c =/= $. $( Not equal to (equal sign with slash through it). $)
+  $c e/ $. $( Not an element of (epsilon with slash through it). $)
+ 
+  $( Extend wff notation to include inequality. $)
+  wne $a wff A =/= B $.
+ 
+  $( Extend wff notation to include negated membership. $)
+  wnel $a wff A e/ B $.
+ 
+  $( Define inequality. $)
+  df-ne $a # G |- ( A =/= B &lt;-&gt; -. A = B ) $.
+ 
+  $( Define negated membership. $)
+  df-nel $a # G |- ( A e/ B &lt;-&gt; -. A e. B ) $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Restricted quantification
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The universal class
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $c V $.
+ 
+  $( The universal class is a class. $)
+  cvv $a class V $.
+ 
+  $( Definition of the universal class. $)
+  df-v $a # G |- V = { x | x = x } $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Proper substitution of classes for sets
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Extend wff notation to include the proper substitution of a class
+  for a set. $)
+  wsbc $a wff [ A / x ] ph $.
+ 
+  $( Define the proper substitution of a class for a set. $)
+  df-sbc $a # G |- ( [ A / x ] ph &lt;-&gt; A e. { x | ph } ) $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        Define basic set operations and relations
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ $)
+ 
+  $( Declare new symbols. $)
+  $c \ $. $( Backslash (difference) $)
+  $c u. $. $( Cup (union) $)
+  $c i^i $. $( Cap (intersection) $)
+  $c (_ $. $( Subclass or subset symbol $)
+  $c (. $. $( Proper subclass or subset symbol $)
+ 
+  $( Extend class notation to include class difference (read:
+     " ` A ` minus ` B ` "). $)
+  cdif $a class ( A \ B ) $.
+ 
+  $( Extend class notation to include union of two classes (read:  " ` A `
+     union ` B ` "). $)
+  cun $a class ( A u. B ) $.
+ 
+  $( Extend class notation to include the intersection of two classes (read:
+     " ` A ` intersect ` B ` "). $)
+  cin $a class ( A i^i B ) $.
+ 
+  $( Extend wff notation to include the subclass relation.  This is read
+     " ` A ` is a subclass of ` B `". $)
+  wss $a wff A (_ B $.
+ 
+  $( Extend wff notation with proper subclass relation. $)
+  wpss $a wff A (. B $.
+ 
+  ${
+    $d x A $.  $d x B $.
+    $( Define class difference, also called relative complement. $)
+    df-dif $a # G |- ( A \ B ) = { x | ( x e. A /\ -. x e. B ) } $.
+  $}
+ 
+  ${
+    $d x A $.  $d x B $.
+    $( Define the union of two classes. $)
+    df-un $a # G |- ( A u. B ) = { x | ( x e. A \/ x e. B ) } $.
+ 
+    $( Define the intersection of two classes. $)
+    df-in $a # G |- ( A i^i B ) = { x | ( x e. A /\ x e. B ) } $.
+ 
+  $}
+ 
+  $( Define the subclass relationship. $)
+  df-ss $a # G |- ( A (_ B &lt;-&gt; ( A i^i B ) = A ) $.
+ 
+  $( Define proper subclass relationship between two classes. $)
+  df-pss $a # G |- ( A (. B &lt;-&gt; ( A (_ B /\ A =/= B ) ) $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        Subclasses and subsets
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Proper substitution of classes for sets into classes
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The Axiom of Replacement
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+        Derive the Axiom of Separation
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+        The difference, union, and intersection of two classes
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The empty set; derive the Axiom of the Empty Set
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+            "Weak Deduction Theorem" for Set Theory
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Power classes and the Axiom of Power Sets
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Declare the symbol for power class. $)
+  $c P~ $.  $( Calligraphic P $)
+ 
+  $( Extend class notation to include power class. $)
+  cpw $a class P~ A $.
+ 
+  ${
+    $d x A $.
+    $( Define power class. $)
+    df-pw $a # G |- P~ A = { x | x (_ A } $.
+  $}
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Unordered and ordered pairs; derive the Axiom of Pairing
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+  $( Declare new symbols needed. $)
+  $c &lt;. $.  $( Bracket (the period distinguishes it from 'less than') $)
+  $c &gt;. $.  $( Bracket (the period distinguishes it from 'greater than') $)
+ 
+  $( Extend class notation to include singleton. $)
+  csn $a class { A } $.
+  $( Extend class notation to include unordered pair. $)
+  cpr $a class { A , B } $.
+  $( Extend class notation to include ordered pair. $)
+  cop $a class &lt;. A , B &gt;. $.
+ 
+  ${
+    $d x A $.
+    $( Define the singleton of a class. $)
+    df-sn $a # G |- { A } = { x | x = A } $.
+  $}
+ 
+  $( Define unordered pair of classes. $)
+  df-pr $a # G |- { A , B } = ( { A } u. { B } ) $.
+ 
+  $( Extend class notation to include unordered triplet. $)
+  ctp $a class { A , B , C } $.
+ 
+  $( Define unordered triple of classes. $)
+  df-tp $a # G |- { A , B , C } = ( { A , B } u. { C } ) $.
+ 
+  $( Kuratowski's ordered pair definition. $)
+  df-op $a # G |- &lt;. A , B &gt;. = { { A } , { A , B } } $.
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Power class and union, intersection
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The union of a class and the Axiom of Union
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         The intersection of a class
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+        Indexed union and intersection
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Transitive classes
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ $(
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         Binary relations, ordering, and founded relations
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ $)
+ 
+ 
+ 
+ $(
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+        Appendix:  Typesetting definitions for the tokens in this file       
+ #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+ $)
+ 
+ $( $t
+ 
+ /* Page title, home page link */
+ htmltitle "Natural deduction theorems within metamath";
+ htmlhome '&lt;A HREF="nat.html"&gt;&lt;FONT SIZE=-2 FACE=sans-serif&gt;' +
+   '&lt;IMG SRC="Gentzen.gif" BORDER=0 ALT=' +
+   '"Home" HEIGHT=32 WIDTH=32 ALIGN=MIDDLE&gt;' +
+   'Home&lt;/FONT&gt;&lt;/A&gt;';
+ /* Optional file where bibliographic references are kept */
+ /* If specified, e.g. "mmset.html", Metamath will hyperlink all strings of the
+   form "[rrr]" (where "rrr" has no whitespace) to "mmset.html#rrr" */
+ /* A warning will be given if the file "mmset.html" with the bibliographical
+   references is not present.  It is read in order to check correctness of
+   the references. */
+ htmlbibliography "mmnat.html";
+ 
+ /* Variable color key at the bottom of each proof table */
+ htmlvarcolor '&lt;FONT COLOR="#0000FF"&gt;wff&lt;/FONT&gt; '
+    + '&lt;FONT COLOR="#FF0000"&gt;set&lt;/FONT&gt; '
+    + '&lt;FONT COLOR="#CC33CC"&gt;class&lt;/FONT&gt;';
+ 
+ /* GIF and Unicode HTML directories - these are used for the GIF version to
+   crosslink to the Unicode version and vice-versa */
+ htmldir "../mpegif/";
+ althtmldir "../mpeuni/";
+ 
+ /* Symbol definitions */
+ htmldef "#" as
+    "&lt;IMG SRC='_diese.gif' WIDTH=10 HEIGHT=19 ALT='#' ALIGN=TOP&gt; ";
+ htmldef "bound" as
+    "&lt;IMG SRC='_bound.gif' WIDTH=38 HEIGHT=19 ALT='bound' ALIGN=TOP&gt; ";
+ htmldef "set" as
+    "&lt;IMG SRC='_set.gif' WIDTH=20 HEIGHT=19 ALT='set' ALIGN=TOP&gt; ";
+ htmldef "con" as '&lt;FONT COLOR="#808080"&gt;con &lt;/FONT&gt;';
+ htmldef "wff" as
+    "&lt;IMG SRC='_wff.gif' WIDTH=24 HEIGHT=19 ALT='wff' ALIGN=TOP&gt; ";
+ htmldef "class" as
+    "&lt;IMG SRC='_class.gif' WIDTH=32 HEIGHT=19 ALT='class' ALIGN=TOP&gt; ";
+ htmldef "G" as "&lt;IMG SRC='_cg.gif' WIDTH=12 HEIGHT=19 ALT='G' ALIGN=TOP&gt;";
+ htmldef "[]" as '[] ';
+ htmldef "|-" as
+    "&lt;IMG SRC='_vdash.gif' WIDTH=12 HEIGHT=19 ALT='|-' ALIGN=TOP&gt; ";
+ htmldef "," as "&lt;IMG SRC='comma.gif' WIDTH=4 HEIGHT=19 ALT=',' ALIGN=TOP&gt; ";
+ htmldef "(" as "&lt;IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='(' ALIGN=TOP&gt;";
+ htmldef ")" as "&lt;IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')' ALIGN=TOP&gt;";
+ htmldef "-&gt;" as
+    " &lt;IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;' ALIGN=TOP&gt; ";
+ htmldef "Abs" as
+    "&lt;IMG SRC='_abs.gif' WIDTH=24 HEIGHT=19 ALT='Abs' ALIGN=TOP&gt; ";
+ htmldef "-." as "&lt;IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.' ALIGN=TOP&gt; ";
+ htmldef "&lt;-&gt;" as " &lt;IMG SRC='leftrightarrow.gif' WIDTH=15 HEIGHT=19 " +
+    "ALT='&lt;-&gt;' ALIGN=TOP&gt; ";
+ htmldef "\/" as " &lt;IMG SRC='vee.gif' WIDTH=11 HEIGHT=19 ALT='\/' ALIGN=TOP&gt; ";
+ htmldef "/\" as
+    " &lt;IMG SRC='wedge.gif' WIDTH=11 HEIGHT=19 ALT='/\' ALIGN=TOP&gt; ";
+ htmldef "A." as 
+    "&lt;IMG SRC='forall.gif' WIDTH=10 HEIGHT=19 ALT='A.' ALIGN=TOP&gt;";
+ htmldef "E." as "&lt;IMG SRC='exists.gif' WIDTH=9 HEIGHT=19 ALT='E.' ALIGN=TOP&gt;";
+ htmldef "e." as " &lt;IMG SRC='in.gif' WIDTH=10 HEIGHT=19 ALT='e.' ALIGN=TOP&gt; ";
+ htmldef "=" as " &lt;IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='=' ALIGN=TOP&gt; ";
+ htmldef "[" as "&lt;IMG SRC='lbrack.gif' WIDTH=5 HEIGHT=19 ALT='[' ALIGN=TOP&gt;";
+ htmldef "/" as 
+    " &lt;IMG SRC='solidus.gif' WIDTH=6 HEIGHT=19 ALT='/' ALIGN=TOP&gt; ";
+ htmldef "]" as "&lt;IMG SRC='rbrack.gif' WIDTH=5 HEIGHT=19 ALT=']' ALIGN=TOP&gt;";
+ htmldef "{" as "&lt;IMG SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{' ALIGN=TOP&gt;";
+ htmldef "|" as " &lt;IMG SRC='vert.gif' WIDTH=3 HEIGHT=19 ALT='|' ALIGN=TOP&gt; ";
+ htmldef "}" as "&lt;IMG SRC='rbrace.gif' WIDTH=6 HEIGHT=19 ALT='}' ALIGN=TOP&gt;";
+ htmldef "Truth" as
+    "&lt;IMG SRC='_truth.gif' WIDTH=29 HEIGHT=19 ALT='Abs' ALIGN=TOP&gt; ";
+ htmldef "LSTYP" as
+    "&lt;IMG SRC='_lstyp.gif' WIDTH=29 HEIGHT=19 ALT='lstyp' ALIGN=TOP&gt; ";
+ 
+ htmldef "ph" as
+    "&lt;IMG SRC='_varphi.gif' WIDTH=11 HEIGHT=19 ALT='ph' ALIGN=TOP&gt;";
+ htmldef "ps" as "&lt;IMG SRC='_psi.gif' WIDTH=12 HEIGHT=19 ALT='ps' ALIGN=TOP&gt;";
+ htmldef "ch" as "&lt;IMG SRC='_chi.gif' WIDTH=12 HEIGHT=19 ALT='ch' ALIGN=TOP&gt;";
+ htmldef "th" as "&lt;IMG SRC='_theta.gif' WIDTH=8 HEIGHT=19 ALT='th' ALIGN=TOP&gt;";
+ htmldef "ta" as "&lt;IMG SRC='_tau.gif' WIDTH=10 HEIGHT=19 ALT='ta' ALIGN=TOP&gt; ";
+ 
+ htmldef "t" as "&lt;IMG SRC='_t.gif' WIDTH=9 HEIGHT=19 ALT='t' ALIGN=TOP&gt;";
+ htmldef "u" as "&lt;IMG SRC='_u.gif' WIDTH=9 HEIGHT=19 ALT='u' ALIGN=TOP&gt;";
+ htmldef "v" as "&lt;IMG SRC='_v.gif' WIDTH=9 HEIGHT=19 ALT='v' ALIGN=TOP&gt;";
+ htmldef "w" as "&lt;IMG SRC='_w.gif' WIDTH=12 HEIGHT=19 ALT='w' ALIGN=TOP&gt;";
+ htmldef "x" as "&lt;IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x' ALIGN=TOP&gt;";
+ htmldef "y" as "&lt;IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y' ALIGN=TOP&gt;";
+ htmldef "z" as "&lt;IMG SRC='_z.gif' WIDTH=9 HEIGHT=19 ALT='z' ALIGN=TOP&gt;";
+ 
+ htmldef "A" as "&lt;IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A' ALIGN=TOP&gt;";
+ htmldef "B" as "&lt;IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B' ALIGN=TOP&gt;";
+ htmldef "C" as "&lt;IMG SRC='_cc.gif' WIDTH=12 HEIGHT=19 ALT='C' ALIGN=TOP&gt;";
+ htmldef "D" as "&lt;IMG SRC='_cd.gif' WIDTH=12 HEIGHT=19 ALT='D' ALIGN=TOP&gt;";
+ htmldef "R" as "&lt;IMG SRC='_cr.gif' WIDTH=12 HEIGHT=19 ALT='R' ALIGN=TOP&gt;";
+ htmldef "S" as "&lt;IMG SRC='_cs.gif' WIDTH=11 HEIGHT=19 ALT='S' ALIGN=TOP&gt;";
+ htmldef "T" as "&lt;IMG SRC='_ct.gif' WIDTH=12 HEIGHT=19 ALT='T' ALIGN=TOP&gt;";
+ 
+ htmldef "=/=" as 
+    " &lt;IMG SRC='ne.gif' WIDTH=12 HEIGHT=19 ALT='=/=' ALIGN=TOP&gt; ";
+ htmldef "e/" as
+    " &lt;IMG SRC='notin.gif' WIDTH=10 HEIGHT=19 ALT='e/' ALIGN=TOP&gt; ";
+ htmldef "V" as "&lt;IMG SRC='cv.gif' WIDTH=12 HEIGHT=19 ALT='V' ALIGN=TOP&gt;";
+ htmldef "\" as
+    " &lt;IMG SRC='setminus.gif' WIDTH=8 HEIGHT=19 ALT='\' ALIGN=TOP&gt; ";
+ htmldef "u." as " &lt;IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='u.' ALIGN=TOP&gt; ";
+ htmldef "i^i" as
+    " &lt;IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='i^i' ALIGN=TOP&gt; ";
+ htmldef "(_" as
+    " &lt;IMG SRC='subseteq.gif' WIDTH=12 HEIGHT=19 ALT='(_' ALIGN=TOP&gt; ";
+ htmldef "(." as
+    " &lt;IMG SRC='subset.gif' WIDTH=12 HEIGHT=19 ALT='(.' ALIGN=TOP&gt; ";
+ htmldef "P~" as "&lt;IMG SRC='scrp.gif' WIDTH=16 HEIGHT=19 ALT='P~' ALIGN=TOP&gt;";
+ htmldef "&lt;." as
+    "&lt;IMG SRC='langle.gif' WIDTH=4 HEIGHT=19 ALT='&lt;.' ALIGN=TOP&gt;";
+ htmldef "&gt;." as
+    "&lt;IMG SRC='rangle.gif' WIDTH=4 HEIGHT=19 ALT='&gt;.' ALIGN=TOP&gt;";
+ 
+ 
+ /* These are alternate HTML definitions for the Unicode font version of the
+  web site */
+ 
+ althtmldef "#" as "# ";
+ althtmldef "bound" as 'bound ';
+ 
+ althtmldef "Abs" as "Abs ";
+ althtmldef "con" as "con ";
+ althtmldef "G" as "G ";
+ althtmldef "," as ", ";
+ althtmldef "(" as "( ";
+ althtmldef ")" as ") ";
+ althtmldef "-&gt;" as ' -&gt; ';
+ althtmldef "-." as '-. ';
+ althtmldef "wff" as '&lt;FONT COLOR="#808080"&gt;wff &lt;/FONT&gt; ';
+ althtmldef "|-" as '&lt;FONT COLOR="#808080"&gt;|- &lt;/FONT&gt; ';
+ althtmldef "ph" as ' &lt;FONT COLOR="#0000FF"&gt;&lt;I&gt;ph&lt;/I&gt;&lt;/FONT&gt; ';
+ althtmldef "ps" as '&lt;FONT COLOR="#0000FF"&gt;&lt;I&gt;ps&lt;/I&gt;&lt;/FONT&gt; ';
+ althtmldef "ch" as '&lt;FONT COLOR="#0000FF"&gt;&lt;I&gt;ch&lt;/I&gt;&lt;/FONT&gt; ';
+ althtmldef "th" as '&lt;FONT COLOR="#0000FF"&gt;&lt;I&gt;th&lt;/I&gt;&lt;/FONT&gt; ';
+ althtmldef "ta" as '&lt;FONT COLOR="#0000FF"&gt;&lt;I&gt;ta&lt;/I&gt;&lt;/FONT&gt; ';
+ althtmldef "&lt;-&gt;" as ' &harr; ';
+ althtmldef "\/" as ' &#8897; ' ; /* was &or; */
+ althtmldef "/\" as ' &#8896; '; /* was &and; which is circle in WinXP Pro */
+ althtmldef "A." as 'A. ';
+ althtmldef "set" as '&lt;FONT COLOR="#808080"&gt;set &lt;/FONT&gt; ';
+ althtmldef "x" as ' &lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;x &lt;/FONT&gt;&lt;/I&gt; ';
+ althtmldef "y" as ' &lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;y &lt;/FONT&gt;&lt;/I&gt; ';
+ althtmldef "z" as '&lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;z &lt;/FONT&gt;&lt;/I&gt; ';
+ althtmldef "w" as '&lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;w &lt;/FONT&gt;&lt;/I&gt; ';
+ althtmldef "v" as '&lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;v &lt;/FONT&gt;&lt;/I&gt; ';
+ althtmldef "E." as 'E. ';
+ althtmldef "=" as ' = ';
+ althtmldef "[" as ' [ ';
+ althtmldef "/" as ' /  ';
+ althtmldef "]" as ' ] ';
+ althtmldef "u" as '&lt;I&gt;&lt;FONT COLOR="#FF0000"&gt;u &lt;/FONT&gt;&lt;/I&gt; ';
+ 
+ althtmldef "[]" as '[] ';
+ althtmldef "A" as 'A ';
+ althtmldef "B" as 'B ';
+ althtmldef "C" as 'C ';
+ althtmldef "D" as 'D ';
+ althtmldef "R" as 'R ';
+ althtmldef "S" as 'S ';
+ althtmldef "T" as 'T ';
+ 
+ althtmldef "e." as 'e. ';
+ althtmldef "t" as 't ';
+ althtmldef "{" as '{ ';
+ althtmldef "|" as '| ';
+ althtmldef "}" as '} ';
+ althtmldef "Truth" as 'Truth ';
+ althtmldef "LSTYP" as 'LSTYP ';
+ althtmldef "lstyp" as 'lstyp ';
+ 
+ 
+ althtmldef "class" as 'class ';
+ althtmldef "=/=" as ' &ne; ';
+ althtmldef "e/" as ' &notin; ';
+ althtmldef "V" as '&lt;I&gt;V&lt;/I&gt;';
+ althtmldef "(_" as ' &#8838; '; /* &subE; */
+ althtmldef "(." as ' &sub; ';
+ althtmldef "\" as ' &#8726; ';  /* &setmn; */
+ althtmldef "u." as ' &cup; ';
+ althtmldef "i^i" as ' &cap; ';
+ althtmldef "P~" as '&weierp;';
+ althtmldef "&lt;." as '&lang;';
+ althtmldef "&gt;." as '&rang;';
+ 
+ /* These are definitions for latex */
+ 
+ latexdef "#" as "#";
+ latexdef "," as ",";
+ latexdef "[]" as "[]";
+ latexdef "|-" as "\vdash";
+ latexdef "[" as "[";
+ latexdef "]" as "]";
+ latexdef "(" as "(";
+ latexdef ")" as ")";
+ latexdef "-&gt;" as "\rightarrow";
+ latexdef "&lt;-&gt;" as "\leftrightarrow";
+ latexdef "-." as "\lnot";
+ latexdef "\/" as "\vee";
+ latexdef "/\" as "\wedge";
+ latexdef "Abs" as "\bot";
+ latexdef "con" as "{\rm con}";
+ latexdef "wff" as "{\rm wff}";
+ latexdef "G" as "G";
+ latexdef "ph" as "\varphi";
+ latexdef "ps" as "\psi";
+ latexdef "ch" as "\chi";
+ latexdef "th" as "\theta";
+ latexdef "ta" as "\tau";
+ latexdef "LSTYP" as "{\rm LSTYP}";
+ latexdef "lstyp" as "{\rm lstyp}";
+ latexdef "Truth" as "\bot";
+ latexdef "/" as "/";
+ latexdef "=" as "\=";
+ latexdef "set" as "{\rm set}";
+ latexdef "A." as "\forall";
+ latexdef "E." as "\exists";
+ latexdef "e." as "\in";
+ latexdef "x" as "x";
+ latexdef "y" as "y";
+ latexdef "z" as "z";
+ latexdef "w" as "w";
+ latexdef "v" as "v";
+ latexdef "u" as "u";
+ latexdef "t" as "t";
+ latexdef "{" as "\{";
+ latexdef "|" as "|";
+ latexdef "}" as "\}";
+ latexdef "class" as "{\rm class}";
+ latexdef "A" as "A";
+ latexdef "B" as "B";
+ latexdef "C" as "C";
+ latexdef "D" as "D";
+ latexdef "R" as "R";
+ latexdef "S" as "S";
+ latexdef "T" as "T";
+ latexdef "bound" as "bound";
+ latexdef "=/=" as "\ne";
+ latexdef "e/" as "\notin";
+ latexdef "V" as "V";
+ latexdef "G" as "G";
+ latexdef "(_" as "\subseteq";
+ latexdef "(." as "\subset";
+ latexdef "\" as "\setminus";
+ latexdef "u." as "\cup";
+ latexdef "i^i" as "\cap";
+ latexdef "P~" as "{\cal P}";
+ latexdef "&lt;." as "\langle";
+ latexdef "&gt;." as "\rangle";
+ 
+ /* End of typesetting definition section */
+ $)</pre><h2>New version of nat.mm</h2><p>Predicate axioms have no substitution operator any longer. I think the system fully works now. Several propositional and pure predicate theorems have been added. Set theory axioms have been added as well. All the code mandatory to generate html pages has been added. I have gif images (you can ask me them). Last but not least I have begun to fix the mistakes in the commentaries.</p><p>In the future however I think I will replace set theory by another theory (like peano arithmetic) because it is a bit stupid to try to add all set.mm set theory theorems. However I intend to add all the propositional and predicate theorems in set.mm ( at least those of 1993 ). This way it will be able to do interesting things with nat.mm.</p><p>Another thing that can be tried would be to implement intuitionistic logic in nat.mm ( few modifications to do, at least for the logic axioms [ but certainly many problems with the definitions in set theory ] ). This way we could have a full intuitionistic system. But I guess it's too difficult for me.</p><p>&#x2013; 28-Jul-2006 <a class="local" href="frl">frl</a></p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=Natural_deduction_based_metamath_system">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=Natural_deduction_based_metamath_system">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=Natural_deduction_based_metamath_system">Administration</a></span><span class="time"><br /> Last edited 2006-12-06 17:16 UTC by <a class="author" title="from outgw.lumigent.com" href="jorend">jorend</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=Natural_deduction_based_metamath_system">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

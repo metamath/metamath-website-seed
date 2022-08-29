@@ -1,0 +1,1195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+
+<!-- improve mobile display -->
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Metamath Solitaire</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+
+<STYLE TYPE="text/css">
+<!--
+/* Math symbol image will be shifted down 4 pixels to align with normal
+  text for compatibility with various browsers.  The old ALIGN=TOP for
+  math symbol images did not align in all browsers and should be deleted.
+  All other images must override this shift with STYLE="margin-bottom:0px".
+  (2-Oct-2015 nm) */
+img { margin-bottom: -4px }
+-->
+</STYLE>
+
+</HEAD>
+
+<!-- <BODY BGCOLOR="#EEFFFA"> -->
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP><A HREF="../index.html"><IMG SRC="mm.gif"
+      BORDER=0
+      ALT="Metamath Home"
+      TITLE="Metamath Home"
+      HEIGHT=32 WIDTH=32 ALIGN=TOP STYLE="margin-bottom:0px"></A>
+    </TD>
+    <TD ALIGN=CENTER VALIGN=TOP><FONT SIZE="+3"
+      COLOR="#006633"><B>Metamath Solitaire (Java Applet)</B>  </FONT>
+    </TD>
+    <TD NOWRAP ALIGN=RIGHT VALIGN=TOP> &nbsp;
+    </TD>
+  </TR>
+
+  <TR>
+    <TD COLSPAN=3 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif>
+      <A HREF="../mm.html">Mirrors</A>&nbsp; &gt;
+        &nbsp;<A HREF="../index.html">Home</A>&nbsp; &gt;
+      &nbsp;Metamath Solitaire
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>
+
+<!--
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=left VALIGN=top WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif> <A
+HREF="../index.html"><IMG SRC="mm.gif" BORDER=0 ALT="Metamath Home"
+HEIGHT=32 WIDTH=32 ALIGN=LEFT
+ STYLE="margin-bottom:0px">Metamath<BR>Home</A></FONT></TD>
+
+<TD NOWRAP ALIGN=center><FONT SIZE="+3" COLOR="#006633"><B>Metamath
+Solitaire (Java Applet)</B></FONT> </TD>
+
+<TD ALIGN=right VALIGN=top WIDTH="25%">&nbsp;</TD>
+
+</TR></TABLE>
+-->
+
+<HR NOSHADE SIZE=1> <TABLE WIDTH="100%"> <TR>
+
+  <TD>
+   <TABLE WIDTH="100%" BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#808080">
+    <TR>
+     <TD WIDTH="100%">
+      <TABLE WIDTH="100%" BORDER=0 CELLPADDING=3 CELLSPACING=0 BGCOLOR="#FFFFFF">
+       <TR>
+        <TD BGCOLOR="#EEFFFA" NOWRAP>
+<INPUT TYPE=BUTTON VALUE="Start"
+ onClick="window.open('mmsviewer.html','','width=620,height=430,resizable=1,toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no')">
+ Run the applet in a popup window
+        </TD>
+       </TR>
+      </TABLE>
+     </TD>
+    </TR>
+   </TABLE>
+  </TD>
+
+  <TD WIDTH="100%">
+  </TD>
+
+  <TD>
+   <TABLE WIDTH="100%" BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#808080">
+    <TR>
+     <TD WIDTH="100%">
+      <TABLE WIDTH="100%" BORDER=0 CELLPADDING=3 CELLSPACING=0 BGCOLOR="#FFFFFF">
+       <TR>
+        <TD BGCOLOR="#EEFFFA" NOWRAP>
+<A HREF="mmsviewer.html">Run the applet in main browser window</A>
+        </TD>
+       </TR>
+      </TABLE>
+     </TD>
+    </TR>
+   </TABLE>
+  </TD>
+
+ </TR>
+</TABLE>
+<!--
+ <CENTER> <APPLET code="mm.class" width=600
+height=400>Your browser does not support Java, or Java is not enabled.
+Sorry!&nbsp;</APPLET>&nbsp;</CENTER>
+-->
+
+
+<!-- worked around; see comments in mm.java
+<P><FONT COLOR=RED><B>(4-Nov-2015) The applet does not work with
+the latest version of Java.  I will try to look at the problem soon.  If
+you want to investigate it, the source code with compilation
+instructions is here:  <A HREF="mm.java">mm.java</A>.  You may also want
+to try the newer version mentioned in the 28-Mar-2006 note below.  -
+NM</B></FONT>
+-->
+<HR NOSHADE SIZE=1>
+
+<!---
+(Note added 4-Nov-2015:  Recent versions of Java will block this applet
+by default for security reasons.  For instructions on how to allow it,
+see <A
+HREF="https://www.java.com/en/download/faq/exception_sitelist.xml">How
+can I configure the Exception Site List?</A> [accessed 4-Nov-2015].)
+
+<P>(Notes added 28-Jul-2017:  1. Firefox has stopped allowing Java
+appets, so you now need to run the applet in another browser. 2. For
+other browsers, you need to install the 32-bit version of Java; the
+64-bit version won't work.  Also, you can run the applet locally with
+the appletviewer included with the 32-bit version but not the 64-bit
+version.)
+-->
+
+<B>Note added 14-Mar-2018</B>
+
+<BLOCKQUOTE>
+
+Because of security issues with Java applets, several browsers have
+removed the ability to run Java applets, and the above links will not
+work.  However, it is possible to run the applet independent of any
+browser.  On Windows 7, the following instructions worked as of
+14-Mar-2018.  (I expect Windows 10 will be similar but haven't tried it.
+If someone wishes to work out the instructions for Windows 10, MacOS, or
+Linux, let me know and I will post the information here.)
+
+<P>1. In the Windows Start menu, in the "Search programs and files" box, type
+"Programs and Features".  The "Programs and Features" control panel
+should open.  Uninstall any existing versions of Java.
+
+<P>2. Go to
+<A HREF="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</A>
+[accessed 4-Aug-2018].
+ Check "Accept" the license.   Click on jdk-8u161-windows-i586.exe to download it.
+ In the download folder, double-click on jdk-8u161-windows-i586.exe;
+follow the instructions to install Java, accepting all defaults.  Note that
+this is the 32-bit version of Java, which you must install even if your
+computer is 64 bits.  (The ability to run applets was removed from the
+64-bit version of Java.)
+
+<P>3. In the Windows Start menu, select All Programs, then Java, then
+Configure Java.  The Java Control Panel will open.  Click the Security
+tab.  Check "Enable Java content for browser and Web Start
+applications".  Check the "High" security level (not "Very High").  Next
+to the "Exception Site List", click on "Edit Site List...", then "Add".
+Enter "http://us.metamath.org" then click OK.  "http://us.metamath.org"
+should appear in the "Exception Site List".  Click OK at the bottom of
+the Java Control Panel.
+
+<P>4. In the Windows Start menu, in the "Search programs and files" box, type
+"command".  A Command Prompt window will open.
+In the Command Prompt window, type exactly (or copy/paste) the
+following, including the quotes:
+
+<P>
+"C:\Program Files (x86)\Java\jdk1.8.0_161\bin\appletviewer" http://us.metamath.org/mmsolitaire/mmsviewer.html
+<P>
+
+(To paste into the Command Prompt window, click on the upper left
+"C:\." icon, select Edit, then Paste.)
+The Metamath Solitaire applet should run.
+</BLOCKQUOTE>
+
+<HR NOSHADE SIZE=1>
+
+Welcome to Metamath Solitaire, a Java applet that lets you build
+simple proofs in logic and set theory.  You can play around with it for
+curiosity or fun, or if you're serious it will be the hardest "game" in
+the world!  This is because built into it are the axioms of logic and
+ZFC (Zermelo-Fraenkel with Choice) set theory, which are generally held
+to encompass essentially <I>all of mathematics</I>.  It's up to you to
+unlock its secrets!
+
+<TABLE><TR><TD>
+
+<OL> <LI> <A HREF="#q1">What is the goal of Metamath
+Solitaire?</A></LI>
+
+<LI> <A HREF="#q2">Can I make a mistake?</A></LI>
+
+<LI> <A HREF="#q3">I'm impatient and want to see something happen
+right away!</A></LI>
+
+<LI> <A HREF="#q4">I only see the axioms for propositional calculus.
+How do I get set theory?</A></LI>
+
+<LI> <A HREF="#q5">What do the symbols mean?</A></LI>
+
+<LI> <A HREF="#q6">How does the logic work?</A></LI>
+
+<LI> <A HREF="#q7">How can I prove x = x?</A></LI>
+
+<LI> <A HREF="#q8">How can I add my own theorems as additional
+axioms?</A></LI>
+
+<LI> <A HREF="#q9">How can I save my work?</A></LI>
+
+<LI> <A HREF="#q10">Can I see some more proofs?</A></LI>
+
+<LI> <A HREF="#q11">Will Metamath Solitaire help me do my set
+theory homework?</A></LI>
+
+<LI> <A HREF="#q12">Can I look at the source code?</A></LI>
+
+<LI> <A HREF="#q13">What other Web resources are there for set
+theory?</A></LI>
+
+<LI> <A HREF="#q14">Where can I find other math applets?</A></LI>
+
+<LI> <A HREF="#q15">(For logicians) Why do the axioms of Predicate
+Calculus look different from the ones I learned in school?
+</A></LI>
+
+<LI> <A HREF="#q16">(For logicians) Where can I find references for
+the other logics shown on the 'Select Logic Family' screen?</A></LI>
+
+</OL>
+
+</TD><TD VALIGN=TOP ALIGN=RIGHT WIDTH="25%">
+
+<P>&nbsp;<P><FONT COLOR="#006633" SIZE=-1><I>
+<!--
+Many scientists believe in what is called pantheism, the idea that the
+complex working of the nature around us is the only palpable God we can
+deal with.  For this reason, Reality is the name used by philosophers to
+discuss God, so that the highly emotional content that goes with the
+word God can be avoided.  From this it should be clear that reality is
+the same as metamathematics.
+-->
+Most philosophers agree that contemplation
+of Reality is the highest form of happiness.  So, if you want happiness,
+play Metamath Solitaire all by yourself.</I><BR>
+&mdash;Prof.  Kannan Nambiar (ret.), Jawaharlal Nehru Univ.</FONT>
+
+<P>&nbsp;<P><FONT COLOR="#006633" SIZE=-1><I>
+Dress a tedious task in the guise of a game, and there are players
+who will spend hours and hours on end doing a task they wouldn't otherwise do.
+</I><BR>
+&mdash;Nick Yee, Stanford Univ.</FONT>
+<!-- Science News, Aug. 28, 2010, p. 7 -->
+
+</TD></TR></TABLE>
+
+
+
+&nbsp;&nbsp; <A NAME="20-Jul-2020"></A> <FONT SIZE=-2 FACE="Comic Sans MS"
+COLOR=ORANGE>Added</FONT> <FONT SIZE=-1><I>20-Jul-2020</I></FONT>
+&nbsp;&nbsp; Rohan Ridenour created a <A
+HREF="https://catsarefluffy.github.io/mmsjs/unify.html">clone of
+Metamath Solitaire</A> [accessed 20-Jul-2020] that he used to help him
+enter and verify the shorter proofs he found for our <A
+HREF="pmproofs.txt">pmproofs.txt</A>.  It replaces Metamath Solitaire's
+pull-down list with explicit buttons for every axiom.  He notes, "the
+axiom numbering in exported proofs is inconsistent with the button names
+(exported proofs use the pre-December 2018 names for backwards
+compatibility, but the buttons use <A
+HREF="../mpeuni/mmset.html#oldaxioms">post-December 2018 names</A> for
+consistency with set.mm)."  (The name change affects only predicate
+calculus axioms; propositional calculus axioms ax-1, ax-2, and ax-3 are
+the same as before.)
+
+
+<BR>
+
+
+&nbsp;&nbsp; <FONT SIZE=-2 FACE="Comic Sans MS" COLOR=ORANGE>Added</FONT>
+<FONT SIZE=-1><I>27-Dec-2018</I></FONT> &nbsp;&nbsp; To find the corresponding
+predicate calculus axioms in the set.mm Metamath database, consult the
+cross-reference table <A
+HREF="../mpeuni/mmset.html#oldaxioms">here</A>.
+
+
+<!--   27-Dec-2018 dead link
+&nbsp;&nbsp; <FONT SIZE=-2 FACE="Comic Sans MS" COLOR=ORANGE>Added</FONT>
+<FONT SIZE=-1><I>2-Dec-2006</I></FONT> &nbsp;&nbsp; Berislav
+&#381;arni&#263; has translated the Metamath Solitaire applet to <A
+HREF="http://www.ffst.hr/~logika/pilot/applet/aksiom/aksiom.htm">Croatian</A>
+[external].
+-->
+
+<!--
+, as well as some <A
+HREF="http://www.ffst.hr/~logika/pilot/interaktivnost.htm">other logic
+applets</A>.
+-->
+
+<BR>
+
+&nbsp;&nbsp; <FONT SIZE=-2 FACE="Comic Sans MS"
+COLOR=ORANGE>Added</FONT> <FONT SIZE=-1><I>28-Mar-2006</I></FONT>
+&nbsp;&nbsp; Scott Fenton created the following Metamath Solitaire
+versions:  <A HREF="mm.java-1.5.gz">mm.java-1.5.gz</A> upgrades the mm.java
+file to use the features of Java 2 SDK 1.5, and <A
+HREF="mmsol-0.5.tar.gz">mmsol-0.5.tar.gz</A> is a standalone version
+(not an applet) that reads the axioms from external files rather than
+embedded in the applet.  <I>Note.</I> The SDK 1.5 version of mm.java
+has not yet been made official because it is unclear if it will run in
+earlier versions of Internet Explorer.  A volunteer with access to IE
+5.50.4522.1800 (Windows 98 or NT 4.0), with Microsoft's (not Sun's)
+Java virtual machine version 3802, is needed to test it:  when mousing
+over the area where the applet would be, make sure it doesn't flash an
+error message on the bottom of the screen saying, "load:  class mm not
+found".  SDK 1.4 had this problem, causing user complaints, so it is
+currently compiled using SDK 1.3.
+
+<BR>
+
+<A NAME="shortest"></A>
+
+&nbsp;&nbsp; <FONT SIZE=-2 FACE="Comic Sans MS"
+COLOR=ORANGE>Updated</FONT> <FONT SIZE=-1><I>19-Aug-2018</I></FONT>
+&nbsp;&nbsp; An open challenge has been to beat the records for the <A
+HREF="pmproofs.txt">shortest known proofs</A> (text file) for the 193
+theorems of propositional calculus in Whitehead and Russell's
+<I>Principia Mathematica</I>.  (The instructions in the file tell you
+how to enter these in Metamath Solitaire applet, although the longer
+ones will require considerable patience.)  Gregory Bush found
+shorter proofs for 67 of the 193 theorems, and Scott Fenton has found
+additional shortenings.  Some older versions:
+<A HREF="pmproofs-orig.txt">pmproofs-orig.txt</A>
+<A HREF="pmproofs-2010-11-01.txt">pmproofs-2010-11-01.txt</A>
+<A HREF="pmproofs-2012-01-23.txt">pmproofs-2012-01-23.txt</A>
+<A HREF="pmproofs-2018-08-21.txt">pmproofs-2018-08-21.txt</A>
+<A HREF="pmproofs-2020-07-23.txt">pmproofs-2020-07-23.txt</A>.
+
+<!-- Greg also has a project at <A
+HREF="http://prop.sourceforge.net/">prop.sourceforge.net</A>
+[external].
+-->
+
+
+<BR>
+
+&nbsp;&nbsp; <FONT SIZE=-2 FACE="Comic Sans MS"
+COLOR=ORANGE>Added</FONT> <FONT SIZE=-1><I>13-Apr-2001</I></FONT>
+&nbsp;&nbsp; Thanks to Marcello DeMarinis from Italy for upgrading
+this applet to Java 2.
+
+
+<!-- <HR NOSHADE SIZE=1> -->
+
+<HR NOSHADE SIZE=1><A NAME="q1"></A><FONT COLOR="#006633"><B>1.  What is
+the goal of Metamath Solitaire?</B></FONT>
+
+<P>Essentially everything that is possible to know in mathematics can be
+derived from a handful of axioms known as "Zermelo-Fraenkel set theory,"
+which is the culmination of years of effort to isolate the essential
+nature of mathematics and is one of the most impressive achievements of
+humankind.  Metamath Solitaire lets you play with these axioms to prove
+simple theorems, giving you a glimpse at how ultimately all of
+mathematics can be derived.
+
+<P>Metamath Solitaire is not a game with a score, where you win or lose.
+You could try to prove a specific theorem you have in mind (and if you
+succeed that would be winning), or you can just play around with it and
+see what happens as you experiment with different combinations of
+axioms, trying to come up with one that is unusual or aesthetically
+pleasing.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q2"></A><FONT COLOR="#006633"><B>2.  Can
+I make a mistake?</B></FONT>
+
+<P>Metamath Solitaire makes it impossible to prove anything wrong.  The
+only choices you are allowed at any point are legal ones and anything
+that results on the screen is a mathematically correct theorem, no
+matter how surprising or bizarre it might seem.  Any theorem you stumble
+across, whether by accident or on purpose, will have a proof that is
+absolutely rigorous.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q3"></A><FONT COLOR="#006633"><B>3.  I'm
+impatient and want to see something happen right away!</B></FONT>
+
+<P>There is a theorem of logic which states the trivial fact <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'>
+(read &quot;<IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>
+implies <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>&quot;),
+which means &quot;if something is true, then it is
+true&quot;.  From the 'Axioms:'  (right-hand) menu, select in succession
+ax-1, ax-1, ax-2, ax-mp, and ax-mp.  You will see the logic undergo
+transformations to result in <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG
+SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19
+ALT=')'>.  Select 'Proof Information' from
+the left-hand menu to see the details of the proof you built.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q4"></A><FONT COLOR="#006633"><B>4.  I
+only see the axioms for propositional calculus.  How do I get set
+theory?</B></FONT>
+
+<P>Choose 'Select Logic Family' from the left-hand menu then click on
+either 'ZFC Set Theory' or 'ZFC Set Theory + Definitions'.  (Some other
+logic systems - implicational, intuitionist, modal, quantum, Euclidean
+geometry - are also available but are not discussed here; see the
+references at the end of this page.)
+
+<P> <HR NOSHADE SIZE=1><A NAME="q5"></A><FONT COLOR="#006633"><B>5.
+What do the symbols mean?</B></FONT>
+
+<P>Mathematicians use symbols to state compactly and precisely what
+might take many words in English.  In Metamath Solitaire, you can think
+of them as "game pieces" that you manipulate according to the rules of
+logic.  A symbol can be either a constant, shown in black, or a variable,
+shown in color.
+
+<P>The primitive constant symbols (connectives) for logic and set theory
+are the following:
+
+<MENU>
+
+<LI> <IMG SRC='to.gif'
+WIDTH=15 HEIGHT=19 ALT='-&gt;'> (arrow):  implies</LI>
+
+<LI> <IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> (sideways
+backwards L):  not</LI>
+
+<LI> <IMG SRC='forall.gif' WIDTH=10 HEIGHT=19 ALT='A.'> (upside
+down A):  for all</LI>
+
+<LI> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> (equals sign):
+equals</LI>
+
+<LI> <IMG SRC='in.gif' WIDTH=10 HEIGHT=19 ALT='e.'> (stylized
+epsilon):  is an element of</LI>
+
+<LI> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('> and <IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> (left and right parentheses)</LI>
+
+</MENU>
+
+There are two kinds of variables:  wff (well-formed formula, pronounced
+&quot;wiff&quot;) variables and set variables.  Variables provide
+placeholders into which other expressions matching the type of the
+variable can be substituted.  To make it easier to distinguish variables
+from the connectives, and to identify their type, we show them in color
+with a different color for each type.  Suppose <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'> and <IMG SRC='_cqblue.gif' WIDTH=12
+HEIGHT=19 ALT='Q'> are wff variables, and <IMG SRC='_x.gif' WIDTH=10
+HEIGHT=19 ALT='x'> and <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'> are
+set variables.  Then <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>, <IMG
+SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'>, <IMG SRC='forall.gif' WIDTH=10 HEIGHT=19
+ALT='A.'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>, <IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'>, and <IMG
+SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='in.gif' WIDTH=10
+HEIGHT=19 ALT='e.'> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'> are
+wffs and can be substituted for wff variables in an axiom or theorem.
+Set variables can only be substituted with other set variables.
+
+<P>[Note: Elsewhere on the Metamath site, we usually use Greek letters
+<IMG SRC='_varphi.gif' WIDTH=11 HEIGHT=19 ALT='ph'>,
+<IMG SRC='_psi.gif' WIDTH=12 HEIGHT=19 ALT='ps'>,...
+instead of Roman letters
+<IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>,
+<IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'>,...
+to represent wff variables, but the meaning is the same.]
+
+<P>For set theory, we introduce some definitions to make things a little
+more compact.  The defined symbols are:  <MENU> <LI> <IMG
+SRC='leftrightarrow.gif' WIDTH=15 HEIGHT=19 ALT='&lt;-&gt;'> (double
+arrow):  logically equivalent to</LI>
+
+<LI> <IMG SRC='vee.gif' WIDTH=11 HEIGHT=19 ALT='\/'> (vee):
+or</LI>
+
+<LI> <IMG SRC='wedge.gif' WIDTH=11 HEIGHT=19 ALT='/\'> (wedge):
+and</LI>
+
+<LI> <IMG SRC='exists.gif' WIDTH=9 HEIGHT=19 ALT='E.'>
+(backwards E):  exists</LI>
+
+<LI> <IMG SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{'><IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='vert.gif' WIDTH=3 HEIGHT=19
+ALT='|'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG
+SRC='rbrace.gif' WIDTH=6 HEIGHT=19 ALT='}'>:  class abstraction (or
+class builder):  the class of (sets) <IMG SRC='_x.gif' WIDTH=10
+HEIGHT=19 ALT='x'> such that (wff) <IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> is true</LI>
+
+<LI> <IMG SRC='subseteq.gif' WIDTH=12 HEIGHT=19 ALT='(_'>
+(underlined sideways U):  is a subset of</LI>
+
+<LI> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='u.'> (small
+sans-serif u):  union of two classes</LI>
+
+<LI> <IMG SRC='bigcup.gif' WIDTH=13 HEIGHT=19 ALT='U.'> (large
+sans-serif U):  union of a class</LI>
+
+<LI> <IMG SRC='cap.gif' WIDTH=10 HEIGHT=19 ALT='i^i'>
+(upside-down u):  intersection of two classes</LI>
+
+<LI> <IMG SRC='bigcap.gif' WIDTH=13 HEIGHT=19 ALT='|^|'>
+(upside-down U):  intersection of a class</LI>
+
+<LI> <IMG SRC='varnothing.gif' WIDTH=11 HEIGHT=19 ALT='(/)'> (circle
+with slash):  empty set</LI> </MENU> Their definitions, which you can
+see on the 'Axiom Information' screen, introduce a new type of variable
+called a &quot;class&quot; shown in purple.  A set <IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> is a class, a class abstraction <IMG
+SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{'><IMG SRC='_x.gif' WIDTH=10
+HEIGHT=19 ALT='x'> <IMG SRC='vert.gif' WIDTH=3 HEIGHT=19 ALT='|'> <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rbrace.gif'
+WIDTH=6 HEIGHT=19 ALT='}'> is a class, and the empty set <IMG
+SRC='varnothing.gif' WIDTH=11 HEIGHT=19 ALT='(/)'> is a class.  If <IMG
+SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> and <IMG SRC='_cb.gif'
+WIDTH=12 HEIGHT=19 ALT='B'> are variables representing classes, then
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_ca.gif' WIDTH=11
+HEIGHT=19 ALT='A'> <IMG SRC='cup.gif' WIDTH=10 HEIGHT=19 ALT='u.'> <IMG
+SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'>, <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> <IMG SRC='cap.gif' WIDTH=10
+HEIGHT=19 ALT='i^i'> <IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>, <IMG SRC='bigcup.gif' WIDTH=13
+HEIGHT=19 ALT='U.'><IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'>, and
+<IMG SRC='bigcap.gif' WIDTH=13 HEIGHT=19 ALT='|^|'><IMG SRC='_ca.gif'
+WIDTH=11 HEIGHT=19 ALT='A'> are classes.  Any expression qualifying as a
+class may be substituted for a class variable.
+
+<P>With our new symbols, we also extend the definition of a wff.  If
+<IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> is a set, <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> and <IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'> are wffs, and <IMG SRC='_ca.gif' WIDTH=11
+HEIGHT=19 ALT='A'> and <IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B'>
+are classes, then <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG
+SRC='leftrightarrow.gif' WIDTH=15 HEIGHT=19 ALT='&lt;-&gt;'> <IMG
+SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'>, <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='vee.gif'
+WIDTH=11 HEIGHT=19 ALT='\/'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>, <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'> <IMG SRC='wedge.gif' WIDTH=11 HEIGHT=19 ALT='/\'> <IMG
+SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'>, <IMG SRC='exists.gif' WIDTH=9 HEIGHT=19
+ALT='E.'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>, <IMG SRC='_ca.gif'
+WIDTH=11 HEIGHT=19 ALT='A'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B'>, <IMG
+SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> <IMG SRC='in.gif' WIDTH=10
+HEIGHT=19 ALT='e.'> <IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19 ALT='B'>, and
+<IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> <IMG SRC='subseteq.gif'
+WIDTH=12 HEIGHT=19 ALT='(_'> <IMG SRC='_cb.gif' WIDTH=12 HEIGHT=19
+ALT='B'> are wffs and may be substituted for wff variables.
+
+<P>You can see how we can build up complex expressions with these.
+Expressions qualifying as wffs can contain class variables, and
+expressions qualifying as classes can contain wff variables.  All axioms
+(and theorems derived from them) are wffs.
+
+<P>Class variables are not part of the primitive language.  A class
+variable <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> can be
+eliminated from any theorem in which it occurs by replacing it with <IMG
+SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{'><IMG SRC='_x.gif' WIDTH=10
+HEIGHT=19 ALT='x'> <IMG SRC='vert.gif' WIDTH=3 HEIGHT=19 ALT='|'> <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rbrace.gif'
+WIDTH=6 HEIGHT=19 ALT='}'> where <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'> and <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> are new
+set and wff variables not otherwise occurring in the theorem.  Here is a
+sketch of how we transform <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19
+ALT='A'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'>, for example, to a primitive
+wff:  <IMG SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{'><IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='vert.gif' WIDTH=3 HEIGHT=19
+ALT='|'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG
+SRC='rbrace.gif' WIDTH=6 HEIGHT=19 ALT='}'> <IMG SRC='eq.gif' WIDTH=12
+HEIGHT=19 ALT='='> <IMG SRC='lbrace.gif' WIDTH=6 HEIGHT=19 ALT='{'><IMG
+SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='vert.gif' WIDTH=3
+HEIGHT=19 ALT='|'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'><IMG SRC='rbrace.gif' WIDTH=6 HEIGHT=19 ALT='}'> becomes <IMG
+SRC='forall.gif' WIDTH=10 HEIGHT=19 ALT='A.'><IMG SRC='_x.gif' WIDTH=10
+HEIGHT=19 ALT='x'><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG
+SRC='leftrightarrow.gif' WIDTH=15 HEIGHT=19 ALT='&lt;-&gt;'> <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> which finally becomes <IMG SRC='forall.gif' WIDTH=10
+HEIGHT=19 ALT='A.'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'><IMG
+SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> <IMG SRC='lp.gif' WIDTH=5
+HEIGHT=19 ALT='('><IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='to.gif'
+WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19
+ALT='-.'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'>.
+
+<P>Even with the new symbols, we can still only substitute set variables
+with other set variables.  We can substitute set variable <IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> for class
+variable <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> in the
+theorem <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> <IMG
+SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_ca.gif' WIDTH=11
+HEIGHT=19 ALT='A'> to conclude <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'>, but we can't conclude
+<IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19
+ALT='A'> from <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'>
+<IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'>.
+
+<P>In set theory books, you will find many other definitions built up in
+a hierarchy starting from these.  The theorem of arithmetic 2 + 2 = 4 is
+explained as follows in terms of set theory:  2, +, and 4 denote
+specific classes or sets (just as <IMG SRC='varnothing.gif' WIDTH=11
+HEIGHT=19 ALT='(/)'> denotes the empty set); 2 + 2 is a
+class called an operation value (which combines 3 classes to form a new
+class); and 2 + 2 = 4 is a wff, connecting two classes with the = sign.
+The proof of 2 + 2 = 4 is very complex if you start with the axioms of
+set theory and beyond the scope of what you may easily do with Metamath
+Solitaire.  You can see its complete proof in
+the <A HREF="../mpeuni/mmset.html#trivia">Metamath Proof Explorer</A>.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q6"></A><FONT COLOR="#006633"><B>6.  How
+does the logic work?</B></FONT>
+
+<P>Propositional calculus, which is the simplest subset of logic, has
+four axioms:  ax-1, ax-2, ax-3, and ax-mp.  (Only this subset of logic
+shows up by default; you can add more logic and set theory from the
+left-hand menu.)  Each axiom has one assertion and zero or more
+hypotheses.  The first 3 have no hypotheses.  The axiom ax-mp has 2
+hypotheses and is usually called an "inference rule" rather than an
+axiom; "mp" stands for "modus ponens".
+
+<P> Modus ponens has two hypotheses, <IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> and <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> (read &quot;<IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> implies <IMG
+SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'>&quot;).  It asserts that
+if we have proved two assertions, <IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> and <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>, we can infer a
+third assertion, namely <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'>.  Example:  If we know that &quot;Bob is a man&quot; and
+&quot;If Bob is a man then Bob is a human&quot;, we can infer &quot;Bob
+is a human&quot;.  (To see the representation of modus ponens in
+Metamath Solitaire, select 'Axiom Information' from the left-hand menu
+then select 'ax-mp' from the right-hand menu.)
+
+<P> While you are proving a theorem, what you see on the screen is a
+list of theorems called a &quot;stack&quot;.  When you click on an
+axiom, the program figures out how to make variable substitutions into
+the hypotheses of the axiom and simultaneously into the top-most
+assertions on the stack so that the hypotheses match these assertions.
+This is called &quot;unification&quot;.  After unification, the unified
+hypotheses are removed from the stack, and the axiom's assertion, with
+substitutions made to it, is added to the stack.  Note that the top of
+the stack must be matchable to the <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19
+ALT='('><IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG
+SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+hypothesis of ax-mp, and the one under it must be matchable to <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>.
+
+<P>If you click on ax-1, ax-2, or ax-3, there is no unification because
+they have no hypotheses.  Instead, they are just added to the stack.
+All variables in the stack below the one you add are renamed to be
+unique, to allow future unifications to result in the most general
+possible theorem.
+
+<P>Your goal is to end up with a single entry in the stack, exhausting
+it with ax-mp as much as possible.  Note that ax-mp won't show up as a
+choice if unification is not possible.  (Using 'Delete Stack Top', you
+can also trim off failed experiments left dangling on the stack.  However
+you don't have to do this; 'Proof Information' will show only what's
+needed to prove whatever is on the stack top, ignoring anything below
+it.)
+
+<P> <HR NOSHADE SIZE=1><A NAME="q7"></A><FONT COLOR="#006633"><B>7.  How can I
+prove x = x?</B></FONT>
+
+<P>Click on 'Select Logic Family' then 'Predicate Calculus'.  Then
+select the following axioms in this order to prove
+<IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'>:
+
+<P>ax-8 ax-1 ax-2 ax-mp ax-2 ax-2 ax-mp ax-mp ax-mp ax-16 ax-1 ax-mp
+ax-2 ax-mp ax-mp ax-gen ax-9 ax-mp
+
+<P>Watch carefully (then read about) the <A
+HREF="../mpeuni/mmset.html#distinct">distinct variable requirement</A>
+that appears at the tenth step, evolves during the rest of the proof,
+and vanishes at the end.  'Axiom Information' then 'ax-16' will show the
+axiom where this requirement originates; click 'Exit Axiom Information'
+to get back.  After the proof is complete, you can select 'Proof
+Information' to see the final variable assignments back-substituted
+throughout the proof.
+
+<P>If we introduce set theory, there is a shorter proof
+of <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'>.  Click on
+'Select Logic Family' then 'ZFC Set Theory'.  Then click on:
+
+<P>ax-1 ax-1 ax-2 ax-mp ax-mp ax-1 ax-1 ax-2 ax-mp ax-mp df-bi3 ax-mp
+ax-mp ax-gen ax-ext ax-mp
+
+<P>There, your first proof using an axiom of set theory!
+
+<P>To prove the more general <IMG SRC='_ca.gif' WIDTH=11 HEIGHT=19
+ALT='A'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19 ALT='='> <IMG
+SRC='_ca.gif' WIDTH=11 HEIGHT=19 ALT='A'> for classes, click on 'Select
+Logic Family' then 'ZFC Set Theory + Definitions'.  Then click on:
+
+<P>ax-1 ax-1 ax-2 ax-mp ax-mp ax-1 ax-1 ax-2 ax-mp ax-mp df-bi3 ax-mp
+ax-mp ax-gen df-ceq df-bi2 ax-mp ax-mp
+
+<P>Are you starting to get the idea now?  (Your main goal should be to
+try to understand what what happens when you click on an axiom or rule,
+so you are convinced the result really follows from the sequence of
+steps.  Don't be frustrated if you can't "see" how we came up with the
+sequence of steps in the first place - that does not come naturally and
+requires a lot of practice.  Indeed, some of the above proofs were based on
+an exhaustive computer search to find the shortest sequence.)
+
+<P> <HR NOSHADE SIZE=1><A NAME="q8"></A><FONT COLOR="#006633"><B>8.  How can I add my
+own theorems as additional axioms?</B></FONT>
+
+<P>Often a useful intermediate result tends to get used over and over
+again.  Rather than prove it anew each time, you can add it as an
+additional axiom.
+
+<P> For example, a very useful rule is the syllogism inference.  It has
+hypotheses <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'> and <IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cqblue.gif' WIDTH=12
+HEIGHT=19 ALT='Q'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19 ALT='R'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> from which it asserts <IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19
+ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG
+SRC='_crblue.gif' WIDTH=12 HEIGHT=19 ALT='R'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'>.  Select 'Add Hypothesis' twice.  Then select Axioms
+$hyp1, $hyp2, ax-1, ax-mp, ax-2, ax-mp, ax-mp.  Click on 'Save as
+Axiom'.  You will see it stored as 'user-1' on the 'Axiom Information'
+screen, and it will appear in the 'Axioms:'  menu whenever it can be
+applied to the top 2 entries of the stack.  After 'Save as Axiom',
+select 'Erase Stack' to start a new proof (and use your syllogism in it
+if you wish).  Exercise:  Use your syllogism to shorten the first proof
+of <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'> above to 14 steps.  (Hint:  look for the sequence ax-1, ax-mp,
+ax-2, ax-mp, ax-mp and replace it with user-1.)
+
+<P> <HR NOSHADE SIZE=1><A NAME="q9"></A><FONT COLOR="#006633"><B>9.  How
+can I save my work?</B></FONT>
+
+<P>Unfortunately, the applet does not have the ability to save your
+proofs in a disk file.  You can save your work by clipping the proofs
+from the 'Proof Information' screen and putting them into an editor (or
+writing them down on a piece of paper if your browser doesn't support
+this).  Everything will be erased when you exit the browser!
+
+<P>As a security feature, Java applets normally cannot write to the
+user's disk.  As mentioned in the 28-Mar-2006 note at the top of this
+page, Scott Fenton has created a stand-alone version of the Metamath
+Solitaire Java program.  If you are interested and know Java,
+this program could be enhanced to save and retrieve proofs.
+
+<P>For more serious proofs, you may want to learn how to use the <A
+HREF="../index.html#mmprog">Metamath program</A>, which allows you to
+save your work and has a large database of already proved results to
+start from.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q10"></A><FONT COLOR="#006633"><B>10.
+Can I see some more proofs?</B></FONT>
+
+<P>Here are a few more proofs in propositional calculus to get you
+started.  To abbreviate the proofs, I've used 1, 2, 3, and m in place of
+ax-1, ax-2, ax-3, and ax-mp.  If you find a clever proof, send it to me
+and maybe I'll post it here, with your name attached to it, of course!
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19 ALT='R'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5
+HEIGHT=19 ALT=')'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19
+ALT='R'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  (19 steps) 211m2mm11m22mm1m2mm
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cqblue.gif' WIDTH=12
+HEIGHT=19 ALT='Q'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19 ALT='R'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19
+ALT='R'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  (7 steps) 121m2mm
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif' WIDTH=12
+HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cqblue.gif' WIDTH=12
+HEIGHT=19 ALT='Q'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19 ALT='R'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_crblue.gif' WIDTH=12 HEIGHT=19
+ALT='R'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  (15 steps) 1121m2mm2m1m2mm
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'>
+<IMG SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  (19 steps) 1131m2mm31m2mm2mm3m
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> <IMG SRC='lnot.gif' WIDTH=10
+HEIGHT=19 ALT='-.'> <IMG SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>
+<IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  (17 steps) 1131m2mm31m2mm2mm
+
+<P>Theorem:  <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='lnot.gif' WIDTH=10 HEIGHT=19 ALT='-.'> <IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15
+HEIGHT=19 ALT='-&gt;'> <IMG SRC='_cqblue.gif' WIDTH=12 HEIGHT=19
+ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'> &nbsp;Proof:  (7 steps) 131m2mm
+
+<!--
+<P>Theorem: From hypothesis
+<IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif'
+WIDTH=5 HEIGHT=19 ALT=')'>,
+infer
+<IMG SRC='lp.gif'
+WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_cpblue.gif'
+WIDTH=12 HEIGHT=19 ALT='P'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>
+<IMG SRC='lp.gif' WIDTH=5 HEIGHT=19 ALT='('><IMG SRC='_crblue.gif'
+WIDTH=12 HEIGHT=19 ALT='R'> <IMG SRC='to.gif' WIDTH=15 HEIGHT=19
+ALT='-&gt;'> <IMG SRC='_cqblue.gif'
+WIDTH=12 HEIGHT=19 ALT='Q'><IMG SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'><IMG
+SRC='rp.gif' WIDTH=5 HEIGHT=19 ALT=')'>
+&nbsp;Proof:  11m2m (contributed by Andrew Salmon, 8-Jun-2011)
+-->
+
+<P>You can also find proofs of all 193 theorems of propositional
+calculus in Whitehead and Russell's <I>Principia Mathematica</I>
+<A HREF="pmproofs.txt">here</A>.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q11"></A><FONT COLOR="#006633"><B>11.
+Will Metamath Solitaire help me do my set theory homework?</B></FONT>
+
+<P>Practically speaking, no.  The axioms for set theory are presented in
+their raw form, and extensive logic manipulation is necessary to come up
+with even simple theorems of textbook set theory.  For example, here are
+the lengths ('Axioms:'  menu clicks) of some actual proofs:  commutative
+law for logical OR, 177 clicks; existence of the empty set, 6,175,677
+clicks; transfinite recursion, 24,326,750,185,446 clicks!  Your
+instructor might not appreciate such proofs for your homework, whose
+printouts you would have to roll in with a wheelbarrow or possibly a
+fleet of tractor-trailer trucks.  Proofs can be made much smaller by
+creating a hierarchy of reusable intermediate subtheorems with 'Save as
+Axiom'.  For the first proof, with 10 subtheorems we can reduce the
+total number of 'Axioms:'  clicks to 69; for the second, with 171
+subtheorems we can reduce it to 1267 clicks; the third, transfinite
+recursion, 736 subtheorems and 7557 clicks - all possible in principle
+with the applet but hardly practical, especially since the applet cannot
+save and recall your work.
+
+<P>These proofs and thousands more are worked out in complete detail in
+the database for the <A HREF="../index.html#mmprog">Metamath</A>
+software (which has a command-line interface) and are displayed on the
+web in the <A HREF="../mpeuni/mmset.html">Metamath Proof Explorer</A>.
+Topics in its database file include Russell's paradox, Cantor's theorem,
+Peano's postulates, the Burali-Forti paradox, transfinite induction and
+recursion, the Schr&ouml;der-Bernstein theorem, Zermelo's well-ordering
+theorem, Zorn's Lemma, and the complete Dedekind-cut construction of
+real numbers.
+
+<P>For a more in-depth understanding of the Metamath program you'll want
+to look at the <A HREF="../downloads/metamath.pdf">Metamath book</A>
+(PDF file, 1.3 megabytes, 200 pp.), which also includes an easy-to-read
+informal discussion of abstract mathematics and computers and has
+references to other proof verifiers and automated theorem provers.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q12"></A><FONT COLOR="#006633"><B>12.
+Can I look at the source code?</B></FONT>
+
+<P>Yes, you may look at the <A HREF="mm.java">source code</A>.  The
+program is copyrighted under the terms of the <A
+HREF="http://www.fsf.org/copyleft/gpl.html">GNU General Public
+License</A> [accessed 20-Jul-2020].  You can also <A
+HREF="../index.html#mmsol">download</A> the compiled applet.
+
+
+<P> <HR NOSHADE SIZE=1><A NAME="q13"></A><FONT COLOR="#006633"><B>13.
+What other Web resources are there for set theory?</B></FONT>
+
+<P>Some interesting places to start are <A
+HREF="http://math.vanderbilt.edu/~schectex/ccc/choice.html">A home page
+for THE AXIOM OF CHOICE</A> [accessed 20-Jul-2020] and
+<!--  dead; archive.org snapshot has too many dead links to be useful
+<A
+HREF="http://www.cis.syr.edu/~sanchis/setory.html">Set Theory Page</A>
+[external] -->
+ and <A HREF="http://www.ii.com/math/">Infinite Ink's
+Mathematics Page</A> [accessed 20-Jul-2020].  If you know of other good pages, let
+me know.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q14"></A><FONT COLOR="#006633"><B>14.
+Where can I find other math applets?</B></FONT>
+
+<P>Almost anything you could imagine is available at <A
+HREF="http://mathforum.org/library/">Math Forum Internet Mathematics
+Library</A> [accessed 20-Jul-2020].
+<!-- dead
+Over 15000 calculators can be found at <A
+HREF="http://www-sci.lib.uci.edu/HSG/RefCalculators2.html">Martindale's
+Calculators On-Line Center</A> [external]. -->
+ Logic calculators can be
+found at
+<!-- dead
+ <A
+HREF="http://logik.phl.univie.ac.at/~chris/formular-uk.html">Christian
+Gottschall's Gateway to Logic</A> [external] and -->
+<A
+HREF="http://www.sciencegems.com/">Frank Potter's Science Gems -
+Mathematics</A> [accessed 20-Jul-2020] and <A
+HREF="http://www.ee.umd.edu/~yavuz/logiccalc.html">Logic Calculator</A>
+[accessed 20-Jul-2020].
+
+<P>The <A
+HREF="http://www-formal.stanford.edu/clt/ARS/systems.html#webexec">Database
+of Existing Mechanized Reasoning Systems</A> [accessed 20-Jul-2020] has several
+reasoning tools executable via the Web.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q15"></A><FONT
+COLOR="#006633"><B>15.  (For logicians) Why do the axioms of
+Predicate Calculus look different from the ones I learned in
+school?</B></FONT>
+
+<P>The axioms (or more precisely, axiom schemes) are logically
+equivalent to the ones you learned.  Specifically, they are equivalent
+to a Hilbert-style system of first-order logic with equality and a
+single binary predicate (stylized epsilon).  It is easy to see that each
+axiom is a theorem scheme of standard classical predicate calculus.  In
+addition, though, the set of axioms is <I>metalogically complete</I>,
+meaning that we can directly prove all possible simple metatheorems (not
+just theorems) with no additional metalogic beyond the <I>simple
+metalogic</I> built into the underlying formal framework.  A <I>simple
+metatheorem</I> is a theorem scheme with metavariables that range over
+wffs and individual variables, along with zero or more restrictions of
+the forms &quot;where <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> and
+<IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'> are distinct individual
+variables&quot; and &quot;where <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'> is an individual variable not occurring in wff <IMG
+SRC='_cpblue.gif' WIDTH=12 HEIGHT=19 ALT='P'>&quot;.  These terms are
+explained in more detail in Remark 9.6 of this <A
+HREF="../downloads/finiteaxiom.pdf">article</A> (PDF file).
+
+<P>The algorithm that manipulates the axioms and inference rules is
+unification (a matching and substitution algorithm used by theorem
+provers) enhanced to obey any accompanying distinct variable
+restrictions.  In the applet, this algorithm is performed by the "unify"
+method in the "Unification" class in <A HREF="mm.java">mm.java</A>,
+returning the :most general" unified scheme if it exists and if no
+distinct variable restrictions are violated (or null otherwise).
+
+<!--
+<P>(Interestingly, the unification algorithm makes no intrinsic
+distinction between wff and individual metavariables; as far as it
+knows, there is only one kind of variable.  The structure of
+the axioms prevents unification from mixing metavariable types.)
+-->
+
+<P>Although more axioms are needed for our system compared to standard
+systems, the underlying concepts involve only simple substitution of
+expressions for metavariables (subject to distinct variable
+restrictions).  There are no primitive notions of free variable and
+proper substitution; these are defined concepts.  Free and bound
+variables may be substituted with the same variable provided no distinct
+variable constraint is violated (and the unification algorithm does not
+permit you to violate it).  For example, from <IMG SRC='exists.gif'
+WIDTH=9 HEIGHT=19 ALT='E.'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif'
+WIDTH=12 HEIGHT=19 ALT='='> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'>
+we may safely infer <IMG SRC='exists.gif' WIDTH=9 HEIGHT=19
+ALT='E.'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'><IMG SRC='_x.gif'
+WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='eq.gif' WIDTH=12 HEIGHT=19
+ALT='='> <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> since we can
+prove the former without variable restrictions, but from <IMG
+SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='in.gif' WIDTH=10
+HEIGHT=19 ALT='e.'> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'> <IMG
+SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='forall.gif'
+WIDTH=10 HEIGHT=19 ALT='A.'><IMG SRC='_z.gif' WIDTH=9 HEIGHT=19
+ALT='z'><IMG SRC='_x.gif' WIDTH=10 HEIGHT=19 ALT='x'> <IMG SRC='in.gif'
+WIDTH=10 HEIGHT=19 ALT='e.'> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19
+ALT='y'> (which will have the restrictions <IMG SRC='_z.gif' WIDTH=9
+HEIGHT=19 ALT='z'> distinct from <IMG SRC='_x.gif' WIDTH=10 HEIGHT=19
+ALT='x'> and <IMG SRC='_z.gif' WIDTH=9 HEIGHT=19 ALT='z'> distinct from
+<IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'>) we may not infer <IMG
+SRC='_z.gif' WIDTH=9 HEIGHT=19 ALT='z'> <IMG SRC='in.gif' WIDTH=10
+HEIGHT=19 ALT='e.'> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19 ALT='y'> <IMG
+SRC='to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'> <IMG SRC='forall.gif'
+WIDTH=10 HEIGHT=19 ALT='A.'><IMG SRC='_z.gif' WIDTH=9 HEIGHT=19
+ALT='z'><IMG SRC='_z.gif' WIDTH=9 HEIGHT=19 ALT='z'> <IMG SRC='in.gif'
+WIDTH=10 HEIGHT=19 ALT='e.'> <IMG SRC='_y.gif' WIDTH=9 HEIGHT=19
+ALT='y'>.  Each individual variable should be thought of as a
+metavariable of ordinary predicate calculus, and you will recognize
+these two examples as valid metatheorems.
+
+<P>This axiom system has been used to verify proofs of reasonably
+sophisticated theorems of elementary set theory as you can see in the <A
+HREF="../mpeuni/mmset.html">Metamath Proof Explorer</A>.
+For another discussion of the axioms see the Metamath Proof Explorer's
+<A HREF="../mpeuni/mmset.html#axiomnote">note on the axioms</A>.
+
+<P> <HR NOSHADE SIZE=1><A NAME="q16"></A><FONT COLOR="#006633"><B>16.
+(For logicians) Where can I find references for the other logics shown
+on the 'Select Logic Family' screen?</B></FONT> <MENU> <LI>
+<B>Implicational logic</B>:  Roger Hindley and David Meredith, Principal
+Type-Schemes and Condensed Detachment, J. Symb.  Logic 55, 90-105
+(1990).</LI>
+
+<LI> <B>Intuitionist propositional calculus</B>:  T. Thatcher Robinson,
+Independence of Two Nice Sets of Axioms for the Propositional Calculus,
+J. Symb.  Logic 33, 265-270 (1968).</LI>
+
+<LI> <B><A
+HREF="http://www-formal.stanford.edu/pub/jmc/mcchay69/node22.html">Modal
+logic</A></B> [accessed 20-Jul-2020]</LI>
+
+<LI> <B>Modal provability logic</B>:  George Boolos and Richard Jeffrey,
+<I>Computability and Logic</I> (1989), ch. 27.</LI>
+
+<LI> <B>Quantum logic</B>:  M. Pavicic, Nonordered Quantum Logic, Int.
+J. of Theoretical Physics 32, 1481-1505 (1993) and M. Pavicic, private
+communication (1997).</LI>
+
+<LI> <B>Euclidean geometry</B>:  A. Tarski, What is Elementary
+Geometry?, in <I>The Axiomatic Method</I> (ed.  L. Henkin et. al.)
+(1959), pp. 16-29.</LI>
+
+<LI> <B>Weak D-complete logic</B>:
+<!-- HREF="ftp://ftp.mpi-sb.mpg.de/pub/igpl/Bulletin/V4-2/Megill.ps.gz" -->
+N. Megill and M. Bunder,
+<!--
+<A HREF="http://www.dcs.kcl.ac.uk/journals/igpl/IGPL/V4-2/#Megill">Weaker
+D-Complete Logics</A> [external] -->
+Weaker
+D-Complete Logics, J. IGPL 4 (1996), pp.
+215-225. <A HREF="../downloads/weakd.pdf">PDF version</A>.  This is a
+specialized research logic that is mostly of interest to logicians.
+</LI>
+</MENU>
+
+
+<!-- Hyperlinks to assist site mirroring: -->
+<A HREF="Axiom.class"></A>
+<A HREF="Connective.class"></A>
+<A HREF="DrawSymbols.class"></A>
+<A HREF="PrimFormula.class"></A>
+<A HREF="QSort.class"></A>
+<A HREF="State.class"></A>
+<A HREF="Substitution.class"></A>
+<A HREF="Unification.class"></A>
+<A HREF="VariableName.class"></A>
+<A HREF="bart.aye_carumba.au"></A>
+<A HREF="beep_spring.au"></A>
+<A HREF="boing.au"></A>
+<A HREF="bomb.au"></A>
+<A HREF="bubble1.au"></A>
+<A HREF="clink.au"></A>
+<A HREF="drip.au"></A>
+<A HREF="gate.au"></A>
+<A HREF="hypspc.au"></A>
+<A HREF="mm.class"></A>
+<A HREF="ni.au"></A>
+<A HREF="ouch.au"></A>
+<A HREF="splat.au"></A>
+<A HREF="whoosh.au"></A>
+<A HREF="wzzz.au"></A>
+<A HREF="wzzz2.au"></A>
+<A HREF="zoom.au"></A>
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD NOWRAP ALIGN=CENTER><I><FONT SIZE=-1>This
+ page was last updated on 17-Oct-2020.</FONT></I><BR><FONT
+FACE="ARIAL" SIZE=-2>Your
+ comments are welcome:
+Norman Megill <A HREF="../email.html"><IMG BORDER=0
+SRC="_nmemail.gif"
+ALT="nm at alum dot mit dot edu"
+TITLE="nm at alum dot mit dot edu"
+ WIDTH=90 HEIGHT=13 STYLE="margin-bottom:-3px"></A><BR>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A></FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C HTML validation</A>
+[external]
+</FONT>
+</TD>
+
+</TR></TABLE>
+
+<!-- <SCRIPT SRC="http://www.google-analytics.com/urchin.js" TYPE="text/javascript">
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+_uacct = "UA-1862729-1";
+urchinTracker();
+</SCRIPT>
+-->
+
+</BODY>
+</HTML>

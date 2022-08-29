@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+.r { font-family: "Arial Narrow";
+     font-size: x-small;
+   }
+.i { font-family: "Arial Narrow";
+     font-size: x-small;
+     color: gray;
+   }
+-->
+</STYLE>
+
+<TITLE>eq3tr - Wolfram Axiom for BA</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><A HREF=
+    "mmwba.html"><IMG SRC="mm.gif"
+      BORDER=0
+      ALT="WABA Home"
+      TITLE="WABA Home"
+      HEIGHT=32 WIDTH=32 ALIGN=TOP STYLE="margin-bottom:0px"></A>
+    </TD>
+    <TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP><FONT SIZE="+3" COLOR="#006633"><B>
+Wolfram Axiom for BA
+      </B></FONT></TD>
+    <TD ALIGN=RIGHT VALIGN=TOP WIDTH="25%">
+      <FONT SIZE=-1 FACE=sans-serif>
+      <A HREF="eqtr.html">
+      &lt; Previous</A>&nbsp;&nbsp;
+      <A HREF="eq4tr.html">Next &gt;</A>
+      </FONT><FONT FACE=sans-serif SIZE=-2>
+      <BR><A HREF="mmtheorems1.html#eq3tr">Nearby theorems</A>
+      </FONT>
+    </TD>
+  </TR>
+  <TR>
+    <TD COLSPAN=2 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif>
+      <A HREF="../mm.html">Mirrors</A>&nbsp; &gt;
+      &nbsp;<A HREF="../index.html">Home</A>&nbsp; &gt;
+      &nbsp;<A HREF="mmwba.html">WABA Home</A>&nbsp; &gt;
+      &nbsp;<A HREF="mmtheorems.html">Th. List</A>&nbsp; &gt;
+      &nbsp;eq3tr
+      </FONT>
+    </TD>
+    <TD COLSPAN=2 ALIGN=RIGHT VALIGN=TOP>
+      <FONT SIZE=-2 FACE=sans-serif>
+
+      <A HREF="../wbagif/eq3tr.html">GIF version</A>
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>
+<HR NOSHADE SIZE=1>
+<CENTER><B><FONT SIZE="+1">Theorem <FONT
+COLOR="#006633">eq3tr</FONT></FONT></B>&nbsp;<SPAN CLASS=r
+STYLE="color:#F41300">10</SPAN></CENTER>
+<CENTER><TABLE><TR><TD ALIGN=LEFT><B>Description: </B>Transitive inference rule
+for equality from a chain of 3 hypotheses.
+       (Contributed by NM, 27-Sep-2021.)</TD></TR></TABLE></CENTER>
+
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Hypotheses">
+<CAPTION><B>Hypotheses</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD>tr.1</TD><TD>
+<SPAN ><I><FONT COLOR="#CC4400">a</FONT></I> = <I><FONT
+COLOR="#CC4400">b</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>tr.2</TD><TD>
+<SPAN ><I><FONT COLOR="#CC4400">b</FONT></I> = <I><FONT
+COLOR="#CC4400">c</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>tr.3</TD><TD>
+<SPAN ><I><FONT COLOR="#CC4400">c</FONT></I> = <I><FONT
+COLOR="#CC4400">d</FONT></I></SPAN></TD></TR>
+</TABLE></CENTER>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Assertion">
+<CAPTION><B>Assertion</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD><FONT COLOR="#006633"><B>eq3tr</B></FONT></TD><TD>
+<SPAN ><I><FONT COLOR="#CC4400">a</FONT></I> = <I><FONT
+COLOR="#CC4400">d</FONT></I></SPAN></TD></TR>
+</TABLE></CENTER>
+
+
+<HR NOSHADE SIZE=1>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Proof of theorem">
+<CAPTION><B>Proof of Theorem <FONT
+   COLOR="#006633">eq3tr</FONT></B></CAPTION>
+<TR><TH>Step</TH><TH>Hyp</TH><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD>1</TD><TD>&nbsp;</TD><TD>tr.1</TD><TD><A NAME="1"></A>
+<SPAN CLASS=i>. . 3</SPAN>
+<SPAN ><I><FONT COLOR="#CC4400">a</FONT></I> = <I><FONT
+COLOR="#CC4400">b</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>2</TD><TD>&nbsp;</TD><TD>tr.2</TD><TD><A NAME="2"></A>
+<SPAN CLASS=i>. . 3</SPAN>
+<SPAN ><I><FONT COLOR="#CC4400">b</FONT></I> = <I><FONT
+COLOR="#CC4400">c</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>3</TD><TD><A HREF="#1">1</A>, <A HREF="#2">2</A></TD><TD><A
+HREF="eqtr.html"
+TITLE="Transitive inference rule for equality. Alias for ~ ax-eqtr . (Contributed by NM,...">eqtr</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#F60E00">9</SPAN></TD><TD><A NAME="3"></A>
+<SPAN CLASS=i>. 2</SPAN>
+<SPAN ><I><FONT COLOR="#CC4400">a</FONT></I> = <I><FONT
+COLOR="#CC4400">c</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>4</TD><TD>&nbsp;</TD><TD>tr.3</TD><TD><A NAME="4"></A>
+<SPAN CLASS=i>. 2</SPAN>
+<SPAN ><I><FONT COLOR="#CC4400">c</FONT></I> = <I><FONT
+COLOR="#CC4400">d</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>5</TD><TD><A HREF="#3">3</A>, <A HREF="#4">4</A></TD><TD><A
+HREF="eqtr.html"
+TITLE="Transitive inference rule for equality. Alias for ~ ax-eqtr . (Contributed by NM,...">eqtr</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#F60E00">9</SPAN></TD><TD><A NAME="5"></A>
+<SPAN CLASS=i>1</SPAN>
+<SPAN ><I><FONT COLOR="#CC4400">a</FONT></I> = <I><FONT
+COLOR="#CC4400">d</FONT></I></SPAN></TD></TR>
+</TABLE></CENTER>
+<CENTER><TABLE CELLSPACING=5><TR><TD ALIGN=LEFT><FONT SIZE=-1><B>Colors of
+variables:</B>  <FONT COLOR="#CC4400">term</FONT></FONT></TD></TR>
+<TR><TD ALIGN=LEFT><FONT SIZE=-1><B>Syntax hints:</B>  &nbsp;<SPAN > =
+</SPAN><A HREF="weq.html">weq</A>&nbsp;<SPAN CLASS=r
+STYLE="color:#FA0100">2</SPAN></FONT></TD></TR>
+<TR><TD ALIGN=LEFT><FONT SIZE=-1><B>This theorem was proved from axioms:</B>
+&nbsp;<A HREF="ax-eqtr.html">ax-eqtr</A>&nbsp;<SPAN CLASS=r
+STYLE="color:#F90400">4</SPAN></FONT></TD></TR>
+<TR><TD ALIGN=LEFT><FONT SIZE=-1><B>This theorem is referenced by:</B> &nbsp;<A
+HREF="eq4tr.html">eq4tr</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#F31700">11</SPAN> &nbsp;<A
+HREF="L11.html">L11</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#558D00">67</SPAN> &nbsp;<A
+HREF="L21.html">L21</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#2C9100">78</SPAN> &nbsp;<A
+HREF="L24.html">L24</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#209200">81</SPAN> &nbsp;<A
+HREF="L28.html">L28</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0F930A">85</SPAN> &nbsp;<A
+HREF="L29.html">L29</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0B930D">86</SPAN> &nbsp;<A
+HREF="L38.html">L38</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#009136">95</SPAN> &nbsp;<A
+HREF="L44.html">L44</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#009152">101</SPAN> &nbsp;<A
+HREF="L49.html">L49</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#00906D">107</SPAN> &nbsp;<A
+HREF="L54.html">L54</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#008E84">112</SPAN> &nbsp;<A
+HREF="L59.html">L59</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#008C9E">117</SPAN> &nbsp;<A
+HREF="L61.html">L61</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#008BAA">119</SPAN> &nbsp;<A
+HREF="nksL8.html">nksL8</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0280F5">131</SPAN> &nbsp;<A
+HREF="nksL9.html">nksL9</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#027FFB">132</SPAN> &nbsp;<A
+HREF="nksL10.html">nksL10</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#047EFF">133</SPAN> &nbsp;<A
+HREF="nksL11.html">nksL11</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0E7DFF">134</SPAN> &nbsp;<A
+HREF="nksL15.html">nksL15</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#3379FF">138</SPAN> &nbsp;<A
+HREF="nksL16.html">nksL16</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#3C78FF">139</SPAN> &nbsp;<A
+HREF="nksL17.html">nksL17</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#4677FF">140</SPAN> &nbsp;<A
+HREF="nksL19.html">nksL19</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5174FF">142</SPAN> &nbsp;<A
+HREF="nksL20.html">nksL20</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5673FF">143</SPAN> &nbsp;<A
+HREF="nksL21.html">nksL21</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5B71FF">144</SPAN> &nbsp;<A
+HREF="nksL28.html">nksL28</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#7E66FF">152</SPAN> &nbsp;<A
+HREF="nksL34.html">nksL34</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#9759FF">158</SPAN> &nbsp;<A
+HREF="nksL35.html">nksL35</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#9B56FF">159</SPAN> &nbsp;<A
+HREF="nksL40.html">nksL40</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#AD48FF">164</SPAN> &nbsp;<A
+HREF="nksL43.html">nksL43</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#B43FFF">167</SPAN> &nbsp;<A
+HREF="nksL47.html">nksL47</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#BD33FD">171</SPAN> &nbsp;<A
+HREF="nksL48.html">nksL48</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#C030FC">172</SPAN> &nbsp;<A
+HREF="nksL50.html">nksL50</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#C529FB">174</SPAN> &nbsp;<A
+HREF="nksL54.html">nksL54</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#CD1EF6">178</SPAN> &nbsp;<A
+HREF="nksL55.html">nksL55</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#CE1BF4">179</SPAN> &nbsp;<A
+HREF="nksL58.html">nksL58</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#D312EC">183</SPAN> &nbsp;<A
+HREF="nksL60.html">nksL60</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#D60DE9">185</SPAN> &nbsp;<A
+HREF="nksL66.html">nksL66</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#DA05E2">189</SPAN> &nbsp;<A
+HREF="nksL67.html">nksL67</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#DB02E0">190</SPAN> &nbsp;<A
+HREF="nksL69.html">nksL69</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#DE00D9">192</SPAN> &nbsp;<A
+HREF="nksL70.html">nksL70</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#DF00D2">193</SPAN> &nbsp;<A
+HREF="nksL71.html">nksL71</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#E100CB">194</SPAN> &nbsp;<A
+HREF="nksL72.html">nksL72</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#E200C5">195</SPAN> &nbsp;<A
+HREF="nksL76.html">nksL76</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#E900AA">199</SPAN></FONT></TD></TR>
+</TABLE></CENTER>
+<TABLE BORDER=0 WIDTH="100%">
+<TR><TD WIDTH="25%">&nbsp;</TD>
+<TD ALIGN=CENTER VALIGN=BOTTOM>
+<FONT SIZE=-2 FACE=sans-serif>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A>
+</FONT></TD><TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT SIZE=-2 FACE=sans-serif>
+<A HREF="http://validator.w3.org/check?uri=referer">
+W3C validator</A>
+</FONT></TD></TR></TABLE>
+</BODY></HTML>

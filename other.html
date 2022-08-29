@@ -1,0 +1,1018 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+
+<!-- improve mobile display -->
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Other Metamath-Related Topics</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+
+<STYLE TYPE="text/css">
+<!--
+/* Math symbol image will be shifted down 4 pixels to align with normal
+  text for compatibility with various browsers.  The old ALIGN=TOP for
+  math symbol images did not align in all browsers and should be deleted.
+  All other images must override this shift with STYLE="margin-bottom:0px".
+  (2-Oct-2015 nm) */
+img { margin-bottom: -4px }
+-->
+</STYLE>
+
+</HEAD>
+
+
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP><A HREF="index.html"><IMG SRC="mm.gif"
+      BORDER=0
+      ALT="aleph-null logo"
+      TITLE="aleph-null logo"
+      HEIGHT=32 WIDTH=32 ALIGN=TOP STYLE="margin-bottom:0px"></A>
+    </TD>
+    <TD ALIGN=CENTER VALIGN=TOP><FONT SIZE="+3"
+      COLOR="#006633"><B>Other Metamath-Related Topics</B></FONT>
+    </TD>
+    <TD ALIGN=RIGHT VALIGN=TOP>&nbsp;
+    </TD>
+  </TR>
+
+  <TR>
+    <TD COLSPAN=3 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif>
+      <A HREF="../mm.html">Mirrors</A>&nbsp; &gt;
+      &nbsp;<A HREF="index.html">Home</A>&nbsp; &gt; &nbsp;Other
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>
+
+<HR NOSHADE SIZE=1>
+
+<!--
+<CENTER>
+<B><FONT COLOR="#006633">Created by Scott Fenton</FONT></B>
+</CENTER>
+-->
+
+This page collects supplementary material related to Metamath.  If you have
+a topic you wish to add, contact <A
+HREF="../email.html">Norm Megill</A>.
+
+
+<HR NOSHADE SIZE=1>
+
+
+
+<TABLE  WIDTH="100%"><TR>
+
+<TD VALIGN=top>
+<B><FONT COLOR="#006633">Contents of this page</FONT></B>
+<MENU>
+
+  <LI> <A HREF="#verifiers">Known Metamath proof verifiers</A></LI>
+  <LI> <A HREF="#mmtools">Other tools for Metamath</A></LI>
+  <LI> <A HREF="#mmrelated">Metamath-related programs</A></LI>
+  <LI> <A HREF="#mathematica">Mathematica program to generate
+          arithmetic proof steps</A></LI>
+  <LI> <A HREF="#complex">Study of complex number axiomatization</A></LI>
+  <LI> <A HREF="#natded">Natural deduction in Metamath</A>
+        <BR>&nbsp;</LI>
+  <LI> <A HREF="#guest">Guest links</A></LI>
+
+</MENU></TD>
+
+<TD VALIGN=top>
+<B><FONT COLOR="#006633">Other pages</FONT></B>
+<UL>
+  <LI> <A HREF="mm_100.html">The <B>Metamath 100</B> list</A></LI>
+
+  <LI> <A NAME="cicm2016"></A><B><A
+   HREF="http://www.cicm-conference.org/2016/">CICM 2016</A>:</B>
+       <A HREF="ocat/pnt/pnt.pptx.pdf">Prime Number Theorem (PDF slides)</A>
+       (<A HREF="ocat/pnt/pnt.pptx">PPT</A>)
+       by Mario Carneiro, with an  informal exposition of the related
+<A HREF="http://metamath-blog.blogspot.com/2016/05/dirichlets-theorem.html">
+Dirichlet's theorem</A> [retrieved 4-Aug-2016].
+       <A HREF="ocat/model/model.pptx.pdf">Models for Metamath (PDF slides)</A>
+       (<A HREF="ocat/pnt/pnt.pptx">PPT</A>)
+      (<A HREF="ocat/model/model.pdf">PDF paper</A>)
+      by Mario Carneiro; the paper is also available at
+    <A HREF="http://arxiv.org/abs/1601.07699">arxiv.org</A>
+        [retrieved 16-Feb-2016].
+<A HREF="https://groups.google.com/d/msg/metamath/2TKXoVAALC0/xa3jh1CeAwAJ">
+Google Groups discussion</A> [retrieved 4-Aug-2016].</LI>
+
+  <LI> <B><A
+   HREF="http://www.cicm-conference.org/2015/">CICM 2015</A>:</B>
+   <A HREF="https://youtu.be/jTKwcPtI5Jg">GCH
+         implies AC, a Metamath Formalization (YouTube
+         video)</A> [retrieved 19-Jul-2015]
+       (<A HREF="downloads/gchac.pptx.pdf">PDF slides</A>)
+       (<A HREF="downloads/gchac.pptx">PPT</A>)
+    <A HREF="http://www.cicm-conference.org/2015/fm4m/FMM_2015_paper_4.pdf">
+    (PDF paper)</A> [retrieved
+    19-Jul-2015] by Mario
+       Carneiro.
+  <A HREF="http://youtu.be/PF9cL3RABIw">Arithmetic in Metamath
+      Case Study: Bertrand's Postulate (CICM 2015) (YouTube
+         video)</A> [retrieved 19-Jul-2015]
+       (<A HREF="downloads/bpos.pptx.pdf">PDF slides</A>)
+       (<A HREF="downloads/bpos.pptx">PPT</A>)
+  <A HREF="http://arxiv.org/abs/1503.02349">(PDF paper)</A> [retrieved
+  19-Jul-2015] by Mario Carneiro. </LI>
+
+
+  <LI> <A NAME="displib"></A><A
+      HREF="other/displib/uzind.htm">"Collapsible proof demo"</A>
+      by Chris Capel (4-Jan-2011).   (JavaScript is required.)
+      A click on the magnifying glass will
+      expand, collapse, show substitution, hide substitution depending
+      on context.   Other than an interface that takes getting used to,
+      this is an interesting proof-of-concept demo showing some features
+      that are possible. <B>Feel free to take over this project to
+      enhance it.</B>  Personally, I would prefer context-independent
+      icons that unambiguously indicate their function,
+      like the [+] for expand and [-] for collapse
+      in Windows Explorer.  I would also prefer
+       to see the proof
+      fully expanded on loading (and when JavaScript is disabled);
+      sometimes I just want to see the whole proof at once without
+      having to open a dozen subtrees.
+      </LI>
+
+  <LI> <A NAME="asteroid"></A>
+          <FONT COLOR=RED>(Needs volunteer to reformat URLs...)  </FONT>
+          <A HREF="other/AsteroidMeta/metamath">AsteroidMeta metamath</A> and <A
+          HREF="other/AsteroidMeta/mmj2">mmj2</A> archived wiki
+          discussions (read-only; partial recovery to Nov. 2008).
+          Missing pages are
+          sometimes on archive.org e.g.  <A
+          HREF="https://web.archive.org/web/20111104211628/http://wiki.planetmath.org/cgi-bin/wiki.pl/metamath">archive.org
+          page for metamath</A> (but LaTeX math image files may be missing
+          after 2013 or so).</LI>
+
+
+  <LI> <A HREF="downloads/grammar-ambiguity.txt">grammar-ambiguity.txt</A> -
+     a proof of the unambiguity of set.mm's grammar by Mario Carneiro
+       (28-Apr-2015)</LI>
+
+  <LI> <A HREF="downloads/ihp2014mm.pdf">Overview of Metamath</A>
+         presentation by Norm Megill at Institut Henri Poincaré (2014)</LI>
+
+  <LI> <A HREF="award2003.html">Open problems and miscellany</A> discussed
+    at 2003, 2004, and 2005 Argonne workshops</LI>
+
+  <LI> <A NAME="shortest"></A> <A HREF="mmsolitaire/pmproofs.txt">Shortest known proofs of the
+              propositional calculus theorems from
+                        <I>Principia Mathematica</I></A>
+      <UL><LI>
+         Sean B. Palmer has created
+         <A HREF="https://github.com/sbp/mmm/blob/master/pm.md">some programs
+         </A> [retrieved 6-Oct-2017] to verify these
+         independently and also to search for shorter proofs.
+
+      </LI></UL>
+
+  </LI>
+
+  <LI><A NAME="screen"></A> <A HREF="screen1.html">Editor screenshots and
+  syntax highlighting for Metamath</A></LI>
+
+  <LI> Robert Solovay's Metamath database source file
+  <A HREF="metamath/peano.mm">peano.mm</A>  (Peano arithmetic) </LI>
+
+  <LI> Other Metamath database source files:
+  <A HREF="metamath/miu.mm">miu.mm</A>  (Hofstadter's MIU-system),
+  <A HREF="metamath/big-unifier.mm">big-unifier.mm</A>
+ (William McCune's unification stress test),
+  <A HREF="metamath/demo0.mm">demo0.mm</A>
+ (toy formal system)
+ </LI>
+
+  <LI>Current web usage statistics (us.metamath.org mirror only)
+  <A HREF="http://us.metamath.org/webalizer/index.html">summary by month</A>
+with links to details;
+<A HREF="http://us.metamath.org/webalizer/webalizer.current">
+  current raw Webalizer data</A> </LI>
+
+  <LI><A HREF="edu.html">College and university visitors to the
+ Metamath site in Jan. 2004</A> (based on old server log)</LI>
+
+  <LI><A HREF="other/czur/czur_scanner.html">Czur ET-16 scanner notes</A>
+  (for NM's convenient reference; probably not interesting to others)</LI>
+
+</UL>
+
+<B><FONT COLOR="#006633">External links</FONT></B>
+<UL>
+
+
+  <LI> <A NAME="dawvideos"></A>YouTube videos by David A. Wheeler
+      <UL>
+      <LI><A
+HREF="https://www.youtube.com/watch?v=8WH4Rd4UKGE">"Metamath Proof
+Explorer:  A Modern Principia Mathematica"</A> (14-Aug-2016)
+[retrieved 22-Aug-2016]</LI>
+      <LI> <A
+HREF="https://www.youtube.com/watch?v=Rst2hZpWUbU">"Introduction to
+Metamath &amp; mmj2"</A> (9-Apr-2014) [retrieved 22-Aug-2016]</LI>
+      <LI><A
+HREF="https://www.youtube.com/watch?v=87mnU1ckbI0">"Walkthrough of the
+ tutorial in mmj2"</A> (20-Jan-2020)
+[retrieved 20-Jan-2020]</LI>
+      <LI><A
+HREF="https://www.youtube.com/watch?v=vE3v175cMKM">"Creating
+ Functions in Metamath"</A> (12-Jul-2016) [retrieved 22-Aug-2016].</LI>
+      <LI><A
+HREF="https://www.youtube.com/watch?v=XC1g8FmFcUU">"Metamath Proof
+ Explorer (set.mm) contributions visualized with
+ Gource through 2019-10-04"</A> (6-Oct-2019) [retrieved 20-Jan-2020].</LI>
+      <LI><A
+HREF="https://youtu.be/3R27Qx69jHc">"Formalizing Geometric
+Proof Schwabhäuser 4.6 in the Metamath Proof Explorer"</A>
+(19-Jul-2020) [retrieved 19-Jul-2020].</LI>
+      </UL>
+  </LI>
+
+
+  <LI> <A NAME="fomm2020"></A><B><A
+    HREF="http://www.andrew.cmu.edu/user/avigad/meetings/fomm2020/index.html"
+      >FOMM 2020</A>:</B>The <A
+    HREF="https://www.youtube.com/playlist?list=PLlF-CfQhukNkWwZt45vkNfWfuO-tBBqPN"
+       >FOMM 2020 talks</A> on YouTube.  Mario Carneiro's talk is <A
+    HREF="https://www.youtube.com/watch?v=CqZzbaEuNBs&amp;list=PLlF-CfQhukNkWwZt45vkNfWfuO-tBBqPN&amp;index=18&amp;t=0s">Metamath
+    Zero, or:  How to Verify a Verifier</A>.  Since the slides are washed out in
+    the video, the <A
+    HREF="http://www.andrew.cmu.edu/user/avigad/meetings/fomm2020/slides/fomm_carneiro.pdf">PDF
+    slides</A> are available separately.</LI>
+
+  <LI> <A NAME="bigproof"></A><B><A
+   HREF="https://www.newton.ac.uk/event/bpr">Big Proof 2017</A>:</B>
+   <A HREF="https://www.newton.ac.uk/seminar/20170725140016002">Systems
+  Based on Set Theory</A> [retrieved 22-Jan-2018].
+  Mario Carneiro presents Metamath in the first
+  part of this talk. </LI>
+
+
+
+<LI><A HREF="http://arxiv.org/abs/1412.8091">Conversion of HOL Light proofs
+into Metamath</A> [retrieved 31-Jul-2015]
+by Mario Carneiro </LI>
+<!--
+<LI> <A HREF="https://github.com/sctfn/metamath-nf/">Github repository</A></LI>
+-->
+
+<LI><A HREF="https://gitter.im/metamath/Lobby">Gitter
+chat room</A> [retrieved 14-Aug-2016] for Metamath, set up by
+Mario Carneiro  </LI>
+
+<LI>Naip Moro's <A
+HREF="http://naipmoro.github.io/lofmm/">Metamath database</A>
+(22-Dec-2016) [retrieved 26-Sep-2017] for G.
+Spencer-Brown's
+<A HREF="https://en.wikipedia.org/wiki/Laws_of_Form"
+>Laws of Form</A> [retrieved 26-Sep-2017].
+You can follow the Google Group discussion
+<A HREF="https://groups.google.com/d/msg/metamath/Oggn4OWYxK4/6QNO0Jm4EwAJ"
+>here</A> [retrieved 26-Sep-2017].
+</LI>
+
+<!--
+<LI> <A HREF="http://arxiv.org/abs/1608.02644">Holophrasm:  a neural
+Automated Theorem Prover for higher-order logic</A>
+[retrieved 16-Aug-2016] by Daniel Whalen,
+describing using deep learning to prove 14% test theorems taken from
+set.mm.  The <A HREF="https://github.com/dwhalen/holophrasm">holophrasm
+software is available</A> [retrieved 16-Aug-2016] under the MIT license.
+</LI>
+-->
+
+
+</UL>
+
+</TD>
+</TR></TABLE>
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="verifiers"></A><B><FONT COLOR="#006633">
+Known Metamath proof verifiers</FONT></B>
+
+
+<P>The proof verifiers in this list sometimes have a local archived copy.
+  When an external link is also available, check it to see that you
+have the most recent version.   If you have or know of a more recent
+version or updated external link, let me know so I can update it.
+
+
+<OL>
+
+
+ <LI> <A NAME="mmprog"></A><A
+HREF="index.html#mmprog">metamath</A> (current version) -
+the original Metamath proof verifier and proof assistant
+(written in C by Norman Megill)
+
+  <UL><LI> Sean B. Palmer has a
+     <A HREF="https://sbp.github.io/mmjs/">web page</A>
+      [retrieved 6-Oct-2017] that runs the metamath program
+     in JavaScript.  He writes,
+     "When you load that page it emulates an entire Linux stack running on
+     an OpenRISC CPU simulator written by Sebastian Macke. I added Metamath
+     to its filesystem, compiled it, and set it up so that it runs in
+     screen. It takes about 30 seconds to boot to Metamath on this page in
+     Firefox and Chrome for me... To verify all proofs took my browser about
+     half an hour. But at least this may serve as a curiosity."
+  </LI></UL>
+
+</LI>
+
+ <LI> <A
+HREF="index.html#mmj2">mmj2</A> proof assistant and verifier
+(written in Java by Mel O'Cat; enhanced and maintained by Mario Carneiro).
+Archived <A
+HREF="https://web.archive.org/web/20131219001737/http://wiki.planetmath.org/cgi-bin/wiki.pl/mmj2">AsteroidMeta
+ wiki page</A> [retrieved 3-Aug-2016] as of 2011.
+ </LI>
+
+<LI> <A NAME="leanmmverify"></A> <A
+HREF="https://github.com/digama0/mm-lean4/">mm-lean4</A>
+[retrieved 7-May-2021] - a Metamath proof verifier written in Lean, by
+Mario Carneiro.
+</LI>
+
+<LI> <A NAME="zigmmverify"></A>
+<A HREF="https://github.com/marnix/zigmmverify">zigmmverify</A>
+[retrieved 5-May-2021] - a Metamath proof verifier written in Zig,
+by Marnix Klooster.
+</LI>
+
+<LI><A NAME="gramm"></A> <A HREF="https://github.com/naipmoro/gramm">gramm</A>
+[retrieved 1-Oct-2018] - a Metamath
+proof verifier written in Antlr4/Java, by Naip Moro.</LI>
+
+<LI><A NAME="milp"></A> <A
+HREF="other/milpgame/milpgame.html">Milpgame</A> is a proof assistant
+and verifier, written in Java by Filip Cernatescu.  For practice
+problems, see text linked at <A
+HREF="mpeuni/mmtheorems.html#problem1">mpeuni/mmtheorems.html#problem1</A>.</LI>
+
+<LI> <A HREF="https://github.com/digama0/mm-scala">mm-scala</A>
+[retrieved 13-Jul-2017] - a Metamath proof
+verifier written in the <A
+HREF="https://en.wikipedia.org/wiki/Scala_(programming_language)">Scala</A>
+language as part of an ongoing <A
+HREF="https://github.com/UniFormal/MMT/pull/176" >Metamath -&gt; MM
+import project</A>
+
+<LI> <A HREF="https://github.com/getzdan/Metamath.jl">Metamath.jl</A>
+[retrieved 12-Jun-2016] - a Metamath proof verifier written in the <A
+HREF="https://en.wikipedia.org/wiki/Julia_(programming_language)">Julia</A>
+language, by Dan Getz.  See also <A
+HREF="https://juliaobserver.com/packages/Metamath">
+https://juliaobserver.com/packages/Metamath</A> [retrived 9-Jul-2017].
+</LI>
+
+<LI> <A HREF="downloads/mmamm.m">mmamm.m</A> (29-Mar-2016) -
+A verifier written in the Mathematica language by Mario Carneiro, who says
+it "is only 74 lines (give or take, lines in Mathematica
+are kind of a moving target) and <!-- 2735 --> 2885
+ characters. Of course it is not
+very efficient, and it also does not like local $v declarations (which I
+think are not in set.mm anymore), but it will catch all
+the important errors. It also works with both normal and compressed proofs."
+</LI>
+
+ <LI>
+<A NAME="smm"></A>
+<A HREF="https://github.com/sorear/smm">smm</A>
+[retrieved 6-Sep-2015] -
+the smm, smm2, smm3 Metamath proof verifiers
+(written in JavaScript by Stefan O'Rear) with a long-term
+goal of providing another proof assistant.  By using multiple threads,
+smm3 verifies set.mm in 0.7s on a 2-core, 2-way SMT Intel i5
+ 1.6GHz CPU as of June 18, 2016. See this
+<A HREF="https://groups.google.com/d/msg/metamath/tvVGItb73tA/80ri1GYvCgAJ">
+Google Groups</A> post [retrieved 21-Jun-2016].</LI>
+
+ <LI> <A HREF="http://mm.ivank.net/">MM Tool</A> [retrieved 6-Sep-2015]  -
+a Metamath proof verifier and editor that runs in a browser
+(written in JavaScript by Ivan Kuckir).  He also has written an
+<A HREF="http://blog.ivank.net/introduction-to-metamath.html">Introduction
+to Metamath</A> that summarizes the basics of the Metamath language,
+which you may find useful.
+</LI>
+
+<LI> <A HREF="https://github.com/Drahflow/Igor">Igor</A> [retrieved
+24-Sep-2015] - A proof assistant for Metamath, specialized for set.mm
+(written in a custom language by Drahflow; in progress)</LI>
+
+ <LI> <A HREF="index.html#mmprog">mmverify.py</A> (27-Jan-2013) -
+the mmverify Metamath proof verifier
+(written in 350 lines of Python by Raph Levien)  </LI>
+
+<LI>
+<A NAME="hmm"></A>
+<A HREF="downloads/hmm.zip">hmm.zip</A> (3-Nov-2006) - the hmm
+Metamath proof verifier (written in 400 lines of Haskell by Marnix
+Klooster).  External link:  <A
+HREF="http://home.solcon.nl/mklooster/repos/hmm/">hmm</A> [retrieved
+3-Aug-2016] </LI>
+
+ <LI> <A HREF="downloads/verify.lua">verify.lua</A> (21-Oct-2006) -
+a Metamath proof verifier
+(written in 380 lines of Lua by Martin Kiselkov; needs 40 min
+to verify set.mm, but provides an interesting example for learning Lua).
+External link: <A
+HREF="http://www.fiit.stuba.sk/~kiselkov/Metamath/verify.lua">verify.lua</A>
+[retrieved 3-Aug-2016]  </LI>
+
+<LI> <A HREF="downloads/Verifier.cs">Verifier.cs</A> (29-Oct-2010) - a
+Metamath proof verifier (written in 550 lines of C# by Chris Capel).
+External link:  <A
+HREF="https://web.archive.org/web/20110104141949/http://pdf23ds.net/bzr/MathEditor/Verifier/Verifier.cs">verifier.cs</A>
+[retrieved 3-Aug-2016]</LI>
+
+ <LI> <A NAME="checkmm"></A><A HREF="downloads/checkmm.cpp">checkmm.cpp</A> (9-Dec-2010) -
+the checkmm Metamath proof verifier
+(written in C++ by Eric Schmidt)  </LI>
+
+<LI><A NAME="smetamath-rs"></A><A HREF="https://github.com/sorear/smetamath-rs">smetamath-rs</A> -
+Metamath system engine [retrieved 3-Aug-2016] (written in Rust by Stefan
+O'Rear).  </LI>
+
+<LI><A NAME="metamath-ada"></A><A
+HREF="https://github.com/david-a-wheeler/metamath-ada">metamath-ada</A>
+(16-Jul-2017) - a simple Metamath proof checker [retrieved 15-Aug-2016]
+(written in Ada by Tony Häger).  It should probably be considered to be
+under development; see this this <A
+HREF="https://groups.google.com/d/msg/metamath/SCrP3O56SVQ/XztfHfRRBgAJ">Google
+Group</A> message for its limitations.  A zip download is also attached
+to that message.  </LI>
+
+</OL>
+
+
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="mmtools"></A><B><FONT COLOR="#006633">
+Other tools for Metamath</FONT></B>
+
+<OL>
+
+<LI><A NAME="mmpp"></A> mmpp is a proof editing environment for the
+Metamath language, by Giovanni Mascellani.  Still under development, the
+<A HREF="https://github.com/giomasce/mmpp">GitHub project page</A>
+[retrieved 25-Mar-2018] has instructions for building it under Linux,
+MacOS, and Windoows.  See also the <A
+HREF="https://groups.google.com/d/msg/metamath/UsqyBvemGoY/c82rZAh2BQAJ">Google
+group announcement</A> [retrieved 25-Mar-2018].</LI>
+
+<LI><A NAME="mmapp"></A> Metamath app - Bill Hale's app for Apple
+desktop and iPad computers allows you to browse Metamath theorems and
+their proofs.  Do a search for "Metamath" to find it on Apple's app
+store.  It is free and has no ads or in-app purchases.  For a demo of
+this app, you can view the two <A
+HREF="https://www.youtube.com/watch?v=qTOUBEACTz4">YouTube videos</A>
+[retrieved 27-Feb-2018].  While its main display resembles the Metamath
+web pages you are familiar with, a key feature is a "claim" screen to
+view the breakdown of a single step of a proof (see the second video).
+An on-line connection is not required since it stores set.mm locally.
+(Bill Hale is also the author of <A
+HREF="#mmide">mmide</A>.) </LI>
+
+<LI><A NAME="holophrasm"></A>
+ <A HREF="https://github.com/dwhalen/holophrasm">Holophrasm</A>
+[retrieved 22-Aug-2016] - a Metamath-specialized automated theorem prover
+written in Python by Daniel Whalen.  The paper describes using deep
+learning to prove 14% of its test propositions from set.mm.
+Other links:  <A HREF="https://arxiv.org/abs/1608.02644">paper</A>
+[retrieved 22-Aug-2016], <A
+HREF="https://github.com/dwhalen/holophrasm/releases">working
+release</A> [retrieved 22-Aug-2016].  </LI>
+
+<!--
+<LI> <A HREF="http://arxiv.org/abs/1608.02644">Holophrasm:  a neural
+Automated Theorem Prover for higher-order logic</A>
+[retrieved 16-Aug-2016] by Daniel Whalen,
+describing using deep learning to prove 14% test theorems taken from
+set.mm.  The <A HREF="https://github.com/dwhalen/holophrasm">holophrasm
+software is available</A> [retrieved 16-Aug-2016] under the MIT license.
+</LI>
+-->
+
+
+<LI> <A
+HREF="https://github.com/david-a-wheeler/metamath-test">metamath-test</A>
+[retrieved 15-Aug-2016], by David A. Wheeler, contains test cases
+(positive and negative) for Metamath verifiers and automatically runs
+them against a collection of verifiers.  <A
+HREF="https://travis-ci.org/david-a-wheeler/metamath-test">Last
+execution run</A> [retrieved 15-Aug-2016].  </LI>
+
+<LI> <A NAME="emetamath"></A>
+<A HREF="http://emetamath.tirix.org/">EMetamath</A>
+[retrieved 11-Apr-2018] - Metamath plugin for Eclipse IDE, with mmj2
+inside (written
+in Java by Thierry Arnoux).
+<A HREF="https://groups.google.com/d/msg/metamath/ZlRle52FVO0/alNzicChBgAJ">
+Google Groups discussion</A> [retrieved 10-Jul-2016].
+</LI>
+
+<LI> <A NAME="eclipse"></A>
+<A HREF="https://github.com/marnix/metamath-eclipse-xtext">Metamath
+ plugin for Eclipse based on Xtext</A>
+[retrieved 3-Aug-2016] - Metamath plugin for Eclipse IDE (written
+in Xtext by Marnix Klooster).
+<A HREF="https://groups.google.com/d/msg/metamath/-rihO-79rm8/1ZOWovexAgAJ">
+Google Groups discussion</A> [retrieved 22-Oct-2015].
+</LI>
+
+<LI> <A NAME="completeusersproof"></A> <A
+HREF="other/completeusersproof/completeusersproof.zip">completeusersproof</A>
+(14-Sep-2016, updated 12-Apr-2018) - Alan Sare's completeusersproof
+software that enhances mmj2 for certain kinds of proofs.  Documentation
+can be found in the __README.TXT file in the zip file (also reproduced
+<A
+HREF="other/completeusersproof/completeusersproof-read-me.txt">here</A>).
+(Sadly, Alan Sare passed away on Mar. 23, 2019.  The linked .zip file contains
+the last version that he provided.)</LI>
+<!--
+Alan can be contacted directly for questions:  alansare at alumni dot
+cmu dot edu.</LI>
+-->
+
+<LI> <A NAME="mmide"></A>
+<A HREF="other/mmide.zip">mmide.zip</A> (15-Aug-2006) - mmide
+provides a graphical user interface for displaying the output of the
+Metamath program commands (written in Python by William Hale).  External
+link:  <A
+HREF="https://web.archive.org/web/20120402081703/http://wiki.planetmath.org/cgi-bin/wiki.pl/mmide"
+>mmide</A> [retrieved 3-Aug-2016].  </LI>
+
+</OL>
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="mmrelated"></A><B><FONT COLOR="#006633">
+Metamath-related programs</FONT></B>
+
+<OL>
+
+<LI><A NAME="xpuzzle"></A>
+<A HREF="https://www.xpuzzle.co">XPuzzle</A> [retrieved 1-Sep-2020] - a
+puzzle with math formulas derived from the Metamath system (an Android
+App by Filip Cernatescu).  At the bottom of the web page is a link to
+the Google Play Store.  See also this Google Group <A
+HREF="https://groups.google.com/g/metamath/c/8cYpqky3GwM/m/mlJJnR7wAAAJ">
+post</A>.
+
+<LI><A HREF="http://ghilbert-app.appspot.com">gh_verify</A> [retrieved
+3-Aug-2016] - a verifier for the Ghilbert language (written in Python by
+Raph Levien) </LI>
+
+<LI><A HREF="other/shullivan-0.05.zip">shullivan-0.05.zip</A>
+(14-Jan-2007) - a verifier for the Ghilbert language (written in C by
+Dan Krejsa; loads and verifies the translated 2008 set.mm in 500 ms).
+External link:
+http://home.alamedanet.net/~dan.krejsa/shullivan/shullivan.html [broken
+3-Aug-2016].</LI>
+
+<LI><A HREF="other/bourbaki.zip">bourbaki.zip</A> (20-Dec-2006) - a
+proof checker for Bourbaki, a custom Lisp-like language related to
+Metamath (written in Common Lisp by Juha Arpiainen).  External link:  <A
+HREF="https://web.archive.org/web/20131219002242/http://wiki.planetmath.org/cgi-bin/wiki.pl/Bourbaki_proof_checker"
+>Bourbaki proof checker</A> [retrieved 3-Aug-2016]. </LI>
+
+<LI><A HREF="other/jhilbert-8.zip">jhilbert-8.zip</A> (24-Jun-2009) -
+JHilbert (written in Java by Alexander Klauer), a proof verifier for
+collaborative theorem proving "in the spirit of Ghilbert" and the engine
+behind <A HREF="http://www.wikiproofs.org">Wikiproofs</A> [retrieved
+3-Aug-2016] External links:  <A
+HREF="https://web.archive.org/web/20131221174133/http://wiki.planetmath.org/cgi-bin/wiki.pl/JHilbert"
+>JHilbert</A> [retrieved 3-Aug-2016],
+<A HREF="https://www.mathi.uni-heidelberg.de/~alex/jhilbert/downloads.html">
+JHilbert</A> [retrieved 3-Aug-2016]. </LI>
+
+
+<LI> <A HREF="other/mdl-0.8.7-72.tar.gz">mdl-0.8.7-72.tar.gz</A>
+(10-Apr-2013) - Russell Math verifier (written in C++ by D. Yu Vlasov).
+Built upon Metamath as a high level superstructure with an automatic
+proving facility, described in a <A
+HREF="http://zbmath.org/?q=an:06055320">paper</A> [retrieved 3-Aug-2016]
+(in Russian) and reviewed <A
+HREF="http://slawekk.wordpress.com/2012/08/19/the-russell-proof-language"
+>here</A> [retrieved 3-Aug-2016].  External link:  <A
+HREF="http://russellmath.org">rusellmath.org</A> [retrieved 3-Aug-2016]
+SourceForge page:  <A
+HREF="https://sourceforge.net/projects/mathdevlanguage/" >Mathematics
+Development Language</A> [retrieved 3-Aug-2016].  </LI>
+
+</OL>
+
+
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="mathematica"></A><B><FONT COLOR="#006633">
+Mathematica program to generate
+          arithmetic proof steps</FONT></B>
+
+<P>(11-Jul-2015) Mario Carneiro has developed a
+reference implementation of a Mathematica program, <A
+HREF="downloads/arithmetic.nb">arithmetic.nb</A>, to fill in missing
+arithmetic steps in an <A
+HREF="index.html#mmj2">mmj2</A> proof worksheet.  An example of its use was
+for the proof of <A HREF="mpeuni/log2ub.html">log2ub</A>, which proves
+that log(2) &lt; 253/365.  The starting worksheet <A
+HREF="downloads/log2ub-orig.mmp">log2ub-orig.mmp</A> has 150 steps, 12
+of them incomplete (the most complicated unproven assertion being
+53057*365 &lt; 253*(3^7)*5*7).  The Mathematica program processes this
+file in about 0.25 seconds to produce a completed proof worksheet (<A
+HREF="downloads/log2ub.mmp">log2ub.mmp</A>) with 716 steps.
+Reading this worksheet into mmj2 generates the final compressed proof of
+8167 bytes, which can be decreased to the current 6942 bytes by a
+separate proof optimization algorithm (the 'minimize' command in the
+<A
+HREF="index.html#mmprog">metamath program</A>).
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="complex"></A><B><FONT COLOR="#006633">
+Study of complex number axiomatization</FONT></B>
+
+
+
+<P>In June 2012,
+Eric Schmidt discovered  that two of our
+<A HREF="mpeuni/mmcomplex.html">Axioms for Complex Numbers</A>,
+namely
+<A HREF="mpeuni/addcom.html">ax-addcom (now addcom)</A> and
+<A HREF="mpeuni/addid1.html">ax-0id (now addid1)</A>, were redundant.
+His results are described in
+<A HREF="downloads/schmidt-cnaxioms.pdf">schmidt-cnaxioms.pdf</A>
+(LaTeX source
+<A HREF="downloads/schmidt-cnaxioms.tex">schmidt-cnaxioms.tex</A>),
+which also includes independence results for the remaining
+axioms.
+In addition, <A HREF="mpeuni/mulid1.html">ax-1id (now mulid1)</A>
+for complex numbers can be
+weakened to <A HREF="mpeuni/ax-1rid.html">ax-1rid</A> for reals.
+
+<P>In Jan. 2013,
+Scott Fenton  formalized Eric's work,  resulting in
+ 23 instead of 25 axioms for real and
+complex numbers in set.mm.   The
+ Axioms for Complex Numbers
+page has been updated with these results.
+
+<P>An interesting part
+of the proof, showing how commutativity of addition follows from
+other laws, is in
+<A HREF="mpeuni/addcomi.html">addcomi</A>.  G&eacute;rard Lang pointed
+out that this
+ holds for rings generally, which is now shown by theorem
+ <A HREF="mpeuni/ringcom.html">ringcom</A>.
+
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="natded"></A><B><FONT COLOR="#006633">
+Natural deduction in Metamath</FONT></B>
+
+
+<P>
+In July 2014,
+ Mario Carneiro presented a talk, "Natural Deduction in the
+Metamath Proof Language," at the
+<A HREF="http://katmat.pb.bialystok.pl/pcm14/">
+6PCM conference</A> [retrieved 12-Jul-2015].  It describes the
+natural deduction emulation method (prefixing hypotheses and theorems
+with
+"<IMG SRC='mpegif/_varphi.gif' WIDTH=11 HEIGHT=19 ALT='ph'>
+<IMG SRC='mpegif/to.gif' WIDTH=15 HEIGHT=19 ALT='-&gt;'>") that we
+now commonly use in set.mm to achieve significant savings in proof sizes.
+See
+<A HREF="downloads/natded.pdf">natded.pdf</A> for slides and
+<A HREF="downloads/natded.mp3">natded.mp3</A> for audio.
+
+
+<HR NOSHADE SIZE=1>
+
+<!--
+<A NAME="overview"></A><B><FONT COLOR="#006633">
+Metamath overview presentation</FONT></B>
+
+
+<P>In May 2014, Norm Megill
+ presented an overview of Metamath at the <A
+HREF="https://ihp2014.pps.univ-paris-diderot.fr/doku.php?id=workshop_1">
+"Formalization of mathematics in proof assistants"</A>
+[retrieved 12-Jul-2015] workshop at the
+<A HREF="http://www.ihp.fr/en/ceb/trimester/proofs/workshop1">Institut
+Henri Poincaré</A> [retrieved 12-Jul-2015]
+in Paris.  The slides for this talk are <A
+HREF="downloads/ihp2014mm.pdf">here</A>.
+
+
+<HR NOSHADE SIZE=1>
+-->
+
+
+<HR NOSHADE SIZE=1>
+<HR NOSHADE SIZE=1>
+
+<A NAME="guest"></A><B><FONT COLOR="#006633">
+Guest links</FONT></B>
+
+
+<P>The links in this section are provided as a courtesy to
+correspondents who have requested them.  They may be commercial in
+nature and may or may not be related to Metamath.  The Metamath project
+does not necessarily endorse these links and receives no compensation
+for posting them.  They may be removed by us at any time for any reason.
+
+<UL>
+
+<LI>Barry Franklin from Health Care Degree writes, "High-quality
+education comes at a price.  It's common for students to take large
+amounts of debt to fulfill their higher education dreams and it can take
+decades to pay off student loans.  With that in mind, the team at
+HealthCareDegree.com is highlighting a great guide titled <A
+HREF="https://www.healthcaredegree.com/blog/healthcare-scholarship-guide">Issues
+in Healthcare Career Scholarship Guide (2021-2022)</A>.  We also have
+created more <A HREF="https://www.healthcaredegree.com/blog">Blog</A>
+and <A HREF="https://www.healthcaredegree.com/faq">FAQ</A> content that
+you might find useful as well.
+<BR>
+(Added 6-Dec-2021)<BR>&nbsp; </LI>
+
+
+<LI>Marc from PCWDLD writes, "My colleague's Cygwin 'cheat sheet' - <A
+HREF="https://www.pcwdld.com/cygwin-cheat-sheet">
+https://www.pcwdld.com/cygwin-cheat-sheet</A> - is a quick reference to
+Cygwin that I think could be useful.  It's not a cheat sheet in the
+traditional sense as it's more about helping someone to get started with
+Cygwin then providing some shortcuts to make life easier."
+<BR>
+(Added 7-May-2021) <BR>&nbsp; </LI>
+
+<LI>Hicham Benali requested a link to <A
+HREF="https://www.hyetis.com/blog/disability-scholarships/">
+https://www.hyetis.com/blog/disability-scholarships/</A>, "45
+hand-picked, regularly updated (listed by deadline) disability
+scholarships that you can apply for, to reduce your fees."
+<BR>
+(Added 18-Mar-2021) <BR>&nbsp; </LI>
+
+<LI>Sandra writes, "Recently, I have conducted research and collected a
+list of financial aid and scholarships for students with various special
+needs, you can find it here:
+<A HREF="https://edubirdie.com/blog/scholarships-for-students-with-disabilities">
+https://edubirdie.com/blog/scholarships-for-students-with-disabilities</A>.
+All the provided information is verified and up-to-date."
+<BR>
+(Added 6-Nov-2020) <BR>&nbsp; </LI>
+
+<LI>Andy Kearns writes, "I work on the Consumer Education team at
+LendEDU.... We have a guide on our site titled Guide to Paying for College
+for People With Disabilities and I believe it can be a useful addition
+to your page.  Here's the full guide:  <A
+HREF="https://lendedu.com/blog/paying-for-college-for-people-with-disabilities/">
+https://lendedu.com/blog/paying-for-college-for-people-with-disabilities/</A>
+We hope college students with disabilities can use this resource to find
+various forms of financial aid available to them including scholarships,
+grants, support programs, and more."
+<BR>
+(Added 1-Sep-2020) <BR>&nbsp; </LI>
+
+<!-- deleted 8-May-2021
+<LI>Rebecca Petersen writes,  "My name is Rebecca and I'm a freelance
+writer....Recently, I have conducted research and collected a list of
+technologies for people with disabilities <A
+HREF="https://writix.co.uk/blog/apps-for-students-with-ld">https://writix.co.uk/blog/apps-for-students-with-ld</A>.
+Such students often have trouble with study skills like getting and
+staying organized, so I hope you find this list valuable for your page.
+It is up to date and contains only verified and useful information."
+<BR>
+(Added 31-Aug-2020) <BR>&nbsp; </LI>
+-->
+
+<LI>Sujin with study.com writes, "The team at Study.com recently developed
+a comprehensive college guide for students with disabilities.  Our goal
+is to inform students about critical information regarding their college
+education to help set them up for success.  The <A
+HREF="http://elink.study.com/f/a/g0eQ7G5Ape37xTmvoMSQlg~~/AAEotwA~/RgRglM1HP0SXaHR0cDovL3R4LmJ6LW1haWwtdXMxLmNvbS8xL2wvZjlhY2JhZTBlYzIzNDM2MjgxNDc2NGZiYzA5ODBlZTU_cmw9aHR0cHMlM0ElMkYlMkZzdHVkeS5jb20lMkZyZXNvdXJjZXMlMkZjb2xsZWdlLXJlc291cmNlLWZvci1zdHVkZW50cy13aXRoLWRpc2FiaWxpdGllc1cDc3BjQgoASMeZs16sH1X2Ug9ubUBhbHVtLm1pdC5lZHVYBAAAAAU~">College
+Guide for Students with Disabilities</A> offers in-depth details in
+several areas, including:
+    <UL>
+       <LI>Legal rights of students with disabilities      </LI>
+       <LI>Services colleges can or need to make available </LI>
+       <LI>Required accommodations for students            </LI>
+       <LI>Technologies and helpful apps for students"      </LI>
+    </UL>
+(Added 9-May-2020) <BR>&nbsp; </LI>
+
+
+<LI>Joanne Davis writes, "Recently, I have conducted
+research and collected a list of technologies for people with
+disabilities <A HREF="https://edubirdie.com/blog/technologies-for-people-with-disabilities">
+https://edubirdie.com/blog/technologies-for-people-with-disabilities</A>.
+It is up to date and contains only verified and useful information."<BR>
+(Added 18-Apr-2020) <BR>&nbsp; </LI>
+
+<LI> Nicole Cowart with Essayontime writes, "Recently, we have conducted
+research and gathered a list of financial aid and scholarships for
+students with special needs.  You can find it here:  <A
+HREF="https://essayontime.com.au/scholarships-for-students-with-disabilities/">
+https://essayontime.com.au/scholarships-for-students-with-disabilities/</A>.
+All the provided information is verified and up-to-date."<BR>
+(Added 13-Apr-2020)
+<BR>&nbsp; </LI>
+
+<LI> Cheri Shallenberger with College Explorer writes, "We focus extensively
+on helping students research higher education and labor trends in the
+online higher education sectors.  We recently updated our College
+Education Guides to help job seekers, professionals, and students
+understand the changing landscapes of these programs and their impact on
+careers and employment.  You can view the guides here:<BR> <A
+HREF="https://www.collegedegreesonline.com/"
+>https://www.collegedegreesonline.com/</A><BR> <A
+HREF="https://www.socialworkdegrees.org/"
+>https://www.socialworkdegrees.org/</A><BR>
+We also recently updated our mental health education pages to help job
+seekers and students understand the changing landscapes of these programs
+and their impact on careers and employment for the future:<BR> <A
+HREF="https://www.psychologydegrees.org/"
+>https://www.psychologydegrees.org/</A><BR> <A
+HREF="https://www.counselingdegreesonline.org/"
+>https://www.counselingdegreesonline.org/</A>"<BR>
+(Added 18-Jan-2020)
+<BR>&nbsp; </LI>
+
+<LI>
+Beckie Stone requested the following resource links:
+<BR><A HREF="https://www.rntobsnprogram.com/">
+https://www.rntobsnprogram.com/</A> <BR><A
+HREF="https://www.rntobsnprogram.com/accelerated-bsn-programs/">
+https://www.rntobsnprogram.com/accelerated-bsn-programs/</A> <BR><A
+HREF="https://www.rntobsnprogram.com/healthcare-administration-programs/">
+https://www.rntobsnprogram.com/healthcare-administration-programs/</A> <BR><A
+HREF="https://www.rntobsnprogram.com/msn-programs/">
+https://www.rntobsnprogram.com/msn-programs/</A>
+<BR>(Added 1-Jun-2018)
+<BR>&nbsp; </LI>
+
+<LI>
+Cassie Williams requested the following resource links:
+<BR><A HREF="https://www.bestvalueschools.org/">
+https://www.bestvalueschools.org/</A>
+<BR><A HREF="https://www.bestvalueschools.org/financial-aid/">
+https://www.bestvalueschools.org/financial-aid/</A>
+<BR><A HREF="https://www.bestvalueschools.org/best-resources-college-students-disabilities/">
+https://www.bestvalueschools.org/best-resources-college-students-disabilities/</A>
+<BR><A HREF="https://www.bestvalueschools.org/scholarship/">
+https://www.bestvalueschools.org/scholarship/</A>
+<BR>(Added 11-Apr-2018)
+<BR>&nbsp; </LI>
+
+
+<LI>Tyson Stevens requested a link to <A
+HREF="http://www.edsmart.org/online-colleges-offer-laptops">Online
+Colleges that Offer Laptops</A> and wrote, "EDsmart offers a student
+laptop guide with information about online colleges that offer laptops
+and iPads to their students.  It also provides a comprehensive guide to
+what to look for in a laptop for college students. <A
+HREF="http://www.edsmart.org">EDsmart</A> itself is also a great
+resource for students."  (Added 20-Sep-2017)
+
+<BR>&nbsp; </LI>
+
+<LI> Branden Passwaters from OnlineCollegePlan requested a link to
+<A HREF="http://www.onlinecollegeplan.com/best-online-colleges/">
+the Top 100 Best Online Colleges</A>.  (Added 21-Aug-2017)
+
+<BR>&nbsp; </LI>
+
+<LI>Lauren Young requested a link to <A
+HREF="http://www.bestcolleges.com/features/top-online-schools/">The Best
+Online Colleges of 2016</A> and wrote, "These resources can help
+students, their families and educators understand the online education
+landscape as well as breaking down top online programs across the United
+States."  (Added 6-Jul-2016)
+
+<BR>&nbsp; </LI>
+
+<LI>Francine Millar requested a link to
+<A
+HREF="http://www.thesimpledollar.com/affordable-online-colleges/">Most
+Affordable Online Colleges for 2016</A>
+and wrote, "Not-for-profit public and private colleges and university
+more than
+ever before are incorporating online degree programs.  This trend is
+creating more opportunities for students to pursue their college
+education and at the same time making it much more affordable.
+Unfortunately, many students and their parents are not aware of this and
+part of the reason is because much of the news that we hear today about
+online education is related to for-profit schools.  For this reason, the
+team at The Simple Dollar has published an investigative review of the
+most affordable online programs available based on the US News College
+Ranking report - taking into consideration only reputable and high
+quality education that most people would consider."  (Added 6-Jul-2016)
+
+<BR>&nbsp; </LI>
+
+<LI>Claire Castillo requested a link to
+<A
+HREF="http://www.onlinecolleges.net/california/">OnlineColleges.net</A>
+and wrote, "2016 is an exciting year for education as
+most public and private not-for-profit colleges and universities in
+California are incorporating online degree programs.  Knowing that
+students and families are faced with trying to figure out the best
+educational route to take, OnlineColleges.net
+has refocused their site and its resources to provide an investigative
+review of the online education landscape and critically evaluate the
+best program available, from quality to affordability.  Most
+importantly, they have provided scholarship information that students
+can leverage to help finance their education."  (Added 29-Mar-2016)
+<P>
+Claire Castillo also wrote,
+"We are recently working with a new site to provide greater insight,
+offer more information and most importantly sort through all the
+different internship platform that are available to students.  This
+resource focused on what students should know before they apply, how
+each of these platform work and how to find as many internship
+opportunities as possible.
+Here are the links to our guide:
+
+<BR><A HREF="http://www.reviews.com/student-internship-platforms/">
+http://www.reviews.com/student-internship-platforms/</A> <BR><A
+HREF="http://www.reviews.com/student-internship-platforms/#What_Students_Should_Know_Before_Choosing_an_Internship_Platform">
+http://www.reviews.com/student-internship-platforms/#What_Students_Should_Know_Before_Choosing_an_Internship_Platform</A>
+<BR><A
+HREF="http://www.reviews.com/student-internship-platforms/#The_Best_Student_Internship_Platforms_of_2017">
+http://www.reviews.com/student-internship-platforms/#The_Best_Student_Internship_Platforms_of_2017</A>
+<BR><A
+HREF="http://www.reviews.com/student-internship-platforms/#How_to_Avoid_Scams">
+http://www.reviews.com/student-internship-platforms/#How_to_Avoid_Scams</A>"
+<BR>(Added 26-Apr-2016)
+<BR>&nbsp; </LI>
+
+<LI>Matt Nelson requested a link to <A
+HREF="https://uptimepal.net">UptimePal</A> and wrote, "UptimePal is a
+website monitoring program that pings a given URL and checks for the
+HTTP status code.  If the code is 200, then it's considered 'up.'  If a
+different status code is detected, then it's considered 'down' and an
+alert will be generated.  Because UptimePal uses multiple datacenter
+locations around the world, it also uses a complex monitoring frequency
+algorithm in order to cycle those locations and correlate the
+uptime/downtime calculations with individual monitoring locations...I
+used Metamath to help with the formal verification process and
+termination proofs while constructing the algorithm."   Unfortunately, he
+cannot share more details about the use of Metamath at this point
+because of the proprietary nature of the algorithm.  (Added 29-Mar-2016) </LI>
+
+
+</UL>
+
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD NOWRAP ALIGN=CENTER><I><FONT SIZE=-1>This
+ page was last updated on 8-May-2021.</FONT></I><BR><FONT
+FACE="ARIAL" SIZE=-2>Your
+ comments are welcome:
+Norman Megill <A HREF="../email.html"><IMG BORDER=0
+SRC="_nmemail.gif"
+ALT="nm at alum dot mit dot edu"
+TITLE="nm at alum dot mit dot edu"
+ WIDTH=90 HEIGHT=13 STYLE="margin-bottom:-3px"></A><BR>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A></FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C validator</A>&nbsp;
+&nbsp;<A
+HREF="https://www.google.com/webmasters/tools/mobile-friendly/">Mobile
+check</A>
+</FONT>
+</TD>
+
+</TR></TABLE>
+</BODY>
+</HTML>

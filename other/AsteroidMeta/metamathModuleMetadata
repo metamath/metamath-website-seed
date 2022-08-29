@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: metamathModuleMetadata</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: metamathModuleMetadata" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=metamathModuleMetadata" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=metamathModuleMetadata">metamathModuleMetadata</a></h1></div><div class="content browse"><p>Here is the proposal I sent to Norm Megill about adding "metadata" statements to .mm files such as set.mm so that programs can more easily convert from .mm format to other formats such as Ghilbert or HCodebert. I recommend downloading the latest metamath.zip to see set.mm's newest statements. (Uppercase is used to make the metadata statements stand out, but an extract program should look for lower or upper.) Comments/feedback/etc.? Now is the time to provide input!</p><p><a class="url" href="http://us2.metamath.org:8888/index.html#downloads">http://us2.metamath.org:8888/index.html#downloads</a></p><p>Also check out the "#*#*#*#" and "=-=-=" that existed previously. You will find that the "modules" (books) already have chapter/section breakdowns (I can see (someone) creating a new webpage showing a Table of Contents based on the module/section breakdown of set.mm which would not only pull out the theorem labels but the first sentence of the comment preceding each theorem. More than 10 years of work are embedded in set.mm and it is impressive, to say the least.)</p><p>[Note: conversion of set.mm to another system may be more challenging than first imagined. The issue of overloaded operators and conversions of kinds/grammatical type codes comes into play (see weq vs. wceq, for example.) Overloaded operators are dealt with in mmj2 which constructs a set of Grammar Rules from Metamath syntax axioms and deals with combinations of Nulls and Type Conversions at the same time.]</p><hr /><pre>    After due consideration of multiple factors,
+    especially Occam's Rule, I conclude that there
+    is no need to add anything to break-out set.mm
+    according to Book/Chapter/Section, or to 
+    distinguish between the MODULE break-out and
+    Book/Chapter/Section. (I think MODULE (see below)
+    metadata comment lines will do just fine as
+    Book markers/delimiters.)
+ 
+    I see that the comments beginning with 
+ 
+        $(
+        #*#*#*#*#*#*#*
+ 
+    are the intended "modules" from the author's 
+    viewpoint, and that comments beginning with
+ 
+        $(
+        =-=-=-=-=-=-=-
+ 
+    designate "sections" within those modules. 
+ 
+    Assuming that you continue to maintain 
+    consistency, an extract program should have 
+    no problem automatically breaking out a 
+    file into modules and sections, which can then
+    be automatically numbered -- and captions can
+    be pulled from the module/section header 
+    comments. 
+ 
+    So what I did was create the minimal set of
+    metadata to add to set.mm, in the form of
+    Metamath comments that begin with "$( &lt;MM&gt;".
+    In the future, when we see "$( &lt;MM&gt;" we can
+    *know* that the comment is metadata for 
+    post-processors, such as the Ghilbert extract,
+    or perhaps an html page builder program. Here
+    is how the MODULE metadata looks:
+ 
+    $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;LOGICB&lt;/ID&gt; &lt;PREREQ&gt; &lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+ 
+    &lt;MODULE&gt; -- Identifies as "MODULE" Metadata, which
+                contains attributes "ID" and "PREREQ"
+                (multiple prerequisites are possible).
+ 
+                Ideally, Module ID should be 7 characters
+                in length, or less, and should be composed
+                of letters; digits are permitted but not
+                as the first character (the goal is to
+                support 8 character file names on all
+                platforms and to reserve the 8th character
+                position to distringuish between axiom
+                and theorem files -- the Ghilbert extract
+                will append an "A" or a "T" to the module
+                name...)
+ 
+                As you can see from the automated file
+                comparison below there are these modules:
+ 
+        __ID__   _PREREQ_  __comments________________________________________
+        PREFACE            (contains only comments, so null Ghilbert extract)
+        LOGICB   
+        LOGICP   LOGICB
+        ZFC      LOGICP
+        NUMBERS  ZFC
+        TYPESET  HILBERT   (contains only comments, so null Ghilbert extract)
+        HILBERT  ZFC
+ 
+    The convention should be that the "$( &lt;MM&gt;" 
+    metadata header comment identifies the 
+    start of a module, and that the module continues
+    until the start of the next module or the
+    end of the file. AND... if the "$( &lt;MM&gt;" 
+    comment is immediately followed by a
+        $(
+        #*#*#*#*#*#*#*
+    comment, then the module's Caption will be
+    pulled from the "#*#*#*" comment; otherwise
+    the module caption will be blank -- note that
+    I changed the Typesetting module's Caption
+    comment from 
+        $(
+        =-=-=-=-=-=-=-
+    to 
+        $(
+        #*#*#*#*#*#*#*
+ 
+    because TYPESET is logically a separate module,
+    not a section within NUMBERS. 
+ 
+    The way the PREREQ data will work is that when
+    building a Ghilbert extract from set.mm (or
+    whichever .mm file), the PREREQ will be used
+    to import the prerequisite interface file(s). In
+    Ghilbert, prerequisites are cumulative, so
+    if ZFC's prequisites are LOGICB and LOGICP, and 
+    LOGICP's prerequisite is LOGICB, then only
+    LOGICP needs to be specified as a prerequisite
+    for ZFC. 
+ 
+    Also, just as a preliminary idea unsupported by
+    experimentation, each MODULE's Ghilbert extract
+    will result in two ".gh" files, one for axioms
+    and one for theorems/proofs. 
+ 
+    NOTE: the file comparison below is hard to read,
+    so in English, what I did was precede every
+    "#*#*#*" header comment in set.mm with a "$( &lt;MM&gt;"
+    module metadata comment (even at the start of
+    set.mm!!!) And, I changed the "=-=-=-" characters
+    in the Typesetting section of set.mm to 
+    "#*#*#*", thus giving Typesetting module-level
+    status. (And I changed the file date to 9/14.)
+ 
+    NOTE2: I wasn't sure whether HILBERT's prerequisite
+    was ZFC or NUMBERS, but I picked ZFC (guessing.)
+ 
+    NOTE3: I have no investment in the MODULE ID values,
+    so adjust however seems correct to you. It will
+    be (probably) a few months before I have coded
+    the Ghilbert extract enhancement to mmj2 anyway...
+ 
+    Thanks!
+ 
+ 
+    ======================================================
+    P.S. "1a1" below means line 1 of new file
+    inserted before line 1 of old file. "6c7" means 
+    line 7 of new file replaces line 6 of old file. Etc.
+    =======================================================
+ 
+    Compare: (&lt;)\temp\metamath\set.mm (3819672 bytes)
+       with: (&gt;)\temp\metamath\setMODULES.mm (3820189 bytes)
+ 
+    1a1
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;PREFACE&lt;/ID&gt; &lt;PREREQ&gt; &lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    6c7
+    &lt; set.mm - Version of 13-Sep-2005
+    ---
+    &gt; set.mm - Version of 14-Sep-2005
+    865a866
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;LOGICB&lt;/ID&gt; &lt;PREREQ&gt; &lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    7357a7359
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;LOGICP&lt;/ID&gt; &lt;PREREQ&gt;LOGICB&lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    11252c11255
+    &lt; 
+    ---
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;ZFC&lt;/ID&gt; &lt;PREREQ&gt;LOGICP&lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    48260a48263
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;NUMBERS&lt;/ID&gt; &lt;PREREQ&gt;ZFC&lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    67163,67166c67167,67171
+    &lt; $(
+    &lt; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    &lt;        Appendix:  Typesetting definitions for the tokens in this file
+    &lt; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    ---
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;TYPESET&lt;/ID&gt; &lt;PREREQ&gt;HILBERT&lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)
+    &gt; $(
+    &gt; #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+    &gt;        Appendix:  Typesetting definitions for the tokens in this file
+    &gt; #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+    68105a68110
+    &gt; $( &lt;MM&gt; &lt;MODULE&gt; &lt;ID&gt;HILBERT&lt;/ID&gt; &lt;PREREQ&gt;ZFC&lt;/PREREQ&gt; &lt;/MODULE&gt; &lt;/MM&gt; $)</pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=metamathModuleMetadata">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=metamathModuleMetadata">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=metamathModuleMetadata">Administration</a></span><span class="time"><br /> Last edited 2005-09-17 18:47 UTC by <a class="author" title="from dialup-4.243.146.222.Dial1.SanFrancisco1.Level3.net" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=metamathModuleMetadata">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

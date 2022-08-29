@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2bug</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2bug" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2bug" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2bug">mmj2bug</a></h1></div><div class="content browse"><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=fcfrl  LOC_AFTER=?</pre><pre>    $d x y z A n u
+    $d n B
+    $d n C
+    $d x B
+    $d x C
+    $d n D</pre><pre>    *** A -- A \ U. B is finite  ((( E. n e. om ( A \ U. B ) ~~ n )))</pre><pre>    * si A est fini et B (_ A alors B est fini.
+    1::ssfi            |- ( ( E. x e. om A ~~ x /\ B (_ A ) -&gt; E. x e. om B ~~ x ) </pre><pre>    * Si A e. B alors |^| B (_ A.
+    2::intss1          |- ( A e. B -&gt; |^| B (_ A )</pre><pre>    * Le complement de l'union = l'intersection des complement.
+    3::iindif2         |- ( -. A = (/) -&gt; |^|_ x e. A ( B \ C ) = ( B \ U_ x e. A C ) ) </pre><pre>    * Relationship betwwen U_ and U. |^| and |^|_ .
+    4::uniiun          |- U. A = U_ x e. A x 
+    5::intiin          |- |^| A = |^|_ x e. A x </pre><pre>    * Union indexee incluse dans
+    * iinss  |- ( E. x e. A B (_ C -&gt;  |^|_ x e. A B (_ C ) $=</pre><pre>    * ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) )
+    * E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) )</pre><pre>    * 10:: ( -. u = (/) -&gt; |^|_ x e. u ( A \ x ) = ( A \ U_ x e. u x ) )
+    * iinss  |- ( E. x e. u ( A \ x ) (_ ( A \ x ) -&gt;  |^|_ x e. u ( A \ x ) (_ ( A \ x ) ) $=
+    * 1::ssfi            |- ( ( E. n e. om ( A \ x ) ~~ n /\ |^|_ x e. u ( A \ x ) (_ ( A \ x ) -&gt; E. n e. om |^|_ x e. u ( A \ x ) ~~ n ) 
+    * 10:: ( -. u = (/) -&gt; |^|_ x e. u ( A \ x ) = ( A \ U_ x e. u x ) )
+    * 10:: ( -. u = (/) -&gt; E. n e. om |^|_ x e. u ( A \ x ) = E. n e. om ( A \ U_ x e. u x ) )
+    * 4::uniiun          |- U. u = U_ x e. u x
+    * 10:: ( -. u = (/) -&gt; E. n e. om |^|_ x e. u ( A \ x ) = E. n e. om ( A \ U. u ) )
+    * 10:: ( -. u = (/) -&gt; E. n e. om ( A \ U. u ) ~~ n )</pre><pre>    6:?:    |- ( ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) -&gt; U. u (_ A )
+    7:?:    |- ( ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) -&gt; ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) )</pre><pre>    *|- ( ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) -&gt; ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) ) )</pre><pre>    **** B -- A \ x i^i y is finite.</pre><pre>    **** C -- The end of the proof</pre><pre>    * On supprime le quantificateur
+    8::clelab   |- ( 
+                  U. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                &lt;-&gt; 
+                  E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) )
+                )</pre><pre>    * On remplace e. Top par sa definition
+    9:?:   |- { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } e. V</pre><pre>    * On remplace e. Top par sa definition
+    10::istopg   |- ( { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } e. V -&gt; 
+                 ( { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } e. Top &lt;-&gt; 
+                 ( A. u ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } -&gt; 
+                 U. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) 
+                 /\ A. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                 A. z e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                ( u i^i z ) e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) ) )</pre><pre>    * On remplace e. Top par sa definition
+    11:9,10:ax-mp    |- ( { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } e. Top &lt;-&gt; 
+                     ( A. u ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } -&gt; 
+                     U. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) /\ 
+                     A. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                     A. z e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                     ( u i^i z ) e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) )</pre><pre>    * On se debarasse de la seconde classe
+    12::ax-17        |- ( y e. u -&gt; A. x y e. u ) </pre><pre>    * On se debarasse de la seconde classe
+    13::hbab1         |- ( y e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ 
+                          x = (/) ) ) } -&gt; A. x y e. { x | ( x (_ A /\ ( E. n e. om
+                          ( A \ x ) ~~ n \/ x = (/) ) ) } ) </pre><pre>    * On se debarasse de la seconde classe
+    14:12,13:dfss2f     |- (
+                           u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) }
+                           &lt;-&gt;
+                           A. x ( x e. u -&gt; x e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } )
+                           )</pre><pre>    * On se debarasse de la classe nouvellement apparue.
+    15::abid  |- (
+     x e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) }
+     &lt;-&gt;
+     ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) )
+     )</pre><pre>    * On se debarasse de la classe nouvellement apparue.
+    16:15:imbi2i |- (
+      ( x e. u -&gt; x e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } )
+      &lt;-&gt;
+      ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) )
+      )</pre><pre>    * On se debarasse de la classe nouvellement apparue.
+    17:16:albii  |- (
+      A. x ( x e. u -&gt; x e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } )
+      &lt;-&gt;
+      A. x ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) )
+      )</pre><pre>    * On substitue x par U. u.
+    18::sseq1 |- ( x = U. u -&gt; ( x (_ A &lt;-&gt; U. u (_ A ) )
+    * On substitue x par U. u.
+    19::difeq2 |- ( x = U. u -&gt; ( A \ x ) = ( A \ U. u ) )
+    * On substitue x par U. u.
+    20:19:breq1d |- ( x = U. u -&gt; ( ( A \ x ) ~~ n &lt;-&gt; ( A \ U. u ) ~~ n ) )
+    * On substitue x par U. u.
+    21:20:rexbidv |- ( x = U. u -&gt; ( E. n e. om ( A \ x ) ~~ n &lt;-&gt; E. n e. om ( A \ U. u ) ~~ n ) )
+    * On substitue x par U. u.
+    22::eqeq1 |- ( x = U. u -&gt; ( x = (/) &lt;-&gt; U. u = (/) ) )</pre><pre>    * On substitue x par U. u.
+    23:21,22:orbi12d |- ( x = U. u -&gt; 
+                              ( 
+                                 ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) 
+                              &lt;-&gt; 
+                                 ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) 
+                               ) 
+                   )</pre><pre>    * On substitue x par U. u.
+    24:18,23:anbi12d |- ( x = U. u -&gt; 
+                              ( 
+                                 ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) )
+                              &lt;-&gt; 
+                                 ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) )
+                               ) 
+                   )</pre><pre>    * On substitue x par U. u.
+    25:24:bicomd |- ( x = U. u -&gt; 
+                              ( 
+                                 ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) )
+                              &lt;-&gt; 
+                                 ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) )
+                               ) 
+                   )</pre><pre>    * On substitue x par U. u. Suppression du x = U. u surnumeraire
+    26:25:biimpd        |- ( x = U. u -&gt; ( ( U. u (_ A /\ ( E. n e. om ( A \
+                          U. u ) ~~ n \/ U. u = (/) ) ) -&gt; ( x (_ A /\ 
+                          ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) )</pre><pre>    * On substitue x par U. u.
+    27::anc2l              |- ( ( x = U. u -&gt; ( ( U. u (_ A /\ ( E. n e. om ( A \
+                          U. u ) ~~ n \/ U. u = (/) ) ) -&gt; ( x (_ A /\ 
+                          ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) )
+                           -&gt; ( x = U. u -&gt; ( ( U. u (_ A /\ ( E. n e. om ( A \
+                          U. u ) ~~ n \/ U. u = (/) ) ) -&gt; ( x = U. u /\ ( x (_ A /\ 
+                          ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) ) ) )</pre><pre>    * On substitue x par U. u. Suppression du E. ( etrange et fascinant a4w )
+    28:26,27:ax-mp   |- ( x = U. u -&gt; ( ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~
+                          n \/ U. u = (/) ) ) -&gt; ( x = U. u /\ ( x (_ A /\ ( E. n e.
+                          om ( A \ x ) ~~ n \/ x = (/) ) ) ) ) )</pre><pre>    * On substitue x par U. u
+    29:?:             |- ( x = U. u -&gt; ( ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~
+                          n \/ U. u = (/) ) ) -&gt; ( x = U. u /\ ( x (_ A /\ ( E. n e.
+                          om ( A \ x ) ~~ n \/ x = (/) ) ) ) ) )</pre><pre>    * On se debarasse de la classe nouvellement apparue.
+    30:29:a4w |- ( ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) ) -&gt; 
+            E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) )</pre><pre>    * On se debarasse de la classe nouvellement apparue
+    31:30:a4s   |- (  A. x ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) -&gt; 
+                ( U. u (_ A /\ ( E. n e. om ( A \ U. u ) ~~ n \/ U. u = (/) ) ) )</pre><pre>    * On se debarasse de la classe nouvellement apparue
+    32:31,30:syl                 |- (  A. x ( x e. u -&gt; ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) -&gt; 
+                            E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) )</pre><pre>    * On se debarasse de la premiere classe. Mais une nouvelle classe est apparue
+    * x est un element de la topologie
+    33:17,32:sylbi           |- ( A. x ( x e. u -&gt; x e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) -&gt; 
+                            E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) ) )</pre><pre>    * On se debarasse de la seconde classe
+    34:14,33:sylbi       |- ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x
+                          = (/) ) ) } -&gt; E. x ( x = U. u /\ ( x (_ A /\ ( E. n e. om
+                          ( A \ x ) ~~ n \/ x = (/) ) ) ) )</pre><pre>    * On supprime le quantificateur
+    35:34,8:sylibr              |- ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x
+                          = (/) ) ) } -&gt; U. u e. { x | ( x (_ A /\ ( E. n e. om ( A 
+                          \ x ) ~~ n \/ x = (/) ) ) } )</pre><pre>    * On split 26 en les deux termes de la definition
+    36:35:ax-gen           |- A. u ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n
+                          \/ x = (/) ) ) } -&gt; U. u e. { x | ( x (_ A /\ ( E. n e. om 
+                          ( A \ x ) ~~ n \/ x = (/) ) ) } ) </pre><pre>    * On split 26 en les deux termes de la definition
+    37:?:              |- A. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ 
+                          x = (/) ) ) } A. z e. { x | ( x (_ A /\ ( E. n e. om ( A \
+                          x ) ~~ n \/ x = (/) ) ) } ( u i^i z ) e. { x | ( x (_ A /\
+                          ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } </pre><pre>    * On remplace e. Top par sa definition
+    38:36,37:pm3.2i     |- ( A. u ( u (_ { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } -&gt; 
+                        U. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } ) 
+                        /\ A. u e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                        A. z e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } 
+                        ( u i^i z ) e. { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } )</pre><pre>    qed:11,38:mpbir  |- { x | ( x (_ A /\ ( E. n e. om ( A \ x ) ~~ n \/ x = (/) ) ) } e. Top</pre><pre>    $)</pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2bug">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2bug">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2bug">Administration</a></span><span class="time"><br /> Last edited 2006-07-29 14:21 UTC by <a class="author" title="from 66-81-74-105.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2bug">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

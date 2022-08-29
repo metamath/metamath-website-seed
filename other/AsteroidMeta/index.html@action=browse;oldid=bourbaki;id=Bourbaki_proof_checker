@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: Bourbaki proof checker</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: Bourbaki_proof_checker" href="?action=rss;rcidonly=Bourbaki_proof_checker" /></head><body class=""><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><div class="message"><p>(redirected from <a class="edit" title="Click to edit this page" href="?action=edit;id=bourbaki">bourbaki</a>)</p></div><h1><a title="Click to search for references to this page" href="?search=Bourbaki+proof+checker">Bourbaki proof checker</a></h1></div><div class="content browse"><p><a class="local" href="jarpiain">Juha Arpiainen</a> has been working on a <a class="local" href="metamath">metamath</a>-style proof checker in Common Lisp; it could be a big boost to the HDM project. I have yet to check it out in detail, but everyone who is interested in  <a class="local" href="/hdm's_formal_system">hdm's formal system</a> should take a look, and post thoughts here if possible.</p><p><a class="url" href="http://juhaarpi.users.paivola.fi/bourbaki/">http://juhaarpi.users.paivola.fi/bourbaki/</a></p><p>After a long wait, a new version is now available with <a class="url outside" href="http://ranssi.paivola.net/~juhaarpi/bourbaki/bourbaki_doc.pdf">Documentation</a> &#x2013; <a class="local" href="jarpiain">jarpiain</a> 2005-10-20</p><p>New version featuring aliases that work like Ghilbert definitions (but don't support dummy variables in the definiens), theorems with multiple assertions, <a class="url outside" href="http://ranssi.paivola.net/~juhaarpi/bourbaki/html/">HTML output</a>, and preliminary support for <a class="local" href="/structured_proofs">structured proofs</a> (see <a class="url outside" href="http://ranssi.paivola.net/~juhaarpi/bourbaki/html/prop/ancom-alt.html">ancom-alt</a> for a simple example). Documentation needs still work. &#x2013; <a class="local" href="jarpiain">jarpiain</a> 2005-12-10</p><h1>Version 3.7 released</h1><p>Some corner cases were finally implemented, but mostly this is about documenting the features that have been there for the better part of a year (thinking non-trivial examples that don't distract from point being explained is the hardest part).</p><p>Some comments:</p><p>- the recent work on set.mm on topologies, metric spaces and so on is getting to the point where the Bourbaki context system (from section 5 of the pdf) would really be useful.</p><p>- files in the "lib" subdirectory contain a hand-converted, modularized version of the first 1400 or so theorems of set.mm.</p><p>- there is a nice "inline" version of the deduction theorem that looks like this:</p><pre>    (suppose ([X]) ([Y])
+      line1
+      line2
+      ...)</pre><p>Within the 'suppose' form [X] can be used as an additional hypothesis. The proof of [Y] is then converted to a proof of [&#x2192; X Y]. This does not yet work with ax-gen.</p><p>- the theorem seeking code is not quite as powerful as in mmj2. Due to the more relaxed proof format I'd have to unify the hypotheses against the whole proof so far  instead of just the top N expressions in the proof stack. On the other hand I only have to check theorems whose assertion matches the wff. Note that this handles distinct variables correctly!</p><p>&#x2013; <a class="local" href="jarpiain">jarpiain</a> 2006-12-21</p><hr /><h1>Comments</h1><p>Thanks for the posting, Juha! The documentation definitely seems to be 20 pages worth reading in detail. I'm really just getting up to speed with Metamath (and its several flavors) but as a LISP fan, I particularly appreciate what you're working on here, and I would like to advertize LISP to other Metamath heads as a potential language to work with! I think it would be nice if someone in the Metamath community could write a definitive page on the Metamath variants, derivatives, and associated programs that exist today. Another minor suggestion for you is to put  the files in your downloadable tar file into one directory &#x2013; as it is, when they are untarred, they fill up the directory in which tar was run. It would also probably be a good idea to include the TeX file for the documentation in the source distribution. --<a class="local" href="jcorneli">jcorneli</a></p><p>It would be very useful to have some comparison of Bourbaki to other theorem provers/checkers. I chose the language and proof checker for <a class="local number" title="IsarMathLib" href="IsarMathLib"><span><span class="bracket">[</span>1<span class="bracket">]</span></span></a> based on the "Seventeen provers of the world" paper at <a class="url" href="http://www.cs.ru.nl/~freek/comparison/comparison.pdf">http://www.cs.ru.nl/~freek/comparison/comparison.pdf</a> . I think writing a document that could become another chapter of that paper would be a very good way to present Bourbaki in a wider context. --<a class="local" href="/slawekk">slawekk</a></p><h2>On the context system</h2><p>I have now added an "alias" feature providing providing "definitions" that are translated to primitive symbols by the parser. The "def" feature on the other hand introduces a new primitive symbol and an axiom to the formal system.</p><p>Combined with the context system, "alias" allows Ghilbert-style definitions and interfaces. An example of how I imagine the context system would be used:</p><pre>    ;;;; File "pair-ax"
+    
+    ;;; Top-level context for axioms and definitions
+    ;;; related to ordered pairs
+    (module "pair-ax"
+      (bimport [!!equ-ax]) ; Assume equality axioms and syntax
+    
+      ;;; Symbol "pair" for ordered pairs
+      (prim set "pair" set set)
+    
+      ;;; The defining property of ordered pairs
+      (ax "ax-pair" (set ("a" "b" "c" "d"))
+         (ass [&lt;-&gt; = [pair a b] [pair c d] /\ [= a c] [= b d]])
+    
+      ;;; Define the relation "x is an ordered pair"
+      ;;; [&lt;-&gt; [is-pair x] Ex y Ex z [= x pair y z]]
+      (def "df-pair" pr "is-pair" (set "x") (sv ("y" "z"))
+         [Ex y Ex z = x pair y z])
+    ) ;;; End file "pair-ax"
+    
+    ;;;; File "rel"
+    
+    ;;; Given a representation of ordered pairs, construct a
+    ;;; theory of relations.
+    ;;; This file will be verified and "compiled" into an
+    ;;; interface file containing the theorems without proofs.
+    ;;; The interface file uses only a small subset of Bourbaki syntax
+    ;;; (not general Lisp forms).
+    (module "rel"
+      (bimport [!!set-ax]) ; Assume logic and set theory
+      (bimport [!!set-basic]) ; Interface file for elementary consequences of the axioms
+      (bimport [!!pair-ax])
+    
+      ;;; X is a relation if each element of X is a pair
+      (def "df-rel" pr "Rel" (set "X") (sv "y")
+         [All y -&gt; [e. y X] [is-pair y]])
+    
+      ;;; A subset of a relation is a relation
+      (th "ss-rel" (set ("A" "B"))
+         (hypo [Rel B] [(_ A B])
+         (ass [Rel A])
+         (proof ...))
+    
+      ;;; Lemmas needed only in this file. These are not inserted into
+      ;;; the interface file
+      (local "lemmas"
+         (th "rel-lemma1" ...))
+    
+      ...) ;;; End file "rel"
+    
+    ;;;; File "kuratowski-pair"
+    
+    ;;; The theory of relations using the Kuratowski definition of ordered pair:
+    ;;; [pair a b] = [{2 [{1 a] [{2 a b]] = { {a}, {a,b} }
+    (module "kuratowski-pair"
+      (bimport [!!set-ax])
+      (bimport [!!set-basic])
+    
+      (th "kuratowski-ax-pair" (set ("a" "b" "c" "d"))
+         (ass [&lt;-&gt; = [{2 {1 a {2 a b] [{2 {1 c {2 c d] /\ [= a c] [= b d]])
+         (proof ...))
+    
+      ;;; alias the symbols and axioms declared in "pair-ax"
+      (local "provide-pair-ax"
+        (alias "pair" (set ("a" "b"))
+          [{2 {1 a {2 a b])
+        (alias "ax-pair" (set ("a" "b" "c" "d"))
+          [kuratowski-ax-pair a b c d]))
+    
+      ;;; Temporarily bind the top-level context "pair-ax" into the
+      ;;; local context just defined. Then load the interface file
+      ;;; for "rel". When the file "pair-ax" is loaded, the symbol and
+      ;;; axiom declarations found there are compared against those in
+      ;;; "provide-pair-ax". When "rel" is loaded, the term [pair a b]
+      ;;; is resolved by the parser to [{2 {1 a {2 a b]. The theorems
+      ;;; of "rel" with this substitution are available for anyone
+      ;;; importing this file
+      (bexport [!!rel]
+               :provide (("ax-pair" . [provide-pair-ax])))
+    
+     ...) ;;; End file "kuratowski-pair"</pre><p>On symbol kinds, I think I will have set terms and class terms as disjoint symbol types with distinct operators. In cases where the same proof works for both sets and classes, aliases could be used to avoid duplicating work. The only related types would then be set variables as a subtype of set terms. &#x2013; <a class="local" href="jarpiain">jarpiain</a></p><h1>Questions</h1><p><a class="local" href="/Bourbaki_questions">Bourbaki questions</a> --<a class="local" href="ocat">ocat</a></p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="?action=edit;id=Bourbaki_proof_checker">Edit this page</a> <a class="history" href="?action=history;id=Bourbaki_proof_checker">View other revisions</a> <a class="admin" href="?action=admin;id=Bourbaki_proof_checker">Administration</a></span><span class="time"><br /> Last edited 2006-12-20 22:19 UTC by <a class="author" title="from hoasb-ff05dd00-241.dhcp.inet.fi" href="jarpiain">jarpiain</a> <a class="diff" href="?action=browse;diff=1;id=Bourbaki_proof_checker">(diff)</a></span><form method="get" action="" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

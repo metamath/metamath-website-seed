@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: set.mm discussion replacement</title><link type="text/css" rel="stylesheet" href="set.mm_discussion_replacement_files/wiki.css"><meta name="robots" content="INDEX,NOFOLLOW"><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss"><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: set.mm_discussion_replacement" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=set.mm_discussion_replacement"></head>
+<body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=set.mm+discussion+replacement">set.mm discussion replacement</a></h1></div><div class="content browse"><p>This page discusses various topics and subprojects in set.mm (the set theory database for <a class="local" href="metamath">metamath</a>).</p><p>This page replaces <a class="local" href="set.mm_discussion">set.mm discussion</a>, which should no longer be used due to spam activity. All new discussion should be added to this page, not that one.</p><dl class="quote"><dt></dt><dd>That
+page has been set off-limits in the web server, so it will be neither
+postable by spammers nor indexed by search engines. --<a class="local" href="akrowne">akrowne</a><dl class="quote"><dt></dt><dd>It's not a goog idea. They will notice their script has stopped working and they will try to write into another page – fl</dd></dl></dd></dl><h2>Cartesian products</h2><p>I don't quite understand df-ixp. In a recent copy of set.mm, it is:</p><pre>  $a |- X_ x e. A B = { f | ( f Fn A /\ A. x e. A ( f ` x ) e. B ) } $.</pre><p>How
+does B depend on x? That appears to me to be limited to the case where
+a cartesian product is taken with all factors the same set, which makes
+things like ac9s trivial.</p><p>In other words, why isn't the definition something more like</p><pre>  $a |- X_ x e. A B = { f | ( f Fn A /\ A. x e. A ( f ` x ) e. ( B ` x ) } $.</pre><p>?</p><p>Am I missing something here?</p><p><b>Answer</b></p><p>This
+is an excellent question, which I answered in the "mmnotes.txt" for
+7-Mar-05. Unfortunately the theorem it references was made obsolete and
+was deleted, so I'll rewrite it for <a class="url outside" href="http://us2.metamath.org:8888/mpegif/ac9s.html">ac9s</a>.</p><dl class="quote"><dt></dt><dd>The
+class B is normally dependent on x, i.e. in an application, x would
+normally occur as a free variable in the class expression substituted
+for B. In other words, B should be thought of as B(x). The way you can
+tell is that B and x are not both in the same distinct variable group,
+yet B is in the scope of bound variable x. This is an important
+principle that confuses some people. We also know that A is <em style="text-decoration: underline; font-style: normal;">not</em> dependent on x because A and x must be distinct.</dd></dl><p>Note, by the way, that I mention B(x) in the description of ac9s to assist the reader, and I should probably do that more often.</p><p>There is also a discussion about this in the <a class="url outside" href="http://us2.metamath.org:8888/mpegif/mmnotes.txt">mmnotes.txt</a> for 11-May-06 regarding the similar situation in <a class="url outside" href="http://us2.metamath.org:8888/mpegif/sumeqfv.html">sumeqfv</a>,
+which nicely illustrates how we can also use an explicit function value
+in place of an implicit A(k). To do this, we normally need to define
+the function separately, as in the 2nd hypothesis of sumeqfv, in order
+to be able to prove this kind of theorem. The theorem sumeqfv also
+illustrates a related point that can be confusing: in that theorem, we
+don't have a distinct variable group for k and F, but we have the
+equivalent situation: k is (and must be) bound, i.e. not free, in F.
+Normally this would be expressed with the hypothesis "( z e. F → A. k z
+e. F )" (where z is a dummy variable), but in this case that hypothesis
+would be redundant since it is implied by the second hypothesis that
+makes a fixed assignment to F. That k is effectively not free in F is
+then deduced from <a class="url outside" href="http://us2.metamath.org:8888/mpegif/hbopab1.html">hbopab1</a>.</p><p>In the case of <a class="url outside" href="http://us2.metamath.org:8888/mpegif/elixp.html">elixp</a>, note that x and A (as well as x and B) aren't in the same distinct variable group. This is because the definition <a class="url outside" href="http://us2.metamath.org:8888/mpegif/df-ixp.html">df-ixp</a>
+doesn't require it (and has no reason to), and in principle we could
+indeed think of A as A(x) in df-ixp and elixp. However, in most
+practical applications of the definition, such as ac9s above, a
+distinct variable requirement on x and A will naturally arise as part
+of the proof, so that A will become a constant independent of x, as it
+is in most textbooks.</p><p>In elixp, F and x are in the same distinct
+variable group. With some manipulations, we could eliminate this
+requirement and replace it with the hypothesis "( z e. F → A. x z e. F
+)". Still, we wouldn't think of F as F(x) in that case (which would
+lead to the odd-looking F(x)`x), since x cannot be a free variable in a
+class expression substituted for F, even though x may occur bound in F.</p><p>A theorem I added today, <a class="url outside" href="http://us2.metamath.org:8888/mpegif/mapixp.html">mapixp</a>, shows what happens when we <em>do</em> make B a constant.</p><p>--<a class="local" href="norm">norm</a> 2 Oct 2006</p><p>Thanks!
+Great reply! (I'd actually figured it out myself, but I've got to admit
+I still think of the way metamath has no variable scope as weird, and
+had taken to ignoring it even in cases like this, where I shouldn't
+have).</p><p>Would the definition using a function B and B ` x work as well (even if it's less convenient)?</p><dl class="quote"><dt></dt><dd>Well, I don't know what specific proposal you have in mind. It should be possible to prove something like <a class="url outside" href="http://us2.metamath.org:8888/mpegif/sumeqfv.html">sumeqfv</a>,
+but as a definition the argument would be limited to function values
+rather than general class expressions containing a free variable.</dd></dl><p>I
+might have a go at proving that later, but I'm still quite bad with
+metamath's proofs (it took me about 12 hours to prove A. x ( x e. RR →
+x &lt; ( x + 1 ) ) :-) ).</p><dl class="quote"><dt></dt><dd>I can understand how Metamath can be frustrating in the beginning. The way I would prove this would be to apply <a class="url outside" href="http://us2.metamath.org:8888/mpegif/ax-gen.html">ax-gen</a> to <a class="url outside" href="http://us2.metamath.org:8888/mpegif/ltp1t.html">ltp1t</a> (2 steps). While I remember the label ax-gen since I use it frequently, to find ltp1t I would "search * '<img class="InlineMath" src="set.mm_discussion_replacement_files/wyW0kQCb2qK6IV6txoXgYQ.png" alt="$ ? &lt; (  $">?
++ 1 )'" in the metamath program, since I vaguely remember that A&lt;A+1
+is in the database. If you're just starting off, "search * &lt;" can
+give you a general feel for the kinds of theorems available for &lt;.
+The wildcard sequence <img class="InlineMath" src="set.mm_discussion_replacement_files/4mXGuZuoOFon2cOx0bqN9Q.png" alt="$ ? $">?
+will match a token with 2 characters such as ph, and $* will match any
+string of tokens. By the way, this particular theorem can also be
+proved automatically with "improve all /depth 1". But don't expect that
+very often. --<a class="local" href="norm">norm</a> 4 Oct 2006</dd></dl><h2>Topology</h2><p>Today
+I have come across the definition of a topology in set.mm and the
+theorem saying that an empty set is always an open subset of a
+topology. Some times before I had read the same definition and the same
+theorem in Bourbaki and it had not been clear : many questions had
+remained in my mind. On the contrary in metamath this theorem and this
+definition were perfectly clear. There are three reasons for this
+phenomenon in my opinion. 1 - Bourbaki is written in a natural
+language. And the words of a natural language (even those of a treatise
+of mathematics) have always several meanings. On the contrary in
+metamath each symbol has a single value. 2 - When you don't know the
+meaning of a concept in Bourbaki it can be painful to find it. In
+metamath hyperlinks lead you to the meaning of an unknown symbol. 3 -
+In Bourbaki demonstration can be missing ( left to the reader… in the
+most sadistic way ). In metamath demonstration is always given. For
+these reasons I think metamath can be a very good pedagogical tool.</p><p>– <a class="local" href="frl">frl</a> 13-Jul-2006</p><dl class="quote"><dt></dt><dd>Another example is in Munkres' <em>Topology: A First Course.</em>
+On p. 79 in the proof that every basis generates a topology, he says
+"there is some basis element B containing x and contained in X." I
+figured out that "B containing x" means "x is an element of B", whereas
+"contained in X" means "is a subset of X". But it wasted my time, and
+it would have taken no more room just to use "included in X" (inclusion
+= subset).</dd><dt></dt><dd>This isn't the only book with this problem:
+I have a mathematical physics book where I literally cannot figure out
+some of the definitions because I don't know if by "contains" the
+authors mean element or subset, since they use that word for both. --<a class="local" href="norm">norm</a></dd><dt></dt><dd>.</dd><dt></dt><dd>I came across <a class="url outside" href="http://www-lmc.imag.fr/lmc-sms/Bernard.Ycart/writing/hyperhbk.pdf">A
+Handbook of Mathematical Discourse</a>
+by Charles Wells, which is a rather amazing, meticulously referenced
+558-page compilation of the nuances of informal mathematical language.
+For example, he mentions the ambiguous usage of "contains" and says,
+"Halmos, in [Steenrod et al., 1975], page 40, recommends using
+'contain' for the membership relation and 'include' for the inclusion
+relation." --<a class="local" href="norm">norm</a> 15-Sep-2006</dd></dl><p>Stefan
+planned to prove the following theorems before he was pulled away on
+something else. Perhaps you'd like to give them a try.</p><pre>  ${
+    $( The indiscrete topology on a set ` A ` is a topology. $)
+    indistop.1 $e |- A e. V $.
+    indistop $p |- { (/) , A } e. Top $=
+      ? $.
+  $}</pre><pre>  ${
+    $( The discrete topology on a set ` A ` is a topology $)
+    distop.1 $e |- A e. V $.
+    distop $p |- P~ A e. Top $=
+      ? $.
+  $}</pre><pre>  ${
+    $( The indiscrete topology on a set ` A ` is a topological space. $)
+    indistsp.1 $e |- A e. V $.
+    indistsp $p |- &lt;. A , { (/) , A } &gt;. e. TopSp $=
+      ? $.
+  $}</pre><pre>  ${
+    $( The discrete topology on a set ` A ` is a topological space. $)
+    distsp.1 $e |- A e. V $.
+    distsp $p |- &lt;. A , P~ A &gt;. e. TopSp $=
+      ? $.
+  $}</pre><p>In
+our email discussions, the following existing theorems were mentioned
+regarding Stefan's plans for topology, some of which I added
+specifically for that purpose: sspr prss prssg 4cases sssn f1dom f1oen
+brdom bren fodom fodomb difsn difprsn unifi unifi2 iunfi. Some of these
+are probably relevant to the above, in particular sspr.</p><p>--<a class="local" href="norm">norm</a> 14-Jul-2006</p><p>I'll
+try though I'm not really accustomed to the hilbert style of proving.
+Today is French Revolution commemoration as you perhaps know and I hope
+it is a good presage.</p><p>– <a class="local" href="frl">frl</a> 14-Jul-2006</p><p>You might want to take a close look at <a class="url outside" href="http://us2.metamath.org:8888/mpegif/sn0top.html">sn0top</a>.
+I would guess that the proof of indistop would resemble it, using sspr
+in place of sssn, and in what corresponds to step 22 you would use jaoi
+twice instead of once. In any case if you want to start it, and see how
+far you can get - the last 2 steps would certainly be mpbir followed by
+elopen1 - I could complete it later.</p><p>--<a class="local" href="norm">norm</a> 15-Jul-2006</p><p>Update: <a class="local" href="frl">frl</a> has done the proofs for <a class="url outside" href="http://us2.metamath.org:8888/mpegif/indistop.html">indistop</a>, <a class="url outside" href="http://us2.metamath.org:8888/mpegif/distop.html">distop</a> and <a class="url outside" href="http://us2.metamath.org:8888/mpegif/indistps.html">indistps</a>. I guess he didn't find the hilbert style of proving so daunting after all. :) Good job, frl!</p><p>--<a class="local" href="norm">norm</a> 19-Jul-2006</p><h2>Formalization of a theorem of Bourbaki</h2><p>Here is a translation of a theorem of Bourbaki:</p><p>If
+we associate a set V(x) of parts of X to each element x of a set X such
+as the properties Vi, Vii, Viii, Viv are true, there exists only one
+topological structure such as, for each x of X, V(x) is the set of
+neighborhoods of x for this topology.</p><p>Vi - Every part of X which contains a set of V(x) belongs to V(x).</p><p>Vii - Every finite intersection of V(x) belongs to V(x).</p><p>Viii - The element x belongs to every set of V(x).</p><p>Viv - If V belongs to V(x), there exists a set W belonging to V(x) such as for every y e. W, V belongs to V(y).</p><p>I
+think I have succeded in formalizing the greatest part of the
+proposition but the property Viv is recursive and I don't succeed in
+integrating it to my formalization.</p><p>Here is the beginning of my attempt of formalization:</p><pre>  nei2 = { &lt;. x , y &gt;. | ( ( ( u e. y /\ u (_ v ) -&gt; v e. y ) /\
+             ( ( u e. y /\ v e. y ) -&gt; ( u i^i v ) e. y ) /\
+             ( u e. y -&gt; x e. y ) /\
+             Here Viv is missing ) }</pre><p>– <a class="local" href="frl">frl</a> 5-Oct-2006</p><p>The
+Bourbaki excerpt is a little confusing, but I'll try to get you
+started. First, you don't want a set of ordered pairs; you want the
+collection of V(x)'s, each of which is a subset of X. Second, your
+original attempt doesn't reference the starting set X, so it is kind of
+meaningless. Third, a recursive set can be defined using intersection.
+See for example the set.mm definition of natural numbers <a class="url outside" href="http://us2.metamath.org:8888/mpegif/dfnn2.html">dfnn2</a>.
+Basically, you take the intersection (i.e. obtain the smallest) of all
+possible sets with the desired properties. So it might be something
+like:</p><pre>  |^| { v | v (_ P~ X /\ A. x e. X E. u e. v ..... }</pre><p>where
+u is what Bourbaki calls V(x). Inside of that E. u, there would be an
+…E. w e. v… where w would be the V(y). You must show that {v |…} has at
+least one member in order for the intersection to exist. You would then
+prove that this final intersection is the set of neighborhoods of
+exactly one topology.</p><p>Offhand, although I'm not sure, this
+vaguely reminds me of a subbasis for a topology - where for any set X,
+you can obtain a basis for a topology for that X, and thus the topology
+itself - and you might want to take a look at the theorems related to
+subbases that are already in set.mm to see if there is anything that
+might be helpful.</p><p>--<a class="local" href="norm">norm</a> 5 Oct 2006</p><p>Thank
+you Norm, I had a look to dfnn2. I think I would have never understood
+by myself that the intersection is asked by the recursive nature of the
+definition and the necessity to get the smallest set but with your
+explanations it's perfectly clear.</p><p>--<a class="local" href="frl">frl</a> 6 Oct 2006</p><h2>An analogy</h2><p>Norm, do the parallels between Metamath and first-order logic mean anything?</p><table class="user"><tbody><tr><td align="center"><strong>Metamath</strong></td><td align="center"><strong>set.mm, |- domain</strong></td></tr><tr><td align="center">Metamath's rule of production </td><td align="center">ax-mp </td></tr><tr><td align="center">"=&gt;"</td><td align="center">→ </td></tr><tr><td align="center">multiple hypotheses ("&amp;")</td><td align="center">/\</td></tr><tr><td align="center">$v hypotheses </td><td align="center">A. quantification </td></tr><tr><td align="center">$d x y </td><td align="center">-. A. x x = y </td></tr></tbody></table><p>I'm
+inclined to think there's some big-picture philosophical meaning, but
+nothing particularly relevant to the average person working with
+Metamath and set.mm.</p><p>Still, it's such a hall of mirrors in here…</p><p>--<a class="local" href="jorend">jorend</a> 6 Dec 2006</p><p>I
+think I can answer a bit. You should have a look at nat.mm. And you
+would discover a realm of strange analogies. To be precise however an
+inference ( =&gt; ) is not an implication (-&gt;). If you compare <a class="url outside" href="http://au.metamath.org/mpegif/19.20.html">19.20</a> and <a class="url outside" href="http://au.metamath.org/mpegif/19.20i.html">19.20i</a>
+you will remark that Norm had to quantify the antecedent in 19.20 and
+that he didn't quantify the premisse in 19.20i (because it was
+useless). – <a class="local" href="fl">fl</a> 6-Dec-2006</p><p>Hi, <a class="local" href="jorend">jorend</a>.
+This is a neat picture, but as they say, the devil is in the details,
+and when you get down to the actual rules of working with the two
+pictures - i.e. manipulating the symbols in their respective formal
+systems - I believe the divergence is significant.</p><p>As <a class="local" href="fl">fl</a>
+suggested, there are some good parallels between the |- of a Gentzen
+system and the → of a Hilbert-style system (as well as important
+differences), and what you are seeing with &amp; vs. /\ and =&gt; vs. →
+are along the same lines. One thing you might want to mull over with
+respect to those parallels is the <a class="url outside" href="http://us.metamath.org/mpegif/mmdeduction.html#standard">standard
+deduction theorem</a>. </p><dl class="quote"><dt></dt><dd>In
+my opinion it is rather the (informal) =&gt; that corresponds to the |-
+of a Gentzen-style system. In fact I think that the inferences of
+set.mm are the formulas of nat.mm. What you (informally) note "ph &amp;
+ps =&gt; ch" corresponds to the nat.mm "[ [ [] , ph ] , ps ] |- ch". – <a class="local" href="fl">fl</a></dd><dt></dt><dd>And
+obviously there is also an analogy between "[ [ [] , ph ] , ps ] |- ch"
+and "( ph → ( ps → ch ) )" or "( ( ph /\ ps ) → ch )". Anyway as you
+say the details are important and don't allow to follow the analogy too
+far. – <a class="local" href="fl">fl</a></dd></dl><p>At
+the level of Metamath's system as a whole vs. the set.mm logic axioms
+it describes, I don't think the parallels are as clean as your table
+suggests. The metalogic of the Metamath language (and a stand-alone
+Ghilbert module without definitions, I believe) can be described in
+set-theoretical terms by the formal system in Appendix C of the <a class="url outside" href="http://us.metamath.org/downloads/metamath.pdf">Metamath book</a>,
+and that is what you have to deal with if you want to make the
+comparison rigorous. (I believe that Appendix is correct: incredibly, <a class="url outside" href="http://en.wikipedia.org/wiki/Robert_Solovay">Bob Solovay</a>
+thought that it was the spec and learned how the Metamath language
+worked from it. He even found an error that has since been corrected -
+so he has effectively given it his blessing.) As you can see, it's
+somewhat complicated, although less so than the metalogic behind
+standard predicate calculus as described e.g. by Tarski. – <a class="local" href="norm">norm</a> 6 Dec 2006</p><p>Thanks, fl and Norm.</p><p>It is always a little sad to find that a mapping doesn't preserve any nice properties… but that's what I expected.</p><p>The Deduction Theorem is actually what brought up the question. I thought: it would be awfully cool if you could <em>prove</em>
+that metatheorem in Metamath, and then be able to use it directly,
+avoiding the rigmarole of dedth. I could sort of see a way to do this:…</p><p>First,
+you would have to define a set-theoretic construction of Metamath. (I
+didn't know about Appendix C at the time, but that's exactly what I
+mean.) Feed it into Metamath (since "set.mm" is set theory on Metamath,
+you could call this "mm.set.mm"--Metamath on set theory on Metamath).
+Call the "real" Metamath "level 0" and this "embedded" Metamath "level
+1".</p><p>Then you would introduce a new axiom: If a level-1 proof
+exists for a given level-1 statement, then the corresponding level-0
+statement is true. That is,</p><pre>  ${
+    ax-lift.1 $e |- E. x ( x mmProves y )    $( There exists a proof x of the level-1 statement y $)
+    ax-lift.2 $e |- ( y mmRepresents ph )    $( y is the level-1 representation of the level-0 wff ph $)
+    ax-lift   $a |- ph
+  $}</pre><p>The
+intent is that you can "lift" theorems from level 1 to level 0. The
+motivation is, you could lift the Deduction Theorem (or at least some
+weaker version of it). More generally, "existence-of-proof proofs"
+would become expressible, verifiable, and useable in Metamath.</p><p>Practicality aside, there are two huge problems here. First, you can only lift theorems of the form "|- <em>wff</em>".
+No $e hypotheses; no $d constraints. Second, how do you know the
+level-1 system has all the same axioms as the level-0 system? This is
+the same problem in a different guise: you could define the set of
+level-1 axioms as exactly those things which you can "push down" from
+the level-0 system, but how do you write an axiom that lets you push
+down a $v? Or a rule involving $e and/or $d?</p><p><em>(sigh) If only there were a way to use wffs to talk about other parts of Metamath.</em> Hence my question.</p><p>Is there really no way to do this?</p><p>(Surely this is all well-trodden ground in metalogic; I don't know where to look to read up on it though.)</p><p>--<a class="local" href="jorend">jorend</a> 8 Dec 2006</p><p>The concept you are talking about is called reflection. You might want to take a look at John Harrison's "<a class="url outside" href="http://www.cl.cam.ac.uk/%7Ejrh13/papers/reflect.html">Metatheory and
+Reflection in Theorem Proving:  A Survey and Critique</a>."</p><p>A
+long time ago I briefly considered the idea of having Metamath talk
+about itself. Disregarding that I may not have been approaching it
+right to begin with, it looked like the notation to work at the "meta"
+level was going to be cumbersome, and it wasn't clear that it would buy
+anything in the end (the Deduction Theorem was one thing I had in
+mind). At least for the math I was interested in doing, normal proofs
+didn't seem to be a problem, and they don't involve a nonstandard
+reflection axiom that seemed uncomfortably outside of what ZFC (the
+supposed foundation for mathematics) is capable of expressing. Overall
+it didn't seem to be in the spirit of what I wanted to accomplish, so I
+didn't pursue it. I can understand that in principle there might be
+theorems whose proofs could be made more compact by proving that a
+proof exists, but I don't think any proof I've done so far would
+benefit, particularly given the overhead that would be involved in
+jumping between meta levels. It might be interesting to reconsider in
+light of Harrison's paper, but I don't think I will be doing myself any
+time soon. The issue of consistency seems very subtle and tricky, and
+I'm not sure that I'm competent to prove it. – <a class="local" href="norm">norm</a> 8 Dec 2006</p><p>Norm, thanks again, especially for the link. You're awfully generous with your time. --<a class="local" href="jorend">jorend</a> 11 Dec 2006</p><p>Ack!
+I think ax-lift is inconsistent with set.mm!! I think ax-lift
+essentially claims that (set.mm+ax-lift) is consistent. So, by Gödel's
+second incompleteness theorem, it isn't. I'm still trying to digest
+this. --<a class="local" href="jorend">jorend</a> 17 Jan 2007</p><h2>Sums</h2><p>Hi Norm,</p><p>I want to prove this lemme:</p><pre> sum_ k e. ( 1 ... ( N + 1 ) ) ( k ^ 2 ) = sum_ k e. ( 0 ... N ) ( ( k + 1 ) ^ 2 )</pre><p>I think that I have to modify the formula to make sequences (seq) appear. I'm right or is there something simpler ? – <a class="local" href="fl">fl</a> 8-Dec-2006</p><p>No low-level seq stuff should be necessary. Use <a class="url outside" href="http://us.metamath.org/mpegif/fsumshft.html">fsumshft</a>, <a class="url outside" href="http://us.metamath.org/mpegif/csbopr1g.html">csbopr1g</a>, <a class="url outside" href="http://us.metamath.org/mpegif/csbvarg.html">csbvarg</a>, and <a class="url outside" href="http://us.metamath.org/mpegif/cbvsum.html">cbvsum</a>. – <a class="local" href="norm">norm</a></p><h2>Images</h2><p>Hi Norm,</p><p>we have ( ( F o. G ) ' P ) = ( F ' ( G ' P ) ). But can we say that ( ( F o. G ) " A ) = ( F " ( G " A ) ) ? – <a class="local" href="fl">fl</a> 11-Dec-2006</p><p>fl, It's true not only for functions but for relations generally. Try this (probably pretty clunky; this is my second proof):</p><pre>  ${
+    $d x y z F $.
+    $d x y z G $.
+    $d x y z A $.
+    imvco $p |- ( ( F o. G ) " A ) = ( F " ( G " A ) ) $=
+      ( vz vy vx ccom cima cv wcel wbr wrex wa wex visset elima brco rexbii 
+      bitr rexcom4 r19.41v exbii anbi1i bitr4 df-rex eqriv ) DBCGZAHZBCAHZHZDIZ
+      UHJZEIZUKBKZEUILZUKUJJULUMUIJZUNMZENZUOULFIZUMCKZFALZUNMZENZURULUTUNMZFAL
+      ZENZVCULVDENZFALZVFULUSUKUGKZFALVHFUKUGADOZPVIVGFAEUSUKBCFOVJQRSVDFEATSVE
+      VBEUTUNFAUAUBSUQVBEUPVAUNFUMCAEOPUCUBUDUNEUIUEUDEUKBUIVJPUDUF $.
+      $( [?] $) $( [11-Dec-2006] $)
+  $}</pre><p>--<a class="local" href="jorend">jorend</a> 11 Dec 2006</p><p>Thank you a lot jorend. Impossible to find this by myself. I'm ashamed :-) fl</p><dl class="quote"><dt></dt><dd>Absolutely
+no need to feel ashamed. What we're seeing here is the very beginning
+of a real community where people are collaborating on proving theorems
+in the set.mm universe. There's nothing at all wrong with asking for
+help, as it's one of the very best ways to learn. <a class="local" href="raph">raph</a><dl class="quote"><dt></dt><dd>In fact I was moderatly ashamed. :-) I've given up the idea of being a mathematical genius many years ago. – fl</dd></dl></dd></dl><p>I like this theorem, so I added it here: <a class="url outside" href="http://us2.metamath.org:8888/mpegif/imaco.html">imaco</a> – <a class="local" href="norm">norm</a> 12 Dec 2006</p><h2>V</h2><p>I knew that <em>( A e. B → A e. V )</em>. I've just discovered that <em>-. V e. V</em> and that <em>( V C_ A &lt;→ A = V )</em>. And I've realized that <em>-. V e. A</em>. V has very strange properties.</p><p>But
+then a question comes to my mind. Category theory deals with classes
+like V or the class of all groups or the class of all vector spaces.
+Does it mean that these three classes don't belong to a larger class ?
+And to say the things loosely that there is a sort of equivalence
+between them. – <a class="local" href="fl">fl</a> 29-Dec-2006</p><hr><p>Category
+theory cannot be done using the existing definitions of the class of
+all groups, etc. in the set.mm database, since those objects are proper
+classes. Instead, these objects would have to be redefined to be
+members of a set that models ZFC set theory (i.e that ZFC set theory
+can be done inside of), called a <a class="url outside" href="http://en.wikipedia.org/wiki/Grothendieck_universe">Grothendieck universe</a>. This is the intended purpose of Grothendieck's axiom <a class="url outside" href="http://us.metamath.org/mpegif/ax-groth">ax-groth</a>.
+The form of this axiom is taken from Mizar's version (which is the
+shortest equivalent that I know of), and my idea is that category
+theory would be developed in set.mm in the same way that it is in Mizar.</p><p>The following is a quote from Bob Solovay, that is reproduced in the Preface of the Metamath book:</p><dl class="quote"><dt></dt><dd>"This axiom is how Grothendieck presents category theory. To each inaccessible cardinal <img class="InlineMath" src="set.mm_discussion_replacement_files/Mfbzl88c3l4oHglBvaLD3g.png" alt="$ \kappa $"> one associates a Grothendieck universe <img class="InlineMath" src="set.mm_discussion_replacement_files/kklzPNKzFEtmU34PQdWIhw.png" alt="$ U(\kappa) $">. <img class="InlineMath" src="set.mm_discussion_replacement_files/kklzPNKzFEtmU34PQdWIhw.png" alt="$ U(\kappa) $"> consists of those sets which lie in a transitive set of cardinality less than <img class="InlineMath" src="set.mm_discussion_replacement_files/Mfbzl88c3l4oHglBvaLD3g.png" alt="$ \kappa $">.
+Instead of the ``category of all groups,'' one works relative to a
+universe [considering the category of groups of cardinality less than <img class="InlineMath" src="set.mm_discussion_replacement_files/Mfbzl88c3l4oHglBvaLD3g.png" alt="$ \kappa $">]. Now the category whose objects are all categories ``relative'' to the universe <img class="InlineMath" src="set.mm_discussion_replacement_files/kklzPNKzFEtmU34PQdWIhw.png" alt="$ U(\kappa) $">'' will be a category not relative to this universe but to the next universe.</dd><dt></dt><dd>"All
+of the things category theorists like to do can be done in this
+framework. The only controversial point is whether the Grothendieck
+axiom is too strong for the needs of category theorists. Mac Lane
+argues that ``one universe is enough'' and Feferman has argued that one
+can get by with ordinary ZFC. I don't find Feferman's arguments
+persausive. Mac Lane may be right, but when I think about category
+theory I do it à la Grothendieck.</dd><dt></dt><dd>"By the way Mizar adds the axiom ``there is a proper class of inaccessibles'' precisely so as to do category theory."</dd></dl><p>Wikipedia also has a page on <a class="url outside" href="http://en.wikipedia.org/wiki/Tarski-Grothendieck_set_theory">Tarski-Grothendieck set theory</a>
+that says, "Unlike Von Neumann–Bernays–Gödel set theory, TG does not
+provide for proper classes containing all sets of a particular type,
+such as the class of all cardinal numbers or the class of all sets. It
+therefore does not support category theory or model theory directly.
+However, such theories can be approximated using suitable constructions
+on inaccessible cardinals." I am by no means an expert on this, but I
+believe this information is misleading. First, unlike what it
+implicitly suggests, NBG cannot do category theory, because even though
+it can quantify over proper classes, proper classes cannot belong to
+any other proper class, making it useless for that purpose. Second,
+Bob's statement above seems to suggest that Grothendieck's axiom is
+sufficient for category theory, not just an "approximation" of it.</p><p>Beyond
+that, I claim no expertise in the matter, and would suggest that
+Mizar's development of category theory would be the one to study as the
+next step, with the goal of eventually translating it to set.mm. An
+ideal situation would be to use the same Grp, Top, etc. objects for
+those existing theories in set.mm as would be used for category theory,
+but we would have to rework the definitions of them, since right now
+they are proper classes. I do not plan to do this myself in the near
+future, but it would certainly be a very desirable thing for someone to
+pursue (and as a bonus end up learning category theory in a very
+rigorous way at the same time). – <a class="local" href="norm">norm</a> 29 Dec 2006</p><hr><h2>$d's and meta vs. object language</h2><p>Hi
+Norm, I apologize in advance if this question seems particularly dense,
+or lazy. I want to nail down in my mind the application of $d's. Take
+set.mm, for example. It is written in a meta-language, the <i>subject</i> language and discusses an <i>object</i>
+language. If we stipulate that the object language contains the same
+symbols and convert a meta-theorem into an instance of the theorem in
+the object language, then by virtue of the metalogical proof of the
+metatheorem, the object language instance of that theorem is also valid
+– and assuming that the object language version of the formula is
+expressed with properly distinct variables, then the object language
+formula can be validly manipulated using "proper substitution" and the
+usual mechanisms of formal logic. In essence, a specific instance of
+the metatheorem generated into the object language is valid and no
+further use of distinct variables would be required assuming proper
+substitutions are obeyed. Yes? Any caveats?</p><p>P.S. The context of this question is that I am investigating <a class="url outside" href="http://www.mathweb.org/omdoc/">OMDoc</a>
+with a tenative goal of converting Metamath .mm files to OMDoc format –
+and perhaps vice-versa. The idea is that as a common format, or
+"software bus", OMDoc would enable us to send a new set.mm theorem to
+the various provers, get a proof back, and then convert the proof back
+into the original .mm symbols; voilà! The common OMDoc format would
+also be a worthy target of other projects discussed on this wiki, such
+as a speech-enabled interface.</p><p>--<a class="local" href="ocat">ocat</a> 4-Jan-2007</p><p><b>Answer</b></p><p>In
+the object language, two individual variables with different names are
+distinct by definition (simply because they have different names -
+that's what "distinct" means).</p><p>In most formal logic textbooks, and in the Metamath note on <a class="url outside" href="http://us.metamath.org/mpegif/mmset.html#schemes">schemes</a>,
+the names of individual variables and the metavariables that range over
+them are different to avoid confusion. And this confusion is a problem,
+based on questions I see asked about Metamath; it seems hard to
+communicate that Metamath is a metamathematical language and not the
+object language, in spite of its very name. :) The reason may be that
+superficially its theorem schemes look the same as actual theorems of
+the object language. I thought this was an advantage, but maybe I
+should have picked some cryptic glyphs for its metavariables so they
+would be obviously different.</p><p>However, in principle there is no
+reason why variable and metavariable names can't be same as long as it
+is clear from context. With this in mind, a (Metamath) theorem scheme
+having metavariables x, y,… ranging over individual variables can be
+converted (by switching context) to an object language theorem with
+individual variables x, y,… simply by dropping any $d's, since $d's are
+meaningless in the context of actual theorems.</p><p>Keep in mind two
+things. First, this resulting object language theorem will be only one
+of several possible theorems that the scheme could range over, so in
+that sense it would be weaker than the original scheme, even though
+(aside from any $d's that were dropped) it looks identical to the
+original scheme.</p><p>Second, the object language has only individual
+variables, and there is no such thing as a wff variable. So it is
+impossible to "translate" a theorem (scheme) of even propositional
+calculus to the object language by switching contexts in this way. All
+we can do is pick specific instances of wffs, constructed from
+individual variables and connectives, to substitute for the wff
+metavariables of a propositional calculus theorem scheme. The result,
+of course, is necessarily a much weaker and less general statement than
+the original scheme. For most predicate calculus provers, this is not a
+problem because they handle propositional calculus (and schemes of
+predicate calculus that involve wff metavariables) in the code itself,
+not with explicit external axioms like Metamath does. Internally,
+program variables are in effect emulating wff metavariables when they
+manipulate object language wffs.</p><p>To a certain extent, we can
+emulate wff metavariables in the object language by artificially
+introducing new predicates into the language. (Set theory itself has
+only two predicates, equality and membership.) For propositional
+calculus, we could introduce 0-ary, true/false predicate constants P,
+Q,… (which could even be called ph, ps,… if you want to have the same
+names after switching the context). For predicate calculus, we would
+introduce n-ary predicates such as P(x,y,…) where x,y,… are some
+variables that aren't in a distinct variable pair with the
+corresponding wff metavariable ph. However, keep in mind that this
+emulation isn't perfect: in the object language, a wff cannot be
+substituted for a predicate symbol - predicate symbols are not
+variables. However, since the predicate symbols behave in many ways
+like wff metavariables, under certain circumstances we can carefully
+jump "outside of the system" with a metalogical rule that lets us
+pretend that they are, so that we can substitute for an n-ary predicate
+a wff containing at most the n individual variables in its argument
+list, or in a more sophisticated system, a wff containing at most those
+n variables free.</p><p>I don't know what languages might support or
+not support such a feature that emulates wff metavariables in this way.
+It can get a little clumsy: the 0-ary constants in a propositional
+calculus theorem actually should be assumed to be oo-ary predicates
+(infinite number of variables) for full generality, otherwise they
+would be useless for predicate calculus. Or, at least have all the
+variables used by the proof, which you don't know in advance what they
+will be. Similarly, fully general n-ary predicates should have all
+variables except those that aren't allowed. So it would be more
+efficient to list what variables <em>aren't</em> allowed - oops, we're getting back to $d's. :) – <a class="local" href="norm">norm</a> 4 Jan 2007</p><h2>The category Set</h2><p><b>Question</b></p><p>Here is an excerpt of the wikipedia page:</p><pre> http://en.wikipedia.org/wiki/Category_of_sets</pre><p>"In
+mathematics, the category of sets, denoted as Set, is the category
+whose objects are all sets and whose morphisms are all functions. It is
+the most basic and the most commonly used category in mathematics.</p><p>Because
+of Russell's paradox, which shows assuming the existence of the set of
+all sets leads to a contradiction, the object class of Set is a proper
+class, and thus the category is large."</p><p>The reference of the page is Mac Lane, Saunders (September 1998). Categories for the Working Mathematician. Springer. <a href="http://shop.barnesandnoble.com/bookSearch/isbnInquiry.asp?isbn=0387984038">ISBN  0-387-98403-8</a> (<a href="http://www.amazon.com/exec/obidos/ISBN=0387984038">alternate</a>, <a href="http://www.pricescan.com/books/BookDetail.asp?isbn=0387984038">search</a>). (Volume 5 in the series Graduate Texts in Mathematics)</p><p>So
+it seems it means that we can work in the category theory with V. It's
+a bit contradictory with what you were saying in our discussion about
+V. Is there something I've not understood ?</p><p>– <a class="local" href="fl">fl</a> 25-Jan-2006</p><p><b>Answer</b></p><p>I
+think I answered this in the discussion called "V" above. Basically,
+ZFC set theory can be modelled inside of a Grothendieck universe.
+Russell's paradox <a class="url outside" href="http://us.metamath.org/mpegif/ru.html">ru</a>
+is therefore avoided - the set {x|x e/ x} becomes {x e. U|x e/ x},
+where U is a Grothendieck universe that exists (U e. V) by
+Grothendieck's axiom <a class="url outside" href="http://us.metamath.org/mpegif/ax-groth.html">ax-groth</a>.</p><p>Mizar
+does it this way. One way to learn category theory axiomatics and at
+the same time put it into set.mm might be to "translate" the Mizar
+development (by hand, since no converters exist). Some category theory
+books I've looked at tend to be a little unclear, or hard to
+understand, about how the axioms can be modelled in set theory (or even
+what the axioms are), because foundational issues are not their main
+concern. So the fact that it is actually done in Mizar, using the exact
+Grothendieck axiom that is present in set.mm, would probably be useful
+for a very rigorous and clear understanding of the model for the axioms.</p><p>Wikipedia can be misleading sometimes. – <a class="local" href="norm">norm</a> 25 Jan 2007 </p><dl class="quote"><dt></dt><dd>I'm
+happy to learn that, because when I read the article my mind began to
+wander. Here is the issue of "Formalized Mathematics" which defines a
+category (p. 409 and followings):</dd></dl><p><a class="url" href="http://mizar.org/fm/1990-1/cont1-2.htm">http://mizar.org/fm/1990-1/cont1-2.htm</a></p><p>And the definition of Ens is here ( pp. 527-533 ):</p><p><a class="url" href="http://mizar.org/fm/1991-2/cont2-4.htm">http://mizar.org/fm/1991-2/cont2-4.htm</a></p><p>I
+find Mizar issues much more difficult to read than Metamath Explorer's
+pages. But it's perfectly impressive to see they are able to build and
+to manage such a complicated structure as a category in their second
+volume. – <a class="local" href="fl">fl</a> 25-Jan-2007</p><h2>The Euclidean topology</h2><p><b>Question</b></p><p><a class="local" href="fl">fl</a> asked me in an email what would be a better way to develop Euclidean topology:</p><ul><li>Introduce Euclidean topology using intervals (following Morris's way - see <a class="url outside" href="http://uob-community.ballarat.edu.au/%7Esmorris/topbookchap1-9.pdf">''Topology without Tears'' chapter 2, e.g. p. 43</a>)</li></ul><p>or</p><ul><li>Introduce Euclidean topology using metric spaces and <a class="url outside" href="http://us.metamath.org/mpegif/cnms.html">cnms</a>.</li></ul><p>Opinions? – <a class="local" href="norm">norm</a> 25 Jan 2007</p><p>Here
+is my opinion by the way. Morris's purpose is to be as pedagogical as
+possible. He needs a very good and useful example: that's the reason
+why he describes the euclidean topology in its second chapter. He
+describes metric space much later (chapter 6) and it would be too late
+to introduce euclidean topology then.</p><p>Not sure that in Metamath the purpose is the same.</p><p>So
+describing euclidean topology as a metric space would give us a full
+access to all the theorems proper to topology as well as to those that
+are particular to metric space. So I think we should describe euclidean
+topology as a metric space. – <a class="local" href="fl">fl</a> 25-Jan-2007</p><p>I
+wrote that it's better to consider euclidean topology as an example of
+metric space but I'm so eager to ptrove Morris's theorems and to use
+the new intervals added by Norm to set.mm that in fact I will consider
+that euclidean topology is defined using intervals. – <a class="local" href="fl">fl</a> 26-Jan-2007</p><h2>Metamath and Mizar</h2><p>Reading the <em>Formalized mathematics journal</em>
+it comes to my mind that it is a very beautiful work. Sometimes the
+reason for some decisions are perfectly unclear to me (their art of
+defining things is a terrible mess compared with metamath's one. I
+suppose it is due to the fact they had several goals at the same time
+but, since it is not documented, the rationality behind is out of my
+reach ). Sometimes they met some difficulties and it is interesting to
+identify them: for instance it is more difficult to read a mizar proof
+than a metamath proof because the system of links that allow us to find
+quickly a theorem or a definition doesn't exist.</p><p>However, reading
+this, the question of the final goal of metamath comes to my mind.
+Perhaps could you answer this question Norm. What has been driving you
+for more than 10 years now, daily writing set.mm (which represents a
+huge work). – <a class="local" href="fl">fl</a></p><h2>An attempt at defining categories class</h2><p>Hi Norm,</p><p>here
+is the way I'd like to translate proposition 28 p. 412 of the Journal
+of Formalized Mathematics and the definition of a category structure p.
+410. Can you give me your opinion. – <a class="local" href="fl">fl</a></p><pre>  a - objects and morphisms are not empty
+      o =/= (/) /\
+      m =/= (/) /\</pre><pre>  b - types of domain and codomain
+      d : m --&gt; o /\
+      c : m --&gt; o /\</pre><pre>  c - type of identity
+      i : o --&gt; m /\</pre><pre>  d - property (i) r is a partial function
+      A. f e. m A. g e. m ( &lt;. g , f &gt;. e. dom r &lt;-&gt; ( d ` g ) = ( c ` f ) )</pre><pre>  e - property (ii) domain and codomain of a composition of morphisms
+      A. f e. m A. g e. m 
+       ( 
+        ( d ` g ) = ( c ` f ) -&gt; 
+        ( 
+         ( d ` ( g r f ) ) = ( d ` f ) /\
+         ( c ` ( g r f ) ) = ( c ` g )
+        )
+       ) /\</pre><pre>   f - composition is associative (iii)
+      A. f e. m A. g e. m A. h e. m 
+        ( d ` h ) = ( c ` g ) /\ ( d ` g ) = ( c ` f ) -&gt; 
+          ( ( h r ( g r f ) = ( h r g ) r f ) )
+    )</pre><pre>   g - identity properties (iv)</pre><pre>      A. x e. o ( ( d ` ( i ` x ) ) = x /\ ( c ` ( i ` x ) ) = x ) /\</pre><pre>      A. b e. o A. f e. m ( ( c ` f ) = b -&gt; ( ( i ` b ) r f ) = f )</pre><pre>      A. b e. o A. g e. m ( ( d ` g ) = b -&gt; ( g r ( i ` b ) ) = g )</pre><p>And here is the result</p><pre>  $c Cat $.
+  clcat $a class Cat $.</pre><pre>  ${
+    $d a m d c r j f g h b $.
+    $( The class of all the categories ( Journal of Formalized Mathematics 
+       1-2, proposition 28 p. 412 ). $)
+    df-cat $a |- Cat = { &lt;. a , &lt;. m , &lt;. d , &lt;. c , &lt;. r , j &gt;. &gt;. &gt;. &gt;. &gt;.  |
+     (
+      ( 
+        ( a =/= (/) /\ m =/= (/) ) /\</pre><pre>        ( d : m --&gt; a /\ c : m --&gt; a /\ j : a --&gt; m ) /\</pre><pre>        ( 
+           A. f e. m A. g e. m ( &lt;. g , f &gt;. e. dom r &lt;-&gt; ( d ` g ) = ( c ` f ) ) /\</pre><pre>           A. f e. m A. g e. m 
+             ( ( d ` g ) = ( c ` f ) -&gt; ( d ` ( g r f ) ) = ( d ` f ) ) /\</pre><pre>           A. f e. m A. g e. m 
+             ( ( d ` g ) = ( c ` f ) -&gt; ( c ` ( g r f ) ) = ( c ` g ) )
+         )
+       ) /\</pre><pre>      ( 
+        A. f e. m A. g e. m A. h e. m 
+         ( ( ( d ` h ) = ( c ` g ) /\ ( d ` g ) = ( c ` f ) ) -&gt; 
+           ( ( h r ( g r f ) ) = ( ( h r g ) r f ) ) ) /\</pre><pre>        ( 
+          A. b e. a ( ( d ` ( j ` b ) ) = b /\ ( c ` ( j ` x ) ) = b ) /\</pre><pre>          A. b e. a A. f e. m ( ( c ` f ) = b -&gt; ( ( j ` b ) r f ) = f ) /\</pre><pre>          A. b e. a A. g e. m ( ( d ` g ) = b -&gt; ( g r ( j ` b ) ) = g ) 
+        )
+      )
+     ) $.</pre><pre>    $}</pre><p>Now some notes:</p><pre>    1st note: In the Journal of Formalized Mathematics (JFM) o (objects) and
+    m (morphisms) can't be empty. It's too restrictive according to other
+    sources. Can I remove these conditions ?</pre><pre>    note 2: To follow the custom in set.mm (see the definition of a group
+    for instance) we should remove o and m since they can be restored 
+    by using the following equations : o = ( ran d u. ran c ) and m = dom s.
+    Do you agree with this ?</pre><pre>    note 3:  In the Journal d and c are functions here they are mappings. 
+    Does it introduce any problem ?</pre><pre>    note 4: can we replace the definition of identity by 
+      i = { &lt;. x , y &gt;. | ( ( x e. o /\ y e. m ) /\ 
+        ( ( d ` y ) = x /\ ( c ` y ) = x ) ) }</pre><pre>      Does it worth changing ?</pre><pre>    note 5: r is a partial function so we can't write
+      r : ( m X. m ) --&gt; m can't we ?</pre><pre>    note 6: can we define r by 
+      r = { &lt;. &lt;. x , y &gt;. , z &gt;. | x e. m /\ y e. m /\ z e. m + ... some properties equivalent to i, ii, iii, iv }
+      and is it appropriate ?</pre><pre>    note 7: I would prefer to replace the two equivalent properties of iv with those two properties
+      because they are more compact.</pre><pre>      A. f e. m ( ( i ` ( c ` f ) ) r f ) = f
+      
+      A. g e. m ( g r ( i ` ( d ` g ) ) ) = g</pre><pre>      What's your opinion ?</pre></div><div class="footer"><hr><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=set.mm_discussion_replacement">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=set.mm_discussion_replacement">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=set.mm_discussion_replacement">Administration</a></span><span class="time"><br> Last edited 2007-01-29 10:06 UTC by <a class="author" title="from LSt-Amand-152-33-10-206.w82-127.abo.wanadoo.fr" href="fl">fl</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=set.mm_discussion_replacement">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="multipart/form-data">
+<p>Search: <input name="search" size="20" accesskey="f" type="text"> <input name="dosearch" value="Go!" type="submit"></p></form></div>
+</body></html>

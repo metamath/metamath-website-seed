@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+.r { font-family: "Arial Narrow";
+     font-size: x-small;
+   }
+.i { font-family: "Arial Narrow";
+     font-size: x-small;
+     color: gray;
+   }
+-->
+</STYLE>
+<STYLE TYPE="text/css">
+<!--
+  .set { color: red; }
+  .wff { color: blue; }
+  .class { color: #C3C; }
+  .symvar { border-bottom:1px dotted;color:#C3C}
+  .typecode { color: gray }
+  .hidden { color: gray }
+  @font-face {
+    font-family: XITSMath-Regular;
+    src: url(xits-math.woff);
+  }
+  .math { font-family: XITSMath-Regular }
+-->
+</STYLE>
+<CENTER><B><FONT SIZE="+1">Theorem <FONT
+COLOR="#006633">chordthmALTVD</FONT></FONT></B></CENTER>
+<CENTER><TABLE><TR><TD ALIGN=LEFT><B>Description: </B>The intersecting chords theorem. If points A, B, C, and D lie on a
+      circle (with center Q, say), and the point P is on the interior of the
+      segments AB and CD, then the two products of lengths PA <SPAN CLASS=math>&middot;</SPAN> PB and
+      PC <SPAN CLASS=math>&middot;</SPAN> PD are equal. The Euclidean plane is identified with the
+      complex plane, and the fact that P is on AB and on CD is expressed by
+      the hypothesis that the angles APB and CPD are equal to <SPAN CLASS=math>&#x1D70B;</SPAN>. The
+      result is proven by using <A HREF="http://us2.metamath.org:88/mpeuni/chordthmlem5.html">chordthmlem5</A> twice to show that PA
+      <SPAN CLASS=math>&middot;</SPAN> PB and PC <SPAN CLASS=math>&middot;</SPAN> PD both equal BQ
+<sup>2</sup>
+ <SPAN CLASS=math>&minus;</SPAN>
+      PQ
+<sup>2</sup>
+. This is similar to the proof of the
+      theorem given in Euclid's Elements_, where it is Proposition III.35.
+      Proven by David Moews
+      on 28-Feb-2017 as <A HREF="http://us2.metamath.org:88/mpeuni/chordthm.html">chordthm</A>.
+      <A HREF="chordthmaltvd.html">chordthmALTVD</A> is a Virtual
+      Deduction User's Proof transcription of <A
+HREF="http://us2.metamath.org:88/mpeuni/chordthm.html">chordthm</A>. Using the command
+      line argument argv1 having the value "runCompleteusersproofsmv" and
+      excluding <A HREF="http://us2.metamath.org:88/mpeuni/bnj1196.html">bnj1196</A>, completeusersproof will automatically
+complete
+      <A HREF="chordthmaltvd.html">chordthmALTVD</A>, transforming it
+      into the set.mm Metamath proof <A
+HREF="http://us2.metamath.org:88/mpeuni/chordthmALT.html">chordthmALT</A>. The text file
+      VirtualDeductionProofs.txt included in the completeusersproof download
+      contains the <A HREF="chordthmaltvd.html">chordthmALTVD</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#D313ED">28765</SPAN> proof
+      in .txt format. That proof may copied into its own .txt file. That file
+      may be input into completeusersproof and an RPN proof of <A
+HREF="http://us2.metamath.org:88/mpeuni/chordthmALT.html">chordthmALT</A>
+      will be generated. The proof of
+      <A HREF="chordthmaltro.html">chordthmALTRO</A> is a form of the
+      completed proof which preserves the Virtual Deduction proof's step
+      numbers and their ordering. The qed step and the step numbers of
+      <A HREF="chordthmaltvd.html">chordthmALTVD</A> which contain "h"
+      or only numerals correspond to step numbers of <A
+HREF="http://us2.metamath.org:88/mpeuni/chordthm.html">chordthm</A>. The step
+      numbers containing "b" or "c" are of added steps.
+      (Contributed by Alan Sare, 18-Sep-2017.)
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Hypotheses">
+<CAPTION><B>Hypotheses</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.angdef</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN> = (<SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN> &isin; (&#8450; &#8726; {0}), <SPAN
+CLASS=set STYLE="color:red">&#x1D466;</SPAN> &isin; (&#8450; &#8726; {0})
+&#8614; (&image;&lsquo;(log&lsquo;(<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN> / <SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>))))</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.A</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.B</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.C</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.D</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.P</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.AneP</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &ne; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN><SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.BneP</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &ne; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN><SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.CneP</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &ne; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN><SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.DneP</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &ne; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN><SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.APB</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.CPD</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.Q</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN
+CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN> &isin; &#8450;<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.ABcirc</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.ACcirc</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>chordthmALTVD.ADcirc</TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+</TABLE></CENTER>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Assertion">
+<CAPTION><B>Assertion</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD><FONT COLOR="#006633"><B>chordthmALTVD</B></FONT></TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN
+STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff
+STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT
+FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN
+STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN></TD></TR>
+</TABLE></CENTER>
+
+
+<CENTER><A HREF="http://us2.metamath.org:88/mpegif/mmset.html#distinct">Distinct variable</A> groups: <SPAN
+CLASS=math> &nbsp; <SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN>,<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN> &nbsp; <SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN> &nbsp; <SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D436;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN> &nbsp; <SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D437;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN> &nbsp; <SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=class
+STYLE="color:#C3C">&#x1D443;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN></SPAN></CENTER>
+<CENTER><A HREF="http://us2.metamath.org:88/mpegif/mmset.html#allowedsubst">Allowed substitution</A> hints: <SPAN
+CLASS=math> &nbsp; <SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN>(<SPAN
+CLASS=set STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN>) &nbsp; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D444;</SPAN>(<SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN>) &nbsp; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=set
+STYLE="color:red">&#x1D465;</SPAN>,<SPAN CLASS=set
+STYLE="color:red">&#x1D466;</SPAN>)</SPAN></CENTER>
+<HR NOSHADE SIZE=1>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Proof of theorem">
+<CAPTION><B>Proof of Theorem <FONT
+   COLOR="#006633">chordthmALTVD</FONT></B></CAPTION>
+<TR><TH>Step</TH><TH>Hyp</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT> <TD> h1<TD>&nbsp;                 <TD><A NAME="1"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h2<TD>&nbsp;                 <TD><A NAME="2"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN> = (<SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; (&#8450; &#8726; {0}), <SPAN CLASS=set STYLE="color:red">&#x1D466;</SPAN> &isin; (&#8450; &#8726; {0}) &#8614; (&image;&lsquo;(log&lsquo;(<SPAN CLASS=set STYLE="color:red">&#x1D466;</SPAN> / <SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN>))))</SPAN>
+<TR ALIGN=LEFT> <TD> h3<TD>&nbsp;                 <TD><A NAME="3"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h4<TD>&nbsp;                 <TD><A NAME="4"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h5<TD>&nbsp;                 <TD><A NAME="5"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h6<TD>&nbsp;                 <TD><A NAME="6"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h7<TD>&nbsp;                 <TD><A NAME="7"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 8<TD><A HREF="#7">7</A>                  <TD><A NAME="8"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 9<TD><A HREF="#2">2</A>, <A HREF="#3">3</A>, <A HREF="#4">4</A>, <A HREF="#5">5</A>, <A HREF="#6">6</A>, <A HREF="#8">8</A>        <TD><A NAME="9"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(((<SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B; &harr; &exist;<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 10<TD><A HREF="#1">1</A>, <A HREF="#9">9</A>               <TD><A NAME="10"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&exist;<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 10b<TD><A HREF="#10">10</A>               <TD><A NAME="10b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&exist;<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h11<TD>&nbsp;                <TD><A NAME="11"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h12<TD>&nbsp;                <TD><A NAME="12"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h13<TD>&nbsp;                <TD><A NAME="13"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h14<TD>&nbsp;                <TD><A NAME="14"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h15<TD>&nbsp;                <TD><A NAME="15"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 16<TD><A HREF="#15">15</A>                <TD><A NAME="16"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &ne; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 17<TD><A HREF="#2">2</A>, <A HREF="#12">12</A>, <A HREF="#4">4</A>, <A HREF="#13">13</A>, <A HREF="#14">14</A>, <A HREF="#16">16</A>   <TD><A NAME="17"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(((<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)<SPAN CLASS=class STYLE="color:#C3C">&#x1D439;</SPAN>(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN>)) = &#x1D70B; &harr; &exist;<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 18<TD><A HREF="#11">11</A>, <A HREF="#17">17</A>             <TD><A NAME="18"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&exist;<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 18b<TD><A HREF="#18">18</A>               <TD><A NAME="18b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&exist;<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h20<TD>&nbsp;                <TD><A NAME="20"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h22<TD>&nbsp;                <TD><A NAME="22"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 24<TD><A HREF="#20">20</A>, <A HREF="#22">22</A>             <TD><A NAME="24"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 25<TD><A HREF="#24">24</A>                <TD><A NAME="25"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 26<TD><A HREF="#25">25</A>                <TD><A NAME="26"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2)) = (((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h29<TD>&nbsp;                <TD><A NAME="29"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN> &isin; &#8450;<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 31<TD>&nbsp;                 <TD><A NAME="31"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN>(0(,)1) &#8838; (0[,]1)</SPAN>
+<TR ALIGN=LEFT> <TD> 32<TD>&nbsp;                 <TD><A NAME="32"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 33<TD><A HREF="#32">32</A>, <A HREF="#31">31</A>             <TD><A NAME="33"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0[,]1)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 34<TD>&nbsp;                 <TD><A NAME="34"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 35<TD><A HREF="#12">12</A>, <A HREF="#13">13</A>, <A HREF="#29">29</A>, <A HREF="#33">33</A>, <A HREF="#34">34</A>, <A HREF="#20">20</A> <TD><A NAME="35"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = (((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 35b<TD><A HREF="#35">35</A>               <TD><A NAME="35b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = (((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 38<TD>&nbsp;                 <TD><A NAME="38"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 39<TD><A HREF="#38">38</A>, <A HREF="#31">31</A>             <TD><A NAME="39"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0[,]1)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 40<TD>&nbsp;                 <TD><A NAME="40"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))<SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> h41<TD>&nbsp;                <TD><A NAME="41"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 43<TD><A HREF="#22">22</A>, <A HREF="#41">41</A>             <TD><A NAME="43"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>)) = (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 44<TD><A HREF="#3">3</A>, <A HREF="#5">5</A>, <A HREF="#29">29</A>, <A HREF="#39">39</A>, <A HREF="#40">40</A>, <A HREF="#43">43</A>   <TD><A NAME="44"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1)<SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))) = (((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 44b<TD><A HREF="#44">44</A>               <TD><A NAME="44b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))) = (((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2) &minus; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D444;</SPAN>))&uarr;2))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 45<TD><A HREF="#26">26</A>, <A HREF="#35b">35b</A>, <A HREF="#44b">44b</A>        <TD><A NAME="45"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 45b<TD><A HREF="#45">45</A>               <TD><A NAME="45b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) &rarr; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 45c<TD><A HREF="#45b">45b</A>              <TD><A NAME="45c"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(&exist;<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D464;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) &rarr; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 46<TD><A HREF="#18b">18b</A>, <A HREF="#45c">45c</A>           <TD><A NAME="46"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 46b<TD><A HREF="#46">46</A>               <TD><A NAME="46b"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))) &rarr; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 46c<TD><A HREF="#46b">46b</A>              <TD><A NAME="46c"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(&exist;<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &isin; (0(,)1) &and; <SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> = ((<SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN> &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>) + ((1 &minus; <SPAN CLASS=set STYLE="color:red">&#x1D463;</SPAN>) &middot; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))) &rarr; ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>))))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> qed<TD><A HREF="#10b">10b</A>, <A HREF="#46c">46c</A>          <TD><A NAME="qed"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=wff STYLE="color:blue">&#x1D711;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>))) = ((abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D436;</SPAN>)) &middot; (abs&lsquo;(<SPAN CLASS=class STYLE="color:#C3C">&#x1D443;</SPAN> &minus; <SPAN CLASS=class STYLE="color:#C3C">&#x1D437;</SPAN>)))<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+</TABLE>
+</TD></TR></TABLE></CENTER>
+
+</TABLE></CENTER>
+<TABLE BORDER=0 WIDTH="100%">
+<TR><TD WIDTH="25%">&nbsp;</TD>
+<TD ALIGN=CENTER VALIGN=BOTTOM>
+<FONT SIZE=-2 FACE=sans-serif>
+Copyright terms:
+<A HREF="http://us2.metamath.org:88/copyright.html#pd">Public domain</A>
+</FONT></TD><TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT SIZE=-2 FACE=sans-serif>
+<A HREF="http://validator.w3.org/check?uri=referer">
+W3C validator</A>
+</FONT></TD></TR></TABLE>
+</BODY></HTML>

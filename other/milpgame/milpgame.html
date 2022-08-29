@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Milpgame</TITLE>
+<LINK REL="shortcut icon" HREF="../favicon.ico" TYPE="image/x-icon">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+<!-- ...TD style="line-height:100%"... -->
+
+<TD NOWRAP ALIGN=LEFT VALIGN=MIDDLE WIDTH="25%">
+<!--
+<FONT SIZE=-2
+FACE=arial><A HREF="../index.html"><IMG SRC="mm.gif" BORDER=0
+ALT="Home" HEIGHT=32 WIDTH=32 ALIGN=LEFT><IMG SRC="spacer.gif" BORDER=0
+ALT="" HEIGHT=32 WIDTH=1 ALIGN=LEFT>Metamath<BR>Home</A></FONT>
+-->
+</TD>
+
+<TD NOWRAP ALIGN=CENTER VALIGN=MIDDLE><FONT SIZE="+3"
+COLOR="#006633"><B>Milpgame</B></FONT></TD>
+
+<TD WIDTH="25%"> &nbsp; </TD>
+
+</TR></TABLE>
+
+<HR NOSHADE SIZE=1>
+
+<CENTER>
+<B><FONT COLOR="#006633">Created by Filip Cernatescu</FONT></B>
+</CENTER>
+
+<HR NOSHADE SIZE=1>
+
+<p>Milpgame is a proof assistant and a checker (showing an error message
+if something goes wrong) for the Metamath language.  You can enter the
+demonstration (proof) either forward and backward relative to the
+statement to prove.  Milpgame checks if a statement is well formed (the
+program has a syntactic verifier).  You can save unfinished proofs
+without the use of the <A HREF="../../mpeuni/a1ii.html">a1ii</A> theorem.
+The demonstration is shown as a tree, and statements are shown using
+HTML definitions (defined in the $t typesetting comment of the
+database).  Milpgame is distributed as a Java .jar (JRE version 6 update
+24 written in NetBeans IDE).  </p>
+
+<H4><FONT COLOR="#006633">The following videos show how the application
+works</FONT></H4>
+
+<a
+href="https://www.youtube.com/watch?v=YvhRBvMjgvs" >Video tutorial no. 1
+</a>  [retrieved 28-Feb-2018]
+
+<br> <a href="https://www.youtube.com/watch?v=AD2I-qC3BRo" >Video
+tutorial no. 2</a>  [retrieved 28-Feb-2018]
+
+<br> <A
+HREF="https://www.youtube.com/watch?v=u5X8EbHUOGs">Milpgame tutorial 3</A>
+[retrieved 7-Feb-2020]
+
+<p> You can save unfinished proofs in *.mlp format, which
+ you can open later to complete the proof of the theorem or problem.
+
+<br> If you
+enter on "Edit -&gt; Search" and search for a theorem name, you can go to the
+source of the theorem, and from there you can enter new proof.
+
+<p> Download milpgame1.1a.zip, unzip it, and follow the instructions in
+readme.txt.  For proving theorems using the current set.mm, download set.mm
+from <a href="https://github.com/metamath/set.mm/blob/develop/set.mm">
+Github/set.mm</a> and open the file with Milpgame.  System requirements:
+2 GB of RAM and 1366x768 screen resolution.  </p>
+
+<UL> <LI> <A HREF="milpgame1.1a.zip">milpgame1.1a.zip</A> - Milpgame 1.1a
+Cross-platform (Windows, Linux, Mac OS)  </LI>
+
+<LI> <A HREF="tests.zip">tests.zip</A> - Optional test files (see below)</LI>
+
+<!--
+<LI> <A HREF="instructions.txt">instructions.txt</A> - Text version
+of instructions</LI>
+-->
+
+</ul>
+
+<P> <br>For help
+and feedback send Filip an email at <a href="mailto:milpgame@yahoo.com">
+milpgame@yahoo.com </a> </p>
+
+<H4><FONT COLOR="#006633">Source code</FONT></H4>
+
+The program is released under the MIT license on <A
+HREF="https://github.com/milpgame">Github</A> [retrieved 28-Feb-2018].
+
+
+<HR NOSHADE SIZE=1>
+
+
+<A NAME="howto"></A>
+<H3><FONT COLOR="#006633">Instructions for using Milpgame</FONT></H3>
+
+
+<P>Milpgame cannot modify set.mm.  After you prove a theorem, you must
+paste the proof into set.mm manually using a text editor.  Prior to the
+proving, you must add to set.mm the theorem to be proved, accompanied by
+an empty proof (that is, whose proof consists of the single character
+"?"), using a text editor.
+
+<P>After you start Milpgame, go to "File -&gt; Open" and choose the
+set.mm file.  (To play with test1 through test6, you must download one of the
+test.mm files and set04.06.2013.mm in the same folder and then Open the
+test.mm in Milpgame.)
+
+<P>When working with set.mm, Milpgame takes about 40 seconds to load,
+depending on your CPU.
+
+<P>Move the cursor to "Edit -&gt; Search", check "Search by name", and
+enter the name of the theorem that you want to prove.  From the list
+that appears, click on the desired theorem name and "Go" to the source.
+Then click on the theorem and click on "Edit this proof" (a new tab will
+appear).
+
+<P>There are two strategies for proving theorems, called Forward
+Chaining and Backward Chaining.
+
+<H4><FONT COLOR="#006633">Forward Chaining Strategy</FONT></H4>
+
+<P>In the tab with theorem name on it, click "Change strategy" to change
+it to "Forward Chaining".  This strategy allows you to enter the proof
+starting with the hypotheses and ending with the theorem statement.
+
+<P>In order to prove the theorem, you must fill the "List of Rules" with
+axioms, theorems and hypotheses.  The "List of Rules" can be filled with
+axioms and theorems using "Edit -&gt; Search".  (You enter the name of axiom or
+theorem in the place holder, check "Search by name", and click on "Search".
+A list of results will appear.  Choose the axiom or theorem, then
+click on "Add" to add it to the "List of Rules".)
+
+<P>Any hypotheses of the theorem to be proved are listed after the "Edit
+this proof" button.  To add a hypothesis to the "List of Rules", click
+on the hypothesis then click on the "Add" button to add it to the "List
+of Rules" as "Hypothesis...".
+
+<P>In the following instructions, an axiom or theorem with no
+hypotheses is called "simple", and one that has hypotheses is called
+"complex".
+
+<P>To assign a hypothesis to the proof, you must in enter it into the "List
+of Rules" as described, click on the hypothesis, click "Select", then
+click on "Apply Rule:  Hypothesis of ..."
+
+<P>To assign a simple axiom or simple theorem to the proof, you must
+enter it in the "List of Rules",
+click on the axiom [theorem], click "Select", then click
+"Apply Rule:  Axiom [Theorem] of ...".
+
+<P>To move up or down through the hypotheses and statements, click on
+"Move Up" or "Move Down".
+
+<P>Undetermined variables are called "$v0", "$v1", etc.  In order to fill
+in a variable (i.e. assign it to an expression), you must click on the
+statement with the variable, then click on "Edit proof variables".  Fill
+in the variable with a desired expression that qualifies for the
+variable type (such as wff or class).
+
+<P>To add a simple or complex theorem or axiom to the proof, you must
+click on the statement, enter the "List of Rules", choose a theorem or
+axiom, then click on "Apply Rule:  Theorem [or Axiom] of ...".
+
+
+<P><FONT SIZE=-2 FACE="Comic Sans MS" COLOR=ORANGE> </FONT> <FONT
+SIZE=-1><I>(The following 3 paragraphs were added on 5-Feb-2020.)</I></FONT>
+
+
+<P>If you want to find a rule that fits with the ENTERED statement and
+existing statements, you should follow these steps:  Between the border
+of "Find the rules that fits", in the text pane you can enter the desired
+statement (you can check the correctness by clicking the "Syntax check"
+button), marked target must be null, enter the number of hypotheses that
+rule should have, select the first existing statements by clicking on it
+(label "Start with:" will show you the first selected statement from a
+list of ordered statements), then you can click on "Search and apply the
+rule". (If the number of hypotheses is 0 it is not necessary to have
+selected a first existing statement.)
+
+<P>If you just want to insert into the proof a new unproved statement,
+you should do the following:  in the border of "Find the rules that fits",
+in the text pane you can enter the desired statement (you can check the
+correctness by clicking the "Syntax check" button); the marked target
+must be null then click on "Insert the above statement".  (An unproved
+statement must be not be identical with a theorem hypothesis because it
+cannot be proved further, you just simply insert the theorem hypothesis.)
+
+<P>If you want to find a rule that fits with the MARKED target statement
+and existing statements you should do the following:  click on desired
+target statement, click on "Mark the target" (the label "Marked that
+is:"  will show the target statement), enter the number of hypotheses
+that rule should have, select the first existing statements by clicking
+(label "Start with:"  will show you the first selected statement from a
+list of ordered statements), then you can click on "Search and apply the
+rule".  (If the number of hypotheses is 0 it is not necessary to have
+selected a first existing statement.)  After you enter a proof in
+forward strategy you can get the text version (similar to mmj2) of the
+proof by clicking on "Text version of the proof".
+
+
+<H4><FONT COLOR="#006633">Backward Chaining Strategy</FONT></H4>
+
+<P>In the tab with theorem name on it, click "Change strategy" to change
+it to "Backward Chaining".  This will allow you to enter the proof
+starting with the theorem statement and ending with the hypotheses.
+
+<P>To add a simple or complex theorem or axiom to the proof, you must
+click on the statement, enter the "List of Rules", choose a theorem or
+axiom, then click on "Apply Rule:  Theorem [or Axiom] of ...".
+
+<P>The instructions are similar for the case of a hypothesis.
+
+<P>Undetermined variables are called "$v0", "$v1", etc.  In order to fill
+in a variable (i.e. assign it to an expression), you must click on the
+statement with the variable, then click on "Edit proof variables".  Fill
+in the variable with a desired expression that qualifies for the
+variable type (such as wff or class).
+
+
+
+<H4><FONT COLOR="#006633">Additional instructions</FONT></H4>
+
+<P>If you want to add an existing statement to the proof, click on "Add
+an existing statement".  If you want to delete a branch, click on the
+statement that you want to delete and then click "Delete branch".  The
+"Syntax" button is used to show the syntactic definitions for wff,
+class, and set variables.  In the "Edit -&gt; Formula" editor, you can
+create a statement using symbols (HTML definitions) and then obtain the
+corresponding ASCII result that can be used to edit set.mm (with a text
+editor).
+
+<H4><FONT COLOR="#006633">Memory usage</FONT></H4>
+
+Milpgame version 0.9 requires about 700MB of memory when set.mm is
+loaded.  To increase the memory used by the Java application, modify the
+-Xmx number from run.bat, for example "-Xmx4500m" will provide for
+4500MB.
+
+
+
+<HR NOSHADE SIZE=1>
+
+
+<A NAME="howto"></A>
+<H3><FONT COLOR="#006633">Revision history of Milpgame</FONT></H3>
+
+<UL>
+
+<LI>Version 1.1a (5-Feb-2020) - "I added new features to Milpgame that
+are similar to mmj2 features, which I think will be welcome" (see last 3
+paragraphs in the "Forward Chaining Strategy" section above).  Filip
+also uploaded a new tutorial on YouTube, <A
+HREF="https://www.youtube.com/watch?v=u5X8EbHUOGs">Milpgame tutorial
+3</A>.  </LI>
+
+
+<LI>Version 0.10 (28-Dec-2019) - "I reduced the time for syntactic trees
+generation and added a feature that finds the rule that fits given
+requirements (you enter the statement you want to reach, select the
+statements to which to apply the x rule, enter the number of hypotheses
+of x rule)."
+<!--
+Filip also
+uploaded a new tutorial on YouTube, <A
+HREF="https://www.youtube.com/watch?v=-oRhFBPCMn8">Milpgame 10</A>.
+-->
+</LI>
+
+<LI>Version 0.9 (30-Oct-2019) - Milpgame0.9 allows variables to be assigned
+directly with text expressions, generates compressed proofs, and fixes
+several bugs.</LI>
+
+<LI>Version 0.8 (16-Mar-2019) - New features like fast formula writing
+and other things.  Corrects some bugs and distinct variables
+verification.</LI>
+
+<LI>Version 0.7 (6-Aug-2018) - Some bugs were corrected.</LI>
+
+<LI> Version 0.6 (30-Mar-2018) - The set.mm load time was reduced to
+about 40 seconds.  A new how-to was added to this web page.</LI>
+
+</UL>
+
+
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=left VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD  ALIGN=CENTER><I>This page was last updated on 22-Mar-2021.</I>
+<BR><FONT SIZE=-2 FACE=ARIAL>
+Copyright terms (for the text on this web page):
+<A HREF="../copyright.html#pd">Public domain</A>
+</FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C HTML validation</A>
+[external]
+</FONT>
+</TD>
+
+</TR></TABLE>
+
+<!-- <SCRIPT SRC="http://www.google-analytics.com/urchin.js" TYPE="text/javascript">
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+_uacct = "UA-1862729-1";
+urchinTracker();
+</SCRIPT>
+-->
+
+</BODY></HTML>

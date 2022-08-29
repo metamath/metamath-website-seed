@@ -1,0 +1,713 @@
+
+\documentclass{slides}
+
+%page size
+\usepackage{anysize}
+\papersize{8in}{11in}
+%left,right,top,bottom
+%\marginsize{0.4706in}{0.4706in}{0.476in}{0.4706in}
+\marginsize{1in}{1in}{0.2in}{1in}
+
+\usepackage{color}
+\definecolor{mint}{rgb}{.933,1,.98}
+\definecolor{darkgreen}{rgb}{0,.7,0}
+\definecolor{lightgray}{gray}{0.75}
+\definecolor{mscolor}{rgb}{1.0,0,0}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+
+\begin{document}
+\raggedright
+\pagecolor{mint}
+
+
+\begin{slide}
+\begin{center}
+\textcolor{blue}{\textbf{\LARGE Hilbert Lattice
+Equations}}\\
+\vspace{3ex}
+{\large Norman Megill}\\
+\vspace{1ex}
+\textcolor{darkgreen}{\texttt{nm {}@ alum.mit.edu\qquad http://metamath.org}}\\
+\vspace{1ex}
+August 5, 2004; corrected December 20, 2004
+\end{center}
+\end{slide}
+
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{OL, OML, modular OL}}
+\end{center}
+
+An \textcolor{red}{\textit{ortholattice} (OL)} is an algebra
+$\langle A,\vee,\wedge,'>$ in which the following conditions hold:
+\begin{eqnarray}
+a\vee b & = & b\vee a\\
+(a\vee b)\vee c & = & a\vee (b\vee c)\\
+a'' & = & a\\
+a\vee (a\wedge b) & = & a\\
+a\wedge b & = & (a'\vee b')'
+\end{eqnarray}
+An \textcolor{red}{\textit{orthomodular lattice} (OML)} is an OL in which
+the orthomodular law holds:
+\begin{eqnarray}
+a\vee b & = & ((a\vee b)\wedge b')\vee b
+\end{eqnarray}
+A \textcolor{red}{\textit{modular} OL} is an OL in which the modular law holds:
+\begin{eqnarray}
+ a\vee (b\wedge (a\vee c))  & = &  (a\vee b)\wedge (a\vee c)
+\end{eqnarray}
+
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{${\cal C}({\cal H})$}}
+\end{center}
+
+A \textcolor{red}{\textit{Hilbert space}} is a (for us, complex) vector space
+with an inner product, which is complete in the induced metric.
+
+(See http:/us.metamath.org/mpegif/mmhil.html for the complete list of
+axioms.)
+
+The set of closed subspaces of a (possibly infinite-dimensional) Hilbert
+space ${\cal H}$ is denoted \textcolor{red}{${\cal C}({\cal H})$}.  It
+is a lattice; in particular, it is an orthomodular lattice (OML).  This
+fact provides a primary motivation for studying the properties of OMLs.
+
+${\cal C}({\cal H})$ is also called a \textcolor{red}{\textit{Hilbert lattice}}.
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{${\cal C}({\cal H})$ lattice operations}}
+\end{center}
+
+The orthocomplement $a'$ of a closed subspace $a$ (or actually any
+$a\subseteq{\cal H}$) is the set of vectors orthogonal
+to all vectors in $a$:
+\begin{eqnarray}
+\textcolor{red}{a'} &
+{\buildrel\rm def\over =}& \{x \in {\cal H} : (\forall y \in a)\ (x,y) = 0\}
+\end{eqnarray}
+where $(\cdot,\cdot)$ is the Hilbert vector space inner product.
+Note that $a'$ is a closed subspace for any $a\subseteq{\cal H}$,
+and $a''$ (the closure of $a$) is the smallest closed subspace
+containing $a$.
+
+The meet operation is
+just set-theoretical intersection:
+\begin{eqnarray}
+\textcolor{red}{a\wedge b} &
+{\buildrel\rm def\over =}& a\cap b
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{${\cal C}({\cal H})$ lattice operations (cont.)}}
+\end{center}
+
+Ordering, join, unit, and zero can be defined in terms of these.  (We
+also define {\em commutes} and {\em Sasaki implication} for later use.)
+\begin{eqnarray}
+  \textcolor{red}{a\le b} & {\buildrel\rm def\over \Leftrightarrow}&
+    a=a\wedge b \quad\Leftrightarrow\quad a\subseteq b
+\\
+  \textcolor{red}{a\vee b} &
+  {\buildrel\rm def\over =}& (a'\wedge b')' = (a{\bf +}b)''= (a\cup b)''
+\\
+  \textcolor{red}{0} &
+  {\buildrel\rm def\over =}& a \wedge a' = \{ {\bf 0} \} = {\cal H}'
+\\
+  \textcolor{red}{1} &
+  {\buildrel\rm def\over =}& 0' ={\cal H}
+\\
+  \textcolor{red}{aCb} & {\buildrel\rm def\over \Leftrightarrow}&
+  a=(a\wedge b)\vee (a\wedge b') \quad\textcolor{red}{\mbox{(commutes)}}
+\\
+  \textcolor{red}{a\to_1b} &
+  {\buildrel\rm def\over =}& a'\vee(a\wedge b)
+  \ \ \quad\textcolor{red}{\mbox{(Sasaki implication)}}
+\end{eqnarray}
+where ${\bf +}$ is subspace sum, $\cup$ is set-theoretical union, and ${\bf 0}$ is the
+zero vector.  Note that
+${\cal C}({\cal H})$ itself can be defined as
+\begin{eqnarray}
+\textcolor{red}{{\cal C}({\cal H})}  &
+{\buildrel\rm def\over =}&\{x \subseteq {\cal H} : x=x''\}
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{An open problem in ${\cal C}({\cal H})$}}
+\end{center}
+
+``An open problem is to determine all equations satisfied by hilbertian
+lattices [i.e.  ${\cal C}({\cal H})$], which would make possible the
+separation of the 'purely logic' part from the above axiomatics.  It is
+not known if this problem is solvable, for it is not certain that these
+equations form a recursively enumerable set.''
+
+---Ren\'e Mayet, ``Varieties of orthomodular lattices related to states,''
+{\em Algebra Universalis 20} (1985), 368-396
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Equations known to hold in ${\cal C}({\cal H})$}} \\
+(See also last year's slide show)
+\end{center}
+
+\begin{itemize}
+\item Orthomodular (OML) law (Husumi, 1937)
+\item Orthoarguesian (OA) law (Alan Day, 1975)
+\item Godowski's state-related equations (Godowski, 1981)
+\item Mayet's state-related equations (Mayet, 1985)
+\item $n$-orthoarguesian ($n$-OA) laws (Megill/Pavi\v ci\'c, 2000)
+\item The modular law {\bf does not hold} in ($\infty$-dimensional)
+${\cal C}({\cal H})$
+\end{itemize}
+
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Equations known to hold in ${\cal C}({\cal H})$ (cont.)}} \\
+\end{center}
+
+OML law (Husumi, 1937):
+\begin{eqnarray}
+((a\vee b)\wedge b')\vee b &=& a\vee b
+\end{eqnarray}
+OA law (Alan Day, 1975):
+\begin{eqnarray}
+ & a\wedge
+   (( (a\wedge b) \vee ((a\to_1 d)\wedge (b\to_1 d)) )\vee     \nonumber\\
+ & (( (a\wedge c) \vee ((a\to_1 d)\wedge (c\to_1 d)) )\wedge   \nonumber\\
+ &  ( (b\wedge c) \vee ((b\to_1 d)\wedge (c\to_1 d)) )))\ \le\ b'\to_1 d
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Equations known to hold in ${\cal C}({\cal H})$ (cont.)}} \\
+\end{center}
+
+$n$-OA example, $n=5$ (Megill/Pavi\v ci\'c, 2000):
+\begin{eqnarray}
+& a\wedge (
+  ((  (a\wedge b) \vee ((a\to_1 d)\wedge (b\to_1 d)) )\vee        \nonumber\\
+& ((  (a\wedge e) \vee ((a\to_1 d)\wedge (e\to_1 d)) ) \wedge     \nonumber\\
+& (   (b\wedge e) \vee ((b\to_1 d)\wedge (e\to_1 d)) ))) \vee     \nonumber\\
+& ((( (a\wedge c) \vee ((a\to_1 d)\wedge (c\to_1 d)) )\vee        \nonumber\\
+& ((  (a\wedge e) \vee ((a\to_1 d)\wedge (e\to_1 d)) ) \wedge     \nonumber\\
+& (   (c\wedge e) \vee ((c\to_1 d)\wedge (e\to_1 d)) )))  \wedge  \nonumber\\
+& ((  (b\wedge c) \vee ((b\to_1 d)\wedge (c\to_1 d)) ) \vee       \nonumber\\
+& ((  (b\wedge e) \vee ((b\to_1 d)\wedge (e\to_1 d)) ) \wedge     \nonumber\\
+& (   (c\wedge e) \vee ((c\to_1 d)\wedge (e\to_1 d)) )))
+  ))\ \le\ b'\to_1 d
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Equations known to hold in ${\cal C}({\cal H})$ (cont.)}} \\
+\end{center}
+
+Example of Godowski equation (Godowski, 1981):
+\begin{eqnarray}
+(a\to_1 b)\wedge (b\to_1 c)\wedge (c\to_1 a)
+&\le& a\to_1 c
+\end{eqnarray}
+Example of Mayet equation (Megill/Pavi\v ci\'c, unpublished):
+\begin{eqnarray}
+( ( a \to_1 b ) \to_1 ( c \to_1 b ) ) \wedge
+                     ( a \to_1 c ) \wedge ( b \to_1 a )& \le&  c \to_1 a \ \
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{picture}(0,0)(50,150)
+\multiput(0,275)(0,20){6}{
+  \multiput(0,0)(20,0){37}{
+     \textcolor{lightgray}{\line(1,1){20}}}}
+\multiput(0,275)(10,0){75}{\textcolor{lightgray}{\line(1,0){5}}}
+
+  \put(270,360){\framebox(100,35){Boolean}}
+\put(320,325){\vector(0,1){35}}
+  \put(250,290){\framebox(140,35){Modular OL}}
+\put(700,315){\makebox(0,0)[r]{forbidden region}}
+\put(700,295){\makebox(0,0)[r]{(non-${\cal C}({\cal H})$)}}
+%\put(0,275){\line(1,0){750}}
+
+\put(700,255){\makebox(0,0)[r]{${\cal C}({\cal H})$ region}}
+\put(495,245){\vector(-1,1){125}}
+\put(410,260){\makebox(0,0)[l]{?}}
+  %\put(445,245){\vector(-1,1){55}}
+  %\put(195,245){\vector(1,1){55}}
+     \multiput(445,245)(-3,3){18}{\line(1,0){0.5}}
+     \put(400,290){\vector(-1,1){10}}
+\put(230,260){\makebox(0,0)[r]{?}}
+  %\put(195,245){\vector(1,1){55}}
+     \multiput(195,245)(3,3){18}{\line(1,0){0.5}}
+     \put(240,290){\vector(1,1){10}}
+\put(145,245){\vector(1,1){125}}
+  \put(120,210){\framebox(100,35){$n$-OA}}
+  \put(420,210){\framebox(100,35){Mayet}}
+\put(470,175){\vector(0,1){35}}
+\put(170,175){\vector(0,1){35}}
+  \put(120,140){\framebox(100,35){OA}}
+  \put(415,140){\framebox(110,35){Godowski}}
+\put(370,87){\vector(5,3){88}}
+\put(320,105){\vector(0,1){185}}
+\put(270,87){\vector(-5,3){88}}
+
+\put(450,60){\makebox(0,0)[l]{\textcolor{blue}{Known equational}}}
+\put(450,40){\makebox(0,0)[l]{\textcolor{blue}{varieties that include ${\cal C}({\cal H})$}}}
+
+%\put(470,5){\vector(1,0){25}}
+\put(495,5){\vector(-1,0){25}}
+%\put(515,5){\makebox(0,0)[l]{means $\supsetneqq$}}
+\put(515,5){\makebox(0,0)[l]{means $\subset$}}
+
+  \put(270, 70){\framebox(100,35){OML}}
+\put(320,35){\vector(0,1){35}}
+  \put(270,  0){\framebox(100,35){OL}}
+\end{picture}
+
+
+\end{slide}
+\begin{slide}
+
+\begin{picture}(0,0)(50,150)
+\multiput(0,275)(0,20){6}{
+  \multiput(0,0)(20,0){37}{
+     \textcolor{lightgray}{\line(1,1){20}}}}
+\multiput(0,275)(10,0){75}{\textcolor{lightgray}{\line(1,0){5}}}
+
+  \put(270,360){\framebox(100,35){Boolean}}
+\put(320,325){\vector(0,1){35}}
+  \put(250,290){\framebox(140,35){Modular OL}}
+\put(700,315){\makebox(0,0)[r]{forbidden region}}
+\put(700,295){\makebox(0,0)[r]{(non-${\cal C}({\cal H})$)}}
+%\put(0,275){\line(1,0){750}}
+
+\put(700,255){\makebox(0,0)[r]{${\cal C}({\cal H})$ region}}
+\put(495,245){\vector(-1,1){125}}
+\put(410,260){\makebox(0,0)[l]{?}}
+  %\put(445,245){\vector(-1,1){55}}
+  %\put(195,245){\vector(1,1){55}}
+     \multiput(445,245)(-3,3){18}{\line(1,0){0.5}}
+     \put(400,290){\vector(-1,1){10}}
+\put(230,260){\makebox(0,0)[r]{?}}
+
+% extra stuff
+\put(240,267){\makebox(0,0)[l]{\textcolor{mscolor}{$n=3$}}}
+\put(240,247){\makebox(0,0)[l]{\textcolor{mscolor}{proved}}}
+
+  %\put(195,245){\vector(1,1){55}}
+     \multiput(195,245)(3,3){18}{\line(1,0){0.5}}
+     \put(240,290){\vector(1,1){10}}
+\put(145,245){\vector(1,1){125}}
+  \put(125,210){\framebox(100,35){$n$-OA}}
+  \put(420,210){\framebox(100,35){Mayet}}
+
+%extra stuff
+\put(485,210){\textcolor{mscolor}{\vector(0,-1){35}}}
+\put(481,187){\textcolor{mscolor}{\line(1,1){10}}}
+\put(530,207){\makebox(0,0)[l]{\textcolor{mscolor}{Megill/Pavi\v ci\'c}}}
+\put(530,187){\makebox(0,0)[l]{\textcolor{mscolor}{(unpublished)}}}
+\put(155,210){\textcolor{mscolor}{\vector(0,-1){35}}}
+\put(151,187){\textcolor{mscolor}{\line(1,1){10}}}
+\put(123,207){\makebox(0,0)[r]{\textcolor{mscolor}{Megill/Pavi\v ci\'c}}}
+\put(123,187){\makebox(0,0)[r]{\textcolor{mscolor}{(2000)}}}
+
+\put(470,175){\vector(0,1){35}}
+\put(170,175){\vector(0,1){35}}
+  \put(125,140){\framebox(100,35){OA}}
+  \put(415,140){\framebox(110,35){Godowski}}
+\put(370,87){\vector(5,3){88}}
+\put(320,105){\vector(0,1){185}}
+\put(270,87){\vector(-5,3){88}}
+
+\put(450,60){\makebox(0,0)[l]{\textcolor{blue}{Known equational}}}
+\put(450,40){\makebox(0,0)[l]{\textcolor{blue}{varieties that include ${\cal C}({\cal H})$}}}
+
+%\put(470,5){\vector(1,0){25}}
+\put(495,5){\vector(-1,0){25}}
+%\put(515,5){\makebox(0,0)[l]{means $\supsetneqq$}}
+\put(515,5){\makebox(0,0)[l]{means $\subseteq$}}
+
+  \put(270, 70){\framebox(100,35){OML}}
+\put(320,35){\vector(0,1){35}}
+  \put(270,  0){\framebox(100,35){OL}}
+\end{picture}
+
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Modular pairs}}
+\end{center}
+
+The \textcolor{red}{\textit{modular pair}} relation between
+two lattice elements $a$, $b$, denoted
+ $(a,b)M$, is defined as
+\begin{eqnarray}
+\textcolor{red}{(a,b)M} & {\buildrel\rm def\over \Leftrightarrow}&
+  (\forall x)\ [ x \le b \ \Rightarrow\  x \vee (a \wedge b) = (x \vee a) \wedge b]
+ \label{mpdef}
+\end{eqnarray}
+
+The \textcolor{red}{\textit{dual modular pair}} relation between
+two lattice elements $a$, $b$, denoted
+ $(a,b)M^*$, is defined as
+\begin{eqnarray}
+\textcolor{red}{(a,b)M^*} & {\buildrel\rm def\over \Leftrightarrow}&
+  (\forall x)\ [ x \ge b \ \Rightarrow\  x \wedge (a \vee b) = (x \wedge a) \vee b]
+\label{dmpdef}
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{M-symmetry}}
+\end{center}
+
+The set of closed subspaces of infinite-dimensional Hilbert space, ${\cal C}({\cal H})$,
+has a remarkable property:  it is \textcolor{red}{\textit{M-symmetric}}.
+\begin{eqnarray}
+  (a,b)M \quad\Leftrightarrow\quad (b,a)M
+\end{eqnarray}
+Other related symmetry properties also hold:
+\begin{eqnarray}
+  (a,b)M^* &\quad\Leftrightarrow\quad& (b,a)M^* \quad\mbox{(\textcolor{red}{\textit{M${}^*$-symmetric}})}\\
+  (a,b)M &\quad\Leftrightarrow\quad& (b',a')M \quad\mbox{(\textcolor{red}{\textit{O-symmetric}})}\\
+  (a,b)M &\quad\Leftrightarrow\quad& (b,a)M^* \quad\mbox{(\textcolor{red}{\textit{cross-symmetric}})}
+\end{eqnarray}
+
+\end{slide}
+\begin{slide}
+
+\begin{picture}(0,0)(50,150)
+
+\multiput(0,275)(0,20){6}{
+  \multiput(0,0)(20,0){37}{
+     \textcolor{lightgray}{\line(1,1){20}}}}
+\multiput(0,275)(10,0){75}{\textcolor{lightgray}{\line(1,0){5}}}
+
+  \put(270,360){\framebox(100,35){Boolean}}
+\put(320,325){\vector(0,1){35}}
+  \put(250,290){\framebox(140,35){Modular OL}}
+\put(700,315){\makebox(0,0)[r]{forbidden region}}
+\put(700,295){\makebox(0,0)[r]{(non-${\cal C}({\cal H})$)}}
+  \put(220,235){\framebox(200,35){\textcolor{mscolor}{M-symmetric OML}}}
+%\put(0,280){\line(1,0){750}}
+\put(700,255){\makebox(0,0)[r]{${\cal C}({\cal H})$ region}}
+\put(495,235){\vector(-1,1){125}}
+  \put(400,210){\makebox(0,0)[l]{?}}
+  %\put(220,220){\vector(2,1){30}}
+     \multiput(210,215)(4,2){9}{\line(1,0){0.5}}
+     \put(240,230){\vector(2,1){10}}
+  \put(240,210){\makebox(0,0)[r]{?}}
+  %\put(420,220){\vector(-2,1){30}}
+     \multiput(430,215)(-4,2){9}{\line(-1,0){0.5}}
+     \put(400,230){\vector(-2,1){10}}
+\put(145,235){\vector(1,1){125}}
+  \put(110,200){\framebox(100,35){$n$-OA}}
+  \put(430,200){\framebox(100,35){Mayet}}
+\put(480,175){\vector(0,1){25}}
+\put(160,175){\vector(0,1){25}}
+  \put(110,140){\framebox(100,35){OA}}
+  \put(425,140){\framebox(110,35){Godowski}}
+\put(370,87){\vector(5,3){88}}
+\put(320,270){\vector(0,1){20}}
+\put(320,105){\vector(0,1){130}}
+%\put(320,105){\vector(0,1){185}}
+\put(270,87){\vector(-5,3){88}}
+\put(420,50){\makebox(0,0)[l]{\textcolor{mscolor}{Note: M-symmetric OML is}}}
+\put(420,30){\makebox(0,0)[l]{\textcolor{mscolor}{(apparently) not an equational}}}
+\put(420,10){\makebox(0,0)[l]{\textcolor{mscolor}{variety (but I have no proof)}}}
+  \put(270, 70){\framebox(100,35){OML}}
+\put(320,35){\vector(0,1){35}}
+  \put(270,  0){\framebox(100,35){OL}}
+\end{picture}
+
+
+\end{slide}
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Can M-symmetry help us find a
+new ${\cal C}({\cal H})$ equation?}}
+\end{center}
+
+The M- (or M${}^*$-)symmetry property is not an equation, because
+in prenex normal form it has
+an existential quantifier.  To obtain an equation, one possible approach
+(that we are investigating)
+is to find a quantifier-free expression (polynomial equations
+connected with `and') $E(a,b,\ldots )$ s.t.
+\begin{eqnarray}
+E(a,b,\ldots )  & \Rightarrow & (b,a)M^* \label{mshyp}
+\end{eqnarray}
+holds in OML (or in some other known ${\cal C}({\cal H})$ condition).  Then
+\begin{eqnarray}
+E(a,b,\ldots )  & \Rightarrow & (a,b)M^* \label{msconcl}
+\end{eqnarray}
+will also hold in ${\cal C}({\cal H})$ and (after removal of $(a,b)M^*$
+quantifier) will
+be an equational inference that holds in ${\cal C}({\cal H})$, hopefully
+stronger than the first condition.
+
+\end{slide}
+
+%%%%%% start of deleted section that may be wrong - figure out later
+%%%%%% deleted by ndm on 12/20/04
+%
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Extending M${}^*$-symmetry}}
+% \end{center}
+%
+% A detailed analysis of Maeda's M${}^*$-symmetry proof reveals that it
+% actually proves something subtly ``stronger.''
+%
+% The M${}^*$-symmetry proof makes use of the fact that ${\cal C}({\cal
+% H})$ is a {\em relatively atomic}
+%  lattice satisfying the {\em exchange axiom}.
+%
+% So
+% we need more definitions...
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{More definitions}}
+% \end{center}
+%
+%
+% A lattice element $b$ \textcolor{red}{\textit{covers}} $a$, written $a\lessdot
+% b$, if $a$ is less than $b$ and there is nothing in between.  An
+% \textcolor{red}{\textit{atom}} is a lattice element that covers $0$.
+% \begin{eqnarray}
+% \textcolor{red}{a\lessdot b} & {\buildrel\rm def\over \Leftrightarrow}&
+% a<b \ \&\ \lnot (\exists x)\ a<x<b \\
+% \textcolor{red}{p\ \mbox{is an atom}} & {\buildrel\rm def\over \Leftrightarrow}&
+% 0\lessdot p
+% \end{eqnarray}
+% ${\cal C}({\cal H})$ is
+% \textcolor{red}{\textit{relatively atomic}}:
+% \begin{eqnarray}
+% a<b & \Rightarrow & (\exists\ \mbox{an atom}\ p)\
+% a< a\vee p \le b
+% \end{eqnarray}
+% and satisfies the
+% \textcolor{red}{\textit{exchange axiom}}:
+% \begin{eqnarray}
+% a\wedge b\lessdot b & \Leftrightarrow & a\lessdot a\vee b
+% \end{eqnarray}
+%
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Extending M${}^*$-symmetry (cont.)}}
+% \end{center}
+%
+% The hypothesis of the M${}^*$-symmetry proof
+%  does not require the full strength
+% of $(b,a)M^*$ (Eq.~\ref{dmpdef}) to get $(a,b)M^*$,
+%  but only the following ``weaker''
+% condition:
+% \begin{eqnarray}
+%   (\forall \ \mbox{atoms}\ p)\
+%   [ p \ge a \ \Rightarrow\  p \wedge (b \vee a) = (p \wedge b) \vee a]
+% \end{eqnarray}
+% Thus we can exploit special properties of atoms in an attempt to prove
+% the condition of Eq.~\ref{mshyp}.  For example, using
+% \begin{eqnarray}
+% p\nleq a\vee b &  \Rightarrow & (a\vee p)\wedge (a\vee b) = a
+% \end{eqnarray}
+% we can weaken  Eq.~\ref{mshyp} (that we want to prove)
+% into the following form, where $p$ is (optionally)
+% an atom and cannot
+% occur in $E(a,b,\ldots )$:
+% \begin{eqnarray}
+% E(a,b,\ldots ) \ \&\ a\le p\le a\vee b \ \Rightarrow \ p\le (p\wedge b)\vee a
+% \end{eqnarray}
+%
+%
+%
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Extending M${}^*$-symmetry (cont.)}}
+% \end{center}
+%
+% Among other properties available to exploit, there is an
+% extensionality-like law for eliminating atoms:
+% \begin{eqnarray}
+%   & (\forall \ \mbox{atoms}\ p)\
+%   (p \le a \ \Rightarrow\ p\le b) \quad \Leftrightarrow \quad a\le b&
+% \end{eqnarray}
+% and a closure law for modular pairs that allows working directly
+% in Hilbert space with vectors and subspace sums:
+% \begin{eqnarray}
+%     &(a,b)M \quad \Leftrightarrow \quad a{\bf +}b=a\vee b &
+% \end{eqnarray}
+% Also, an atom $p$ forms a modular pair with any other lattice element:
+% \begin{eqnarray}
+% (a,p)M,\ (p,a)M,\ (a,p)M^*, \ \mbox{etc.}
+% \end{eqnarray}
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Our current working conjecture}}
+% \end{center}
+%
+% We (myself and Mladen Pavi\v ci\'c) are trying to prove or disprove that
+% this condition holds in all OMLs:
+% \begin{eqnarray}
+% aCc \ \& \ c\wedge d\le a \ \& \ b\le d \ \& \ b\le (a\wedge d)\vee c \ \&
+% \nonumber\\
+% \ p\le a\vee b \ \& \ a\le p \ \Rightarrow \ p\le (p\wedge b)\vee a \label{conj1}
+% \end{eqnarray}
+% So far we haven't found a counterexample.
+%
+% On the other hand, the conclusion using M${}^*$-symmetry,
+% \begin{eqnarray}
+% aCc \ \& \ c\wedge d\le a \ \& \ b\le d \ \& \ b\le (a\wedge d)\vee c \ \&
+% \nonumber\\
+% \& \ b\le e \ \Rightarrow \ e\wedge(a\vee b)\le (e\wedge a)\vee b,
+% \end{eqnarray}
+% fails in almost all non-modular OMLs and appears much stronger than, and
+% certainly independent from, any known Hilbert lattice equation.
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Our current working conjecture (cont.)}}
+% \end{center}
+%
+% \textcolor{blue}{\textbf{Motivation.}}
+% The following informal heuristic motivates our conjecture.
+% Trivially, we have
+% \begin{eqnarray}
+% a=b  & \Rightarrow & (b,a)M^*
+% \end{eqnarray}
+% The general idea is to disconnect $a=b$, then reconnect $a$ and $b$ via a
+% modular or modular-like law.
+% \begin{eqnarray}
+% a=\mbox{(l.h.s. of modular law)} \ \&\ \mbox{(r.h.s. of modular law)}=b
+% \nonumber\\
+% \Rightarrow \quad (b,a)M^* \label{conj2}
+% \end{eqnarray}
+% If we select the direction and form of the modular law ``just right,'' the
+% hope is that the strength of the
+%  hypotheses will effectively ``cancel'' the strength of
+% $(b,a)M^*$, but won't ``cancel'' the strength of $(a,b)M^*$.  Very
+% roughly, we observe this kind of bias with simple lattice experiments.
+% By trial-and-error we added the additional hypothesis $aCc$ in
+% Eq.~\ref{conj1} to get Eq.~\ref{conj2} to pass in known OMLs.
+%
+% \end{slide}
+% \begin{slide}
+%
+% \begin{center}
+% \textcolor{blue}{\textbf{Our current working conjecture (cont.)}}
+% \end{center}
+%
+%
+% Eq.~\ref{conj1} is equivalent to the following closed form:
+% \begin{eqnarray}
+% p\wedge (a\vee ((((a\wedge d)\vee (c\wedge (a\vee (c\wedge a'))))\wedge d)\wedge b))\nonumber\\
+% \le ((((c\wedge d)\vee a)\vee p)\wedge b)\vee ((c\wedge d)\vee a)
+% \end{eqnarray}
+%
+%
+% Expressed as a Mace4 problem:
+% \begin{verbatim}
+% % Use as the denial in the Mace4 example "nonmodular-oml.in"
+% (E ^ (A v ((((A ^ D) v (C ^ (A v (C ^ c(A))))) ^ D) ^ B)))
+% v (((((C ^ D) v A) v E) ^ B) v ((C ^ D) v A))
+% != ((((C ^ D) v A) v E) ^ B) v ((C ^ D) v A).
+% \end{verbatim}
+%
+% \end{slide}
+%%%%%% end of deleted section that may be wrong
+
+%%%%%%% temporary new slide:
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Our current working conjecture}}
+\end{center}
+
+
+We are trying to prove or disprove that the following equation holds
+in all OMLs:
+\begin{eqnarray}
+p\wedge (a\vee ((((a\wedge d)\vee (c\wedge (a\vee (c\wedge a'))))\wedge d)\wedge b))\nonumber\\
+\le ((((c\wedge d)\vee a)\vee p)\wedge b)\vee ((c\wedge d)\vee a)
+\end{eqnarray}
+
+
+Expressed as a Mace4 problem:
+\begin{verbatim}
+% Use as the denial in the Mace4 example "nonmodular-oml.in"
+(E ^ (A v ((((A ^ D) v (C ^ (A v (C ^ c(A))))) ^ D) ^ B)))
+v (((((C ^ D) v A) v E) ^ B) v ((C ^ D) v A))
+!= ((((C ^ D) v A) v E) ^ B) v ((C ^ D) v A).
+\end{verbatim}
+
+\end{slide}
+
+
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{References}}
+
+Most of the references for this material can be found at:
+
+\textcolor{darkgreen}{
+\texttt{http://us.metamath.org/qlegif/mmql.html{\char`\#}ref}}
+
+\vspace{3ex}
+
+More miscellaneous stuff can be found at:\\
+\textcolor{darkgreen}{
+\texttt{http://us.metamath.org/award2003.html}}
+
+\end{center}
+\end{slide}
+
+\end{document}
+
+

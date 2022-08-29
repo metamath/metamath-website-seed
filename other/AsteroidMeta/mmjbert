@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmjbert</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmjbert" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmjbert" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmjbert">mmjbert</a></h1></div><div class="content browse"><p>Well! I am finally starting to really "dig" Ghilbert. I like many things about it very much. So I am considering stealing as much as possible from Ghilbert which is 100% consistent with direct convertability between it and Metamath. This means another flavor of Ghilbert, which I would tenatively name "mmjbert" because the dialect would provide services to the totally hypothetical vaporware product, "mmj3" (which we would like to be able to handle multi-core, multi-computer parallel/distributed processing environments.)</p><p>Here are the main concept variations from Ghilbert Prime:</p><h1>1) Definitions.</h1><p>Definitions of the Ghilbert variety revert to being just Axioms, as they are in Metamath. I believe I see what the intent is for Ghilbert definitions and it is admirable but de-selected for mmjbert. Here is why.</p><p>Look at the "definition" for df-3or. This is an equivalency back to "2or" --&gt;</p><pre>     ( ph \/ ps \/ ch \/ ) &lt;-&gt; ( ( ph \/ ps ) \/ ch )
+   </pre><p>Which is fine, of course. But according to the Ghilbert specification, during proof verification when a definition is encountered during the matching process, and it doesn't match its corresponding node, the definition is expanded, which is totally logical of course. But it is treating df-3or as syntactic sugar. And that is "ok" too, except that it will not fly in Metamath, which is what mmjbert must service.</p><p>Metamath has a number of "syntactic sugar" syntax axioms. In fact, except for the "atomic" undefined syntax, all of the syntax axioms in set.mm can be viewed as syntactic sugar! Consider wex and wrex, for example:</p><pre>    wex $a wff E. x ph $.
+    wrex $a wff E. x e. A ph $.
+    </pre><p>Notice that the "E." operator is contained in both formulas? That is typical of other set.mm syntax axioms. Norm has created a language in set.mm which is a compromise between the "pure" languages of math/logic which use polish prefix syntax and the constant/parentheses ( "(", ")" ) punctuated context-free grammars of programming languages. Unfortunately, the Metamath Proof Verification Engine algorithm cannot tolerate syntactic ambiguities, whatsoever &#x2013; if "(" and ")" are used in a syntax axiom once, then they are used all of the time!</p><p>It is possible to define a context free grammar using a Metamath .mm file which really does treat ")" and "(" as grouping delimiters. But the Proof Verifier will require that a "normal" form be used; no extra or omitted parentheses can be tolerated because the Proof Verifier compares formula strings. To deal with syntactic sugar in Metamath, the Metamath specification would require modification so that input .mm formulas are parsed and converted to a normal form &#x2013; and then on output/display, the normal form is converted back to some other form, probably the original.</p><p>And if you look inside set.mm, df-3or actually appears inside proofs. So if you want to treat df-3or as syntactic sugar in your 'bert dialect then you must have a way to do a Hilbert-style derivation from your proof step formulas to the original-style Metamath formulas. Which is theoretically doable&#x2026;but huge, if you plan to accomplish that for every set.mm definition.</p><p>Another "whine" I have about the Ghilbert definition concept is unfolding the definitions during unification/proof verification. In mmjbert I would prefer that these algorithms not be burdened with a need for intelligence. If unfolding is required, I prefer that happen explicitly, upstream, by someone/something smarter.</p><p>Really, I think, what the goal is for the Ghilbert definition feature is something which I would term "sub- formulas". Here is how I would describe "sub-formulas"&#x2026;</p><p>Say we have a "term" which is repeated in many places in a proof, such that it is tedious to write and hard to look at (except by the original author who has the stuff hardwired in the cerebral cortex&#x2026;) For example, say your are working on "E = m * c ** 2" and you decide to call this sub-formula/expression just "Q" and then in all of your proof steps whenever you write "Q" it is <i>understood</i> that "Q" expands to "E = m * c ** 2". In other words, this sub-formula feature is exactly like a mmj2 "Work Variable" except that Work Variables are automatically resolved whenever the substitution information becomes available to the program, and a "sub-formula" is defined by the user and is implicitly resolved within the proof worksheet syntactically prior to all unification/verification processing.</p><p>In summary, my perspective is not that the Ghilbert way "bad", but that in Metamath's set.mm, Norm has used considerable judgement to form "hybrid" syntax objects which could be untangled to a "pure" form, and that the job of doing the untangling should not reside in mmjbert &#x2013; that is something which should belong in the user interface portion of mmj3/whatever (and will need to be smart enough to figure out how to deal with df-or and df-3or in a way which is convenient for users.)</p><h1>2. Axioms.</h1><p>Axioms are back, in mmjbert. Again, the Ghilbert way is a good way, but it goes beyond the objectives of mmj3/mmjbert (which is to provide unparalleled quality of service to people doing Metamath.)</p><h1>3. Variables and Variable Hypotheses.</h1><p>These are a pain in the brain, so they're gone! At least, they aren't <i>declared</i> in mmjbert. Variables such as "ph" and "x" belone to the user-interface space. Who cares what they're named inside the system? All we care about is their Type/Kind (e.g. wff, class, set, etc.)</p><p>Here is how to eliminate Var/VarHyp<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=VarHyp">?</a> declarations in mmjbert: assertions and formulas will use "call signatures" in exactly the same way these are used in C, Java, etc., except that we won't even both to provide argument names&#x2026;just the types &#x2013; which is the same way that "term"s are defined in Ghilbert.</p><p>So, every assertion and every formula will have its own "call pattern". For example (this is an illustration of the concept, not the actual implementation):</p><pre>    wff ax-mp(wff wff)
+    </pre><p>Inside ax-mp, the program refers to wff-1 and wff-2.</p><p>There are a few reasons for doing this. One of which is that it is a pain in the brain to have to deal with Metamath's scopes and frames when working inside a Proof Assistant. Let the program use as many wff variables as it wants, who cares? The only time we need to care is when we are exporting a Proof Worksheet back to Metamath, and in that case, if there aren't enough wff variables at the global level, then someone can deal with that manually or with a very smart program who knows how to update-in-place a .mm file.</p><p>Another reason for doing this is that we want to maximize "locality of reference" when doing parallel/distributed code. To accomplish this we want each Assertion to carry his own baggage with him so that he can function in new environments without referring back to the original context. Soooooo&#x2026;</p><p>An Assertion has its own self-contained Frame ( &#x2013; and we just abandon the concept of "optional variables, by the way!) For example (keeping this illustrative of the concept but not showing the actual implementation, here is the ax-mp assertion and frame:</p><pre>    [ |- ax-mp  (wff, wff) ():
+        [ |- .1  (wff, wff) : wi(1, 2) ]
+        [ |- .2  (wff) : 1 ]
+        [ |- .0  (wff) : 2 ]
+        ( h1(1 , 2), h2(1), qed(2) )
+    ]</pre><p>Notice that this ax-mp has its own Mandatory Variable "frame" info stating its call variable types and distinct variable requirement (none).</p><p>And notice that each Formula has its own call pattern, which is like a "mini-frame" (but without the $d's.) The idea behind this is that we really want each Formula to be a self-contained entity so that we can dispatch Formulas for unification and unification searching, etc.</p><p>Finally, be assured that there is no expectation that users would deal with these cryptic references directly. We provide the hypothetical and largely theoretical possibility of manually manipulating the mmjbert data structures, but don't intend for them to be used that way. The idea is that a .mm file will be read and converted into mmjbert file(s) &#x2013; which can then be further processed by mmj3. Which leads to the next idea&#x2026;</p><h1>4. Modularization</h1><p>It has been observed that set.mm can be broken down and linearly arranged by Book, Chapter and Section. A "Section" is a chunk of set.mm which introduces new syntax, defines the syntax and plays around with it. A "Chapter" contains new axioms as well as new syntax. "Book" is just a somewhat arbitrary grouping of Chapters. So the Book of Logic might contain Propositional and Predicate Logic Chapters. (Logically, ax-3 should be moved down in set.mm to the place where it is first ("allowed to be") used.)</p><p>One thing I think we can achieve easily is to extract slices of information from set.mm which are "less fragile", meaning that some changes to set.mm won't wipe out what we do downstream from it.</p><p>For example, as we all know, every statement in a .mm file is assigned a sequence number which is used to prevent circular references (an entity can only use other entities with lower sequence numbers than its own.) We would like to be able to easily add theorems without altering the subsequent theorem sequence numbers (yeah, that would be nice!) So perhaps we can assign sequence numbers by math object within section, where sections are numbered 001, 002, &#x2026; 99999 and 001 is the first set.mm section and 999999 is the last. Then, if Section 23 has 94 objects, we allow the user to add AT THE END of Section 23 and assign the sequence number 95. (To add in the middle of Section 23 the user would have to put the new theorem into the source .mm file and then regenerate the mmjbert files.) So, other theorems referencing the new theorem would refer to it as "23.95" &#x2013; but only interally within the code&#x2026;users would refer to the new theorem by name using the Proof Assistant.</p><p>The real benefit of this scheme occurs when there are 1+ million theorems in a .mm repository, and therefore, it is expensive to regenerate all of the downstream stuff&#x2026; Because syntax and logical axioms rarely change or move -- they occur at the beginning of each Section &#x2013; their sequence numbers are fairly durable. So it is fairly doable to determine is we need to regenerate our Grammatical Parser (or our 3D V/R avatars :-) We just output separate syntax/axiom export files and compare them to the previous version &#x2013; if no change, then no need to regenerate the Grammar!!! And, if the syntax/axiom delta- data shows a change we know that there may be other manual intervention needed for downstream systems!</p><p>Here is a more detailed "vision" of how this would work:</p><p>a) Separate each "Section" into two parts, Syntax and Logic.</p><p>b) Syntax sections are assigned odd numbers, Logic even. So Section 1 is syntax, (early propositional), and  Section 2 is logic, Section 3 is syntax (introduces &lt;-&gt;), Section 4 is logic.</p><p>c) Each assertion is assigned a sequence number within its section, which is qualified by Section Number. This is tedious in usage but enables us to maintain a statement numbering scheme that can be used &#x2013; internally &#x2013; for subscripting into tables (if the programmer desires). So "wi" is assigned key 1.1 (or 1-1 or &lt;1 1&gt; &#x2026; whatever) and "ax-1" is assigned key 2.1.</p><p>d) Each sub-section is written out to a separate export file as Metamath 7-bit ASCII formatted in s-expressions, and is zipped to minimize size/transmission times. A sha1 key is also generated for each zipped export file.</p><p>e) A separate file containing a list of all exported files and their sha1 keys is produced. This file may also contain parameter settings (e.g. "|-" is the theorem type), or it may contain an entry specifying a parameter/option file.</p><p>f) As a concession to brevity, Type Codes ("kinds" in ghilbert) are output without a Section Number in the export files, and are assigned sequence numbers 1, 2, 3, &#x2026; Separately, a Type Code file is output which contains "pointers" to the Section where the Type Code is first introduced. (A separate set of export files will need to be defined for the Metamath grammar&#x2026;and typesetting information &#x2013; that is a big specification task and I defer it for this moment.)</p><p>g) The export files are available, either within a local filesystem or over a network. The sha1 checksums can be used to determine whether or not a given file needs to be re-downloaded/imported. And, the syntax assertions are split from the logic statements providing efficient access for grammar processors &#x2013; plus, since we will allow statements to be added at the end of  a section, it will be possible to add new syntax without altering sequence numbers of logic statements.</p><p>h) I envision adding a mmjbert extract process to mmj2, either as an integral part accessible via RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> commands, or as a separate program which calls the mmj2 code modules but is not loaded or referenced in any way by mmj2 users. The benefit of using mmj2 for the extract is that mmj2 does very extensive validation of each input .mm file, so if mmj2 doesn't report any errors during the file load process, then the output mmjbert files are pretty much guaranteed to be clean &#x2013; this is a vitally important consideration given that one would expect the code which reads in mmjbert files to do minimal validation of  its input (&#x2013; just read and run.) Also, mmj2 could remain in memory available for callbacks, say, if a Proof Worksheet needed to be Unified to generate a Metamath RPN proof (in mmj2bert, as with ghilbert, the low-level format of the proofs will not exactly match the Metamath specification, so a converter <i>to</i> Metamath format is needed.)</p><p>i) To minimize referential (external key) lookups  (as we know Metamath files are hierarchies with  many intra-hierarchy references), in the export files and possibly internally in code using them, assertion references would be written out <i>with</i> the Type Code. So, "wi" would be written out as "1-1-2" (i.e. Section 1, statement label "wi", statement type = "wff"). And since the parse/proof trees (or s-expressions) convey the number of operands for each operator, all of the information needed for unification is conveyed as part of each statement's data &#x2013; there is no need to do a lookup to find out the type code of "wi" or how many operands it has. This means that in a distributed/ parallel processing environment, little algorithms can be written to do many of the tedious tasks and those algorithms won't need access to the entire set of data structures &#x2013; we'll design the export files to facilitate these tasks, and since we're using sequence numbers instead of text labels/operators, in those cases where lookups are needed, they will be direct subscript accesses!</p><h1>More Ideas!</h1><p>1. To avoid dealing with "optional" variables and optional Dj Variable restrictions, the mmjbert  export format proofs will consist of s-expression trees containing only the label/keys of logical assertions and hypotheses. This means that any downstream code that wishes to display or fully instantiate a proof will need to perform a unification process to generate variable substitutions to generate complete formulas for proof steps. But that is "ok" because doing unification for one proof is intricate but not a massive computational task and existing proofs are not frequently used. Also, these "macro-level proofs" are more durable and resistant to change. In fact, the mmjbert format could be used to <i>import</i> proofs back into mmj2.</p><p>2. Why compress mmjbert export files? Because  it is faster to transport and un-zip a compressed file than to transport an unzipped file. The primary objective of mmjbert &#x2013; why invest lifespan even thinking about it &#x2013; is to facilitate distributed/parallel processing for Metamath databases, whether on a local cluster of multi-core processors or over the internet. For example, suppose there are 'n' possible solutions for a single proof step (e.g. we don't know which assertion to use as justification but we know that there are 'n' unifiable assertions). Then it is possible to create <i>n</i> proof skeletons and ship them out for processing &#x2013; and those processors could operate  independently and either solve the problem, or break it down and and distribute new requests.</p><p>3. Aside from typesetting information, which is of concern only for modules with external, user-oriented interfaces, there are two types of statements: syntax axioms and logic statements (logic hypotheses, logic axioms, and theorems &#x2013; we can disregard syntax theorems as they are artifacts of metamath.exe and reside only inside metamath.exe generated RPN proofs.)</p><p>Now, for syntax statements and logic statements there are 'm' and 'n' attributes for each statement type. One idea which mmjbert will explore is generating use-specific export files containing only subsets of the available attributes.</p><p>The main example of this is separating actual proofs from the logic statements, based on the idea that existing proofs are rarely accessed. (The other main example is splitting the syntax and logic statements into completely different files!)</p><p>Additional situations will likely be discovered during the specification/design process. The benefits of slicing the data "rows" this way are that a) the amount of data which needs to be distributed can be minimized; b) specific processing code can be simpler, faster and more robust if not burdened with extraneous information.</p><p>4. My next step is to refine these ideas into something elegant. Get rid of words, add pictures, create file specs, etc. So far this line of attack has not generated any interest or feedback, but I believe that it will be possible to create a fun and useful project. Perhaps I can get kick the can far enough down the road so that sub-projects in distributed/parallel programming will be available for the 2009 GSOC. (Note to self: find some academic/corporate justification to back this up.)</p><h1>Chapters and Sections</h1><p>I manually entered (chapter) and section numbers using the mmtheorems page at metamath.org. It would be interesting to see these graphed &#x2013; say, on a sphere, with lightning bolts generated (and sound) from proof steps to justifying assertion&#x2026;triggering chain reactions to those theorems' justifying assertions. Or, each section could be a spherical ship in orbit around a sun, with proof steps generating messages between proof steps and justifying assertions.</p><p>Table of Contents &#x2013; metamath.org:8888 set.mm as of 20080518</p><pre>    (01) Pre-logic
+        0001 Dummy link theorem for assisting proof development   dummylink 1
+    (02) Propositional calculus
+        0002 Recursively define primitive wffs for propositional calculus   wn 2
+        0003 The axioms of propositional calculus   ax-1 4
+        0004 Logical implication   a1i 8
+        0005 Logical negation   a3i 74
+        0006 Logical equivalence   wb 146
+        0007 Logical disjunction and conjunction   wo 222
+        0008 Miscellaneous theorems of propositional calculus   pm5.1 673
+        0009 Abbreviated conjunction and disjunction of three wff's   w3o 771
+        0010 Other axiomatizations of classical propositional calculus   meredith 920
+    (03) Predicate calculus without distinct variables
+        0011 The axioms of "pure" predicate calculus   wal 950
+        0012 The axioms for the equality predicate (except ax-10 and ax-11)   cv 1098
+        0013 The axioms for a binary non-logical predicate   wcel 1104
+        0014 Introduce axioms ax-11 and ax-10   ax-11 1124
+        0015 Substitution   wsbc 1157
+        0016 Theorems using axiom ax-11   equs5a 1184
+    (04) Predicate calculus with distinct variables
+        0017 The axiom of quantifier introduction ax-17   ax-17 1194
+        0018 Derive the axiom of distinct variables ax-16   ax16 1197
+        0019 Derive the original axiom of variable substitution ax-11o   ax11o 1205
+        0020 Theorems without d.v. restrictions that rely on axiom ax-11o   ax11b 1208
+        0021 Predicate calculus with distinct variables (cont.)   ax11v 1253
+        0022 More substitution theorems   equsb3lem 1315
+        0023 Existential uniqueness   weu 1362
+    (05) ZF Set Theory - start with the Axiom of Extensionality
+        0024 Introduce the Axiom of Extensionality   ax-ext 1441
+        0025 Class abstractions (a.k.a. class builders)   cab 1445
+        0026 Negated equality and membership   wne 1566
+        0027 Restricted quantification   wral 1626
+        0028 The universal class   cvv 1791
+        0029 Russell's Paradox   ru 1917
+        0030 Proper substitution of classes for sets   sbhypf 1918
+        0031 Proper substitution of classes for sets into classes   csb 1980
+        0032 Define basic set operations and relations   cdif 2023
+        0033 Subclasses and subsets   dfss2 2037
+        0034 The difference, union, and intersection of two classes   difeq1 2132
+        0035 The empty set   c0 2259
+        0036 "Weak deduction theorem" for set theory   cif 2340
+        0037 Power classes   cpw 2380
+        0038 Unordered and ordered pairs   csn 2388
+        0039 The union of a class   cuni 2480
+        0040 The intersection of a class   cint 2510
+        0041 Indexed union and intersection   ciun 2543
+        0042 Binary relations   wbr 2596
+        0043 Ordered-pair class abstractions (class builders)   copab 2643
+        0044 Transitive classes   wtr 2657
+    (06) ZF Set Theory - add the Axiom of Replacement
+        0045 Introduce the Axiom of Replacement   ax-rep 2670
+        0046 Derive the Axiom of Separation   axsep 2679
+        0047 Derive the Null Set Axiom   zfnuleu 2684
+        0048 Theorems requiring subset and intersection existence   nalset 2689
+        0049 Theorems requiring empty set existence   class2set 2711
+    (07) ZF Set Theory - add the Axiom of Power Sets
+        0050 Introduce the Axiom of Power Sets   ax-pow 2719
+        0051 Derive the Axiom of Pairing   zfpair 2754
+        0052 Ordered pair theorem   opth 2763
+        0053 Ordered-pair class abstractions (cont.)   opabid 2782
+        0054 Power class of union and intersection   pwin 2797
+        0055 Epsilon and identity relations   cep 2802
+        0056 Partial and complete ordering   wpo 2812
+    (08) ZF Set Theory - add the Axiom of Union
+        0057 Introduce the Axiom of Union   ax-un 2840
+        0058 Founded and well-ordering relations   wfr 2888
+        0059 Ordinals   word 2920
+        0060 Transfinite induction   tfi 3099
+        0061 The natural numbers (i.e. finite ordinals)   com 3104
+        0062 Peano's postulates   peano1 3122
+        0063 Finite induction (for finite ordinals)   find 3128
+        0064 Functions and relations   cxp 3141
+        0065 Cantor's Theorem   canth 3864
+        0066 Miscellaneous ordinal theorems (that depend on functions and relations)   iunon 3866
+        0067 Transfinite recursion   tfrlem1 3868
+        0068 Recursive definition generator   crdg 3888
+        0069 Finite recursion   frfnom 3908
+        0070 Abian's "most fundamental" fixed point theorem   abianfplem 3918
+        0071 Operations   co 3920
+        0072 "Maps to" notation   cmpt 4029
+        0073 First and second members of an ordered pair   c1st 4033
+        0074 Ordinal arithmetic   c1o 4084
+        0075 Natural number arithmetic   nna0 4179
+        0076 Equivalence relations and classes   wer 4214
+        0077 The mapping operation   cm 4278
+        0078 Infinite Cartesian products   cixp 4303
+        0079 Equinumerosity   cen 4320
+        0080 Schroeder-Bernstein Theorem   sbthlem1 4399
+        0081 Pigeonhole Principle   phplem1 4460
+        0082 Finite sets   onomeneq 4470
+        0083 Supremum   csup 4519
+    (09) ZF Set Theory - add the Axiom of Regularity
+        0084 Introduce the Axiom of Regularity   ax-reg 4537
+        0085 Axiom of Infinity equivalents   inf0 4550
+    (10) ZF Set Theory - add the Axiom of Infinity
+        0086 Introduce the Axiom of Infinity   ax-inf 4566
+        0087 Existence of omega (the set of natural numbers)   omex 4571
+        0088 Rank   cr1 4585
+        0089 Scott's trick; collection principle; Hilbert's epsilon   scottex 4660
+        0090 Axiom of Choice equivalents   aceq1 4673
+    (11) ZFC Set Theory - add the Axiom of Choice
+        0091 Introduce the Axiom of Choice   ax-ac 4688
+        0092 AC equivalents: well ordering, Zorn's lemma   numthlem 4727
+        0093 Cardinal numbers   ccrd 4757
+        0094 Cofinality   cflem 4849
+        0095 Cardinal number arithmetic   ccda 4861
+        0096 ZFC Axioms with no distinct variable requirements   nd1 4882
+    (12) Real and complex numbers
+        0097 Dedekind-cut construction of real and complex numbers   cnpi 4916
+        0098 Real and complex number postulates   axaddopr 5209
+        0099 Real and complex numbers - basic operations   cmin 5236
+        0100 Some deductions from the field axioms for complex numbers   addclt 5245
+        0101 Addition   add12t 5280
+        0102 Subtraction   cnegextlem1 5289
+        0103 Multiplication   mulid2t 5361
+        0104 Infinity and the extended real number system   cpnf 5427
+        0105 Restate the ordering postulates with extended real "less than"   axlttri 5447
+        0106 Ordering on reals   lttrt 5452
+        0107 Ordering on the extended reals   elxr 5480
+        0108 Ordering on reals (cont.)   eqlet 5516
+        0109 Reciprocals   ixi 5626
+        0110 Division   df-div 5644
+        0111 Ordering on reals (cont.)   elimgt0 5737
+        0112 Natural numbers (as a subset of complex numbers)   df-n 5845
+        0113 Principle of mathematical induction   nnind 5857
+        0114 Natural numbers (cont.)   nn1suc 5859
+        0115 Decimal representation of numbers   c2 5880
+        0116 Some properties of specific numbers   2p2e4 5920
+        0117 Completeness Axiom and Suprema   lbreu 5964
+        0118 Supremum on the extended reals   xrsupexmnf 5993
+        0119 Nonnegative integers (as a subset of complex numbers)   df-n0 6019
+        0120 Integers (as a subset of complex numbers)   df-z 6055
+        0121 Well-ordering principle for bounded-below sets of integers   uzwo3lem1 6136
+        0122 The floor (greatest integer) function   cfl 6143
+        0123 Rational numbers (as a subset of complex numbers)   df-q 6166
+        0124 Positive reals (as a subset of complex numbers)   df-rp 6191
+        0125 Monotonic sequences   monoord 6203
+        0126 The infinite sequence builder "seq1"   om2uz0 6204
+        0127 The "shift" operation   cshi 6249
+        0128 Real number intervals   cioo 6266
+        0129 Upper partititions of integers   cuz 6321
+        0130 Finite intervals of integers   cfz 6371
+        0131 Superior limit (lim sup)   clsp 6431
+        0132 Infinite sequence builders "seq" and "seq0"   cseqz 6435
+        0133 Integer powers   cexp 6472
+        0134 Discriminant   discrlem1 6558
+        0135 More natural number properties   nnsqcl 6562
+        0136 Ordered pair theorem for nonnegative integers   nn0le2msqt 6565
+        0137 Square root   csqr 6571
+        0138 Irrationality of square root of 2   sqr2irrlem1 6626
+        0139 Imaginary and complex number properties   irec 6633
+        0140 Real and imaginary parts; conjugate; absolute value   cre 6650
+        0141 Factorial function   cfa 6840
+        0142 The binomial coefficient operation   cbc 6865
+        0143 Limits   cli 6884
+        0144 Finite and infinite sums   csu 6889
+        0145 Finite sums (cont.)   dffsum 6908
+        0146 The binomial theorem   binomlem1 6976
+        0147 Limits (cont.)   clm1 6987
+        0148 Infinite sums (cont.)   dfisum 7099
+        0149 Miscellaneous converging sequences   reccnv 7125
+        0150 Arithmetic series   fnsmntlem 7132
+        0151 Geometric series   expcnvlem1 7134
+        0152 Ratio test for infinite series convergence   cvgratlem1ALT 7154
+        0153 The product of two finite sums   fsum0diaglem1 7163
+        0154 Continuous complex functions   ccncf 7169
+        0155 Intermediate value theorem   ivthlem1 7188
+        0156 The exponential, sine, and cosine functions   ce 7207
+        0157 e is irrational   eirrlem1 7302
+        0158 The exponential, sine, and cosine functions (cont.)   abspef01tlub 7308
+    (13) Axiom of dependent choice
+    (14) Cardinality and cardinal arithmetic (cont.)
+        0159 Countability of integers and rationals   nn0ennn 7411
+        0160 Infinite primes theorem   unbenlem 7419
+        0161 The reals are uncountable   ruclem1 7425
+        0162 Cardinal arithmetic (cont.)   infxpidmlem1 7467
+        0163 Continuum Hypothesis   gch-kn 7501
+    (15) Topology
+        0164 Topological spaces   ctop 7502
+        0165 Bases for topologies   isbasisg 7525
+        0166 Subbases for topologies   subbas 7558
+        0167 Examples of topologies   subtop 7560
+        0168 Closure and interior   ccld 7574
+        0169 Neighborhoods   cnei 7623
+        0170 Limit points   clp 7651
+        0171 Continuity   ccn 7662
+        0172 Hausdorff spaces   cha 7690
+    (16) Metric spaces
+        0173 Basic metric space properties   cme 7698
+        0174 Metric space balls   blfval 7745
+        0175 Open sets of a metric space   opnfval 7767
+        0176 Continuity in metric spaces   metcnpf 7792
+        0177 Examples of metric spaces   cnmetdval 7811
+        0178 Convergence and completeness   clm 7827
+        0179 Examples of complete metric spaces   cncms 7902
+        0180 Baire's Category Theorem   bcthlem1 7903
+    (17) Group theory
+        0181 Definitions and basic properties for groups   cgr 7937
+        0182 Definition and basic properties of Abelian groups   cabl 8005
+        0183 Subgroups   csubg 8021
+        0184 Examples of groups   grpsn 8031
+        0185 Examples of Abelian groups   ablsn 8032
+        0186 Group homomorphism   ghgrpilem1 8040
+    (18) Ring theory
+        0187 Definition and basic properties   cring 8046
+        0188 Examples of rings   cnring 8069
+    (19) Complex vector spaces
+        0189 Definition and basic properties   cvc 8071
+        0190 Examples of complex vector spaces   cnvc 8105
+    (20) Normed complex vector spaces
+        0191 Definition and basic properties   cnv 8106
+        0192 Examples of normed complex vector spaces   cnnv 8205
+        0193 Induced metric of a normed complex vector space   imsval 8214
+        0194 Inner product   cip 8241
+        0195 Subspaces   css 8272
+    (21) Operators on complex vector spaces
+        0196 Definitions and basic properties   clno 8293
+    (22) Inner product (pre-Hilbert) spaces
+        0197 Definition and basic properties   cphl 8360
+        0198 Examples of pre-Hilbert spaces   cnph 8367
+        0199 Properties of pre-Hilbert spaces   isph 8370
+    (23) Complex Banach spaces
+        0200 Definition and basic properties   cbn 8411
+        0201 Examples of complex Banach spaces   cnbn 8417
+        0202 Uniform Boundedness Theorem   ubthlem1 8418
+        0203 Minimizing Vector Theorem   minveclem1 8434
+    (24) Complex Hilbert spaces
+        0204 Definition and basic properties   chl 8478
+        0205 Standard axioms for a complex Hilbert space   hlex 8487
+        0206 Examples of complex Hilbert spaces   cnhl 8505
+        0207 Subspaces   ssphl 8506
+        0208 Hellinger-Toeplitz Theorem   htthlem1 8507
+    (25) Posets and lattices
+        0209 Definition and basic properties   cps 8520
+    (26) Real and complex numbers (cont.)
+        0210 The exponential, sine, and cosine functions (cont.)   sincolem 8534
+        0211 Properties of pi = 3.14159...   pilem1 8540
+        0212 Mapping of the exponential function   efgh 8583
+        0213 The natural logarithm on complex numbers   clog 8621
+    (27) ZFC Set Theory plus Grothendieck's Axiom
+        0214 Introduce Grothendieck's Axiom   ax-groth 8666
+    (28) Sandboxes for user contributions
+        0215 Sandbox guidelines   sandbox 8673
+    (29) Sandbox for Paul Chapman
+        0216 Miscellaneous theorems   lemul2itALT 8674
+        0217 Group homomorphism and isomorphism   cghom 8682
+        0218 Symmetry groups and Cayley's Theorem   csymgrp 8703
+    (30) Sandbox for Jeff Hoffman
+        0219 Interfaces for finite induction on generic function values   fveleq 8719
+    (31) Sandbox for Frederic Line
+        0220 Propositional and predicate calculus   ahypfmbi 8723
+        0221 Basic Set theory   ntunte 8736
+        0222 Finite intersection stuff using function fi   cfi 8766
+        0223 Intervals of reals and of extended reals   iooirrsa 8773
+        0224 Euclidean topology   ceuctop 8781
+        0225 Neighborhoods   esnnei 8787
+        0226 Homeomorphisms   chomeosm 8788
+        0227 Initial and final topologies   csubsp 8814
+        0228 Filters   cfil 8818
+        0229 Limits   cflim2 8839
+        0230 Separated spaces: T0, T1, T2 (Hausdorff) ...   ct0 8841
+        0240 Connectedness   ccon 8851
+        0241 Standard topology on RR   clicls 8853
+        0242 Pre-calculus and Cartesian geometry   dmse1 8854
+        0243 Standard topology of intervals of RR   stoi 8870
+        0244 Directed multi graphs   cmgra 8871
+        0245 Category and deductive system underlying "structure"   calg 8874
+        0246 Deductive systems   cded 8898
+        0247 Categories   ccat 8916
+        0248 Homsets   chom 8944
+        0249 Monomorphisms, Epimorphisms, Isomorphisms   cepi 8962
+        0250 Functors   cfunc 8975
+        0251 Tarski's classes and ranks   csubcl 8981
+    (32) Sandbox for Steve Rodriguez
+        0252 Hypergraphs   chgra 8984
+        0253 Examples of hypergraphs   emhgrat 8994
+        0254 Pseudographs   cpgra 8996
+        0255 Simple graphs   csgra 8999
+    (33) Humor
+        0256 April Fool's theorem   avril1 9001
+    (34) Hilbert Space Explorer
+        0257 Vector space postulates for a Hilbert space   ax-hilex 9054
+        0258 Vector operations   hvmulex 9066
+        0259 Inner product postulates for a Hilbert space   ax-hfi 9132
+        0260 Inner product   his5t 9139
+        0261 Norms   df-hnorm 9174
+        0262 Relate Hilbert space to normed complex vector spaces   hilabl 9213
+        0263 Bunjakovaskij-Cauchy-Schwarz inequality   bcsALT 9232
+        0264 Cauchy sequences and limits   df-hcau 9237
+        0265 Derivation of the completeness axiom from ZF set theory   hilmet 9249
+        0266 Completeness postulate for a Hilbert space   ax-hcompl 9259
+        0267 Relate Hilbert space to ZFC pre-Hilbert and Hilbert spaces   hhcms 9260
+        0268 Subspaces   df-sh 9264
+        0269 Closed subspaces   df-ch 9280
+        0270 Orthocomplements   df-oc 9312
+        0271 Projection theorem   projlem1 9362
+        0272 Projectors   df-pj 9412
+        0273 Orthomodular law   omlsilem 9419
+        0274 Projectors (cont.)   pjtheu2 9425
+        0275 Subspace sum, span, lattice join, lattice supremum   df-shsum 9448
+        0276 Hilbert lattice operations   sh0let 9539
+        0277 Span (cont.) and one-dimensional subspaces   spansn0 9639
+        0278 Operator sum, difference, and scalar multiplication   df-hosum 9683
+        0279 Commutes relation for Hilbert lattice elements   df-cm 9703
+        0280 Foulis-Holland theorem   fh1t 9738
+        0281 Quantum Logic Explorer axioms   qlax1 9745
+        0282 Orthogonal subspaces   osumlem1 9755
+        0283 Orthoarguesian laws 5OA and 3OA   5oalem1 9776
+        0284 Projectors (cont.)   pjorth 9791
+        0285 Mayet's equation E_3   mayete3 9850
+        0286 Zero and identity operators   df-h0op 9851
+        0287 Operations on Hilbert space operators   hoaddclt 9861
+        0288 Linear, continuous, bounded, Hermitian, unitary operators and norms   df-nmop 9942
+        0289 Linear and continuous functionals and norms   df-nmfn 9948
+        0290 Adjoint   df-adjh 9952
+        0291 Dirac bra-ket notation   df-bra 9953
+        0292 Positive operators   df-leop 9955
+        0293 Eigenvectors, eigenvalues, spectrum   df-eigvec 9956
+        0294 Theorems about operators and functionals   nmopvalt 9959
+        0295 Riesz lemma   riesz3 10170
+        0296 Adjoints (cont.)   cnlnadjlem1 10175
+        0297 Quantum computation error bound theorem   unierr 10210
+        0298 Dirac bra-ket notation (cont.)   branmfnt 10211
+        0300 Positive operators (cont.)   leopg 10227
+        0301 Projectors as operators   pjhmop 10244
+        0302 States on a Hilbert lattice   df-st 10309
+        0303 Godowski's equation   golem1 10368
+        0304 Covering relation; modular pairs   df-cv 10376
+        0305 Atoms   df-at 10433
+        0306 Superposition principle   superpos 10449
+        0307 Atoms, exchange and covering properties, atomicity   chcv1t 10450
+        0308 Irreducibility   irredlem1 10485
+        0309 Atoms (cont.)   atcvat3 10491
+        0310 Modular symmetry   mdsymlem1 10498
+    </pre><p>FYI, if you ever want to automate this, here is the algorithm the metamath program uses. It is basically an ad-hoc, informal "standard" based on the characteristics the set.mm program happened to have when I added the theorem list command.</p><pre>  MM&gt; help write theorem_list
+  ...
+  The first output file, "mmtheorems.html", includes a Table of Contents.
+  An entry is triggered in the database by "$(" immediately followed by a
+  new line starting with either "#*#*" (for a section break) or "=-=-"
+  (for a subsection break).  The line following that one that will be used
+  for the table of contents entry, after trimming spaces.  In between two
+  successive statements that generate web pages (i.e. $a and $p
+  statements), only the last section and/or subsection break will be used,
+  and any subsection break before a section break will be ignored.  See the
+  set.mm database file for examples.</pre><pre>  [Warning: For matching, white space is NOT ignored.  There should be no
+  spaces between "$(" and the end of the line.  This may be allowed in
+  a future version, if a request is made to N. Megill.]</pre><p>&#x2013; <a class="local" href="norm">norm</a> 20 May 2008</p><p>Thanks. Whitespace ought to be whitespace. I suggest modifying the criteria so that if the first token of a comment's content (exclusive of the '$(' token) begins with "#*#*#*#*" then that  indicates a section break, and likewise for sub-sections.</p><dl class="quote"><dt /><dd>Request noted and tentatively approved. While this is of course not hard to do, the only drawback is that relaxing the "standard" means that future parsers (e.g. a quick-and-dirty ad-hoc, one off script that extracts sections) will have a slightly harder job.</dd></dl><p>Also, it looks like "Axiom of dependent choice" is missing a sub-secion break. In that case the sub-section title defaults to the section title, yes?</p><dl class="quote"><dt /><dd>Well, it has no sub-section - it is a single theorem with variants. The program doesn't default to anything - there is no sub-section entry. But if you need a sub-section, the default you suggest should be ok.</dd></dl><p>Also, I wonder if you might not want to add a break element for Volume &#x2013; Preliminaries, Propositional, Predicate, Set Theory, blah-blah.</p><dl class="quote"><dt /><dd>I'll think about that.</dd></dl><p>Furthermore, I like the nomenclature: Volume, Chapter, Section.</p><p>Lastly, somewhat unrelated, I wonder if "Sandbox" is diminutive and could be changed to "Truth Mine" or "Mining Claim". To me, a sandbox is a place for children or cats to do business :-)</p><dl class="quote"><dt /><dd>I believe the term "sandbox" is a standard technical term in <a class="url outside" href="http://en.wikipedia.org/wiki/Sandbox_%28computer_security%29">computer security</a> and <a class="url outside" href="http://en.wikipedia.org/wiki/Sandbox_%28software_development%29">software development</a>, meaning a protected place for testing or running untrusted code. That, essentially, is also its purpose in set.mm. Basically it has a connotation of caveat emptor: I don't guarantee, for example, that the sandbox user hasn't added an inconsistent axiom. This makes life easier for me, since I can more or less put in a user's submission blindly without spending time doing a careful review. As for "Truth Mine" or "Mining Claim", I'm not sure if anyone would understand what that means. :)</dd></dl><p>And, should the Sandbox sections be at the end of set.mm? That way it is simple to exclude them from load processes which specify a single endpoint.</p><dl class="quote"><dt /><dd>Yes, that's a good idea. I'll do that. &#x2013; <a class="local" href="norm">norm</a> 21 May 2008</dd></dl><p>P.S. I now see that the next logical mmj2 project is creation of an Interface interface for exporting data. In practice export code would be in separate load modules and not part of the regular mmj2 download. Dynamically loaded via RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> request and passed references to the entire set of mmj2 goodies: StmtTbl<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StmtTbl">?</a>, SymTbl<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SymTbl">?</a>, Proof Verifier, Grammar, Proof Assistant, etc. Plus, mmj2 needs to be modified to load &#x2013; optionally, upon RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> request &#x2013; more stuff from a .mm file, including typesetting info, Chapter/Section numbers/titles, Begin/End Scope statements, and additional comments (for axioms, etc.) This is necessary because export format requirements cannot be fully specified in advance. And, having the facility in place will make it super easy for future programmers to access .mm databases in pre-parsed, pre-validated mode. --<a class="local" href="ocat">ocat</a> 21-May-2008</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmjbert">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmjbert">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmjbert">Administration</a></span><span class="time"><br /> Last edited 2008-05-22 01:21 UTC by <a class="author" title="from 207-172-220-9.c3-0.lex-ubr2.sbo-lex.ma.cable.rcn.com" href="norm">norm</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmjbert">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

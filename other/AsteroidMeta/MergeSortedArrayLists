@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: MergeSortedArrayLists</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: MergeSortedArrayLists" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=MergeSortedArrayLists" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=MergeSortedArrayLists">MergeSortedArrayLists</a></h1></div><div class="content browse"><p>Here is a 4th draft of code to merge the new theorems from the Theorem Loader into existing ArrayLists<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ArrayLists">?</a> of theorems. Final tweaks :-)</p><p>The problem attempted/solved here is that if the destination list already contains a lot &#x2013; say 1,000,000 &#x2013; theorems, and you are adding 100, how do you do it without shifting-down every array element 100 times, which is, on average 100 * 1,000,000 / 2 operations? My idea is to make one pass through the destination array and feed the inserts through a buffer holding the new values of nth element elements. We still have to pass every destination array element through the buffer, but we don't have to move each one 100 / 2 times either.</p><pre>    //********************************************************************/
+    //* Copyright (C) 2008  MEL O'CAT  mmj2 (via) planetmath (dot) org   */
+    //* License terms: GNU General Public License Version 2              */
+    //*                or any later version                              */
+    //********************************************************************/
+    //*4567890123456 (71-character line to adjust editor window) 23456789*/
+ 
+    /*
+     *  MergeSortedArrayLists.java  0.01 08/01/2008
+     */
+ 
+    package mmj.util;
+    import java.util.*;
+ 
+    /**
+     *  Class &lt;code&gt;MergeSortedArrayLists&lt;/code&gt; merges elements
+     *  of a sorted source into a sorted destination ArrayList.
+     */
+    public class MergeSortedArrayLists {
+ 
+        private int         destGetIndex
+                                      = 0;
+        private int         destPutIndex
+                                      = 0;
+ 
+        private Object      nextDest;
+        private Object      nextSrc;
+ 
+        private ArrayList   dest;
+ 
+        private List        src;
+        private Iterator    srcIterator;
+ 
+        private LinkedList  buf;
+        private int         maxDestBuf;
+ 
+        private int         compareResult;
+ 
+        /**
+         *  Does in-place merge of source List into the
+         *  destination ArrayList using the input comparator
+         *  to maintain the sort sequence of the destination
+         *  ArrayList.
+         *  &lt;p&gt;
+         *  A buffer of destination ArrayList elements is used
+         *  as the "in place" merge proceeds. The idea is to
+         *  reduce the number of destination array element shifts
+         *  by making a single pass through the the destination array.
+         *  &lt;p&gt;
+         *  Assumes that input lists are correctly sorted. Makes
+         *  no assumptions about uniqueness of input keys.
+         *  &lt;p&gt;
+         *  @param destList ArrayList sorted in comparator order.
+         *  @param srcList List sorted in comparator order.
+         *  @param comparator Comparator for comparing list object.
+         *  @param abortIfDupsFound triggers IllegalObjectException
+         *         if srcList object equals a destList object
+         *
+         *  @throws IllegalArgumentException if a srcList object
+         *          equals a destList object and abortIfDupsFound
+         *          is true (the normal situation for Theorem Loader.)
+         */
+        public MergeSortedArrayLists(ArrayList  destList,
+                                     List       srcList,
+                                     Comparator comparator,
+                                     boolean    abortIfDupsFound)
+                                        throws IllegalArgumentException {
+            src                       = srcList;
+            srcIterator               = src.iterator();
+            if ((nextSrc              = getNextSrc()) == null) {
+                return;
+            }
+ 
+            buf                       = new LinkedList();
+ 
+            dest                      = destList;
+            maxDestBuf                = dest.size();
+ 
+            dest.ensureCapacity(dest.size() +
+                                src.size());
+ 
+            if ((nextDest             = getNextDest()) == null) {
+                finishUsingSrc();
+                return;
+            }
+ 
+            while (true) {
+                compareResult         = comparator.compare(nextSrc,
+                                                           nextDest);
+                if (compareResult &gt; 0) { //nextDest &lt; nextSrc
+                    put(nextDest);
+                    if ((nextDest     = getNextDest()) == null) {
+                        finishUsingSrc();
+                        break;
+                    }
+                }
+                else {  //nextSrc &lt;= nextDest
+                    if (compareResult == 0) {
+                        if (abortIfDupsFound) {
+                            throw new IllegalArgumentException(
+                                UtilConstants.
+                                    ERRMSG_MERGE_SORTED_LISTS_DUP_ERROR_1
+                                + nextSrc.toString()
+                                + UtilConstants.
+                                    ERRMSG_MERGE_SORTED_LISTS_DUP_ERROR_2);
+                        }
+                        if ((nextDest = getNextDest()) == null) {
+                            finishUsingSrc();
+                            break;
+                        }
+                    }
+                    //nextSrc &lt; nextDest
+                    put(nextSrc);
+                    if ((nextSrc      = getNextSrc()) == null) {
+                        finishUsingDest();
+                        break;
+                    }
+                }
+            }
+        }
+ 
+        private void finishUsingSrc() {
+            while (nextSrc != null) {
+                put(nextSrc);
+                nextSrc               = getNextSrc();
+            }
+        }
+ 
+        private void finishUsingDest() {
+            while (nextDest != null) {
+                put(nextDest);
+                nextDest              = getNextDest();
+            }
+        }
+ 
+        private void put(Object object) {
+            /*
+               !!! before outputting to dest, make sure that the dest
+               list element is in the buffer if it is one of the
+               original dest elements.
+             */
+            if (destPutIndex &lt; dest.size()) {
+                if (destGetIndex &lt;= destPutIndex) {
+    //              inline: loadNextBufElement();
+                    if (destGetIndex &lt; maxDestBuf) {
+                        buf.addLast(dest.get(destGetIndex++));
+                    }
+                }
+                dest.set(destPutIndex,
+                         object);
+            }
+            else {
+                dest.add(object);
+            }
+            ++destPutIndex;
+        }
+ 
+        private Object getNextSrc() {
+            if (srcIterator.hasNext()) {
+                return srcIterator.next();
+            }
+            else {
+                return null;
+            }
+        }
+ 
+        private Object getNextDest() {
+            if (buf.size() == 0) {
+    //          inline: return loadNextBufElementVirtual();
+                if (destGetIndex &lt; maxDestBuf) {
+                    return dest.get(destGetIndex++);
+                }
+                return null;
+            }
+            return buf.removeFirst();
+        }
+ 
+    //  private void loadNextBufElement() {
+    //      if (destGetIndex &lt; maxDestBuf) {
+    //          buf.addLast(dest.get(destGetIndex++));
+    //      }
+    //  }
+    //
+    //  // used when buf empty and need next element,
+    //  // so buffer is bypassed.
+    //  private Object loadNextBufElementVirtual() {
+    //      if (destGetIndex &lt; maxDestBuf) {
+    //          return dest.get(destGetIndex++);
+    //      }
+    //      return null;
+    //  }
+    }
+ </pre><p>P.S. mmj2's LogicalSystem<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LogicalSystem">?</a> has one HashMap<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=HashMap">?</a> of MObj's, while ProofUnifier<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofUnifier">?</a> and StepSelectorSearch<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StepSelectorSearch">?</a> each maintain a sorted list of Assrt's. In theory, the Proof Unifier could use the StepSelectorSearch<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StepSelectorSearch">?</a> list, which would eliminate some "waste", but the change would not be 100% transparent to users (though still quite acceptable I think, given usage patterns (which I imagine to exist :-) ).</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MergeSortedArrayLists">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=MergeSortedArrayLists">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=MergeSortedArrayLists">Administration</a></span><span class="time"><br /> Last edited 2008-07-25 20:50 UTC by <a class="author" title="from 66-81-74-109.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=MergeSortedArrayLists">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

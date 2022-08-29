@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: Editing mmj2</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="NOINDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /></head><body class=""><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1>Editing mmj2</h1></div><div class="content edit"><form method="post" action="" enctype="application/x-www-form-urlencoded">
+<p><input type="hidden" name="title" value="mmj2"  />  <input type="hidden" name="oldtime" value="1226243377"  /> <textarea name="text"  rows="25" cols="78">=Next mmj2 Release: Step Prover=
+
+[[mmj2StepProver]] -- ETA unknown, hoping
+for no later than 1-Apr-2009. 
+
+[http://us2.metamath.org:8888/ocat/mmj2/StepProverDoc.zip StepProverDoc.zip] -- documentation and untested source code
+for Step Prover (README.txt inside explains).
+
+-----
+
+New version of mmj2 uploaded: 1-Aug-2008!
+
+http://us2.metamath.org:8888/ocat/mmj2/mmj2.zip
+
+= 1,534,041 bytes (don't neglect to check the 
+http://us2.metamath.org:8888/ocat/mmj2/mmj2.md5 ).
+
+Refer to mmj2\CHGLOG.TXT in the mmj2.zip downwload
+for a description of the changes.
+
+One way of looking at the release is that the main feature
+of interest to GUI users is the Theorem Loader, and the
+primary benefit of Theorem Loader is that it provides the
+effect of updating a Metamath .mm file with your mmj2
+Proof Worksheets developed using the GUI. It also provides
+a &quot;sandboxing&quot; capability to automatically load the 
+contents of your &quot;MMT Folder&quot; at start-up, so your sandbox
+is persistent across GUI sessions. The new &quot;mmj2 Service&quot;
+feature is also notable as it enables external code
+to interface with a running mmj2 instance.
+
+Hope you digg it!
+
+--[[ocat]] 21-Aug-2008
+
+---
+mmj2 is an open source software package for use with [[metamath]]
+(.mm) databases. It is written in Java and provides both batch
+(command line) and GUI capabilities. Its most notable feature
+is the mmj2 Proof Assistant GUI, which provides support for
+Metamath proof development and is perhaps easier to use than
+the metamath.exe proof assistant (note: power users benefit from
+using both proof assistants simultaneously, and employ the 
+Metamath eimm.exe utility to transfers proofs between the
+two proof assistants.)
+
+For documentation, tutorial, etc., plus the full source
+code and .jar (java executables), download:
+
+http://us2.metamath.org:8888/ocat/mmj2/mmj2.zip
+
+and
+
+http://us2.metamath.org:8888/ocat/mmj2/mmj2.md5
+
+
+See also (new!): [[mmj2ProofAssistantQuickTips]]
+
+=Inspirational Quote=
+
+     
+     &quot;We have put ourselves to work for the sake
+     of an idea, seeking by magnificent exertions
+     to arrive at the incredible.&quot; ~ José Ortega y Gasset 
+     -- http://www.des.emory.edu/mfp/impossibleG.html
+    
+
+=Feedback=
+
+MMJ2 Laboratories, Inc. is interested in hearing from
+you about your happy or unhappy experiences with mmj2.
+
+Please use the dedicated page for mmj2 Feedback/Questions: [[mmj2Feedback]]
+
+Here is a dedicated page for feedback about the mmj2 Proof Assistant
+GUI:
+[[mmj2ProofAssistantFeedback]]
+
+NOTE: To update the wiki your &quot;username&quot; must be
+&quot;whitelisted&quot;. Send an email to the wikilord if you
+are not already a user -- and, if you don't care
+to do that, I authorize you to post as &quot;ocat&quot; for
+the purposes of mmj2 feedback and problem reports,
+etc. (Just put some initials on your edits so I
+know who is doing what...)
+
+ALSO, you may get the &quot;Cannot acquire main lock&quot;
+error message when attempting to post to the wiki.
+In this case, hit the Back button on your browser,
+open a new window and go to RecentChanges then
+click on Administration, then Unlock Wiki. Wait,
+and then return to your original post and click
+on &quot;submit&quot; again. 
+
+--[[ocat]] 2007-10-15
+
+
+=Index of mmj2* pages=
+(This is wiki /everything/ regardless of any &quot;enduring merit&quot;. 
+The mmj2 &quot;doc&quot; directory in the mmj2.zip download 
+contains the most valuable information -- whereas these pages
+contain tenative drafts and discussions, among other
+things, such as errors and possibly even misinformation,
+depending...)
+
+[[antecedents]]
+
+[[PrecomputationOfLogHypUnifiers]]
+
+[[MaximallyCompressedMetamathDatabases]]
+
+[[MergeSortedArrayLists]]
+
+[[MetamathForProgrammers]]
+
+[[mmj2-01-Oct-2007ReleaseEnhancements]]
+
+[[mmj2ASCIITypesetting]]
+
+[[mmj2BetaRelease01Sep2007Feedback]]
+
+[[mmj2Feedback]]
+
+[[mmj2FeedbackV20061101]]
+
+[[mmj2FeedbackV20070716]]
+
+[[mmj2Feedback20080113]]
+
+[[mmj2FutureOf]]
+
+[[mmj2GrammaticalInductiveSets]]
+
+[[mmj2InverseProvingProjectIdea]]
+
+[[mmj2MoreDummyVarSpecs]]
+
+[[mmj2PATCH20060725]]
+
+[[mmj2ProofAssistantConsiderations]]
+
+[[mmj2ProofAssistantDeriveFeature]]
+
+[[mmj2ProofAssistantFeedback]]
+
+[[mmj2ProofAssistantFeedbackV20060129]]
+
+[[mmj2ProofAssistantFeedbackV20061101]]
+
+[[mmj2ProofAssistantFeedbackV20070716]]
+
+[[mmj2ProofAssistantFeedback20080113]]
+
+[[mmj2ProofAssistantFeedback20080217]]
+
+[[mmj2ProofAssistantQuickTips]]
+
+[[mmj2ProofAssistantTutorial]]
+
+[[mmj2ProofAssistantUnification]]
+
+[[mmj2ProofCompressionNotes]]
+
+[[mmj2ProofDerivationMethods]]
+
+[[mmj2Release20071101]]
+
+[[mmj2Release20071101InitialObjectives]]
+
+[[mmj2Release20080201]]
+
+[[mmj2Release20080801]]
+
+[[mmj2SampleOutputTMFF]]
+
+[[mmj2StepProver]]
+
+[[mmj2UnificationHintsPreview]]
+
+[[mmj2UnifyingOverloads]]
+
+[[mmj2UnifyingOverloadsFix]]
+
+[[mmj2UsageNote20061019]]
+
+[[mmj2WorksheetResponse20071021]]
+
+[[mmj2 bug]]
+
+[[mmj2bug]]
+
+[[mmj2slawekk]]
+
+[[mmj3ReengineeringOfmmj2]]
+
+[[set.mm discussion replacement]]
+
+[[mmjbert]]
+</textarea></p><p>Summary: <br /> <textarea name="summary"  rows="2" cols="78">[http://us2.metamath.org:8888/ocat/mmj2/StepProverDoc.zip StepProverDoc.zip] -- documentation and untested source code for Step Prover (README.txt inside explains).</textarea></p><p><label><input type="checkbox" name="recent_edit" value="on" />This change is a minor edit.</label></p><p>Username: <input type="text" name="username"  size="20" maxlength="50" /></p><p><input type="submit" name="Save" value="Save" accesskey="s" /> <input type="submit" name="Preview" value="Preview" /></p><p><a href="?action=edit;upload=1;id=mmj2">Replace this text with a file.</a></p><div><input type="hidden" name=".cgifields" value="recent_edit"  /></div></form></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="history" href="index.html@action=history;id=mmj2">View other revisions</a> <a class="local" href="mmj2">View current revision</a> <a class="rc" href="?action=rc;all=1;from=1;showedit=1;rcidonly=mmj2">View all changes</a> <a class="admin" href="index.html@action=admin;id=mmj2">Administration</a></span><form method="get" action="" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<BASE HREF="http://altair.dcs.elf.stuba.sk/~kosik/tmp/32-iitsrcpapersource55-kiselkov.ps"><table border=1 width=100%><tr><td><table border=1 bgcolor=#ffffff cellpadding=10 cellspacing=0 width=100% color=#ffffff><tr><td><font face=arial,sans-serif color=black size=-1>This is the text version of the file <A HREF="http://altair.dcs.elf.stuba.sk/~kosik/tmp/32-iitsrcpapersource55-kiselkov.ps"><font color=blue>http://altair.dcs.elf.stuba.sk/~kosik/tmp/32-iitsrcpapersource55-kiselkov.ps</font></a>.<br> <b><font color=#0039b6>G</font> <font color=#c41200>o</font> <font color=#f3c518>o</font> <font color=#0039b6>g</font> <font color=#30a72f>l</font> <font color=#c41200>e</font></b> automatically generates text versions of documents as we crawl the web.<br>To link to or bookmark this page, use the following url: <code>http://www.google.com/search?q=cache:3N2S5IjQ2dcJ:altair.dcs.elf.stuba.sk/~kosik/tmp/32-iitsrcpapersource55-kiselkov.ps+Metamath+%22Assembler+Language+of+Proof+Languages%22&amp;hl=en&amp;ct=clnk&amp;cd=1&amp;gl=us</code></font><br><br><center><font size=-2><i>Google is neither affiliated with the authors of this page nor responsible for its content.</i></font></center></td></tr>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0><tr><td><font face=arial,sans-serif color=black size=-1>These search terms have been highlighted:&nbsp;</font></td><td bgcolor=#ffff66><b><font face=arial,sans-serif color=black size=-1>metamath&nbsp;</font></b></td><td bgcolor=#a0ffff><b><font face=arial,sans-serif color=black size=-1>assembler&nbsp;</font></b></td><td bgcolor=#a0ffff><b><font face=arial,sans-serif color=black size=-1>language&nbsp;</font></b></td><td bgcolor=#a0ffff><b><font face=arial,sans-serif color=black size=-1>of&nbsp;</font></b></td><td bgcolor=#a0ffff><b><font face=arial,sans-serif color=black size=-1>proof&nbsp;</font></b></td><td bgcolor=#a0ffff><b><font face=arial,sans-serif color=black size=-1>languages&nbsp;</font></b></td></tr></table>
+</td></tr></table></td></tr></table>
+<hr>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Producer" content="GNU Ghostscript 7.07">
+<meta name="Creator" content="dvips(k) 5.96 Copyright 2005 Radical Eye Software">
+<meta name="CreationDate" content="Mon Mar 26 19:01:10 2007">
+<title>Metamath – Assembler Language of Proof Languages</title>
+</head><body  bgcolor=#ffffff vlink="blue" link="blue">
+<table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=1><b>Page 1</b></a></font></td></tr></table><font size=4 face="Times"><span style="font-size:27px;font-family:Times">
+<div style="position:absolute;top:378;left:191"><nobr><b style="color:black;background-color:#ffff66">Metamath</b> – Assembler Language of Proof</nobr></div>
+<div style="position:absolute;top:414;left:382"><nobr>Languages</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:483;left:379"><nobr>Martin K</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:486;left:447"><nobr>ISELKOV</nobr></div>
+</span></font>
+<font size=2 face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:488;left:507"><nobr>∗</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:517;left:340"><nobr><i>Slovak University of Technology</i></nobr></div>
+<div style="position:absolute;top:537;left:272"><nobr><i>Faculty of Informatics and Information Technologies</i></nobr></div>
+<div style="position:absolute;top:556;left:311"><nobr><i>Ilkovicova 3, 842 16 Bratislava, Slovakia</i></nobr></div>
+<div style="position:absolute;top:580;left:322"><nobr>Martin.Kiselkov@fiit.stuba.sk</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:636;left:234"><nobr><b>Abstract. </b>With the help of the computer language <b style="color:black;background-color:#ffff66">Metamath</b> we can</nobr></div>
+<div style="position:absolute;top:655;left:234"><nobr>write logical formulas, theorems and proofs. This written formal spec-</nobr></div>
+<div style="position:absolute;top:673;left:234"><nobr>ification can be then used for their automatic verification. Interest-</nobr></div>
+<div style="position:absolute;top:691;left:234"><nobr>ing aspects of <b style="color:black;background-color:#ffff66">Metamath</b> are its simplicity and flexibility. This article</nobr></div>
+<div style="position:absolute;top:709;left:234"><nobr>presents a short overview of the language <b style="color:black;background-color:#ffff66">Metamath</b>, and an overview</nobr></div>
+<div style="position:absolute;top:726;left:234"><nobr>of measurements done on two proof databases.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:17px;font-family:Times">
+<div style="position:absolute;top:766;left:159"><nobr><b>1 Introduction</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:806;left:159"><nobr><i><b style="color:black;background-color:#ffff66">Metamath</b> </i>is a very simple computer language for writing down mathematical proofs. It</nobr></div>
+<div style="position:absolute;top:826;left:159"><nobr>was invented by Norman Megill and described in the <b style="color:black;background-color:#ffff66">Metamath</b> book [5]. Because of</nobr></div>
+<div style="position:absolute;top:846;left:159"><nobr>its simplicity and a relative low-level way of expressing proofs that makes them easy for</nobr></div>
+<div style="position:absolute;top:865;left:159"><nobr>machine checking, it could compared to machine language – assembler. This language</nobr></div>
+<div style="position:absolute;top:885;left:159"><nobr>has no build in mathematical knowledge except for substitution of sequencesof symbols</nobr></div>
+<div style="position:absolute;top:905;left:159"><nobr>for variables. Everything else (axioms, inference rules, syntax of valid expressions)</nobr></div>
+<div style="position:absolute;top:925;left:159"><nobr>from mathematics has to be defined explicitly. This makes the language both simple and</nobr></div>
+<div style="position:absolute;top:944;left:159"><nobr>flexible as it can be used for wide range of logics.</nobr></div>
+<div style="position:absolute;top:964;left:186"><nobr>The <b style="color:black;background-color:#ffff66">Metamath</b> language is inspired by the proof notation called “condensed detach-</nobr></div>
+<div style="position:absolute;top:984;left:159"><nobr>ment” [4,8]. This notation allows proofs to be written down unambiguously by merely</nobr></div>
+<div style="position:absolute;top:1004;left:159"><nobr>referencing the axiom, rule, or the theorem used in at each step, without explicitly in-</nobr></div>
+<div style="position:absolute;top:1023;left:159"><nobr>dicating the substitutions that have to be made to the variables in the axiom, rule, or</nobr></div>
+<div style="position:absolute;top:1043;left:159"><nobr>theorem. This concept was at first used only on propositional calculus and it was later</nobr></div>
+<div style="position:absolute;top:1063;left:159"><nobr>extended to first-order logic [6].</nobr></div>
+</span></font>
+<font size=2 face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1126;left:159"><nobr>∗</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1123;left:174"><nobr>Supervisor: ProfessorPavolNávrat, InstituteofInformaticsand SoftwareEngineering,Faculty</nobr></div>
+<div style="position:absolute;top:1141;left:174"><nobr>of Informatics and Information Technologies STU in Bratislava</nobr></div>
+<div style="position:absolute;top:1183;left:402"><nobr><i>IIT.SRC 2007, Bratislava, April 18, 2007, pp. 233–240.</i></nobr></div>
+</span></font>
+
+<div style="position:absolute;top:1363;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=2><b>Page 2</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1444;left:159"><nobr><i>234</i></nobr></div>
+<div style="position:absolute;top:1444;left:409"><nobr><i>Martin Kiselkov</i></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:1484;left:159"><nobr><b>1.1 Related systems</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:1521;left:159"><nobr>The experimental language Ghilbert [3] is directly related to <b style="color:black;background-color:#ffff66">Metamath</b>. It tries to take</nobr></div>
+<div style="position:absolute;top:1541;left:159"><nobr>over much of its simplicity from <b style="color:black;background-color:#ffff66">Metamath</b> but uses s-expressions for syntax.</nobr></div>
+<div style="position:absolute;top:1563;left:186"><nobr>An older system for documenting mathematical proofs is Mizar [10], but unlike</nobr></div>
+<div style="position:absolute;top:1583;left:159"><nobr><b style="color:black;background-color:#ffff66">Metamath</b> the complexity of the system is much higher. The Mizar Mathematical</nobr></div>
+<div style="position:absolute;top:1602;left:159"><nobr>Library is built on the axioms of the Tarski-Grothendieck set theory. As of 2005, it</nobr></div>
+<div style="position:absolute;top:1622;left:159"><nobr>contained about 8000 definitions and 40,000 theorems.</nobr></div>
+<div style="position:absolute;top:1644;left:186"><nobr>A good overview about computer languages for writing proofs is [9]. The book</nobr></div>
+<div style="position:absolute;top:1664;left:159"><nobr>contains formalized versions of the proof that</nobr></div>
+<div style="position:absolute;top:1653;left:461"><nobr>√2 is irrational in several computer proof</nobr></div>
+<div style="position:absolute;top:1683;left:159"><nobr>systems.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:1740;left:159"><nobr><b>1.2 All zero</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:1776;left:159"><nobr>I will explain the language on an example of very simple logic system from formal</nobr></div>
+<div style="position:absolute;top:1796;left:159"><nobr>number theory. The explanation is based on [7, p. 123] and [5, chapter 2.2.1]. In this</nobr></div>
+<div style="position:absolute;top:1816;left:159"><nobr>logic everything we can do is addition of zeros and we canprove theorems aboutaddition</nobr></div>
+<div style="position:absolute;top:1836;left:159"><nobr>of zeros.</nobr></div>
+<div style="position:absolute;top:1857;left:186"><nobr>Before we can introduce the axioms of the theory, we must define the syntax rules</nobr></div>
+<div style="position:absolute;top:1877;left:159"><nobr>for forming legal expressions (combinations of symbols). A <i>term </i>is the number 0 and if</nobr></div>
+<div style="position:absolute;top:1901;left:159"><nobr>t and r are terms, then so is the expression (t + r). For example, terms are expressions</nobr></div>
+<div style="position:absolute;top:1920;left:159"><nobr>(0 + 0) and (0 + (0 + 0)). To be formally correct we must note that the variables t,r</nobr></div>
+<div style="position:absolute;top:1936;left:159"><nobr>are metavariables ranging over terms, they do not occure in terms, but help us with the</nobr></div>
+<div style="position:absolute;top:1956;left:159"><nobr>recursive definition of terms.</nobr></div>
+<div style="position:absolute;top:1978;left:186"><nobr>Next step in syntax definition is <i>wff </i>– well-formed formula. If t and r are terms,</nobr></div>
+<div style="position:absolute;top:1998;left:159"><nobr>an expressions of the form t = r is a wff. If P and Q are wffs, so is (P</nobr></div>
+<div style="position:absolute;top:2001;left:643"><nobr>→ Q)</nobr></div>
+<div style="position:absolute;top:1998;left:684"><nobr>, which</nobr></div>
+<div style="position:absolute;top:2017;left:159"><nobr>means P implies Q. Examples of wffs are: 0 = 0, (0 = 0</nobr></div>
+<div style="position:absolute;top:2020;left:543"><nobr>→ (0 + 0) = 0)</nobr></div>
+<div style="position:absolute;top:2039;left:186"><nobr>The <i>axioms </i>of this very simple logic system are all wffs of the following form, where</nobr></div>
+<div style="position:absolute;top:2063;left:159"><nobr>t,r,s are any terms:</nobr></div>
+<div style="position:absolute;top:2110;left:354"><nobr>(t = r → (t = s → r = s))</nobr></div>
+<div style="position:absolute;top:2107;left:702"><nobr>(A1)</nobr></div>
+<div style="position:absolute;top:2153;left:409"><nobr>(t + 0) = t</nobr></div>
+<div style="position:absolute;top:2150;left:702"><nobr>(A2)</nobr></div>
+<div style="position:absolute;top:2187;left:159"><nobr><i>Theorems </i>have this recursive definition: an axiom is a theorem, if P and (P</nobr></div>
+<div style="position:absolute;top:2190;left:690"><nobr>→ Q)</nobr></div>
+<div style="position:absolute;top:2207;left:159"><nobr>are theorems (where P and Q are wffs), then Q is also a theorem. Second part of this</nobr></div>
+<div style="position:absolute;top:2227;left:159"><nobr>definition is called the modus ponens (MP) rule of inference. The <i>proof </i>of a theorem is</nobr></div>
+<div style="position:absolute;top:2246;left:159"><nobr>a sequence of one or more theorems, each of which is either an axiom or the result of</nobr></div>
+<div style="position:absolute;top:2266;left:159"><nobr>modus ponens applied to two previous theorems in the sequence and the last of which is</nobr></div>
+<div style="position:absolute;top:2286;left:159"><nobr>the theorem being proved.</nobr></div>
+<div style="position:absolute;top:2308;left:186"><nobr>As we have now fully defined the logic system and its metalogic we can example</nobr></div>
+<div style="position:absolute;top:2327;left:159"><nobr>write a proof of theorem t = t. One possible proof is this sequence of theorems:</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:2551;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=3><b>Page 3</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2632;left:274"><nobr><i><b style="color:black;background-color:#ffff66">Metamath</b> – <b style="color:black;background-color:#a0ffff">Assembler Language of Proof Languages</b></i></nobr></div>
+<div style="position:absolute;top:2632;left:711"><nobr><i>235</i></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:2670;left:168"><nobr>1. (t + 0) = t</nobr></div>
+<div style="position:absolute;top:2670;left:476"><nobr>by axiom A2</nobr></div>
+<div style="position:absolute;top:2690;left:168"><nobr>2. (t + 0) = t</nobr></div>
+<div style="position:absolute;top:2690;left:476"><nobr>by axiom A2</nobr></div>
+<div style="position:absolute;top:2710;left:168"><nobr>3. ((t + 0) = t</nobr></div>
+<div style="position:absolute;top:2713;left:284"><nobr>→ ((t + 0) = t → t = t))</nobr></div>
+<div style="position:absolute;top:2710;left:475"><nobr>by axiom A1</nobr></div>
+<div style="position:absolute;top:2729;left:168"><nobr>4. ((t + 0) = t</nobr></div>
+<div style="position:absolute;top:2732;left:284"><nobr>→ t = t)</nobr></div>
+<div style="position:absolute;top:2729;left:476"><nobr>modus ponens applied to steps 2 a 3</nobr></div>
+<div style="position:absolute;top:2749;left:168"><nobr>5. t = t</nobr></div>
+<div style="position:absolute;top:2749;left:476"><nobr>modus ponens applied to 1 a 4</nobr></div>
+<div style="position:absolute;top:2773;left:186"><nobr>A note for the careful reader: that what was previously named axiom should be</nobr></div>
+<div style="position:absolute;top:2792;left:159"><nobr>more properly called axiom scheme because both A1 and A2 represent infinite number</nobr></div>
+<div style="position:absolute;top:2812;left:159"><nobr>of axioms which we get by replacing variables t,r,s with terms in definition of A1 and</nobr></div>
+<div style="position:absolute;top:2832;left:159"><nobr>A2. The same is true for the proof, which should be called proof scheme and it steps,</nobr></div>
+<div style="position:absolute;top:2851;left:159"><nobr>the theorem schemas.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:2894;left:159"><nobr><b>1.3 <b style="color:black;background-color:#ffff66">Metamath</b> transcription</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:2927;left:159"><nobr>Our example can be directly translated into a database written in <b style="color:black;background-color:#ffff66">Metamath</b> language</nobr></div>
+<div style="position:absolute;top:2967;left:159"><nobr>$( Declaration of constant symbols $)</nobr></div>
+<div style="position:absolute;top:2986;left:194"><nobr>$c 0 + = -&gt; ( ) term wff |- $.</nobr></div>
+<div style="position:absolute;top:3006;left:159"><nobr>$( Declaration of variables - correctly metavariables $)</nobr></div>
+<div style="position:absolute;top:3026;left:194"><nobr>$v t r s P Q $.</nobr></div>
+<div style="position:absolute;top:3046;left:159"><nobr>$( Specification of properties of variables $)</nobr></div>
+<div style="position:absolute;top:3065;left:194"><nobr>tt $f term t $.</nobr></div>
+<div style="position:absolute;top:3085;left:194"><nobr>tr $f term r $.</nobr></div>
+<div style="position:absolute;top:3105;left:194"><nobr>ts $f term s $.</nobr></div>
+<div style="position:absolute;top:3125;left:194"><nobr>wp $f wff P $.</nobr></div>
+<div style="position:absolute;top:3144;left:194"><nobr>wq $f wff Q $.</nobr></div>
+<div style="position:absolute;top:3164;left:159"><nobr>$( Definition of syntax of terms and wffs $)</nobr></div>
+<div style="position:absolute;top:3184;left:194"><nobr>tze $a term 0 $.</nobr></div>
+<div style="position:absolute;top:3204;left:194"><nobr>tpl $a term ( t + r ) $.</nobr></div>
+<div style="position:absolute;top:3223;left:194"><nobr>weq $a wff t = r $.</nobr></div>
+<div style="position:absolute;top:3243;left:194"><nobr>wim $a wff ( P -&gt; Q ) $.</nobr></div>
+<div style="position:absolute;top:3263;left:159"><nobr>$( Axioms of our logic $)</nobr></div>
+<div style="position:absolute;top:3282;left:194"><nobr>a1 $a |- ( t = r -&gt; ( t = s -&gt; r = s ) ) $.</nobr></div>
+<div style="position:absolute;top:3302;left:194"><nobr>a2 $a |- ( t + 0 ) = t $.</nobr></div>
+<div style="position:absolute;top:3322;left:159"><nobr>$( Definition of modus ponens inference rule $)</nobr></div>
+<div style="position:absolute;top:3342;left:194"><nobr>${</nobr></div>
+<div style="position:absolute;top:3361;left:220"><nobr>min $e |- P $.</nobr></div>
+<div style="position:absolute;top:3381;left:220"><nobr>maj $e |- ( P -&gt; Q ) $.</nobr></div>
+<div style="position:absolute;top:3401;left:220"><nobr>mp $a |- Q $.</nobr></div>
+<div style="position:absolute;top:3420;left:194"><nobr>$}</nobr></div>
+<div style="position:absolute;top:3440;left:159"><nobr>$( Proof of the theorem t=t $)</nobr></div>
+<div style="position:absolute;top:3460;left:194"><nobr>th1 $p |- t = t $=</nobr></div>
+<div style="position:absolute;top:3480;left:220"><nobr>tt tze tpl tt weq tt tt weq tt a2 tt tze tpl</nobr></div>
+<div style="position:absolute;top:3499;left:220"><nobr>tt weq tt tze tpl tt weq tt tt weq wim tt a2</nobr></div>
+<div style="position:absolute;top:3519;left:220"><nobr>tt tze tpl tt tt a1 mp mp</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:3739;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=4><b>Page 4</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3820;left:159"><nobr><i>236</i></nobr></div>
+<div style="position:absolute;top:3820;left:409"><nobr><i>Martin Kiselkov</i></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:3866;left:202"><nobr>$.</nobr></div>
+<div style="position:absolute;top:3893;left:186"><nobr>A <b style="color:black;background-color:#ffff66">Metamath</b> <i>database </i>is build up from a top-level text source file together with</nobr></div>
+<div style="position:absolute;top:3913;left:159"><nobr>any source files that are brought in thought file inclusion commands. It consists of a</nobr></div>
+<div style="position:absolute;top:3933;left:159"><nobr>sequence of three kinds of tokens separated by white space. First kind of tokens are</nobr></div>
+<div style="position:absolute;top:3953;left:159"><nobr><i>keyword </i>tokens: $</nobr></div>
+<div style="position:absolute;top:3956;left:285"><nobr>{</nobr></div>
+<div style="position:absolute;top:3953;left:293"><nobr>, $</nobr></div>
+<div style="position:absolute;top:3956;left:311"><nobr>}</nobr></div>
+<div style="position:absolute;top:3953;left:319"><nobr>, $c, $v, $d, $f, $e, $a, $p, $., $=, $(, $), $[, $]. Second</nobr></div>
+<div style="position:absolute;top:3972;left:159"><nobr>kind of tokens are <i>label </i>tokens which consists of any combination of letters, digits and</nobr></div>
+<div style="position:absolute;top:3992;left:159"><nobr>the character hyphen, underscore, period. Third kind of tokens are <i>math symbol </i>tokens</nobr></div>
+<div style="position:absolute;top:4012;left:159"><nobr>which consist of any combination of the printable ASCII characters other than $.</nobr></div>
+<div style="position:absolute;top:4031;left:186"><nobr>Comments which are ignored for the purpose of parsing, begin with the $( keyword</nobr></div>
+<div style="position:absolute;top:4051;left:159"><nobr>and end with the $) keyword. <i>File inclusion command </i>is a sequence of three tokens,</nobr></div>
+<div style="position:absolute;top:4071;left:159"><nobr>the $[ token, then a file name and after that the $] token. The content of the file replace</nobr></div>
+<div style="position:absolute;top:4091;left:159"><nobr>the inclusion command and included files may include other files.</nobr></div>
+<div style="position:absolute;top:4110;left:186"><nobr>The scooping statements $</nobr></div>
+<div style="position:absolute;top:4113;left:359"><nobr>{</nobr></div>
+<div style="position:absolute;top:4110;left:370"><nobr>(for start of block) and $</nobr></div>
+<div style="position:absolute;top:4113;left:563"><nobr>}</nobr></div>
+<div style="position:absolute;top:4110;left:575"><nobr>(for <i>end of block</i>) can be</nobr></div>
+<div style="position:absolute;top:4130;left:159"><nobr>used to restrict the scope of $v, $d, $f, $e statements. Blocks defined by the scooping</nobr></div>
+<div style="position:absolute;top:4150;left:159"><nobr>statements can be nested inside of other blocks, with the restriction that starts and ends</nobr></div>
+<div style="position:absolute;top:4170;left:159"><nobr>of blocks muss not overlap. For example blocks declared with</nobr></div>
+<div style="position:absolute;top:4205;left:177"><nobr>${ ${</nobr></div>
+<div style="position:absolute;top:4205;left:254"><nobr>$} $} ${ $}</nobr></div>
+<div style="position:absolute;top:4232;left:159"><nobr>have proper nesting, blocks declared with</nobr></div>
+<div style="position:absolute;top:4264;left:177"><nobr>${ ${ $}</nobr></div>
+<div style="position:absolute;top:4289;left:186"><nobr>are not proper. Usually the scooping statements are written in the text file vertically</nobr></div>
+<div style="position:absolute;top:4309;left:159"><nobr>with indentation according to the nesting level. The $c, $a, $p statements have not a</nobr></div>
+<div style="position:absolute;top:4328;left:159"><nobr>limited scope, their effects end with the end of database.</nobr></div>
+<div style="position:absolute;top:4348;left:186"><nobr>Lets see what is in the database. The $c statement takes a list of math symbols</nobr></div>
+<div style="position:absolute;top:4368;left:159"><nobr>(ending with $.) and declares them as constants so they can be used later in the file.</nobr></div>
+<div style="position:absolute;top:4388;left:159"><nobr>The $v statement takes a list of different math symbols and declares them as variables.</nobr></div>
+<div style="position:absolute;top:4407;left:159"><nobr>A variable may be substituted with sequence of math symbols whereas a constant may</nobr></div>
+<div style="position:absolute;top:4427;left:159"><nobr>not be substituted with anything and it is always the same.</nobr></div>
+<div style="position:absolute;top:4447;left:186"><nobr>All declared constants and variables have been used previously in the “All zero”</nobr></div>
+<div style="position:absolute;top:4467;left:159"><nobr>example except for the turnstile symbol |- (</nobr></div>
+<div style="position:absolute;top:4469;left:447"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:4467;left:457"><nobr>), which usually means “is provable” or “a</nobr></div>
+<div style="position:absolute;top:4486;left:159"><nobr>proof exists” in formal logic. In the database is the turnstile symbol used to distinguish</nobr></div>
+<div style="position:absolute;top:4506;left:159"><nobr>the expressions that are axioms or theorems from expressions that are terms or wffs.</nobr></div>
+<div style="position:absolute;top:4526;left:186"><nobr>The token $f defines a statement called a variable-type hypothesis (also called a</nobr></div>
+<div style="position:absolute;top:4546;left:159"><nobr>floating hypothesis) and $e specifies a logic hypothesis (also called an essential hy-</nobr></div>
+<div style="position:absolute;top:4565;left:159"><nobr>pothesis). The token $a specifies an axiomatic assertion, and $p specifies a provable</nobr></div>
+<div style="position:absolute;top:4585;left:159"><nobr>assertion. In front of each of these token is a label identifying the assertion or hypoth-</nobr></div>
+<div style="position:absolute;top:4605;left:159"><nobr>esis. A $f statement must contain exactly two math symbols, a constant followed by</nobr></div>
+<div style="position:absolute;top:4624;left:159"><nobr>a variable. The $e, $a and $p statements each start with a constant followed by, in</nobr></div>
+<div style="position:absolute;top:4644;left:159"><nobr>general, an arbitrary sequence of math symbols.</nobr></div>
+<div style="position:absolute;top:4664;left:186"><nobr>With each assertion is associated a set of hypotheses that must satisfied in order for</nobr></div>
+<div style="position:absolute;top:4684;left:159"><nobr>the assertion to be used in a proof. These are called the <i>mandatory hypotheses </i>of the</nobr></div>
+<div style="position:absolute;top:4703;left:159"><nobr>assertion and consist of:</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:4927;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=5><b>Page 5</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5008;left:274"><nobr><i><b style="color:black;background-color:#ffff66">Metamath</b> – <b style="color:black;background-color:#a0ffff">Assembler Language of Proof Languages</b></i></nobr></div>
+<div style="position:absolute;top:5008;left:711"><nobr><i>237</i></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:5053;left:186"><nobr>•</nobr></div>
+<div style="position:absolute;top:5050;left:203"><nobr>All $e hypotheses that are active (that have been defined before the assertion in a</nobr></div>
+<div style="position:absolute;top:5070;left:203"><nobr>block that is not at this point closed with $</nobr></div>
+<div style="position:absolute;top:5073;left:482"><nobr>}</nobr></div>
+<div style="position:absolute;top:5070;left:490"><nobr>).</nobr></div>
+<div style="position:absolute;top:5110;left:186"><nobr>•</nobr></div>
+<div style="position:absolute;top:5107;left:203"><nobr>All $f hypotheses that are active and share their variables with the assertion or</nobr></div>
+<div style="position:absolute;top:5127;left:203"><nobr>its mandatory $e hypotheses.</nobr></div>
+<div style="position:absolute;top:5169;left:186"><nobr>For example, the mp assertion has two mandatory $e hypotheses min, maj and two</nobr></div>
+<div style="position:absolute;top:5189;left:159"><nobr>mandatory $f hypotheses wp, wq, becouse the variable Q is used in the assertion and the</nobr></div>
+<div style="position:absolute;top:5209;left:159"><nobr>variable P in its mandatory $e hypotheses. As already noted; the scope of hypotheses is</nobr></div>
+<div style="position:absolute;top:5228;left:159"><nobr>limited by the block in which they are defined, therefor for example, the only mandatory</nobr></div>
+<div style="position:absolute;top:5248;left:159"><nobr>hypothesisof th1assertionis tt. minandmaj hypothesesare notmandatoryhypotheses</nobr></div>
+<div style="position:absolute;top:5268;left:159"><nobr>of th1 because th1 is defined outside of the block containing min and maj.</nobr></div>
+<div style="position:absolute;top:5288;left:186"><nobr>Each provable assertion has two part. The first part is the assertion itself, which is</nobr></div>
+<div style="position:absolute;top:5308;left:159"><nobr>a sequence of math symbols tokens placed between the $p token and a $= token. The</nobr></div>
+<div style="position:absolute;top:5327;left:159"><nobr>second part is a “proof”, which is a sequence of label tokens placed between the $=</nobr></div>
+<div style="position:absolute;top:5347;left:159"><nobr>token and the $. token.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:17px;font-family:Times">
+<div style="position:absolute;top:5396;left:159"><nobr><b>2 Proof verification</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:5437;left:159"><nobr>The proof acts as series of instructions, telling how build up the sequence of math</nobr></div>
+<div style="position:absolute;top:5456;left:159"><nobr>symbols contained in assertion part of the $p statements, making use of the hypotheses</nobr></div>
+<div style="position:absolute;top:5476;left:159"><nobr>of the $p statement and previous assertions. The construction takes place according to</nobr></div>
+<div style="position:absolute;top:5496;left:159"><nobr>precise rules. If the list of labels in the proof causes these rules to be violated, or if the</nobr></div>
+<div style="position:absolute;top:5516;left:159"><nobr>final sequence that results does not match the assertion, the proof is incorrect.</nobr></div>
+<div style="position:absolute;top:5536;left:186"><nobr>If you are familiar with reverse Polish notation (RPN), which is sometimes used on</nobr></div>
+<div style="position:absolute;top:5556;left:159"><nobr>pocket calculators, here in a nutshell is how a proof works. Each hypothesis label in the</nobr></div>
+<div style="position:absolute;top:5575;left:159"><nobr>proof is pushedonto the RPN stack as it is encountered. Each assertion label pops off the</nobr></div>
+<div style="position:absolute;top:5595;left:159"><nobr>stack as many entries as the referenced assertion has mandatory hypotheses. Variable</nobr></div>
+<div style="position:absolute;top:5615;left:159"><nobr>substitutions are computed which, when made to the referenced assertion’s mandatory</nobr></div>
+<div style="position:absolute;top:5634;left:159"><nobr>hypotheses, cause these hypotheses to match the stack entries. These same substitutions</nobr></div>
+<div style="position:absolute;top:5654;left:159"><nobr>are then made to the variables in the referenced assertion itself, which is then pushed</nobr></div>
+<div style="position:absolute;top:5674;left:159"><nobr>onto the stack. At the end of the proof, there should be one stack entry, namely the</nobr></div>
+<div style="position:absolute;top:5694;left:159"><nobr>assertion being proved. This process is explained in detail in [5, section 4.3].</nobr></div>
+<div style="position:absolute;top:5714;left:186"><nobr>The rules used in verifying a proof are not based on any built-in syntax of the symbol</nobr></div>
+<div style="position:absolute;top:5734;left:159"><nobr>sequencein an assertion nor on any built-in meanings attached to specific symbol names.</nobr></div>
+<div style="position:absolute;top:5753;left:159"><nobr>They are based strictly on symbol matching: constants must match themselves, and</nobr></div>
+<div style="position:absolute;top:5773;left:159"><nobr>variables may be replaced with anything that allows a match to occur. For example,</nobr></div>
+<div style="position:absolute;top:5793;left:159"><nobr>insteadof term, 0, and|-we couldhavejust aswell usedyellow, zero, andprovable,</nobr></div>
+<div style="position:absolute;top:5812;left:159"><nobr>as long as we did so consistently throughout the database. Also, we could have used</nobr></div>
+<div style="position:absolute;top:5836;left:159"><nobr>is provable (two tokens) instead of |- (one token) throughout the database. In each</nobr></div>
+<div style="position:absolute;top:5852;left:159"><nobr>of these cases, the proof would be exactly the same. The independence of proofs and</nobr></div>
+<div style="position:absolute;top:5872;left:159"><nobr>notation means that you have a lot of flexibility to change the notation you use without</nobr></div>
+<div style="position:absolute;top:5891;left:159"><nobr>having to change any proofs.</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:6115;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=6><b>Page 6</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6196;left:159"><nobr><i>238</i></nobr></div>
+<div style="position:absolute;top:6196;left:409"><nobr><i>Martin Kiselkov</i></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:17px;font-family:Times">
+<div style="position:absolute;top:6235;left:159"><nobr><b>3 Experimental results</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:6275;left:159"><nobr>In process of learning the language I have implemented a small proof verifier for the</nobr></div>
+<div style="position:absolute;top:6295;left:159"><nobr><b style="color:black;background-color:#ffff66">Metamath</b> language. It can be downloaded from http://www2.fiit.stuba.s</nobr></div>
+<div style="position:absolute;top:6299;left:716"><nobr>k/</nobr></div>
+<div style="position:absolute;top:6319;left:168"><nobr>kiselkov/<b style="color:black;background-color:#ffff66">Metamath</b>/verify.lua. Because it is written in the Lua scripting in quite</nobr></div>
+<div style="position:absolute;top:6335;left:159"><nobr>compact style it is only 500 lines long. This is also demonstration of the <b style="color:black;background-color:#ffff66">Metamath</b></nobr></div>
+<div style="position:absolute;top:6354;left:159"><nobr>simplicity.</nobr></div>
+<div style="position:absolute;top:6374;left:186"><nobr>I have also done measurements on two existing <b style="color:black;background-color:#ffff66">Metamath</b> databases set.mm and</nobr></div>
+<div style="position:absolute;top:6398;left:159"><nobr>ql.mm. The shown results have been measured on databases set.mm and ql.mm down-</nobr></div>
+<div style="position:absolute;top:6414;left:159"><nobr>loaded from the page http://<b style="color:black;background-color:#ffff66">metamath</b>.org on 18. november 2006.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:6459;left:159"><nobr><b>3.1 Databases</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:6492;left:159"><nobr>The database set.mm is a list of axioms, inference rules, theorems written in <b style="color:black;background-color:#ffff66">Metamath</b></nobr></div>
+<div style="position:absolute;top:6512;left:159"><nobr>languageandit formalizes large parts of standardmathematics. Axiomsare derivedfrom</nobr></div>
+<div style="position:absolute;top:6531;left:159"><nobr>first-order predicate logic with equality and Zermelo–Fraenkel set theory with axiom</nobr></div>
+<div style="position:absolute;top:6551;left:159"><nobr>choice. The axioms are not used in their standard form, because instead of terms like</nobr></div>
+<div style="position:absolute;top:6571;left:159"><nobr>free variable and bound variable they use substitution restricted with $d statement</nobr></div>
+</span></font>
+<font size=2 face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:6569;left:703"><nobr>1</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:6571;left:709"><nobr>.</nobr></div>
+<div style="position:absolute;top:6591;left:186"><nobr>Based on these axioms is build a hierarchy of definitions for mathematical objects</nobr></div>
+<div style="position:absolute;top:6610;left:159"><nobr>like class, relation, function, domain and co-domain. Build are also sets of natural N,</nobr></div>
+<div style="position:absolute;top:6630;left:159"><nobr>real R and complex C numbers. Because numbers do not have a special representation</nobr></div>
+<div style="position:absolute;top:6650;left:159"><nobr>in <b style="color:black;background-color:#ffff66">Metamath</b> language, they are represented as sets which are elements of N, R, C.</nobr></div>
+<div style="position:absolute;top:6670;left:186"><nobr>The database ql.mm is formalization of quantum logic, which according to authors</nobr></div>
+<div style="position:absolute;top:6690;left:159"><nobr>is the variety of all equations that hold in a Hilbert lattice i.e. the set of closed subspaces</nobr></div>
+<div style="position:absolute;top:6709;left:159"><nobr>of an infinite dimensional Hilbert space [1]. The subset of these equations that has been</nobr></div>
+<div style="position:absolute;top:6729;left:159"><nobr>studied the most are the equations for orthomodular lattices.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:6774;left:159"><nobr><b>3.2 Database measurements</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:6807;left:159"><nobr>Hypotheses ($f, $e) and assertions ($a, $p) have been counted in both databases. In the</nobr></div>
+<div style="position:absolute;top:6827;left:159"><nobr>Table 1 are shown counts of hypotheses and assertions for set.mm and separately are</nobr></div>
+<div style="position:absolute;top:6847;left:159"><nobr>shown counts of hypotheses and assertions which are related to axioms and theorems</nobr></div>
+<div style="position:absolute;top:6866;left:159"><nobr>(that are hypotheses and assertions beginning with the turnstile symbol). In the Table 2</nobr></div>
+<div style="position:absolute;top:6886;left:159"><nobr>are the same counts for the ql.mm database.</nobr></div>
+<div style="position:absolute;top:6906;left:186"><nobr>From the shown counts you can see that $f hypotheses are used only for syntactic</nobr></div>
+<div style="position:absolute;top:6926;left:159"><nobr>structures and $e hypotheses are used only for logical derivation. Also the database</nobr></div>
+<div style="position:absolute;top:6949;left:159"><nobr>set.mm much more bigger and detailed then ql.mm, which steams from the fact that</nobr></div>
+<div style="position:absolute;top:6965;left:159"><nobr>quantumlogic is relativelyyoungbranchof mathematics. Thelarge numberof axiomatic</nobr></div>
+<div style="position:absolute;top:6985;left:159"><nobr>assertions in set.mm beginning with symbol</nobr></div>
+<div style="position:absolute;top:6988;left:454"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:6985;left:468"><nobr>(first order logic together ZFC set theory</nobr></div>
+</span></font>
+<font size=2 face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:7044;left:159"><nobr>1</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7045;left:173"><nobr>This form of substitution is makes the implementation of proof verifier much simpler then</nobr></div>
+<div style="position:absolute;top:7063;left:174"><nobr>implementation of free and bound variables, therefor it is part of <b style="color:black;background-color:#ffff66">Metamath</b> language. It is</nobr></div>
+<div style="position:absolute;top:7081;left:174"><nobr>described in [5, p. 100].</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:7303;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=7><b>Page 7</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7384;left:274"><nobr><i><b style="color:black;background-color:#ffff66">Metamath</b> – <b style="color:black;background-color:#a0ffff">Assembler Language of Proof Languages</b></i></nobr></div>
+<div style="position:absolute;top:7384;left:711"><nobr><i>239</i></nobr></div>
+<div style="position:absolute;top:7435;left:290"><nobr><b>Tab. 1. </b>Hypothesis and assertion counts for set.mm</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:7453;left:441"><nobr>All</nobr></div>
+<div style="position:absolute;top:7453;left:486"><nobr>Only with</nobr></div>
+<div style="position:absolute;top:7456;left:556"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:7477;left:323"><nobr>$f hypotheses</nobr></div>
+<div style="position:absolute;top:7473;left:439"><nobr>107</nobr></div>
+<div style="position:absolute;top:7473;left:522"><nobr>0</nobr></div>
+<div style="position:absolute;top:7497;left:323"><nobr>$e hypotheses 4847</nobr></div>
+<div style="position:absolute;top:7493;left:509"><nobr>4847</nobr></div>
+<div style="position:absolute;top:7517;left:323"><nobr>$a assertions</nobr></div>
+<div style="position:absolute;top:7513;left:439"><nobr>534</nobr></div>
+<div style="position:absolute;top:7513;left:513"><nobr>287</nobr></div>
+<div style="position:absolute;top:7536;left:323"><nobr>$p assertions</nobr></div>
+<div style="position:absolute;top:7532;left:435"><nobr>7828</nobr></div>
+<div style="position:absolute;top:7532;left:509"><nobr>7825</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7597;left:294"><nobr><b>Tab. 2. </b>Hypothesis and assertion counts for ql.mm</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:7616;left:441"><nobr>All</nobr></div>
+<div style="position:absolute;top:7616;left:486"><nobr>Only with</nobr></div>
+<div style="position:absolute;top:7619;left:556"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:7640;left:323"><nobr>$f hypotheses</nobr></div>
+<div style="position:absolute;top:7636;left:443"><nobr>23</nobr></div>
+<div style="position:absolute;top:7636;left:522"><nobr>0</nobr></div>
+<div style="position:absolute;top:7659;left:323"><nobr>$e hypotheses</nobr></div>
+<div style="position:absolute;top:7656;left:439"><nobr>592</nobr></div>
+<div style="position:absolute;top:7656;left:513"><nobr>592</nobr></div>
+<div style="position:absolute;top:7679;left:323"><nobr>$a assertions</nobr></div>
+<div style="position:absolute;top:7675;left:443"><nobr>75</nobr></div>
+<div style="position:absolute;top:7675;left:518"><nobr>46</nobr></div>
+<div style="position:absolute;top:7699;left:323"><nobr>$p assertions</nobr></div>
+<div style="position:absolute;top:7695;left:435"><nobr>1029</nobr></div>
+<div style="position:absolute;top:7695;left:509"><nobr>1029</nobr></div>
+<div style="position:absolute;top:7764;left:159"><nobr>does not have 200 axioms) is caused by the usage of $a assertions not only for axioms</nobr></div>
+<div style="position:absolute;top:7784;left:159"><nobr>but also for definition of new symbols and shortcuts. For example, the logic connective</nobr></div>
+<div style="position:absolute;top:7803;left:159"><nobr><b>or </b>(</nobr></div>
+<div style="position:absolute;top:7806;left:184"><nobr>∨</nobr></div>
+<div style="position:absolute;top:7803;left:195"><nobr>) is define using $a implication (</nobr></div>
+<div style="position:absolute;top:7806;left:409"><nobr>→</nobr></div>
+<div style="position:absolute;top:7803;left:426"><nobr>) and negation (</nobr></div>
+<div style="position:absolute;top:7806;left:529"><nobr>¬</nobr></div>
+<div style="position:absolute;top:7803;left:540"><nobr>) as:</nobr></div>
+<div style="position:absolute;top:7834;left:159"><nobr>df-or $a ⊣ ((ϕ ∨ ψ) ↔ (¬ϕ → ψ))</nobr></div>
+<div style="position:absolute;top:7858;left:159"><nobr>df-or $a |- ( ( ph \/ ps ) &lt;-&gt; ( -. ph -&gt; ps ) ) $.</nobr></div>
+<div style="position:absolute;top:7881;left:186"><nobr>The first line is the definition written using the standard mathematical notation and</nobr></div>
+<div style="position:absolute;top:7901;left:159"><nobr>the second line uses <b style="color:black;background-color:#ffff66">Metamath</b> notation. An discussion about the analogy between</nobr></div>
+<div style="position:absolute;top:7920;left:159"><nobr>definitions and axioms is in [2].</nobr></div>
+<div style="position:absolute;top:7947;left:186"><nobr>Also measured have been average length of proof, where length of proof was mea-</nobr></div>
+<div style="position:absolute;top:7967;left:159"><nobr>sured as the number of labels in proof. The lengths have been separately measured</nobr></div>
+<div style="position:absolute;top:7987;left:159"><nobr>for hypotheses and assertion beginning with</nobr></div>
+<div style="position:absolute;top:7990;left:459"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:7987;left:474"><nobr>symbol. Results for set.mm are in the</nobr></div>
+<div style="position:absolute;top:8006;left:159"><nobr>Table 3 and results for ql.mm are in the Table 4.</nobr></div>
+<div style="position:absolute;top:8033;left:186"><nobr>Minimal length have the theorems ska1, weq. The maximal length (and also the</nobr></div>
+<div style="position:absolute;top:8053;left:159"><nobr>average length) is much longer for counting all steps in comparison for counting only</nobr></div>
+<div style="position:absolute;top:8073;left:159"><nobr>logical steps, this is because of necessity of constructing expressions during proving</nobr></div>
+<div style="position:absolute;top:8093;left:159"><nobr>from definition.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8163;left:346"><nobr><b>Tab. 3. </b>Proof lenghts for set.mm</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:8181;left:475"><nobr>All</nobr></div>
+<div style="position:absolute;top:8181;left:541"><nobr>Only with</nobr></div>
+<div style="position:absolute;top:8184;left:611"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:8202;left:267"><nobr>Minimal lenght of proof</nobr></div>
+<div style="position:absolute;top:8202;left:481"><nobr>1</nobr></div>
+<div style="position:absolute;top:8202;left:577"><nobr>0</nobr></div>
+<div style="position:absolute;top:8221;left:267"><nobr>Minimal theorem</nobr></div>
+<div style="position:absolute;top:8221;left:447"><nobr>dummylink</nobr></div>
+<div style="position:absolute;top:8221;left:567"><nobr>weq</nobr></div>
+<div style="position:absolute;top:8241;left:267"><nobr>Maximal lenght of proof</nobr></div>
+<div style="position:absolute;top:8241;left:465"><nobr>12941</nobr></div>
+<div style="position:absolute;top:8241;left:565"><nobr>1345</nobr></div>
+<div style="position:absolute;top:8261;left:267"><nobr>Maximal theorem</nobr></div>
+<div style="position:absolute;top:8261;left:450"><nobr>efaddlem6</nobr></div>
+<div style="position:absolute;top:8261;left:569"><nobr>5oa</nobr></div>
+<div style="position:absolute;top:8281;left:267"><nobr>Average lenght of proof</nobr></div>
+<div style="position:absolute;top:8281;left:467"><nobr>405,8</nobr></div>
+<div style="position:absolute;top:8281;left:567"><nobr>22.9</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:8491;left:0"><hr><table border=0 width=100%><tr><td bgcolor=eeeeee align=right><font face=arial,sans-serif><a name=8><b>Page 8</b></a></font></td></tr></table></div><font size=3 face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8572;left:159"><nobr><i>240</i></nobr></div>
+<div style="position:absolute;top:8572;left:409"><nobr><i>Martin Kiselkov</i></nobr></div>
+<div style="position:absolute;top:8622;left:350"><nobr><b>Tab. 4. </b>Proof lenghts for ql.mm</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:8641;left:475"><nobr>All</nobr></div>
+<div style="position:absolute;top:8641;left:536"><nobr>Only with</nobr></div>
+<div style="position:absolute;top:8643;left:606"><nobr>⊣</nobr></div>
+<div style="position:absolute;top:8661;left:273"><nobr>Minimal lenght of proof</nobr></div>
+<div style="position:absolute;top:8661;left:481"><nobr>2</nobr></div>
+<div style="position:absolute;top:8661;left:571"><nobr>1</nobr></div>
+<div style="position:absolute;top:8681;left:273"><nobr>Minimal theorem</nobr></div>
+<div style="position:absolute;top:8681;left:470"><nobr>ska1</nobr></div>
+<div style="position:absolute;top:8681;left:560"><nobr>ska1</nobr></div>
+<div style="position:absolute;top:8701;left:273"><nobr>Maximal lenght of proof</nobr></div>
+<div style="position:absolute;top:8701;left:469"><nobr>5000</nobr></div>
+<div style="position:absolute;top:8701;left:563"><nobr>307</nobr></div>
+<div style="position:absolute;top:8720;left:273"><nobr>Maximal theorem</nobr></div>
+<div style="position:absolute;top:8720;left:453"><nobr>oa8todual</nobr></div>
+<div style="position:absolute;top:8720;left:543"><nobr>ud4lem1a</nobr></div>
+<div style="position:absolute;top:8740;left:273"><nobr>Average lenght of proof</nobr></div>
+<div style="position:absolute;top:8740;left:467"><nobr>265.9</nobr></div>
+<div style="position:absolute;top:8740;left:561"><nobr>19.3</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:17px;font-family:Times">
+<div style="position:absolute;top:8786;left:159"><nobr><b>4 Conclusions</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:8826;left:159"><nobr>Formal systems have wide applications from design verification to artificial intelligence.</nobr></div>
+<div style="position:absolute;top:8846;left:159"><nobr><b style="color:black;background-color:#ffff66">Metamath</b> language can be potentially used for everything that can expressed as formal</nobr></div>
+<div style="position:absolute;top:8866;left:159"><nobr>logic. Its main current drawback is that there is no automatic theorem prover for its</nobr></div>
+<div style="position:absolute;top:8885;left:159"><nobr>theorems. A future theorem prover would have to deal with already big databases of</nobr></div>
+<div style="position:absolute;top:8905;left:159"><nobr>theorems with some long proofs as shown in this article.</nobr></div>
+<div style="position:absolute;top:8941;left:159"><nobr><i>Acknowledgement: </i>This work was partially supported by the Scientific Grant Agency</nobr></div>
+<div style="position:absolute;top:8961;left:159"><nobr>of Slovak Republic, grant No. VG1/3102/06.</nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:17px;font-family:Times">
+<div style="position:absolute;top:9005;left:159"><nobr><b>References</b></nobr></div>
+</span></font>
+<font size=3 face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:9045;left:168"><nobr>[1] Kalmbach, G.: <i>Orthomodular Lattices</i>. Academic Press, London, 1983.</nobr></div>
+<div style="position:absolute;top:9067;left:168"><nobr>[2] Lejewski, C.: On Implicational Definitions. <i>Studia Logica</i>, 1958, vol. 8, pp.</nobr></div>
+<div style="position:absolute;top:9087;left:196"><nobr>189–208.</nobr></div>
+<div style="position:absolute;top:9109;left:168"><nobr>[3] Levien, R.:</nobr></div>
+<div style="position:absolute;top:9109;left:323"><nobr>Ghilbert syntax plans.</nobr></div>
+<div style="position:absolute;top:9113;left:518"><nobr>http://planetx.cc.vt.edu/</nobr></div>
+<div style="position:absolute;top:9132;left:196"><nobr>AsteroidMeta/Ghilbert_syntax_plans, 2006.</nobr></div>
+<div style="position:absolute;top:9150;left:168"><nobr>[4] McCune, W., Wos, L.: Experiments in Automated Deduction with Condensed</nobr></div>
+<div style="position:absolute;top:9170;left:196"><nobr>Detachment. In: <i>CADE-11: Proceedings of the 11th International Conference on</i></nobr></div>
+<div style="position:absolute;top:9190;left:196"><nobr><i>Automated Deduction</i>, London, UK, Springer-Verlag, 1992, pp. 209–223, ISBN:</nobr></div>
+<div style="position:absolute;top:9209;left:196"><nobr>3-540-55602-8.</nobr></div>
+<div style="position:absolute;top:9231;left:168"><nobr>[5] Megill, N.: <i><b style="color:black;background-color:#ffff66">Metamath</b>: A Computer Language for Pure Mathematics</i>. Lulu</nobr></div>
+<div style="position:absolute;top:9251;left:196"><nobr>Enterprises Inc., Morrisville, North Carolina, 2005, ISBN: 1-4116-3724-0.</nobr></div>
+<div style="position:absolute;top:9273;left:168"><nobr>[6] Megill, N.D.: A Finitely Axiomatized Formalization of Predicate Calculus with</nobr></div>
+<div style="position:absolute;top:9292;left:196"><nobr>Equality. <i>Notre Dame Journal of Formal Logic</i>, 1995, vol. 36, pp. 435–453.</nobr></div>
+<div style="position:absolute;top:9314;left:168"><nobr>[7] Mendelson, E.: <i>Introduction to Mathematical Logic</i>. second edn. D. Van Nostrand</nobr></div>
+<div style="position:absolute;top:9334;left:196"><nobr>Company, Inc., New York, 1979, ISBN: 0412808307.</nobr></div>
+<div style="position:absolute;top:9356;left:168"><nobr>[8] Peterson, J.G.: An automatic theorem prover for substitution and detachment</nobr></div>
+<div style="position:absolute;top:9375;left:196"><nobr>systems. <i>Notre Dame Journal of Formal Logic</i>, 1978, vol. 19, pp. 119–122.</nobr></div>
+<div style="position:absolute;top:9397;left:168"><nobr>[9] Wiedijk, F.: <i>The Seventeen Provers of the World, Lecture Notes in Computer</i></nobr></div>
+<div style="position:absolute;top:9417;left:196"><nobr><i>Science 3600</i>. Springer, New York, 2006, ISBN: 978-3-540-30704-4.</nobr></div>
+<div style="position:absolute;top:9439;left:159"><nobr>[10] Wiedijk, F.: Mizar: An Impression. Nijmegen University, http://www.cs.ru.</nobr></div>
+<div style="position:absolute;top:9462;left:196"><nobr>nl/freek/mizar/mizarintro.ps.gz, 2007.</nobr></div>
+</span></font>
+</body>
+</html>

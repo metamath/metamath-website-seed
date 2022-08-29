@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2Release20080801</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2Release20080801" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2Release20080801" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2Release20080801">mmj2Release20080801</a></h1></div><div class="content browse"><p>I have begun coding for a new version of mmj2. (Tenatively scheduled now for 20080901&#x2026;)</p><p>Here is an extra source of information about the new release:</p><p><a class="url outside" href="http://us2.metamath.org:8888/ocat/mmj2/TheoremLoaderOverview.zip">Theorem Loader draft design "Overview"</a> &#x2013; this is a 39KB zip file containing a  If you have any feedback, or if there are other features.</p><p>The various enhancements are described below (subject to change).</p><h1>mmj2 Service</h1><p>NOTE: If my memory is correct, this feature was first proposed by Paul Chapman. Credit where it is due&#x2026;</p><pre>    1. The "mmj2 Service" feature adds a new "svc" package to 
+       mmj2 and provides a foundation for other, non-mmj2
+       code to access Metamath data and mmj2 facilities. The
+       primary use envisioned is extracting Metamath data,
+       as the mmj2 Service feature provides easy access to
+       the critical ingredient: formula parse trees!
+    
+       Access to mmj2 facilities is made available for "caller"
+       and "callee" programs. In both scenarios the BatchMMJ2
+       program is used to initialize mmj2 with a loaded .mm
+       file which is validated, parsed, etc. Callers actually
+       call BatchMMJ2 passing a "SvcCallback" object which is called
+       by mmj2 once initialization is complete (when the "SvcCall"
+       RunParm is processed.) "Callee" programs simply write
+       a class which implements the SvcCallback interface -- just
+       as "caller" programs do -- but instead of directly calling
+       BatchMMJ2, the user specifies the name of their SvcCallback-
+       implementing class via a "SvcCallback" RunParm. 
+    
+       Whether accessing mmj2 as a "caller" or "callee", complete
+       access to mmj2's main facilities is provided in the
+       SvcCallback.go interface method. The "go()" method is passed 
+       references to the biggie mmj2 objects, including 
+       ProofAsst, Grammar, VerifyProofs, etc. 
+    
+       Within the SvcCallback.go() method the user-code can
+       execute calls to mmj2 methods but must single-thread
+       the accesses as mmj2 is not, in general, written for
+       total multi-threaded access throughout (some code
+       could be multi-threaded but not all.) 
+    
+       When finished accessing the mmj2 Services, the user-code
+       simply needs to execute a "return" from the
+       SvcCallback.go() method. 
+    
+       New RunParms added to mmj2 for use with BatchMMJ2
+       (see mmj.util.SvcBoss) are SvcFolder, SvcCallbackClass,
+       SvcArg, and SvcCall. The SrvArg RunParm provides a
+       way for the user-code to obtain Key-Value parameter
+       pairs via the input RunParms file; they are loaded by 
+       BatchMMJ2 (with minimal validation) into a HashMap
+       and passed via the SvcCallback.go() method. More
+       information about these new RunParms is provided in
+       the mmj2jar\AnnotatedRunParms.txt documentation file.
+    </pre><p>P.S. I have tested the "mmj2 Service" in both "caller" and "callee" mode, and it is fairly slick: you can write a program which is called back by mmj2 to the "method" (i.e. subroutine) you tell it, and the callback method is passed references to all of the main mmj2 facilities, including an operational Proof Assistant, with all of the Metamath data fully loaded, parsed and verified. So essentially this means being able to use mmj2 itself as a subroutine. And it means having a quick way to  write export data, or experimental code. Or, in theory, your program could be a front-end working in server mode processing requests, which it passes to mmj2 for  processing (careful to single-thread the requests though.)</p><p>--<a class="local" href="ocat">ocat</a> 26-May-2008</p><h1>Misc</h1><pre>    2. Modified function of the LoadComments RunParm to now
+       pick up the descriptive comment immediately preceding
+       axioms (including syntax). Previously, only theorem
+       ($p) statement descriptions were picked up. (Small
+       changes to Statementizer.java and Systemizer.java :-)
+    
+    3. Moved ProvableLogicStmtType and LogicStmtType RunParm
+       processing to LogicalSystemBoss from GrammarBoss.
+       These RunParms must be input prior to the LoadFile
+       RunParm (normally the default settings are used so
+       don't worry about this unless you are authoring an
+       unorthodox new logic system).
+    
+       Also note that "LoadFile" does an implicit
+       "Clear" of old RunParms from other facilities such
+       as the Grammar, so it is generally necessary to
+       re-input RunParms which override defaults prior
+       to a 2nd LoadFile command (multiple LoadFile commands
+       are rare -- but two in a row can be used to load
+       two files together.)
+   </pre><h1>mmj2 Chapters and Sections</h1><p>This shows a quick-n-dirty dump partial listing of set.mm a) Chapters, b) Sections, and c) Detail MObj items with  Section headings.</p><p>Notice that Sections are logically considered to be within Chapter, but Section Numbers are assigned sequentially from 1 by 1 across all chapters (a conversion back to Chapter from Section is provided but "Chapter" doesn't play a big role in things.)</p><p>Another thing to notice is that Sections are broken out inside the system and are numbered by modulo 4 starting from 1 as follows: 1's = Symbols, 2's = VarHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=VarHyps">?</a>, 3's = Syntax Axioms, and 4's = Logic (Theorems, Axioms and LogHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LogHyps">?</a>).</p><p>So essentially what this numbering scheme does is </p><ul><li>provide an alternate "sequence number" (i.e. position  in input Metamath file).</li><li>provide a built-in mechanism for adding Metamath statements  within a database: we can add statements at the end of these  sections without altering any existing "SectionNbr<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SectionNbr">?</a>.MObjNbr<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MObjNbr">?</a>".</li><li>allow Label and symbol references to be converted into these two-dimensional array indexes and be used interchangeably with them. We don't actually care to do this particular thing inside mmj2, but extracts from mmj2 can be tailored to use these 2d indexes for all intra-database references to statements and symbols &#x2013; for example in an "mmjbert" s-expression extract file &#x2013; and the extract datasets can be used efficiently on distributed multi-core processing systems to perform highly resource-intensive tasks such as proving (search for proofs).</li><li>use the 2D array structure for the input Metamath database to be efficiently sliced, so that, for example, we can quickly pull out just the grammar related MObjs.</li><li>guarantee that our output statements refer only to "previous" statements &#x2013; by segregating and keying Symbols, then VarHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=VarHyps">?</a>, then Syntax Axioms and finally Theorems/LogHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LogHyps">?</a>/Axioms within each Metamath section, our output extract files remain valid even if the input Metamath database has these statement objects intermixed within a section.</li></ul><pre>    I-IO-0101 Load Endpoint Statement Number Reached, Metamath file(s) load to be halted at input statement number = 1000
+     Chapter 1 -- Pre-logic --  Sections 1 thru 4
+     Chapter 2 -- Propositional calculus --  Sections 5 thru 24
+    
+       Chapter 1, Section 1 Symbols  -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 11
+       Chapter 1, Section 2 VarHyps  -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 5
+       Chapter 1, Section 3 Syntax   -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 0
+       Chapter 1, Section 4 Logic    -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 3
+       Chapter 2, Section 5 Symbols  -- Recursively define primitive wffs for propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 6 VarHyps  -- Recursively define primitive wffs for propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 7 Syntax   -- Recursively define primitive wffs for propositional calculus --  Last MObj Nbr = 2
+       Chapter 2, Section 8 Logic    -- Recursively define primitive wffs for propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 9 Symbols  -- The axioms of propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 10 VarHyps  -- The axioms of propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 11 Syntax   -- The axioms of propositional calculus --  Last MObj Nbr = 0
+       Chapter 2, Section 12 Logic    -- The axioms of propositional calculus --  Last MObj Nbr = 6
+       Chapter 2, Section 13 Symbols  -- Logical implication --  Last MObj Nbr = 0
+       Chapter 2, Section 14 VarHyps  -- Logical implication --  Last MObj Nbr = 0
+       Chapter 2, Section 15 Syntax   -- Logical implication --  Last MObj Nbr = 0
+       Chapter 2, Section 16 Logic    -- Logical implication --  Last MObj Nbr = 140
+       Chapter 2, Section 17 Symbols  -- Logical negation --  Last MObj Nbr = 0
+       Chapter 2, Section 18 VarHyps  -- Logical negation --  Last MObj Nbr = 0
+       Chapter 2, Section 19 Syntax   -- Logical negation --  Last MObj Nbr = 0
+       Chapter 2, Section 20 Logic    -- Logical negation --  Last MObj Nbr = 149
+       Chapter 2, Section 21 Symbols  -- Logical equivalence --  Last MObj Nbr = 1
+       Chapter 2, Section 22 VarHyps  -- Logical equivalence --  Last MObj Nbr = 0
+       Chapter 2, Section 23 Syntax   -- Logical equivalence --  Last MObj Nbr = 1
+       Chapter 2, Section 24 Logic    -- Logical equivalence --  Last MObj Nbr = 44
+    
+     Chapter 1, Section 1 Symbols  -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 11
+        Cnst 1.1 (
+        Cnst 1.2 )
+        Cnst 1.3 -&gt;
+        Cnst 1.4 -.
+        Cnst 1.5 wff
+        Cnst 1.6 |-
+        Var 1.7 ph
+        Var 1.8 ps
+        Var 1.9 ch
+        Var 1.10 th
+        Var 1.11 ta
+     Chapter 1, Section 2 VarHyps  -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 5
+        VarHyp 2.1 wph =: wff ph
+        VarHyp 2.2 wps =: wff ps
+        VarHyp 2.3 wch =: wff ch
+        VarHyp 2.4 wth =: wff th
+        VarHyp 2.5 wta =: wff ta
+     Chapter 1, Section 4 Logic    -- Dummy link theorem for assisting proof development --  Last MObj Nbr = 3
+        LogHyp 4.1 dummylink.1 =: |- ph
+        LogHyp 4.2 dummylink.2 =: |- ps
+        Theorem 4.3 dummylink =: |- ph
+     Chapter 2, Section 7 Syntax   -- Recursively define primitive wffs for propositional calculus --  Last MObj Nbr = 2
+        Axiom 7.1 wn =: wff -. ph
+        Axiom 7.2 wi =: wff ( ph -&gt; ps )
+     Chapter 2, Section 12 Logic    -- The axioms of propositional calculus --  Last MObj Nbr = 6
+        Axiom 12.1 ax-1 =: |- ( ph -&gt; ( ps -&gt; ph ) )
+        Axiom 12.2 ax-2 =: |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) )
+        Axiom 12.3 ax-3 =: |- ( ( -. ph -&gt; -. ps ) -&gt; ( ps -&gt; ph ) )
+        LogHyp 12.4 min =: |- ph
+        LogHyp 12.5 maj =: |- ( ph -&gt; ps )
+        Axiom 12.6 ax-mp =: |- ps
+     Chapter 2, Section 16 Logic    -- Logical implication --  Last MObj Nbr = 140
+        LogHyp 16.1 a1i.1 =: |- ph
+        Theorem 16.2 a1i =: |- ( ps -&gt; ph )
+        LogHyp 16.3 a2i.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.4 a2i =: |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) )
+        LogHyp 16.5 syl.1 =: |- ( ph -&gt; ps )
+        LogHyp 16.6 syl.2 =: |- ( ps -&gt; ch )
+        Theorem 16.7 syl =: |- ( ph -&gt; ch )
+        LogHyp 16.8 com12.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.9 com12 =: |- ( ps -&gt; ( ph -&gt; ch ) )
+        LogHyp 16.10 a1d.1 =: |- ( ph -&gt; ps )
+        Theorem 16.11 a1d =: |- ( ph -&gt; ( ch -&gt; ps ) )
+        LogHyp 16.12 a2d.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.13 a2d =: |- ( ph -&gt; ( ( ps -&gt; ch ) -&gt; ( ps -&gt; th ) ) )
+        Theorem 16.14 imim2 =: |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )
+        Theorem 16.15 imim1 =: |- ( ( ph -&gt; ps ) -&gt; ( ( ps -&gt; ch ) -&gt; ( ph -&gt; ch ) ) )
+        LogHyp 16.16 imim1i.1 =: |- ( ph -&gt; ps )
+        Theorem 16.17 imim1i =: |- ( ( ps -&gt; ch ) -&gt; ( ph -&gt; ch ) )
+        Theorem 16.18 imim2i =: |- ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) )
+        LogHyp 16.19 imim12i.1 =: |- ( ph -&gt; ps )
+        LogHyp 16.20 imim12i.2 =: |- ( ch -&gt; th )
+        Theorem 16.21 imim12i =: |- ( ( ps -&gt; ch ) -&gt; ( ph -&gt; th ) )
+        LogHyp 16.22 imim3i.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.23 imim3i =: |- ( ( th -&gt; ph ) -&gt; ( ( th -&gt; ps ) -&gt; ( th -&gt; ch ) ) )
+        LogHyp 16.24 3syl.1 =: |- ( ph -&gt; ps )
+        LogHyp 16.25 3syl.2 =: |- ( ps -&gt; ch )
+        LogHyp 16.26 3syl.3 =: |- ( ch -&gt; th )
+        Theorem 16.27 3syl =: |- ( ph -&gt; th )
+        LogHyp 16.28 syl5.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.29 syl5.2 =: |- ( th -&gt; ps )
+        Theorem 16.30 syl5 =: |- ( ph -&gt; ( th -&gt; ch ) )
+        LogHyp 16.31 syl6.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.32 syl6.2 =: |- ( ch -&gt; th )
+        Theorem 16.33 syl6 =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.34 syl7.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        LogHyp 16.35 syl7.2 =: |- ( ta -&gt; ch )
+        Theorem 16.36 syl7 =: |- ( ph -&gt; ( ps -&gt; ( ta -&gt; th ) ) )
+        LogHyp 16.37 syl8.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        LogHyp 16.38 syl8.2 =: |- ( th -&gt; ta )
+        Theorem 16.39 syl8 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) )
+        LogHyp 16.40 imim2d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.41 imim2d =: |- ( ph -&gt; ( ( th -&gt; ps ) -&gt; ( th -&gt; ch ) ) )
+        LogHyp 16.42 mpd.1 =: |- ( ph -&gt; ps )
+        LogHyp 16.43 mpd.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.44 mpd =: |- ( ph -&gt; ch )
+        LogHyp 16.45 syld.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.46 syld.2 =: |- ( ph -&gt; ( ch -&gt; th ) )
+        Theorem 16.47 syld =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.48 imim1d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.49 imim1d =: |- ( ph -&gt; ( ( ch -&gt; th ) -&gt; ( ps -&gt; th ) ) )
+        LogHyp 16.50 imim12d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.51 imim12d.2 =: |- ( ph -&gt; ( th -&gt; ta ) )
+        Theorem 16.52 imim12d =: |- ( ph -&gt; ( ( ch -&gt; th ) -&gt; ( ps -&gt; ta ) ) )
+        Theorem 16.53 pm2.04 =: |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( ps -&gt; ( ph -&gt; ch ) ) )
+        Theorem 16.54 pm2.83 =: |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( ( ph -&gt; ( ch -&gt; th ) ) -&gt; ( ph -&gt; ( ps -&gt; th ) ) ) )
+        LogHyp 16.55 com3.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.56 com23 =: |- ( ph -&gt; ( ch -&gt; ( ps -&gt; th ) ) )
+        Theorem 16.57 com13 =: |- ( ch -&gt; ( ps -&gt; ( ph -&gt; th ) ) )
+        Theorem 16.58 com3l =: |- ( ps -&gt; ( ch -&gt; ( ph -&gt; th ) ) )
+        Theorem 16.59 com3r =: |- ( ch -&gt; ( ph -&gt; ( ps -&gt; th ) ) )
+        LogHyp 16.60 com4.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ( th -&gt; ta ) ) ) )
+        Theorem 16.61 com34 =: |- ( ph -&gt; ( ps -&gt; ( th -&gt; ( ch -&gt; ta ) ) ) )
+        Theorem 16.62 com24 =: |- ( ph -&gt; ( th -&gt; ( ch -&gt; ( ps -&gt; ta ) ) ) )
+        Theorem 16.63 com14 =: |- ( th -&gt; ( ps -&gt; ( ch -&gt; ( ph -&gt; ta ) ) ) )
+        Theorem 16.64 com4l =: |- ( ps -&gt; ( ch -&gt; ( th -&gt; ( ph -&gt; ta ) ) ) )
+        Theorem 16.65 com4t =: |- ( ch -&gt; ( th -&gt; ( ph -&gt; ( ps -&gt; ta ) ) ) )
+        Theorem 16.66 com4r =: |- ( th -&gt; ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) )
+        LogHyp 16.67 a1dd.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.68 a1dd =: |- ( ph -&gt; ( ps -&gt; ( th -&gt; ch ) ) )
+        LogHyp 16.69 mp2.1 =: |- ph
+        LogHyp 16.70 mp2.2 =: |- ps
+        LogHyp 16.71 mp2.3 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.72 mp2 =: |- ch
+        LogHyp 16.73 mpi.1 =: |- ps
+        LogHyp 16.74 mpi.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.75 mpi =: |- ( ph -&gt; ch )
+        LogHyp 16.76 mpii.1 =: |- ch
+        LogHyp 16.77 mpii.2 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.78 mpii =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.79 mpdd.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.80 mpdd.2 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.81 mpdd =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.82 mpid.1 =: |- ( ph -&gt; ch )
+        LogHyp 16.83 mpid.2 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.84 mpid =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.85 mpdi.1 =: |- ( ps -&gt; ch )
+        LogHyp 16.86 mpdi.2 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.87 mpdi =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.88 mpcom.1 =: |- ( ps -&gt; ph )
+        LogHyp 16.89 mpcom.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 16.90 mpcom =: |- ( ps -&gt; ch )
+        LogHyp 16.91 syldd.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        LogHyp 16.92 syldd.2 =: |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) )
+        Theorem 16.93 syldd =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) )
+        LogHyp 16.94 sylcom.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.95 sylcom.2 =: |- ( ps -&gt; ( ch -&gt; th ) )
+        Theorem 16.96 sylcom =: |- ( ph -&gt; ( ps -&gt; th ) )
+        LogHyp 16.97 syl5com.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.98 syl5com.1 =: |- ( th -&gt; ps )
+        Theorem 16.99 syl5com =: |- ( th -&gt; ( ph -&gt; ch ) )
+        LogHyp 16.100 syl6com.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.101 syl6com.2 =: |- ( ch -&gt; th )
+        Theorem 16.102 syl6com =: |- ( ps -&gt; ( ph -&gt; th ) )
+        LogHyp 16.103 syli.1 =: |- ( ps -&gt; ( ph -&gt; ch ) )
+        LogHyp 16.104 syli.2 =: |- ( ch -&gt; ( ph -&gt; th ) )
+        Theorem 16.105 syli =: |- ( ps -&gt; ( ph -&gt; th ) )
+        LogHyp 16.106 syl5d.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        LogHyp 16.107 syl5d.2 =: |- ( ph -&gt; ( ta -&gt; ch ) )
+        Theorem 16.108 syl5d =: |- ( ph -&gt; ( ps -&gt; ( ta -&gt; th ) ) )
+        LogHyp 16.109 syl6d.1 =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        LogHyp 16.110 syl6d.2 =: |- ( ph -&gt; ( th -&gt; ta ) )
+        Theorem 16.111 syl6d =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) )
+        LogHyp 16.112 syl9.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.113 syl9.2 =: |- ( th -&gt; ( ch -&gt; ta ) )
+        Theorem 16.114 syl9 =: |- ( ph -&gt; ( th -&gt; ( ps -&gt; ta ) ) )
+        LogHyp 16.115 syl9r.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.116 syl9r.2 =: |- ( th -&gt; ( ch -&gt; ta ) )
+        Theorem 16.117 syl9r =: |- ( th -&gt; ( ph -&gt; ( ps -&gt; ta ) ) )
+        Theorem 16.118 id =: |- ( ph -&gt; ph )
+        Theorem 16.119 id1 =: |- ( ph -&gt; ph )
+        Theorem 16.120 idd =: |- ( ph -&gt; ( ps -&gt; ps ) )
+        Theorem 16.121 pm2.27 =: |- ( ph -&gt; ( ( ph -&gt; ps ) -&gt; ps ) )
+        Theorem 16.122 pm2.43 =: |- ( ( ph -&gt; ( ph -&gt; ps ) ) -&gt; ( ph -&gt; ps ) )
+        LogHyp 16.123 pm2.43i.1 =: |- ( ph -&gt; ( ph -&gt; ps ) )
+        Theorem 16.124 pm2.43i =: |- ( ph -&gt; ps )
+        LogHyp 16.125 pm2.43d.1 =: |- ( ph -&gt; ( ps -&gt; ( ps -&gt; ch ) ) )
+        Theorem 16.126 pm2.43d =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.127 pm2.43a.1 =: |- ( ps -&gt; ( ph -&gt; ( ps -&gt; ch ) ) )
+        Theorem 16.128 pm2.43a =: |- ( ps -&gt; ( ph -&gt; ch ) )
+        Theorem 16.129 pm2.43b =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.130 sylc.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.131 sylc.2 =: |- ( th -&gt; ph )
+        LogHyp 16.132 sylc.3 =: |- ( th -&gt; ps )
+        Theorem 16.133 sylc =: |- ( th -&gt; ch )
+        Theorem 16.134 pm2.86 =: |- ( ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) -&gt; ( ph -&gt; ( ps -&gt; ch ) ) )
+        LogHyp 16.135 pm2.86i.1 =: |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) )
+        Theorem 16.136 pm2.86i =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 16.137 pm2.86d.1 =: |- ( ph -&gt; ( ( ps -&gt; ch ) -&gt; ( ps -&gt; th ) ) )
+        Theorem 16.138 pm2.86d =: |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+        Theorem 16.139 loolin =: |- ( ( ( ph -&gt; ps ) -&gt; ( ps -&gt; ph ) ) -&gt; ( ps -&gt; ph ) )
+        Theorem 16.140 loowoz =: |- ( ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) -&gt; ( ( ps -&gt; ph ) -&gt; ( ps -&gt; ch ) ) )
+     Chapter 2, Section 20 Logic    -- Logical negation --  Last MObj Nbr = 149
+        LogHyp 20.1 a3i.1 =: |- ( -. ph -&gt; -. ps )
+        Theorem 20.2 a3i =: |- ( ps -&gt; ph )
+        LogHyp 20.3 a3d.1 =: |- ( ph -&gt; ( -. ps -&gt; -. ch ) )
+        Theorem 20.4 a3d =: |- ( ph -&gt; ( ch -&gt; ps ) )
+        Theorem 20.5 pm2.21 =: |- ( -. ph -&gt; ( ph -&gt; ps ) )
+        LogHyp 20.6 pm2.21i.1 =: |- -. ph
+        Theorem 20.7 pm2.21i =: |- ( ph -&gt; ps )
+        LogHyp 20.8 pm2.21d.1 =: |- ( ph -&gt; -. ps )
+        Theorem 20.9 pm2.21d =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.10 pm2.24 =: |- ( ph -&gt; ( -. ph -&gt; ps ) )
+        LogHyp 20.11 pm2.24ii.1 =: |- ph
+        LogHyp 20.12 pm2.24ii.2 =: |- -. ph
+        Theorem 20.13 pm2.24ii =: |- ps
+        Theorem 20.14 pm2.18 =: |- ( ( -. ph -&gt; ph ) -&gt; ph )
+        Theorem 20.15 peirce =: |- ( ( ( ph -&gt; ps ) -&gt; ph ) -&gt; ph )
+        Theorem 20.16 looinv =: |- ( ( ( ph -&gt; ps ) -&gt; ps ) -&gt; ( ( ps -&gt; ph ) -&gt; ph ) )
+        Theorem 20.17 nega =: |- ( -. -. ph -&gt; ph )
+        LogHyp 20.18 negai.1 =: |- -. -. ph
+        Theorem 20.19 negai =: |- ph
+        Theorem 20.20 negb =: |- ( ph -&gt; -. -. ph )
+        LogHyp 20.21 negbi.1 =: |- ph
+        Theorem 20.22 negbi =: |- -. -. ph
+        Theorem 20.23 pm2.01 =: |- ( ( ph -&gt; -. ph ) -&gt; -. ph )
+        LogHyp 20.24 pm2.01d.1 =: |- ( ph -&gt; ( ps -&gt; -. ps ) )
+        Theorem 20.25 pm2.01d =: |- ( ph -&gt; -. ps )
+        Theorem 20.26 con2 =: |- ( ( ph -&gt; -. ps ) -&gt; ( ps -&gt; -. ph ) )
+        LogHyp 20.27 con2d.1 =: |- ( ph -&gt; ( ps -&gt; -. ch ) )
+        Theorem 20.28 con2d =: |- ( ph -&gt; ( ch -&gt; -. ps ) )
+        Theorem 20.29 con1 =: |- ( ( -. ph -&gt; ps ) -&gt; ( -. ps -&gt; ph ) )
+        LogHyp 20.30 con1d.1 =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        Theorem 20.31 con1d =: |- ( ph -&gt; ( -. ch -&gt; ps ) )
+        Theorem 20.32 con3 =: |- ( ( ph -&gt; ps ) -&gt; ( -. ps -&gt; -. ph ) )
+        LogHyp 20.33 con3d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.34 con3d =: |- ( ph -&gt; ( -. ch -&gt; -. ps ) )
+        LogHyp 20.35 con1.a =: |- ( -. ph -&gt; ps )
+        Theorem 20.36 con1i =: |- ( -. ps -&gt; ph )
+        LogHyp 20.37 con2.a =: |- ( ph -&gt; -. ps )
+        Theorem 20.38 con2i =: |- ( ps -&gt; -. ph )
+        LogHyp 20.39 con3.a =: |- ( ph -&gt; ps )
+        Theorem 20.40 con3i =: |- ( -. ps -&gt; -. ph )
+        Theorem 20.41 pm2.37OLD =: |- ( ( ps -&gt; ch ) -&gt; ( ( -. ps -&gt; ph ) -&gt; ( -. ph -&gt; ch ) ) )
+        Theorem 20.42 pm2.5 =: |- ( -. ( ph -&gt; ps ) -&gt; ( -. ph -&gt; ps ) )
+        Theorem 20.43 pm2.51 =: |- ( -. ( ph -&gt; ps ) -&gt; ( ph -&gt; -. ps ) )
+        Theorem 20.44 pm2.52 =: |- ( -. ( ph -&gt; ps ) -&gt; ( -. ph -&gt; -. ps ) )
+        Theorem 20.45 pm2.521 =: |- ( -. ( ph -&gt; ps ) -&gt; ( ps -&gt; ph ) )
+        LogHyp 20.46 pm2.24i.1 =: |- ph
+        Theorem 20.47 pm2.24i =: |- ( -. ph -&gt; ps )
+        LogHyp 20.48 pm2.24d.1 =: |- ( ph -&gt; ps )
+        Theorem 20.49 pm2.24d =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        LogHyp 20.50 mto.1 =: |- -. ps
+        LogHyp 20.51 mto.2 =: |- ( ph -&gt; ps )
+        Theorem 20.52 mto =: |- -. ph
+        LogHyp 20.53 mtoi.1 =: |- -. ch
+        LogHyp 20.54 mtoi.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.55 mtoi =: |- ( ph -&gt; -. ps )
+        LogHyp 20.56 mtod.1 =: |- ( ph -&gt; -. ch )
+        LogHyp 20.57 mtod.2 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.58 mtod =: |- ( ph -&gt; -. ps )
+        LogHyp 20.59 mt2.1 =: |- ps
+        LogHyp 20.60 mt2.2 =: |- ( ph -&gt; -. ps )
+        Theorem 20.61 mt2 =: |- -. ph
+        LogHyp 20.62 mt2i.1 =: |- ch
+        LogHyp 20.63 mt2i.2 =: |- ( ph -&gt; ( ps -&gt; -. ch ) )
+        Theorem 20.64 mt2i =: |- ( ph -&gt; -. ps )
+        LogHyp 20.65 mt2d.1 =: |- ( ph -&gt; ch )
+        LogHyp 20.66 mt2d.2 =: |- ( ph -&gt; ( ps -&gt; -. ch ) )
+        Theorem 20.67 mt2d =: |- ( ph -&gt; -. ps )
+        LogHyp 20.68 mt3.1 =: |- -. ps
+        LogHyp 20.69 mt3.2 =: |- ( -. ph -&gt; ps )
+        Theorem 20.70 mt3 =: |- ph
+        LogHyp 20.71 mt3i.1 =: |- -. ch
+        LogHyp 20.72 mt3i.2 =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        Theorem 20.73 mt3i =: |- ( ph -&gt; ps )
+        LogHyp 20.74 mt3d.1 =: |- ( ph -&gt; -. ch )
+        LogHyp 20.75 mt3d.2 =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        Theorem 20.76 mt3d =: |- ( ph -&gt; ps )
+        LogHyp 20.77 mt4d.1 =: |- ( ph -&gt; ps )
+        LogHyp 20.78 mt4d.2 =: |- ( ph -&gt; ( -. ch -&gt; -. ps ) )
+        Theorem 20.79 mt4d =: |- ( ph -&gt; ch )
+        LogHyp 20.80 nsyl.1 =: |- ( ph -&gt; -. ps )
+        LogHyp 20.81 nsyl.2 =: |- ( ch -&gt; ps )
+        Theorem 20.82 nsyl =: |- ( ph -&gt; -. ch )
+        LogHyp 20.83 nsyld.1 =: |- ( ph -&gt; ( ps -&gt; -. ch ) )
+        LogHyp 20.84 nsyld.2 =: |- ( ph -&gt; ( ta -&gt; ch ) )
+        Theorem 20.85 nsyld =: |- ( ph -&gt; ( ps -&gt; -. ta ) )
+        LogHyp 20.86 nsyl2.1 =: |- ( ph -&gt; -. ps )
+        LogHyp 20.87 nsyl2.2 =: |- ( -. ch -&gt; ps )
+        Theorem 20.88 nsyl2 =: |- ( ph -&gt; ch )
+        LogHyp 20.89 nsyl3.1 =: |- ( ph -&gt; -. ps )
+        LogHyp 20.90 nsyl3.2 =: |- ( ch -&gt; ps )
+        Theorem 20.91 nsyl3 =: |- ( ch -&gt; -. ph )
+        LogHyp 20.92 nsyl4.1 =: |- ( ph -&gt; ps )
+        LogHyp 20.93 nsyl4.2 =: |- ( -. ph -&gt; ch )
+        Theorem 20.94 nsyl4 =: |- ( -. ch -&gt; ps )
+        LogHyp 20.95 nsyli.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 20.96 nsyli.2 =: |- ( th -&gt; -. ch )
+        Theorem 20.97 nsyli =: |- ( ph -&gt; ( th -&gt; -. ps ) )
+        Theorem 20.98 pm3.2im =: |- ( ph -&gt; ( ps -&gt; -. ( ph -&gt; -. ps ) ) )
+        Theorem 20.99 mth8 =: |- ( ph -&gt; ( -. ps -&gt; -. ( ph -&gt; ps ) ) )
+        Theorem 20.100 pm2.61 =: |- ( ( ph -&gt; ps ) -&gt; ( ( -. ph -&gt; ps ) -&gt; ps ) )
+        Theorem 20.101 pm2.61-ocatOLD =: |- ( ( ph -&gt; ps ) -&gt; ( ( -. ph -&gt; ps ) -&gt; ps ) )
+        LogHyp 20.102 pm2.61i.1 =: |- ( ph -&gt; ps )
+        LogHyp 20.103 pm2.61i.2 =: |- ( -. ph -&gt; ps )
+        Theorem 20.104 pm2.61i =: |- ps
+        LogHyp 20.105 pm2.61d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 20.106 pm2.61d.2 =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        Theorem 20.107 pm2.61d =: |- ( ph -&gt; ch )
+        LogHyp 20.108 pm2.61d1.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 20.109 pm2.61d1.2 =: |- ( -. ps -&gt; ch )
+        Theorem 20.110 pm2.61d1 =: |- ( ph -&gt; ch )
+        LogHyp 20.111 pm2.61d2.1 =: |- ( ph -&gt; ( -. ps -&gt; ch ) )
+        LogHyp 20.112 pm2.61d2.2 =: |- ( ps -&gt; ch )
+        Theorem 20.113 pm2.61d2 =: |- ( ph -&gt; ch )
+        LogHyp 20.114 pm2.61ii.1 =: |- ( -. ph -&gt; ( -. ps -&gt; ch ) )
+        LogHyp 20.115 pm2.61ii.2 =: |- ( ph -&gt; ch )
+        LogHyp 20.116 pm2.61ii.3 =: |- ( ps -&gt; ch )
+        Theorem 20.117 pm2.61ii =: |- ch
+        LogHyp 20.118 pm2.61nii.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 20.119 pm2.61nii.2 =: |- ( -. ph -&gt; ch )
+        LogHyp 20.120 pm2.61nii.3 =: |- ( -. ps -&gt; ch )
+        Theorem 20.121 pm2.61nii =: |- ch
+        LogHyp 20.122 pm2.61iii.1 =: |- ( -. ph -&gt; ( -. ps -&gt; ( -. ch -&gt; th ) ) )
+        LogHyp 20.123 pm2.61iii.2 =: |- ( ph -&gt; th )
+        LogHyp 20.124 pm2.61iii.3 =: |- ( ps -&gt; th )
+        LogHyp 20.125 pm2.61iii.4 =: |- ( ch -&gt; th )
+        Theorem 20.126 pm2.61iii =: |- th
+        Theorem 20.127 pm2.6 =: |- ( ( -. ph -&gt; ps ) -&gt; ( ( ph -&gt; ps ) -&gt; ps ) )
+        Theorem 20.128 pm2.65 =: |- ( ( ph -&gt; ps ) -&gt; ( ( ph -&gt; -. ps ) -&gt; -. ph ) )
+        LogHyp 20.129 pm2.65i.1 =: |- ( ph -&gt; ps )
+        LogHyp 20.130 pm2.65i.2 =: |- ( ph -&gt; -. ps )
+        Theorem 20.131 pm2.65i =: |- -. ph
+        LogHyp 20.132 pm2.65d.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        LogHyp 20.133 pm2.65d.2 =: |- ( ph -&gt; ( ps -&gt; -. ch ) )
+        Theorem 20.134 pm2.65d =: |- ( ph -&gt; -. ps )
+        LogHyp 20.135 ja.1 =: |- ( -. ph -&gt; ch )
+        LogHyp 20.136 ja.2 =: |- ( ps -&gt; ch )
+        Theorem 20.137 ja =: |- ( ( ph -&gt; ps ) -&gt; ch )
+        LogHyp 20.138 jc.1 =: |- ( ph -&gt; ps )
+        LogHyp 20.139 jc.2 =: |- ( ph -&gt; ch )
+        Theorem 20.140 jc =: |- ( ph -&gt; -. ( ps -&gt; -. ch ) )
+        Theorem 20.141 pm3.26im =: |- ( -. ( ph -&gt; -. ps ) -&gt; ph )
+        Theorem 20.142 pm3.27im =: |- ( -. ( ph -&gt; -. ps ) -&gt; ps )
+        Theorem 20.143 impt =: |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; ( -. ( ph -&gt; -. ps ) -&gt; ch ) )
+        Theorem 20.144 expt =: |- ( ( -. ( ph -&gt; -. ps ) -&gt; ch ) -&gt; ( ph -&gt; ( ps -&gt; ch ) ) )
+        LogHyp 20.145 impi.1 =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.146 impi =: |- ( -. ( ph -&gt; -. ps ) -&gt; ch )
+        LogHyp 20.147 expi.1 =: |- ( -. ( ph -&gt; -. ps ) -&gt; ch )
+        Theorem 20.148 expi =: |- ( ph -&gt; ( ps -&gt; ch ) )
+        Theorem 20.149 bijust =: |- -. ( ( ph -&gt; ph ) -&gt; -. ( ph -&gt; ph ) )
+     Chapter 2, Section 21 Symbols  -- Logical equivalence --  Last MObj Nbr = 1
+        Cnst 21.1 &lt;-&gt;
+     Chapter 2, Section 23 Syntax   -- Logical equivalence --  Last MObj Nbr = 1
+        Axiom 23.1 wb =: wff ( ph &lt;-&gt; ps )
+     Chapter 2, Section 24 Logic    -- Logical equivalence --  Last MObj Nbr = 44
+        Axiom 24.1 df-bi =: |- -. ( ( ( ph &lt;-&gt; ps ) -&gt; -. ( ( ph -&gt; ps ) -&gt; -. ( ps -&gt; ph ) ) ) -&gt; -. ( -. ( ( ph -&gt; ps ) -&gt; -. ( ps -&gt; ph ) ) -&gt; ( ph &lt;-&gt; ps ) ) )
+        Theorem 24.2 bi1 =: |- ( ( ph &lt;-&gt; ps ) -&gt; ( ph -&gt; ps ) )
+        Theorem 24.3 bi2 =: |- ( ( ph &lt;-&gt; ps ) -&gt; ( ps -&gt; ph ) )
+     etc. and so on...
+    </pre><hr /><p>One question Enquiring Minds might have about this scheme: if you segregate variables and variable hypotheses in a separate section whose key is lower than the key of a theorem's section, what happens to locally scoped variables?</p><p>If we were doing proofs directly inside of Metamath.exe or mmj2 then not knowing the difference between global and locally-scoped variables would be a huge problem. But if the proof-assistancy occurs outside the context of Metamath.exe and mmj2, then the specific variables chosen to write theorems and proofs can be ignored &#x2013; when the time comes to Import a theorem and proof to Metamath and mmj2 we can just feed in the labels of the proof step logical assertions in RPN order &#x2013; everything else can be derived using Work Variables and once the work variable populated formulas are derived the proof steps can be mapped to the actual variables that are available in scope (it is even possible to derive the logical hypotheses, if one takes as an assumption that missing proof steps at the proof tree leaf nodes are the LogHyps<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LogHyps">?</a>.) (So&#x2026;I think I can now write specs for one more small mmj2 enhancement :-)</p><hr /><h1>Theorem Loader</h1><p><a class="url outside" href="http://us2.metamath.org:8888/ocat/mmj2/TheoremLoaderOverview.zip">Theorem Loader draft design "Overview"</a> &#x2013; this is a 39KB zip file containing a .html file plus a .jpg (used by the .html file) and the .dia source of the .jpg file. Revised <a class="local" href="ocat">ocat</a> 24-Jun-2008</p><dl class="quote"><dt /><dd>The main function change is to use ".mmt" as the file extension  instead of ".mm" for individual theorem Metamath format file. The purpose of this change is to avoid unfortunate accidents (.mmp is used for mmj2 Proof Worksheets.)</dd><dt /><dd>.</dd><dt /><dd>Note also that the document contains helpful information about the new mmj2 Service feature, including example Caller Callee mode "Hello, World!" programs.</dd><dt /><dd>.<dl class="quote"><dt /><dd>OK, no more comments? I am going to start coding the Theorem Loader. I will refine the RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a> so that the RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> interface is parallel to what is available in the Proof Assistant GUI. And tweak a few things to make it more testable. Looks like 1-Sep-2008 is a good date, with somewhere around 1-Aug-2008 for a "beta" test version. Meanwhile, good luck with the economy :-) --<a class="local" href="ocat">ocat</a> 26-Jun-2008</dd></dl></dd></dl><h1>Coding In Progress</h1><p><a class="url outside" href="http://www.theage.com.au/ffximage/2007/10/11/cat8_gallery__394x400,0.jpg">hard at work</a></p><p><a class="url outside" href="http://globalnerdy.com/wp-content/uploads/2007/11/pair_programming.jpg">giving pair programming a try</a></p><p><a class="url outside" href="http://honeybeemanor.com/nerdcat/08.jpg">I hire a consultant...</a></p><h1>Algorithm</h1><p>An Algorithm For Sequencing .mmt file Theorem Updates and Inserts While Checking For Cyclic References In Proofs</p><hr /><p>The new mmj2 Theorem Loader reads a set of ".mmt" files, each containing a Theorem ('$p') Metamath statement and optional Logical Hypotheses ('$e'), Distinct Variable restrictions ('<img class='InlineMath' src='/AsteroidMeta/_latex_data/YdakqxKIFvhUi+iwYYs8lA.png' alt='$ d') and Begin/End Scope (' $'/>{' and '$}') statements. The input .mmt files comprise a set of unique theorems (the file name must match the theorem label), and may consist of new theorems to be inserted in the mmj2 Logical System, or existing theorems, already loaded &#x2013; in which case only the proof and Distinct Variables may be updated.</p><p>The problem to be solved is how to prevent cyclic references in the proofs while also sequencing the update/insertion processing (if theorem "T" references assertion "A", then A's sequence number must be less than T's.)</p><p>To add a few wrinkles,</p><p>a) an incomplete proof (containing a "?" label) for a new theorem requires that the theorem be appended to the end of the Logical System because there is insufficient information to determine the logical location of the theorem within the Logical System;</p><p>and</p><p>b) Insertion of a new theorem (or logical hypothesis) within a numbering gap in the sequence numbers of the original .mm file's statements may fail because the gap is now full. In that case the theorem must be appended to the end of the Logical System &#x2013; and this impacts other theorems which use the new theorem in two ways:</p><pre>    1. An existing theorem's updated proof is now 
+       invalid because the appended theorem's sequence
+       number is too great;
+     
+       and,
+     
+    2. A new theorem which uses the appended theorem
+       in its proof must also be appended!
+     </pre><p>(Fortunately, the mmj2 "MObj.seq" number is a Java "int" allowing for +2,000,000,000 Metamath objects, and with a numbering interval size of 1000 &#x2013; allowing for an input .mm file containing 2,000,000 objects &#x2013; in excess of 999 new .mmt theorems and logical hypotheses would need to be inserted to fill a gap.)</p><hr /><p>Solving the problem with these constraints puzzled me and I found the solution only after a fair bit of suffering. Here is how it works:</p><hr /><p>I. The input .mmt files are each read into an object called a "TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a>" (one theorem per file), and the collection of these theorem objects is stored in a "MMTTheoremSet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MMTTheoremSet">?</a>".</p><p>The input .mmt files are read and validated for syntax, etc. but the proofs are not label-checked until all of the .mmt files are loaded into the MMTTheoremSet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MMTTheoremSet">?</a>. That is because proof step label-checking requires checking against both the Logical System "stmt.tbl" and the MMTTheoremSet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MMTTheoremSet">?</a> &#x2013; if a proof step label is not found in either of these then that is an error.</p><hr /><p>II. Then, after the MMTTheoremSet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MMTTheoremSet">?</a> is loaded, a pass through the TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a> objects is performed to check the proof step labels. During this process two separate Lists are built for each TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a>:</p><p>List 1: New MMT Theorems Used &#x2013; identifying the TheoremStmtGroups<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroups">?</a> for new theorems used by the theorem's proof;</p><p>and</p><p>List 2: Used By MMT Theorems &#x2013; identifying the TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a> objects which refer to this theorem in their proofs.</p><hr /><p>III. Next, the update process is initialized by constructing two queues:</p><p>Queue 1: Ready for Update Queue &#x2013; consists of TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a> objects whose List 1, New MMT Theorems Used, is empty;</p><p>and</p><p>Queue 2: Waiting for Update Queue &#x2013; consists of TheoremStmtGroup<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremStmtGroup">?</a> objects with a non-empty List 1, New MMT Theorems Used.</p><p>In the event that Queue 1 ever becomes empty while Queue 2 is non-empty, a cyclic reference error condition is signified &#x2013; Or else the programmer committed an error.</p><hr /><p>IV. The update process is performed until both lists are empty, or an error is detected. In the event of an error all previous updates to the mmj2 Logical System are reversed and the user is notified of the error conditions:</p><pre>    1) Pop Queue 1 -- the Ready For Update Queue.
+     
+    2) Perform the insert or update operation as 
+       determined by the contents of the popped queue 
+       TheoremStmtGroup object (the 
+       "maxExistingMObjSeqUsed" number which determines
+       the gap to be inserted into, and the Gap Insert 
+       vs. Append indicator.)
+     
+    3) Notify each TheoremStmtGroup object in the 
+       TheoremStmtGroup's List 2 -- Used By MMT Theorems 
+       -- and pass the TheoremStmtGroup in the message
+       (thus providing the new MObj.seq number and the Gap
+        Insert vs. Append Indicator.)
+     
+    4) For Each notified TheoremStmtGroup object then:
+     
+        a) checks for an error (e.g. sequence error because
+          new theorem was appended to the end of the
+          Logical System). Terminate if error found.
+     
+        b) use the messaged theorem's assigned MObj.seq
+           number to update the "maxExistingMObjSeqUsed"
+           number -- which will be used during the
+           update process, later -- to determine which
+           gap should be used for insertion of the
+           theorem, if new.
+               
+        c) Remove the messaged TheoremStmtGroup theorem
+           object from List 1 -- New MMT Theorems Used.
+     
+        d) If List 1 is now empty, move the TheoremStmtGroup
+           from Queue 2 -- Waiting For Update Queue --
+           and add it to Queue 1 -- Ready For Update Queue.
+         
+    5) Repeat 1 thru 4 until both queues are empty or
+       an error is found.
+     </pre><p>End.</p><p>P.S. My consultant, <a class="url outside" href="http://honeybeemanor.com/nerdcat/08.jpg">Nerdcat</a>, pointed out that if List 1, New MMT Theorems Used, is modified to include all MMT Theorems used &#x2013; thus including updated theorems -- then proof verification using the Metamath Proof Verification algorithm can be performed during the update processing. Otherwise the "Verify Proof" portion of the Theorem Loader processing would have to be deferred until all other theorems are updated &#x2013; thanks to modified Distinct Variable restrictions in updated theorems. An added advantage is that this expansion of List 1 improves the front-to-back sequencing of theorem updates in the database (if anyone cares). The drawback is a bit more processing, which isn't really a major issue given that the Theorem Loader is intended for low-volume processing. --<a class="local" href="ocat">ocat</a> 9-Jul-2009</p><hr /><h1>Status 11-Jul-2008</h1><p>I have coded the new mmj.lang.SeqAssigner<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SeqAssigner">?</a>.java (imaginatively named :0-) and most of the Theorem Loader stuff (new package, "mmj.tl"). I just need to incorporate the good stuff in mmj.lang.LogicalSystem<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LogicalSystem">?</a>.java and code up the checkpoint/backout logic so that Theorem Loader errors can be reversed if an error occurs during updates. Then I need to modify the Proof Assistant and the GUI&#x2026; and write test cases and in-code documentation. So, this is coming along very well. I am heartened that the implementation in code is fairly clean and tidy in comparison to the English language description (which heretofore has elicited very little user enthusiasm :-) When Theorem Loader is implemented along with the new "mmj2 Service" and the Book Manager, this will be a truly great set of enhancements which will provide additional functionality for the GUI users as well as an "escape" feature for programmers who want to write Metamath code without starting from scratch.</p><hr /><h1>Status 16-Jul-2008</h1><p>I am moving slowly on coding the updates to the Logical System. There are many validation edits to perform on a theorem to be loaded, and unfortunately the code is not identical to either the Proof Assistant validation code or the "LoadFile<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LoadFile">?</a>" code for Logical System. Minor differences exist and I am going over the scenarios with care. For example, the Theorem Loader will follow the Proof Assistant's restrictions on new and existing theorems:</p><p>- New theorems must use all new logical hypotheses. Existing hypotheses cannot be in scope of a new Theorem ($p), which would be the case in certain parts of set.mm where multiple theorems share a set of logical hypotheses. Another way  of saying this is that a theorem cannot be inserted into a scope. Also, the variables referenced in a new theorem, its logical hypotheses, $d's, and proof steps must be defined at the global level and must be "active" globally.</p><p>- Existing theorems which are being updated can only  modify the proof and distinct variable statements. The variables referenced in an existing theorem, its logical hypotheses, $d's and proof steps are those that are active within the theorem's extended frame (Mandatory Frame plus Optional Frame).</p><p>I also discovered a bug in the Proof Assistant &#x2013; it allows a defined but "inactive" variable to be used in a new $d statement on the Proof Assistant GUI screen. To verify this, enter the GUI. It pops up a hypothetical new theorem, "syllogism" with a blank "LOC_AFTER" meaning that the theorem is logically located at the end of the Logical System. Add a line, "$d et ph" and press Ctrl-U. No error message is registered, but adding a proof step such as "99:? |- ( ph &#x2192; et )" does trigger an error message. So, this oversight will need to be remedied as part of the new release (which is probably going to be released on Sep-1, unless I am further delays by my other life :-)</p><hr /><h1>Status 25-Jul-2008</h1><p>The critical part of TheoremLoader<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremLoader">?</a> is working. Now I need to add a few utilities for testing and update the GUI, then we're good to go.</p><p>The TheoremLoader<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremLoader">?</a> enhancement is going to provide, among other things, the ability to save new theorems and new proofs in the Logical System in memory. Currently the Proof Assistant GUI only allows you to save the Proof Worksheet, and then you need to use Metamath's eimm.exe to export the proof -- but that doesn't work for new theorems, which still require manual update of the input .mm file. The TheoremLoader<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=TheoremLoader">?</a> will actually create .mm files &#x2013; one per theorem &#x2013; for easy update into a .mm file (mmj2 still refuses to directly update a Metamath .mm file itself&#x2026;)</p><p>One of the great things about this enhancement is that it will no longer be necessary to exit mmj2 and then restart it, over and over, just to put new proofs and theorems into the system.</p><p>When you "store" a new theorem/proof that data is written to a .mm format file, which can then be automatically re-input the next time you start mmj2. But you won't need to restart mmj2 very often. And you can create new theorems and add them to the Logical System in memory, both via the GUI and via batch mode. By this I mean, say the mmj2 Proof Assistant GUI is running and you want to add a new theorem or two. You can do that with the GUI using Proof Worksheets, or you can just type in .mm files, one per theorem, and instruct the GUI to load them into the Logical System!</p><p>One reason why these enhancements are so valuable is that if/when set.mm grows to be really huge, the time required to restart mmj2 will grow too. Right now on my machines set.mm requires between 10 and 15 seconds, depending on the hardware. If set.mm had 1,000,000 statements, the start-up time would be intolerable if you had to do it more than once.</p><p>In addition, the new "mmj2 Service" feature connects to the Theorem Loader so another program can create theorems and load them into mmj2's Logical System.</p><hr /><h1>Status 31-Jul-2008</h1><p>I am finally hitting peak coding, and still a fairly long distance from uploading a "beta" release. As it turns out there are a significant number of details involved in converting a Proof Worksheet into a ".mm" format file. (Whew!) I had to add a few more "RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a>" for this process, including and indent amount, right margin and "StoreFormulasAsIs<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StoreFormulasAsIs">?</a>" (which means use the mmj2 Proof Worksheet formula formatting when outputting the formulas in .mm format.)</p><p>I'm just coding away now, and most other distractions and duties are out of the way. Since I obviously will not make my Aug-1 deadline for this, I won't make a new prediction &#x2013; I'll just focus on getting it done properly as best as I can (sigh&#x2026;) --<a class="local" href="ocat">ocat</a></p><h1>Status 2-Aug-2008</h1><p>OK! Finally I am coding in the GUI, just hooking up the new menu items to the "back end services" of the new Theorem Loader enhancement. The new menu items are on the main menu bar just to the right of the "Unify" menu item under the caption "TL" (for Theorem Loader&#x2026; :-) I think I will go ahead and add the rest of the TL RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a> as TL-menu items &#x2013; Indent Amount, Right Col (margin) and StoreFormulasAsIs<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StoreFormulasAsIs">?</a>. My thinking is that learning how to use the Theorem Loader will be easier if everything is available on the GUI &#x2013; and once the user has determined which option settings are most beneficial &#x2013; if the defaults are not acceptable &#x2013; then RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a> can be added to customize the experience.</p><p>The reason I think having a bit of help learning the Theorem Loader will be beneficial is that the Proof Assistant GUI is now getting a little bit "chunky" with features, and it feels like overload to me. And, specifically  the "MMT Folder" &#x2013; containing theorems in .mm format with the ".mmt" file type &#x2013; brings about, at least the possibility of a new work pattern. For example, a user could use the MMT Folder as his/her "sandbox" for accumulating an entire set of new theorems outside of the standard set.mm. Doing this would provide a sort of "modularity".</p><p>Also of interest is that the GUI provides the capability to load the MMT Folder's theorems while the GUI is active. This means being able to set up lemmas and theorems  which are not yet proven (proof contains "?").</p><p>It is also possible to use a single directory/folder for Proof Worksheets and ".mmt" theorem files. So the user sandbox can contain both the Proof Worksheets and the .mm files generated from the Proof Worksheets. I don't know how useful this would prove to be, but the possiblity exists to use the system in this way.</p><h1>Status 5-Aug-2008</h1><p>I plan to upload a "beta" test version of mmj2 within the next day or three! This will be for you to play with and let me know if you see anything which is wrong or could be improved.</p><p>I decided today not to implement the "abbreviated proof" feature allowing loading of theorems with input consisting of just assertion labels (and logical hypothesis labels.) The reason is that this feature is not integral to the other enhancements in this release, and it requires a fair amount of work &#x2013; which given how delayed this release is already, the wise move appears to be to defer this one feature. (Experience shows this to be wise because many projects with non-integral extras have been delayed to the point where implementation never actually happens.)</p><p>I think you're going to really like the new mmj2.</p><h1>Status 7-Aug-2008</h1><p>Uploaded:</p><p><a class="url" href="http://us2.metamath.org:8888/ocat/mmj2/mmj2Beta20080801a.zip">http://us2.metamath.org:8888/ocat/mmj2/mmj2Beta20080801a.zip</a></p><p>Yay!</p><h1>Status 9-Aug-2008</h1><p>No feedback on the beta yet, perhaps summer vacation has hit. Or everyone is watching the Olympics :-) I am working on documentation and building the unit/volume tests for future use in regression testing with new releases &#x2013; which is a fair amount of work&#x2026;</p><p>I had a new idea about possible use of the Theorem Loader. Because it provides a "sandboxing" capability with persistent data storage across GUI sessions for new and updated theorems, it would be possible to use mmj2 in teaching. For example, the teacher could create a "base" .mm file containing syntax and axioms, and then assign a number of theorems to the students. Each student could work on the assignment and populate his/her individual MMT Folder with the theorems and proofs without having to modify to original .mm file. Assuming that the instructor customizes a mmj2 installation for his assignment, he/she could set up the mmj2 installation so that the students wouldn't need to go through all of  that learning process, just copy a set of files and run it.</p><h1>Status 14-Aug-2008</h1><p>I am continuing my "javadoc" documentation effort for the new code, and tidying up old stuff as I go. This doc effort is nearing completion, then I begin the fairly rigorous unit and volume test effort!</p><p>If you have feedback, please try the "beta" soon. I hope, though not promise, to upload the real release by Sept. 1. Once that is in there will possibly be a need for tweaks, perhaps in usability of the new Theorem Loader enhancement or to provide additional data access methods for the "mmj2 Service" interface (which, speaking of the latter, by the way, is probably the most exciting new feature because it provides the possibility to access the full set of mmj2 features using other languages and systems&#x2026;for example, jython&#x2026;these external systems could be running in  separate processes (with some extra user code) or in the same process.)</p><p>--<a class="local" href="ocat">ocat</a></p><h1>Status 17-Aug-2008</h1><p>I have completed the regression tests against the current production software. Found a couple of fresh bugs too, which I find gratifying because it proves that the methodology works: we create tests exercising each new enhancement and add them to the testing checklist, and then run parallel tests using file comparisons of the new and old output -- lather, rinse and repeat! A few of the file compare differences had to do with the test output itself, such as the order of status messages and changes in the text of messages.</p><p>I have also set up new "unit tests" exercising the Book Manager and the mmj2 Service feature. Now I need to exercise the Theorem Loader in a reasonably complete and systematic way.</p><p>I think I will want to &#x2013; also &#x2013; add a way to generate data for a volume test of the Theorem Loader. For example, output the first 1000 theorems as ".mmt" files and then run the Load Process two ways: once to update the theorems exported as ".mmt" and a second run to add them to an empty .mm file (not empty, but only partially loaded.) Doing these runs with "auditMessages" on will generate significant amounts of output for future regression tests&#x2026;</p><p>I also think I will not be able to resist adding new chapters to the Proof Assistant Tutorial for the Theorem Loader. It is really a great enhancement and having helpful information in the tutorial will be beneficial.</p><p>Needless to say(?), the amount of work involved in doing all of this is really, really huge. Fortunately I have a  task list and can approach each separate task in a  calm, positive frame of mind. I believe the investment to be totally worth it because of the high value I place on Metamath itself, and also, the benefit to me of having code to write (which I love doing.)</p><p>Soon! 9/1 looks very doable unless something bad happens to me or my computer before then&#x2026;</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2Release20080801">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2Release20080801">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2Release20080801">Administration</a></span><span class="time"><br /> Last edited 2008-08-18 02:18 UTC by <a class="author" title="from 66-81-74-186.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2Release20080801">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

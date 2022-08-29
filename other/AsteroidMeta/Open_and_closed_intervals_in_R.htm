@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: Open and closed intervals in R</title><link type="text/css" rel="stylesheet" href="Open_and_closed_intervals_in_R_files/wiki.css"><meta name="robots" content="INDEX,NOFOLLOW"><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss"><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: Open_and_closed_intervals_in_R" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=Open_and_closed_intervals_in_R"></head>
+<body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=Open+and+closed+intervals+in+R">Open and closed intervals in R</a></h1></div><div class="content browse"><p>Hi Norm,</p><p>we
+have recently spoken by mail of open and closed intervals in RR. I have
+just come across a beautifully written manual about topology (<a class="url" href="http://uob-community.ballarat.edu.au/%7Esmorris/topbookchap1-9.pdf">http://uob-community.ballarat.edu.au/~smorris/topbookchap1-9.pdf</a>).
+The chapter 2 is about "euclidean topology" and I think it may be
+interesting to add these theorems to have a concrete and useful example
+of a topology. You had proposed me to add open and closed intervals in
+set.mm and I think that in fact I have now a large set of theorems that
+use these notions so if you have found a solution to the problem of
+notation we had spoken of I would be pleased to use them.</p><p>You had
+asked me it I had an example of the [ a , b [ notation. I have checked
+and you can find some in Bourbaki's volume dealing with set theory. I
+can find the exact reference if you need it.</p><p>– <a class="local" href="fl">fl</a> 22-Dec-2006</p><p>There
+would be 4 new definitions. I don't like Bourbaki's "]1,5]" instead of
+"(1,5]" because it is hardly ever used and is probably considered
+obsolete. If we want to use the operation notation (recommended because
+it already has a large collection of theorems), offhand I can think of
+5 possible notations for set.mm:</p><pre>  ( A (...) B )   ( A (..) B )   ( A (.) B )   ( A (,) B )   ( A () B )
+  ( A (...] B )   ( A (..] B )   ( A (.] B )   ( A (,] B )   ( A (] B )
+  ( A [...) B )   ( A [..) B )   ( A [.) B )   ( A [,) B )   ( A [) B )
+  ( A [...] B )   ( A [..] B )   ( A [.] B )   ( A [,] B )   ( A [] B )</pre><p>I
+would be interested in opinions as to what notation people like the
+best. Picking the first notation arbitrarily, the new operations would
+be defined as follows:</p><pre> df-ioo $a |- (...) = { &lt;. &lt;. x , y &gt;. , z &gt;. | ( ( x e. RR* /\ y e. RR* )
+                /\ z = { w e. RR* | ( x &lt; w /\ w &lt; y ) } ) } $.</pre><pre> df-ioc $a |- (...] = { &lt;. &lt;. x , y &gt;. , z &gt;. | ( ( x e. RR* /\ y e. RR* )
+                /\ z = ( ( x (...) y ) u. { y } ) } $.</pre><pre> df-ico $a |- [...) = { &lt;. &lt;. x , y &gt;. , z &gt;. | ( ( x e. RR* /\ y e. RR* )
+                /\ z = ( ( x (...) y ) u. { x } ) } $.</pre><pre> df-icc $a |- [...] = { &lt;. &lt;. x , y &gt;. , z &gt;. | ( ( x e. RR* /\ y e. RR* )
+                /\ z = ( ( x (...] y ) u. { x } ) } $.</pre><p>Note that RR* includes +-oo, so we can have ( 1 […) +oo ), etc.</p><p>Some simple theorems would be</p><pre>  ( -oo (...) +oo ) = RR
+  ( -oo [...] +oo ) = RR*
+  ( A e. RR* -&gt; ( A [...] A ) = { A } )
+  ( A e. RR* -&gt; ( A (...) A ) = (/) )</pre><p>If
+we need intervals on QQ, we can intersect it with the RR* interval; I
+doubt they are sufficiently common to justify a separate notation. Two
+theorems for the existing ZZ intervals <a class="url outside" href="http://us.metamath.org/mpegif/df-uz.html">df-uz</a> and <a class="url outside" href="http://us.metamath.org/mpegif/df-fz.html">df-fz</a> would be:</p><pre>   ( M e. ZZ -&gt; ( ZZ&gt; ` M ) = ( ( M [...) +oo ) i^i ZZ ) )
+   ( M e. ZZ /\ N e. ZZ ) -&gt; ( M ... N ) = ( ( M [...] N ) i^i ZZ ) )</pre><p>– <a class="local" href="norm">norm</a> 22 Dec 2006</p><p>P.S. Shouldn't this page be under <a class="local" href="set.mm_discussion">set.mm discussion</a> or has that page been abandoned as a lost cause?</p><p>No obviously we can transfer everything in <a class="local" href="set.mm_discussion">set.mm discussion</a> (I had only thought of this page as a required feature and linked it accordingly). We can also slightly modify the name of <a class="local" href="set.mm_discussion">set.mm discussion</a> in case that our malicious reader is not a human but a script.</p><p>I
+think that in France the [ a , b [ notation is still widely used. But
+in fact I can change my habits. I like ( A (] B ). The simpler, the
+better. – <a class="local" href="fl">fl</a> 22-Dec-2006</p><p>Parentheses
+are not allowed in identifiers in Ghilbert, because of their use in
+S-expressions. I also currently have [] for the quotient operation [ A
+] R. So, if the choice were entirely up to me, I'd choose ]..[ ]..]
+[..[ and [..] for the operation names, with ],[ ],] [,[ and [,] a close
+second (to be consistent with Bourbaki notation). I'm certainly in
+favor of the new operations, exactly as defined above (domain RR*).</p><p>P.S. I'm brewing up a wiki at <a class="url outside" href="http://ghilbert.org/">ghilbert.org</a>, so if the spam problem isn't solved here soon, we will have another viable alternative.</p><p>– <a class="local" href="raph">raph</a> 22 Dec 2006</p><p>I
+prefer ( A (] B ). If people complain that the former is confusing in
+the Metamath program or mmj2, then ( A (,] B ) is my second choice
+because it is a bit more reminiscent of (A,B]. – <a class="local" href="steverod">steverod</a> 22-Dec-2006</p><hr><p>Ooops. I see that "…" is already defined as a class in <i>cfz</i>.</p><p>Also, I see that "(" is already used in <i>wss</i> and <i>wpss</i>, so how does ghilbert handle those?</p><p>Given everything I guess I agree with <a class="local" href="steverod">steverod</a>.</p><p>--<a class="local" href="ocat">ocat</a></p><p>The
+names of wss and wpss have to be rewritten, and, in set_mm.gh, are C_
+and C: respectively. I can certainly do the same for the interval
+operators - it's just a few more entries in tables in the translation
+code. So I am not going to insist that new names be paren-free, just
+record my preference. – <a class="local" href="raph">raph</a></p><p>Me
+too, I replace (_ by C_ because emacs doesn't like extra parentheses. I
+wonder if there is a way to change its behaviour. It doesn't like ( A "
+B ) either but for other reasons. – <a class="local" href="fl">fl</a> 232-Dec-2006</p><p>If
+I were doing set.mm for myself only, I might choose "(]" for its
+simplicity. But I think "(,]" will be easier for some people to
+remember since it is more suggestive of the standard notation. Another
+possibility I thought of is "(.,.]" that may be even more suggestive
+but is longer to type. I am warming to the Bourbaki-inspired "],]"
+since it is compatible with Ghilbert and it has a certain elegance
+because it doesn't mix bracket types. And I hate to think of <a class="local" href="fl">fl</a>
+having to change "(" to "C" all the time, although isn't there a way to
+fix the annoyance in Emacs? But I wish I had more than just the
+Bourbaki reference for its usage to better justify it. Also, I have to
+think slightly harder to recognize that "],]" means "open,closed",
+whereas with "(,]" my recognition is instant - a matter of familiarity
+I suppose. Bottom line, I haven't decided yet, but in a day or two I'll
+pick one just to get it into set.mm. It is trivial to change with a
+simple global substitution, if further pro/con arguments merit. Overall
+I don't feel too strongly about any particular choice as long as most
+people are OK with it. By the way, I appreciate the opinions that have
+been offered. – <a class="local" href="norm">norm</a> 24 Dec 2006</p><dl class="quote"><dt></dt><dd>Perhaps
+most interesting is that ],] and the like don't need the Shift key.
+(non-US non-QWERTY keyboards may vary) The American side of me still
+prefers (] though. :) --<a class="local" href="steverod">steverod</a> 24 Dec 2006</dd></dl><hr><p>Although
+part of me likes the "[,[" notation, I have finally decided against it,
+for now, unless there is some strenous objection.</p><ul><li>I couldn't find an English-language text that uses it (other than Bourbaki translated from French).</li><li>If
+we use "[,)", then Ghilbert will be "forced" to include a special-case
+exception for the set.mm translation, while the issue is still fresh in
+our minds, and presumably there will be no harm if we switch to "[,["
+later. On the other hand, if we use "[,[" now and switch to "[,)"
+later, then the Ghilbert translation will hiccup unexpectedly after
+this discussion has been long forgotten.</li><li>But the following was
+probably the deciding factor for me: when I was putting "[,[" into
+set.mm to get a feel for it, I forgot whether it meant "[,)" or "(,]"!
+Intuitively it seems that "[" on the right-hand side would indicate
+that the interval "goes further" than "]" would indicate, so one would
+think that the greater extent of the right-hand "[" means "includes the
+endpoint" and the lesser extent of right-hand "]" means "doesn't
+include the endpoint". I became so confused I had to look it up to get
+it right, and some people (who don't have the advantage of a French or
+German education) might be similarly confused. In contrast, it seems
+visually apparent that a right-hand "]" "includes more" than a
+right-hand ")".</li></ul><p>In a day or so, I'll put some starting
+theorems in set.mm. From there, I will let other people add additional
+theorems, if they are interested. – <a class="local" href="norm">norm</a> 26 Dec 2006</p></div><div class="footer"><hr><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=Open_and_closed_intervals_in_R">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=Open_and_closed_intervals_in_R">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=Open_and_closed_intervals_in_R">Administration</a></span><span class="time"><br> Last edited 2006-12-26 22:09 UTC by <a class="author" title="from 209-6-248-89.c3-0.lex-ubr2.sbo-lex.ma.cable.rcn.com" href="norm">norm</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=Open_and_closed_intervals_in_R">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="multipart/form-data">
+<p>Search: <input name="search" size="20" accesskey="f" type="text"> <input name="dosearch" value="Go!" type="submit"></p></form></div>
+</body></html>

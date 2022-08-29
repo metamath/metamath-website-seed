@@ -1,0 +1,42 @@
+
+
+
+
+
+/*
+     FILE ARCHIVED ON 3:08:04 Jan 4, 2011 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 17:12:34 Jul 10, 2016.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+table 
+{
+	background-color: rgb(238,255,250);
+	border-collapse: collapse;
+	border: 2px ridge;
+}
+td
+{
+	padding: 1px 3px 1px 3px;
+	border: 2px ridge;
+}
+.tok 
+{
+	display: inline;
+	vertical-align: baseline;
+	border: none;
+}
+.tok td 
+{
+	text-align: center;
+	padding: 0px;
+	border: none;
+	cursor: default;
+}
+.tok > tbody:hover
+{
+	background-color: white;
+}
+a img { border: none }

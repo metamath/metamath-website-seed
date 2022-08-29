@@ -1,0 +1,615 @@
+% The following warnings occur throughout when I compile with pdflatex.
+% They don't seem to affect the output significantly.
+%
+%
+% LaTeX Font Warning: Font shape `U/msa/m/n' in size <19.907> not available
+% (Font)              size <20.74> substituted on input line 39.
+%
+% ! pdfTeX warning (ext4): destination with the same identifier (name{page.0}) ha
+% s been already used, duplicate ignored
+% <to be read again>
+%                    \penalty
+% l.802 \end{slide}
+%                   [26] (./megillaward2005.aux)
+%
+% LaTeX Font Warning: Size substitutions with differences
+% (Font)              up to 0.83301pt have occurred.
+%
+% LaTeX Warning: There were multiply-defined labels.
+
+
+
+
+\documentclass{slides}
+
+%page size
+\usepackage{anysize}
+\papersize{8in}{11in}
+%left,right,top,bottom
+%\marginsize{0.4706in}{0.4706in}{0.476in}{0.4706in}
+\marginsize{1in}{1in}{0.2in}{1in}
+
+\usepackage{color}
+%\definecolor{mint}{rgb}{.933,1,.98}
+\definecolor{mint}{rgb}{.960784,.996078,.976470}
+\definecolor{darkgreen}{rgb}{0,.7,0}
+\definecolor{lightgray}{gray}{0.75}
+\definecolor{mscolor}{rgb}{1.0,0,0}
+\definecolor{orange}{rgb}{1.0,0.5,0}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+
+% http://www.misojiro.t.u-tokyo.ac.jp/~kuroky/suribt/hyperref_options.pdf
+\usepackage[bookmarks=false]{hyperref}
+
+\begin{document}
+\raggedright
+\pagecolor{mint}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{\LARGE Emulating Hilbert's Epsilon in ZFC}}\\
+\vspace{3ex}
+{\large Norman Megill}\\
+\vspace{1ex}
+\textcolor{darkgreen}{\texttt{nm{}@{}alum.mit.edu\qquad
+\url{http://metamath.org}}}\\
+\vspace{1ex}
+August 12, 2005
+\end{center}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Hilbert's epsilon calculus}}
+\end{center}
+
+
+Hilbert's epsilon calculus is described at
+\url{http://plato.stanford.edu/entries/epsilon-calculus/}.
+The term ``\textcolor{red}{$\varepsilon x \varphi$}'' denotes ``some $x$ satisfying
+wff $\varphi$.''
+
+The {\em Transfinite Axiom} is the basic axiom
+needed for the epsilon calculus:
+\begin{eqnarray}
+\varphi \to [\varepsilon x \varphi / x] \varphi
+\end{eqnarray}
+where $x$ is free in $\varphi$ and $[A / x]\varphi$ denotes
+the proper substitution of class-term $A$ for $x$ in $\varphi$.
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Motivation}}
+\end{center}
+
+Theorem provers such as HOL use the epsilon calculus extensively as a
+proving tool.  Our goal is to be able to translate such proofs
+into a form that can be verified by a ZFC-only proof verifier.
+
+Discussion: \url{http://ghilbert.org/choice.txt}
+
+While the Transfinite Axiom represents a form of the Axiom of Choice,
+ZFC cannot express it directly.  ZFC can, however, prove the same
+epsilon-free theorems as the epsilon calculus.  {\bf We will show a practical
+algorithm that can translate an epsilon-calculus proof
+(of an epsilon-free theorem) to a ZFC-only
+proof.}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{The trivial case of Hilbert's epsilon}}
+\end{center}
+
+If there is exactly one element such that a property $\varphi$
+ is true,
+we can express ``the (unique) element such that
+       $\varphi$'' (usually called ``iota'')
+ as ``$\bigcup \{ x | \varphi \}$,'' which
+emulates Hilbert's epsilon.  Hilbert's Transfinite
+Axiom can be easily emulated using this ZFC theorem:
+\begin{eqnarray}  %reuuni4
+ \exists{!} x \varphi \rightarrow [ \bigcup \{ x | \varphi
+\} / x ] \varphi   \label{reuuni4}
+\end{eqnarray}
+
+To use it, just detach $\exists{!} x \varphi$ and add the
+antecedent $\varphi$ to obtain the Transfinite Axiom instance.
+So, assuming $\exists{!} x \varphi$,
+\begin{eqnarray}
+  \varphi \rightarrow [ \bigcup \{ x | \varphi
+\} / x ] \varphi
+\end{eqnarray}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{The ZFC axioms}}
+\end{center}
+\begin{eqnarray}
+\mbox{(Ext)}\ \forall z ( z \in x \leftrightarrow z \in y ) \rightarrow x = y & &
+\label{ax-ext}
+\end{eqnarray}
+\begin{eqnarray}
+\mbox{(Rep)}\ \forall w \exists y \forall z ( \forall y \varphi \rightarrow z = y )
+\rightarrow \exists y \forall z ( z \in y \leftrightarrow \exists w ( w \in x
+\wedge \forall y \varphi ) ) & & \ \
+\label{ax-rep}
+\end{eqnarray}
+\begin{eqnarray}
+\mbox{(Un)}\ \exists y \forall z ( \exists w ( z \in w \wedge w \in x ) \rightarrow z
+\in y)  & &
+\label{ax-un}
+\end{eqnarray}
+\begin{eqnarray}
+\mbox{(Pow)}\ \exists y \forall z ( \forall w ( w \in z \rightarrow w \in x )
+\rightarrow z \in y)  & &
+\label{ax-pow}
+\end{eqnarray}
+\begin{eqnarray}
+\mbox{(Reg)}\ \exists y \,y \in x \rightarrow \exists y ( y \in x \wedge \forall z (
+z \in y \rightarrow \lnot z \in x ) )   & &
+\label{ax-reg}
+\end{eqnarray}
+\begin{eqnarray}
+\mbox{(Inf)}\ \exists y ( x \in y \wedge \forall z ( z \in y \rightarrow \exists w ( z
+\in w \wedge w \in y ) ) )  & &
+\label{ax-inf}
+\end{eqnarray}
+\begin{eqnarray}
+\lefteqn{\mbox{(AC)}\ \exists y \forall z \forall w ( ( z \in w
+\wedge w \in x ) \rightarrow} \nonumber \\
+& & \exists v \forall u ( \exists t ( ( u \in w \wedge w \in t )
+ \wedge ( u \in t
+\wedge t \in y ) ) \leftrightarrow u = v ))
+\label{ax-ac}
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Just for fun}}
+\end{center}
+
+A very short version of the Axiom of Infinity, using only elementary
+symbols ($\subset$ is proper subset):
+\begin{eqnarray}
+\exists x \,x \subset \bigcup x \label{inf5}
+\end{eqnarray}
+
+If we allow restricted quantifiers and $\exists !$, the Axiom of
+Choice with only
+one propositional connective:
+\begin{eqnarray}
+\exists y \forall z \in x \forall w \in z \exists{!} v \in z \exists u
+\in y ( z \in u \wedge v \in u ) \label{ac2}
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Definitions for set theory (1 of 5)}}
+\end{center}
+
+We assume you know:  virtual classes,
+subset, power class ${\cal P} x$, empty set
+$\varnothing$, universe $V$, unordered and ordered pairs, class builder,
+union and intersection (small and big), Cartesian (cross) product,
+binary relations.
+
+Capital letters $A$, $B$, $F$, $R$ are variables ranging
+over classes (which may be proper).
+Small letters $x$, $y$, $z$, $w$, $f$, $g$, etc. range over sets and are the
+individual variables of the first-order logic.
+
+Define ``$R$ is a founded relation on (possibly proper) class $A$.''
+\begin{eqnarray}
+\textcolor{red}{R \,{\rm Fr}\, A} & {\buildrel\rm def\over \leftrightarrow} & \forall x ( ( x \subseteq A \wedge \lnot
+x = \varnothing ) \rightarrow \exists y \in x \forall z \in x \lnot z \,R \,y
+)   \label{df-fr}
+\end{eqnarray}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Definitions for set theory (2 of 5)}}
+\end{center}
+
+Define ``$R$ well-orders $A$.''
+\begin{eqnarray}
+\textcolor{red}{ R \,{\rm We}\, A} & {\buildrel\rm def\over \leftrightarrow} &
+( R \,{\rm Fr}\, A \wedge \forall x \in A
+\forall y \in A ( x \,R \,y \vee x = y \vee y \,R \,x ) )\ \ \ \label{dfwe2}
+\end{eqnarray}
+Define ``$A$ is a transitive class.''
+\begin{eqnarray}
+\textcolor{red}{ {\rm Tr}\, A} &
+ {\buildrel\rm def\over \leftrightarrow} & \bigcup A \subseteq A  \label{df-tr}
+\end{eqnarray}
+Define the epsilon relation.
+\begin{eqnarray}
+\textcolor{red}{E} & {\buildrel\rm def\over =} &  \{ \langle x , y \rangle | x \in y \}
+\label{df-eprel}
+\end{eqnarray}
+Define ``$A$ is an ordinal class.''
+\begin{eqnarray}
+\textcolor{red}{ {\rm Ord}\, A} & {\buildrel\rm def\over \leftrightarrow} &
+ {\rm Tr}\, A \wedge E\, {\rm We}\, A  \label{df-ord}
+\end{eqnarray}
+Define the class of all ordinals.
+\begin{eqnarray}
+\textcolor{red}{{\rm On}} & {\buildrel\rm def\over =} &
+ \{ x | {\rm Ord}\, x \}  \label{df-on}
+\end{eqnarray}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Definitions for set theory (3 of 5)}}
+\end{center}
+
+Define ``$A$ is a limit ordinal.''
+\begin{eqnarray}
+\textcolor{red}{ {\rm Lim}\, A} & {\buildrel\rm def\over \leftrightarrow} &
+ {\rm Ord} A \wedge \lnot A = \varnothing
+\wedge A = \bigcup A  \label{df-lim}
+\end{eqnarray}
+Define the successor of a class $A$.
+\begin{eqnarray}
+\textcolor{red}{{\rm suc}\, A} & {\buildrel\rm def\over =} &
+  A \cup \{ A \}  \label{df-suc}
+\end{eqnarray}
+Define the domain of a class.
+\begin{eqnarray}
+\textcolor{red}{{\rm dom}\, A} & {\buildrel\rm def\over =} &
+  \{ x | \exists y \,x \,A \,y \} \label{df-dm}
+\end{eqnarray}
+Define the range of a class.
+\begin{eqnarray}
+\textcolor{red}{{\rm ran}\, A} & {\buildrel\rm def\over =} &  \{ y | \exists x
+ \,x \,A \,y \}  \label{dfrn2}
+\end{eqnarray}
+Define the restriction of a class.
+\begin{eqnarray}
+\textcolor{red}{( A \restriction B )} & {\buildrel\rm def\over =} &
+   A \cap ( B \times V )   \label{df-res}
+\end{eqnarray}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Definitions for set theory (4 of 5)}}
+\end{center}
+
+Define the image of a class.
+\begin{eqnarray}
+\textcolor{red}{( A `` B )} & {\buildrel\rm def\over =} &
+ {\rm ran} ( A \restriction B ) \label{df-ima}
+\end{eqnarray}
+Define the value of a function.  (Applies to any class $F$).
+\begin{eqnarray}
+\textcolor{red}{( F ` A )} & {\buildrel\rm def\over =} &
+ \bigcup \{ x | ( F `` \{ A \} ) = \{ x \} \} \label{df-fv}
+\end{eqnarray}
+Define ``$A$ is a relation.''
+\begin{eqnarray}
+\textcolor{red}{ {\rm Rel}\, A} & {\buildrel\rm def\over \leftrightarrow} &
+ A \subseteq ( V \times V ) \label{df-rel}
+\end{eqnarray}
+Define ``class $A$ is a function.''
+\begin{eqnarray}
+\textcolor{red}{ {\rm Fun}\, A} & {\buildrel\rm def\over \leftrightarrow} &
+ {\rm Rel}\, A \wedge \forall x \exists z
+\forall y ( x \,A \,y \rightarrow y = z )  \label{dffun3}
+\end{eqnarray}
+Define ``class $A$ is a function with domain $B$.''
+\begin{eqnarray}
+\textcolor{red}{ A \,{\rm Fn}\, B} & {\buildrel\rm def\over \leftrightarrow} &
+  {\rm Fun}\, A \wedge {\rm dom}\, A = B   \label{df-fn}
+\end{eqnarray}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Definitions for set theory (5 of 5)}}
+\end{center}
+
+Define a recursive definition generator on ${\rm On}$
+ with characteristic function $F$ and initial value $A$.
+\begin{eqnarray}
+\lefteqn{\textcolor{red}{{\rm rec} ( F , A )} \ \  {\buildrel\rm def\over =}
+ \ \ \bigcup \{ f | \exists x \in {\rm On} ( f \,{\rm Fn}\,
+x \wedge \forall y \in x ( f ` y ) =} \nonumber \\
+& & ( \{ \langle g , z \rangle | ( ( g =   \varnothing \wedge z = A ) \nonumber \\
+& & \vee ( \lnot ( g = \varnothing  \vee {\rm Lim}\,  {\rm dom}\, g )
+\wedge \nonumber z = ( F ` ( g ` \bigcup {\rm dom}\,
+ g ) ) )  \\
+& &  \vee ( {\rm Lim}\,  {\rm dom}\, g \wedge z = \bigcup {\rm ran}\,
+ g ) ) \} ` ( f \restriction y ) ) ) \}  \label{dfrdg2}
+\end{eqnarray}
+Define the cumulative hierarchy of sets function $R_1$.
+\begin{eqnarray}
+\textcolor{red}{R_1} & {\buildrel\rm def\over =} &  {\rm rec} ( \{ \langle x , y \rangle | y = {\cal P} x \} ,
+\varnothing ) \label{df-r1}
+\end{eqnarray}
+Define the rank function.
+\begin{eqnarray}
+\textcolor{red}{{\rm rank}} & {\buildrel\rm def\over =} &
+\{ \langle x , y \rangle | y = \bigcap \{ z \in {\rm On} |
+x \in ( R_1 ` {\rm suc}\, z ) \} \} \label{df-rank}
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+
+\begin{center}
+\textcolor{blue}{\textbf{The Main Theorem!}}
+\end{center}
+
+Recall our goal:  we want to emulate Hilbert's epsilon $\varepsilon x
+\varphi$.
+
+We define two class variables $A$ and $B$,
+where $y$ is not free in $\varphi$:
+\begin{eqnarray}
+ A & = & \{ x | ( \varphi \wedge \forall y ( [ y / x ] \varphi \rightarrow (
+{\rm rank} ` x ) \subseteq ( {\rm rank} ` y ) ) ) \} \\
+B & = & \bigcup \{ x \in A | \forall y \in A \,\lnot y \,R \,x \}
+\end{eqnarray}
+Then the following theorem of ZFC emulates Hilbert's Transfinite
+Axiom, with the additional antecedent ``$R \,{\rm We}\, A$'':
+\begin{eqnarray}
+%\mbox{(HTA)} \qquad
+  R \,\,{\rm We}\,\, A \rightarrow ( \varphi \rightarrow [ B / x ] \varphi )
+    \label{hta}
+\end{eqnarray}
+Class $B$ emulates Hilbert's epsilon!
+
+\small{(Note: In English,
+$A$ is the collection of all sets of minimum rank
+with property $\varphi$.  $B$ is the smallest member of $A$ w.r.t.
+some well-ordering relation $R$.)}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Two key auxilliary theorems}}
+\end{center}
+
+{\em Well-ordering theorem} (derived from the Axiom of Choice):  for any
+set $x$, there exists a set $y$ s.t. $y$ well-orders $x$.
+\begin{eqnarray}
+\exists y \,y \,{\rm We}\, x  \label{weth}
+\end{eqnarray}
+
+
+{\em Scott's trick} collects all sets that have a certain property and are of
+smallest possible rank.  The following amazing
+theorem shows that the resulting
+collection exists, i.e. is a set.
+\begin{eqnarray}
+ \{ x | ( \varphi \wedge \forall y ( [ y / x ] \varphi \rightarrow (
+{\rm rank} ` x ) \subseteq ( {\rm rank} ` y ) ) ) \} \in V  \label{scottexs}
+\end{eqnarray}
+where $y$ is not free in $\varphi$.  In other words, the class $A$
+on the previous slide is a set, which is crucial for the well-ordering
+theorem to work!
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{The algorithm - case 1}}
+\end{center}
+
+Suppose the set $A$ in Theorem~\ref{hta} has a constructible well-ordering
+(rather than just the existence implied by Theorem~\ref{weth}).
+For example,
+ $A$ might be a subset of the natural
+numbers.  In that case, we
+simply substitute the well-ordering in place of $R$ and
+ detach $R \,\,{\rm We}\,\, A$.  The result is the necessary
+instance of Hilbert's
+Transfinite Axiom.  I.e. if we can find an $R$ s.t. we
+can prove $R \,\,{\rm We}\,\, A$,
+then (from Th.~\ref{hta})
+\begin{eqnarray}
+%\mbox{(HTA)} \qquad
+   \varphi \rightarrow [ B / x ] \varphi
+\end{eqnarray}
+Note that the trivial case of unique existence, discussed at the
+beginning of this talk, is also covered by case 1, although
+Theorem~\ref{reuuni4} may be preferred for simplicity.
+
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{The algorithm - case 2}}
+\end{center}
+
+Suppose the set $A$ in Theorem~\ref{hta} does not have a constructible
+well-ordering.  We substitute a temporary dummy variable, say $w$, for
+$R$ in Theorem~\ref{hta}.  In each step in the epsilon-calculus proof
+referencing the Transfinite Axiom, we replace the Transfinite Axiom by
+Theorem~\ref{hta} with a temporary dummy variable, say $w$, for $R$, and
+carry along in the proof the extra antecedent $w\,{\rm We}\, A$ in each
+step containing a reference to $B$ (the object that emulates Hilbert's
+epsilon).  Note that $B$ will have $w$ as a free variable, so this
+antecedent cannot be eliminated.  But since the final theorem is
+epsilon-free, at the end we can existentially quantify $w\,{\rm We}\, A$
+then detach it with the Well-Ordering Theorem~\ref{weth}.
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+\textcolor{blue}{\textbf{The algorithm - case 2 - continued}}
+\end{center}
+
+\begin{tabbing}
+\textbf{Epsilon-}\=\textbf{calculus proof}    \=  \hspace{2em} \=
+                     \textbf{ZFC} \= \textbf{proof}         \\
+    \>  $\vdots$            \>       \>    \>  $\vdots$                  \\
+  $ \varphi \to [\varepsilon x \varphi / x] \varphi$  \> \>  \>
+              $w \,\,{\rm We}\,\, A \rightarrow ( \varphi
+                                  \rightarrow [ B(w) / x ] \varphi )$  \\
+    \>  $\vdots$            \>       \>    \>  $\vdots$                  \\
+  (manipulate $\varepsilon x \varphi$)  \> \>  \>
+              (manipulate $B(w)$)  \\
+    \>  $\vdots$            \>       \>    \>  $\vdots$                  \\
+  ($\varepsilon x \varphi$-free result)   \> \>  \>
+              $w \,\,{\rm We}\,\, A \rightarrow$
+                             ($B(w)$-free result)  \\
+                                \> \>  \>
+              $\exists w \,w \,\,{\rm We}\,\, A \rightarrow$
+                             ($B(w)$-free result)  \\
+                                \> \>  \>
+                             ($B(w)$-free result)  \\
+    \>  $\vdots$            \>       \>    \>  $\vdots$                  \\
+\end{tabbing}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Appendix - Equation references}}
+\end{center}
+
+The following list provides the hyperlinks to the formal proofs
+for most of the theorems.
+
+Eq.~\ref{reuuni4}---\url{http://us.metamath.org/mpegif/reuuni4.html}     \\
+Eq.~\ref{ax-ext}---\url{http://us.metamath.org/mpegif/ax-ext.html} \\
+Eq.~\ref{ax-rep}---\url{http://us.metamath.org/mpegif/ax-rep.html} \\
+Eq.~\ref{ax-un}---\url{http://us.metamath.org/mpegif/ax-un.html} \\
+Eq.~\ref{ax-pow}---\url{http://us.metamath.org/mpegif/ax-pow.html}
+Eq.~\ref{ax-reg}---\url{http://us.metamath.org/mpegif/ax-reg.html} \\
+Eq.~\ref{ax-inf}---\url{http://us.metamath.org/mpegif/ax-inf.html} \\
+Eq.~\ref{ax-ac}---\url{http://us.metamath.org/mpegif/ax-ac.html} \\
+Eq.~\ref{inf5}---\url{http://us.metamath.org/mpegif/inf5.html} \\
+Eq.~\ref{ac2}---\url{http://us.metamath.org/mpegif/ac2.html} \\
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+Eq.~\ref{df-fr}---\url{http://us.metamath.org/mpegif/df-fr.html} \\
+Eq.~\ref{dfwe2}---\url{http://us.metamath.org/mpegif/dfwe2.html} \\
+Eq.~\ref{df-tr}---\url{http://us.metamath.org/mpegif/df-tr.html} \\
+Eq.~\ref{df-eprel}---\url{http://us.metamath.org/mpegif/df-eprel.html} \\
+Eq.~\ref{df-ord}---\url{http://us.metamath.org/mpegif/df-ord.html} \\
+Eq.~\ref{df-on}---\url{http://us.metamath.org/mpegif/df-on.html} \\
+Eq.~\ref{df-lim}---\url{http://us.metamath.org/mpegif/df-lim.html} \\
+Eq.~\ref{df-suc}---\url{http://us.metamath.org/mpegif/df-suc.html} \\
+Eq.~\ref{df-dm}---\url{http://us.metamath.org/mpegif/df-dm.html} \\
+Eq.~\ref{dfrn2}---\url{http://us.metamath.org/mpegif/dfrn2.html} \\
+Eq.~\ref{df-res}---\url{http://us.metamath.org/mpegif/df-res.html} \\
+Eq.~\ref{df-ima}---\url{http://us.metamath.org/mpegif/df-ima.html} \\
+Eq.~\ref{df-fv}---\url{http://us.metamath.org/mpegif/df-fv.html}
+Eq.~\ref{df-rel}---\url{http://us.metamath.org/mpegif/df-rel.html} \\
+Eq.~\ref{dffun3}---\url{http://us.metamath.org/mpegif/dffun3.html} \\
+Eq.~\ref{df-fn}---\url{http://us.metamath.org/mpegif/df-fn.html} \\
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+Eq.~\ref{dfrdg2}---\url{http://us.metamath.org/mpegif/dfrdg2.html} \\
+Eq.~\ref{df-r1}---\url{http://us.metamath.org/mpegif/df-r1.html} \\
+Eq.~\ref{df-rank}---\url{http://us.metamath.org/mpegif/df-rank.html} \\
+Eq.~\ref{hta}---\url{http://us.metamath.org/mpegif/hta.html} \\
+Eq.~\ref{weth}---\url{http://us.metamath.org/mpegif/weth.html}           \\
+Eq.~\ref{scottexs}---\url{http://us.metamath.org/mpegif/scottexs.html}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
+

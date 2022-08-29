@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns="http://purl.org/rss/1.0/"
+ xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+ xmlns:wiki="http://purl.org/rss/1.0/modules/wiki/"
+ xmlns:admin="http://webns.net/mvcb/"
+>
+
+<channel rdf:about="/RecentChanges">
+<title>AsteroidMeta</title>
+<link>/RecentChanges</link>
+<description></description>
+<dc:date>2008-11-15T14:19 UTCZ</dc:date>
+<wiki:interwiki></wiki:interwiki>
+<items>
+ <rdf:Seq>
+ </rdf:Seq>
+</items>
+</channel>
+
+</rdf:RDF>

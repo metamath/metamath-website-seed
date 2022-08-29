@@ -1,0 +1,488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Metamath Screenshots</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=left VALIGN=top WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif> <A
+HREF="index.html"><IMG SRC="mm.gif" BORDER=0 ALT="Metamath Home"
+HEIGHT=32 WIDTH=32 ALIGN=LEFT>Metamath<BR>Home</A></FONT></TD>
+
+<TD NOWRAP ALIGN=center><FONT SIZE="+3" COLOR="#006633"><B>Metamath
+Screenshots</B></FONT> </TD>
+
+<TD ALIGN=right VALIGN=top WIDTH="25%">&nbsp;</TD>
+
+</TR></TABLE>
+
+<P><TABLE WIDTH="100%" BORDER=0><TR><TD>
+
+If you have created a Metamath syntax highlighting file for another
+editor, let <A HREF="../email.html">me</A> know so that I can add it to
+this page.
+
+<HR NOSHADE SIZE=1>
+
+<B><FONT COLOR="#006633">Contents of this page</FONT></B>
+
+<UL>
+<LI> <A HREF="#vstudio">Visual Studio</A></LI>
+<LI> <A HREF="#kate">Kate Editor</A></LI>
+<LI> <A HREF="#kedit">KEDIT Editor</A></LI>
+<LI> <A HREF="#vim">Vim and gVim Editors</A></LI>
+<LI> <A HREF="#jedit">jEdit Editor</A></LI>
+<LI> <A HREF="#gedit">gedit Editor</A></LI>
+<LI> <A HREF="#grease">Firefox Greasemonkey script for the Metamath web
+site</A></LI>
+<LI> <A HREF="#palm">Palm PDA</A></LI>
+<LI> <A HREF="#mnem">Mnemosyne</A></LI>
+</UL>
+
+</TD><TD ALIGN=right VALIGN=TOP>
+
+<!-- witty quote goes here
+<FONT COLOR="#006633"><I>
+Works in ALL browsers I have tried!
+</I><BR>
+
+&mdash;Ian G. Clark, Ph.D.
+</FONT>
+-->  &nbsp;
+
+</TD></TR></TABLE>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="vstudio"></A><B><FONT
+COLOR="#006633">Visual Studio</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+Xuanji Li published a
+<A HREF="https://marketplace.visualstudio.com/items?itemName=xuanji.metamath-syntax-highlighting">
+Visual Studio Code extension</A> [retrieved 1-Sep-2019]
+to support Metamath syntax highlighting. (Added 1-Sep-2019.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen_vstudio.jpg"
+ALT="Visual Studio screenshot"
+TITLE="Visual Studio screenshot (courtesy of Xuanji Li)"
+WIDTH=800 HEIGHT=444>
+</CENTER>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="kate"></A><B><FONT
+COLOR="#006633">Kate Editor</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+The <A HREF="https://kate-editor.org/">Kate editor</A> [retrieved 1-Sep-2019] now has
+built-in Metamath
+syntax highlighting for *.mm files.  Note "Metamath" in
+the lower right-hand corner. (Added 1-Sep-2018.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen_kate.png"
+ALT="Kate editor screenshot"
+TITLE="Kate editor screenshot (courtesy of Wolf Lammen)"
+WIDTH=811 HEIGHT=830>
+</CENTER>
+
+
+<HR NOSHADE SIZE=1><A NAME="kedit"></A><B><FONT
+COLOR="#006633">KEDIT Editor</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+This is a screenshot of the ASCII database file "set.mm" (contained in the
+<A HREF="index.html#mmprog">Metamath program</A> download).  For
+efficiency, the proofs in set.mm are typically stored in a compressed
+format that is hard for humans to read directly.  (But if you want to
+try, the precise specification of the compressed format is given in
+Appendix B, p. 157, of the <A HREF="index.html#book"><I>Metamath</I>
+book</A>.)  The Metamath program is used to work with the proofs and can
+display them in several different ways, such as the web page <A
+HREF="mpegif/2eu5.html">2eu5</A>, which was generated with the command
+"show statement 2eu5 /html".  The markup syntax for symbols, cross
+references, and bibliographic references in comments is described under
+the Metamath program commands "help language" and "help html".
+
+<!--
+~ 2eu4 means a cross reference to theorem 2eu4.  The space before and
+after '2eu4' make global editor searches and substitutions easier.
+
+` E! x E! y ` means to typeset the symbols between the backquotes.
+Again, spaces around the backquotes make editor searches easier.
+-->
+<P><FONT SIZE="-1"></FONT>
+
+<P>
+<CENTER>
+<IMG SRC="_screen1.png"
+ALT="Screenshot of theorem 2eu5 from set.mm in a text editor"
+WIDTH=619 HEIGHT=465>
+</CENTER>
+
+<P>
+
+
+<P><FONT SIZE=-1><FONT COLOR="#006633"><B>Notes</B></FONT> &nbsp;&nbsp;&nbsp; The
+monospaced font in the editor screen is 8-point Andale Mono.  The KEDIT
+editor is a product of the Mansfield Software Group.  The syntax
+coloring is specified by a file called mm.kld, which is placed in
+KEDIT's USER directory.</FONT>
+
+<P><CENTER><TABLE BORDER=0 CELLSPACING=0 CELLPADDING=5
+BGCOLOR="#F0F0F0"><TR><TD NOWRAP ALIGN=LEFT>
+
+<FONT SIZE=-1><TT>
+
+* MM.KLD - KEDIT Language Definition for .mm (Metamath) files<BR>
+:case<BR>
+&nbsp;respect<BR>
+:identifier<BR>
+[a-zA-Z0-9${}.=]   [a-zA-Z0-9${}.=]<BR>
+:comment<BR>
+&nbsp;paired  $(  $)  nonest<BR>
+:keyword<BR>
+&nbsp;${ ALTERNATE 9<BR>
+&nbsp;$} ALTERNATE 9<BR>
+&nbsp;$d ALTERNATE 1<BR>
+&nbsp;$p ALTERNATE 1<BR>
+&nbsp;$v ALTERNATE 1<BR>
+&nbsp;$= ALTERNATE 1<BR>
+&nbsp;$. ALTERNATE 1<BR>
+&nbsp;$a ALTERNATE 1<BR>
+&nbsp;$e ALTERNATE 1<BR>
+&nbsp;$f ALTERNATE 1<BR>
+&nbsp;$c ALTERNATE 1
+
+</TT></FONT></TD></TR></TABLE></CENTER><P>
+
+
+
+<P><HR NOSHADE SIZE=1><A NAME="vim"></A><B><FONT
+COLOR="#006633">Vim and gVim Editors</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+David A. Wheeler created syntax highlighting files for Metamath
+source code in the Vim and gVim editors.
+(Added 7-Jul-2016.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen_vim.png"
+ALT="vim editor screenshot"
+WIDTH=805 HEIGHT=927>
+</CENTER>
+
+<P>
+<CENTER>
+<IMG SRC="_screen_gvim-elflord.png"
+ALT="gvim editor screenshot"
+WIDTH=663 HEIGHT=873>
+</CENTER>
+
+<P>
+
+<P><I>Instructions:</I>
+The README.md at
+<A HREF="https://github.com/david-a-wheeler/vim-metamath">
+https://github.com/david-a-wheeler/vim-metamath</A> [retrieved 1-Sep-2019]
+explains how to install; just copy the files
+(for Unix/Linux into "~/.vim"; for Windows into ""%userprofile%\vimfiles").
+
+
+
+<P><HR NOSHADE SIZE=1><A NAME="jedit"></A><B><FONT
+COLOR="#006633">jEedit Editor</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+Mario Carneiro created syntax highlighting files for Metamath
+source code and mmj2 worksheets for the jEdit editor.
+(Added 3-Jun-2014.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen_metamath-jedit.png"
+ALT="jEdit editor screenshot"
+WIDTH=626 HEIGHT=559>
+</CENTER>
+
+<P>
+<CENTER>
+<IMG SRC="_screen_mmj2-jedit.png"
+ALT="jEdit editor screenshot"
+WIDTH=626 HEIGHT=559>
+</CENTER>
+
+<P>
+
+<P><I>Instructions:</I> The XML files
+<A HREF="downloads/jedit-metamath.xml">jedit-metamath.xml</A> and
+<A HREF="downloads/jedit-mmj2.xml">jedit-mmj2.xml</A>
+ are the edit modes, and
+installation is just like any other jEdit edit mode.  The XML files
+should be dropped into the C:\Program Files (x86)\jEdit 5.1.0\modes
+directory (appropriately modified for your installation directory), then
+the catalog file in this directory should be edited to add the lines:
+
+
+
+
+<P><CENTER><TABLE BORDER=0 CELLSPACING=0 CELLPADDING=5
+BGCOLOR="#F0F0F0"><TR><TD NOWRAP ALIGN=LEFT>
+<TT>
+&lt;MODE&nbsp;NAME="metamath"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILE="jedit-metamath.xml"
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILE_NAME_GLOB="*.mm"/&gt;
+<BR>
+<BR>&lt;MODE&nbsp;NAME="mmj2"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILE="jedit-mmj2.xml"
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILE_NAME_GLOB="*.mmp"/&gt;
+</TT>
+</TD></TR></TABLE></CENTER><P>
+
+which enable interpretation of .mm and .mmp files using these two modes
+respectively.
+
+
+
+<P><HR NOSHADE SIZE=1><A NAME="gedit"></A><B><FONT
+COLOR="#006633">gedit Editor</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+Steven Baldasty wrote a
+<A
+HREF="http://www.bitflippin.org/metamath-syntax-highlighting">Metamath
+syntax highlighting</A> [link broken 1-Sep-2009]
+file for the gedit editor. (Added 3-May-2009.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screengedit.png"
+ALT="gedit editor screenshot"
+WIDTH=658 HEIGHT=525>
+</CENTER>
+
+<P>
+
+<P><I>Instructions:</I> Copy the following code into a file called
+"metamath.lang" (or download it from Steven's site).  Steven writes:
+"With gedit installed, download the metamath.lang attachment and move it
+to the folder where gedit stores its language files.  On my Ubuntu
+laptop for example, I do this:
+
+<PRE>
+        sudo mv metamath.lang /usr/share/gtksourceview-2.0/language-specs
+</PRE>
+
+The next time you open a Metamath database, gedit activates the syntax
+highlighting automatically."
+
+<!-- PRE can't be used inside of LI -->
+<P><CENTER><TABLE BORDER=0 CELLSPACING=0 CELLPADDING=5
+BGCOLOR="#F0F0F0"><TR><TD NOWRAP ALIGN=LEFT>
+<FONT SIZE=-1>
+<TT>
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;<BR>
+&lt;!--<BR>
+<BR>
+&nbsp;Copyright (c) 2009, Steven Baldasty &lt;sbaldasty@gmail.com&gt;<BR>
+<BR>
+&nbsp;Permission to use, copy, modify, and/or distribute this software for any<BR>
+&nbsp;purpose with or without fee is hereby granted, provided that the above<BR>
+&nbsp;copyright notice and this permission notice appear in all copies.<BR>
+<BR>
+&nbsp;Contributors:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Steven Baldasty &lt;sbaldasty@gmail.com&gt;<BR>
+<BR>
+&nbsp;THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES<BR>
+&nbsp;WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF<BR>
+&nbsp;MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR<BR>
+&nbsp;ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES<BR>
+&nbsp;WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN<BR>
+&nbsp;ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF<BR>
+&nbsp;OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.<BR>
+<BR>
+--&gt;<BR>
+&lt;language id="metamath" _name="Metamath" version="2.0" _section="Others"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;metadata&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property name="mimetypes"&gt;text/mm&lt;/property&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property name="globs"&gt;*.mm&lt;/property&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;/metadata&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;styles&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style id="keyword" _name="Keyword" map-to="def:keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style id="comment" _name="Comment" map-to="def:comment"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style id="symbol" _name="Math Symbol" map-to="def:identifier"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style id="label" _name="Label" map-to="def:statement"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style id="include" _name="Path" map-to="def:constant"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;/styles&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;definitions&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="scope" style-ref="keyword"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;match&gt;[$]+[}{]&lt;/match&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="label" style-ref="label"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;match&gt;[A-Za-z0-9\-_.]&lt;/match&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="comment" style-ref="comment"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;start&gt;[$]+[(]&lt;/start&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;end&gt;[$]+[)]&lt;/end&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="start" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="end" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="def:line-continue"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="proof" end-parent="true" style-ref="label"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;start&gt;[$]+[=]&lt;/start&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;end&gt;[$]+[.]&lt;/end&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="start" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="end" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="comment"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="def:line-continue"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="statement" style-ref="symbol"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;start&gt;[$]+[cvdefap]&lt;/start&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;end&gt;[$]+[.]&lt;/end&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="start" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="end" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="comment"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="proof"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="def:line-continue"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="include" style-ref="include"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;start&gt;[$]+[\[]&lt;/start&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;end&gt;[$]+[\]]&lt;/end&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="start" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context sub-pattern="0" where="end" style-ref="keyword"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context id="metamath"&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="scope"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="comment"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="statement"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="label"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context ref="include"/&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/include&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;/definitions&gt;<BR>
+&lt;/language&gt;
+
+</TT></FONT></TD></TR></TABLE></CENTER><P>
+
+<P><HR NOSHADE SIZE=1><A NAME="grease"></A><B><FONT
+COLOR="#006633">Firefox Greasemonkey script for the Metamath web
+site</FONT></B>&nbsp;&nbsp;&nbsp;
+
+Charles Greathouse wrote a script to reformat and simplify the
+"This theorem was proved from axioms:" list on the Metamath Proof
+Explorer web pages. (Added in 2009.)
+
+<P>
+<CENTER>
+<IMG SRC="_screengreasemonkey.png"
+ALT="Greasemonkey script screenshot"
+WIDTH=573 HEIGHT=94>
+</CENTER>
+
+<P>
+
+
+
+<P><I>Instructions:</I> (1) In <A
+HREF="http://www.mozilla.org/">Firefox</A> [retrieved 1-Sep-2019], install the <A
+HREF="https://addons.mozilla.org/en-US/firefox/addon/748">Greasemonkey</A>
+[retrieved 1-Sep-2019] add-on (click "Add to Firefox").  (2) Open the page for the
+<A HREF="http://userscripts.org/scripts/show/48859">beta version of the
+script</A> [link broken 1-Sep-2019] and click "Install".
+
+
+<P><HR NOSHADE SIZE=1><A NAME="palm"></A><B><FONT
+COLOR="#006633">Palm Tungsten E PDA</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+Here is an experimental browser for Metamath on the
+Palm Tungsten E PDA. (Added 13-Oct-2006.)
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen-palmmm.jpg"
+ALT="Screenshot of experimental browser for Palm Tungsten E PDA"
+WIDTH=398 HEIGHT=428>
+</CENTER>
+
+<P>
+
+
+<P><HR NOSHADE SIZE=1><A NAME="mnem"></A><B><FONT
+COLOR="#006633">Mnemosyne screenshot</FONT></B>&nbsp;&nbsp;&nbsp;
+
+
+This is screenshot of the <A HREF="http://mnemosyne-proj.org">Mnemosyne</A>
+[retrieved 1-Sep-2019] learning program, loaded with the output produced by the
+<A HREF="index.html#mmprog">metamath</A> program using
+the command "show statement ax-* /mnemosyne" (courtesy
+of Stefan Allan).
+
+
+<P>
+<CENTER>
+<IMG SRC="_screen-mnemosyne.jpg"
+ALT="Screenshot of Mnemosyne"
+WIDTH=578 HEIGHT=432>
+</CENTER>
+
+<P>
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=left VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD  ALIGN=CENTER><I>This page was last updated on 2-Sep-2018.</I>
+<BR><FONT SIZE=-2 FACE=ARIAL>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A> except the
+"gedit Editor" section, which is Copyright (C) 2009 by Steven Baldasty,
+and any screenshot elements copyrighted by the programs that
+generated them.
+</FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C HTML validation</A>
+</FONT>
+</TD>
+
+</TR></TABLE>
+
+<!-- <SCRIPT SRC="http://www.google-analytics.com/urchin.js" TYPE="text/javascript">
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+_uacct = "UA-1862729-1";
+urchinTracker();
+</SCRIPT>
+-->
+
+</BODY></HTML>

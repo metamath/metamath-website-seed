@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns="http://purl.org/rss/1.0/"
+ xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+ xmlns:wiki="http://purl.org/rss/1.0/modules/wiki/"
+ xmlns:admin="http://webns.net/mvcb/"
+>
+
+<channel rdf:about="/RecentChanges">
+<title>AsteroidMeta</title>
+<link>/RecentChanges</link>
+<description></description>
+<dc:date>2008-11-15T14:19 UTCZ</dc:date>
+<wiki:interwiki></wiki:interwiki>
+<items>
+ <rdf:Seq>
+  <rdf:li rdf:resource="/mmj2StepProver" />
+  <rdf:li rdf:resource="/mmj2" />
+ </rdf:Seq>
+</items>
+</channel>
+
+<item rdf:about="/mmj2StepProver">
+<title>mmj2StepProver</title>
+<link>/mmj2StepProver</link>
+<description>comments on design doc: Sorting LogHyps In ProofSearch (duh)</description>
+<dc:date>2008-11-13T07:18 UTCZ</dc:date>
+<dc:contributor>ocat</dc:contributor>
+<wiki:history>?action=history;id=mmj2StepProver</wiki:history>
+<wiki:importance>major</wiki:importance>
+<wiki:version>11</wiki:version>
+<wiki:status>updated</wiki:status>
+<wiki:diff>?action=browse;diff=1;id=mmj2StepProver</wiki:diff>
+</item>
+
+<item rdf:about="/mmj2">
+<title>mmj2</title>
+<link>/mmj2</link>
+<description>[http://us2.metamath.org:8888/ocat/mmj2/StepProverDoc.zip StepProverDoc.zip] -- documentation and untested source code for Step Prover (README.txt inside explains).</description>
+<dc:date>2008-11-09T15:09 UTCZ</dc:date>
+<dc:contributor>ocat</dc:contributor>
+<wiki:history>?action=history;id=mmj2</wiki:history>
+<wiki:importance>major</wiki:importance>
+<wiki:version>293</wiki:version>
+<wiki:status>updated</wiki:status>
+<wiki:diff>?action=browse;diff=1;id=mmj2</wiki:diff>
+</item>
+
+</rdf:RDF>

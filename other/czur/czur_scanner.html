@@ -1,0 +1,689 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Using the Czur scanner like a flatbed scanner</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+
+<!--
+<style type="text/css">
+@media screen { /* hide from IE3 */ a[href]:hover { background: #ffa } }
+</style>
+<style type="text/css"> a:hover { background: #A6CAF0 } </style>
+<style type="text/css"> a:hover { background: #B2FFE8 } </style>
+<style type="text/css"> a:hover { background: #E2F2DE } </style>
+<style type="text/css"> a:hover { background: #C9FFBC } </style>
+<style type="text/css"> a:hover { background: #D6D6FF }
+<style type="text/css"> TABLE,TD { border-style: ridge } </style>
+-->
+
+<STYLE TYPE="text/css">
+<!--
+/* Math symbol image will be shifted down 4 pixels to align with normal
+  text for compatibility with various browsers.  The old ALIGN=TOP for
+  math symbol images did not align in all browsers and should be deleted.
+  All other images must override this shift with STYLE="margin-bottom:0px".
+  (2-Oct-2015 nm) */
+img { margin-bottom: -4px }
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" STYLE="padding: 0px 8px">
+
+<CENTER>
+<FONT SIZE="+3"><B>Using the Czur ET-16 scanner to emulate a flatbed scanner
+</B></FONT>
+</CENTER>
+
+<CENTER>
+   June 2, 2016
+</CENTER>
+
+<P>Contents of this page:
+<UL>
+<LI><A HREF="#problem">The problem</A></LI>
+<LI><A HREF="#solution">A solution</A></LI>
+<LI><A HREF="#parts">Parts list</A></LI>
+<LI><A HREF="#scan">Instructions for scanning</A></LI>
+<LI><A HREF="#post">Suggestions for post-processing</A>
+
+<UL>
+  <LI><A HREF="#ps7">Some details for Photoshop 7 (June 5, 2016)</A>
+</UL>     </LI>
+
+<LI><A HREF="#quality">Czur scanner quality vs. flatbed scanner quality
+(June 3, 2016)</A></LI>
+<LI><A HREF="#pixels">Resolution of the scanned image
+(June 4, 2016)</A></LI>
+<LI><A HREF="#further">Further comments and suggestions
+(June 4, 2016)</A></LI>
+<LI><A HREF="#surprise">Unpleasant surprise
+(June 12, 2016)</A></LI>
+<LI><A HREF="#conclusion">Conclusion</A></LI>
+
+<LI><A HREF="#user">User comment</A> </LI>
+</UL>
+
+
+<P>External pages:
+<UL>
+<LI><A HREF="http://www.czurtek.net/index.php/tech_support/ET_16">Czurtek
+ ET-16 support</A> [accessed 4-Jun-2016]</LI>
+<LI><A HREF="https://www.indiegogo.com/projects/czur-scanner-build-your-own-digital-library/x/12760865#/comments">Indiegogo
+ comments</A> [accessed 4-Jun-2016]</LI>
+<LI><A HREF="http://www.johnwillis.com/2016/05/czur-scanner-thoughts-and-remedies.html">John
+Willis' blog</A> [accessed 4-Jun-2016]</LI>
+</UL>
+
+<P><A NAME="problem"></A><B>The problem</B>
+
+<P> I received my Czur scanner about 2 weeks ago.  After several
+evenings of frustration with poor results trying to scan books, I was
+about to give up and go back to my reliable but painfully slow flatbed
+scanner.  Maybe I have been spoiled by the professional-level high
+quality of flatbed scanners, but I wanted to achieve the same results
+with the Czur scanner.
+
+<P>The hardware of the Czur scanner is quite nice.  But I have concluded
+that the software just isn't ready for prime time.  I could see it
+taking 6 months to a year or more to be perfected, and I don't want to
+wait that long.
+
+<P>The Books mode tries to flatten the text on curved pages by pointing
+a laser beam at an angle to obtain a curved line corresponding to the
+page curve.  But unless the book is opened in a very particular way, you
+can end up with somewhat wavy lines of text, which is readable but not
+very pleasant or professional-looking.  Also, getting it to recognize
+the edges of the book, especially with your hands holding it open, is
+tenuous and sometimes requires multiple attempts per page (making it
+slower than a flatbed scanner once you add up all time spent carefully
+examining each page to delete and rescan the bad ones and doing manual
+renames to get everything back into sorted order again).  Even when
+everything works more or less as intended, flattened text near the
+steeply sloped middle of facing pages can be slightly blurry because of
+the severe transformation that it undergoes, which may be a problem
+if the font is very small.
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="solution"></A><B>A solution</B>
+
+<P>Fortunately, I have come up with at method that is quite satisfactory
+for people like me who are used to flatbed scanners and have their own
+workflow set up to process the images, i.e. to perform the steps of
+trimming pages, converting to black and white, and doing OCR.  I use
+(the very old) Photoshop 7 for the image processing.  There are also
+free open-source alternatives such as GIMP that will work.
+
+<P>What I'm about to describe is how to trick the Czur into emulating a
+"dumb" flatbed scanner, but with much faster scans than a typical
+flatbed scanner.  This method is intended for black-and-white text.
+For images requiring color, it will work, but the colors may not be
+uniform depending on the lighting.
+
+<P><B>Warning!</B> A physical drawback of this method is the same as
+with a flatbed scanner, which is that the book has to be pressed flat to
+obtain a good result.  This will stress or break the binding on some books
+and certainly  doesn't leave the book in a pristine
+"like new" condition.  It is best used on books you intend to discard
+after scanning or don't mind if they may be damaged.
+
+<P>Because I already have a process set up for my flatbed scanner,
+basically all I need from the scanner is just an unprocessed, plain
+image without "rectifying", "beautifying", "purifying", or any of the
+other "smart" processing options applied.  It appears that
+none of this can be turned off in the software.  I would recommend to
+Czur that future software have a configuration menu that allows features
+to turned off and on selectively (and maybe also explain in the
+manual what they mean).
+
+<P>However, I discovered a trick.  In Books mode (but not in Single
+mode), if you cover up the lasers with a piece of duck tape, it seems
+that it will revert to a "dumb" mode that simply produces the full 4608 x
+3456 camera image with little or no processing.
+
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="parts"></A><B>Parts list</B>
+
+<P>You will need the following items to perform what I will describe:
+
+<OL>
+<LI>A piece of plexiglass to cover the book to press the pages flat.  I
+bought a 10-inch by 14-inch piece at a hardware store for about $12,
+which included cutting it to size.  A larger piece will be needed for
+larger books.
+
+<LI>External lighting.    I used 2 desk lamps, one on each side of black mat.
+
+<LI>A piece of duck tape or other method to cover the scanner's lasers.
+
+<LI>Some stickers to mark where the book
+should be positioned (see Fig. 1-(2) below).
+
+<LI>A couple of crumpled up tissues or napkins, or a soft piece of foam
+rubber to place under the book (see Fig. 1-(5) below).
+</OL>
+
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="scan"></A><B>Instructions for scanning</B>
+
+
+<P>I have attached 3 images showing the overall process, which I will
+describe.
+
+<P>To get into the correct mode on the Czur scanner, perform the following steps.
+
+<UL>
+<LI>Launch Czur scanner
+<LI>Click Scanner
+<LI>Click Scan
+<LI>In the Preview pane, select Books, then Confirm
+</UL>
+
+<P>Make sure the laser is covered up.  Turn the LED lighting off with the
+silver button on the bottom of the scanner.  You need external lighting
+instead.
+
+<P>Fig. 1 is a 4608 x 3456 image I captured this way.  I have marked it up
+with annotations to explain what I
+did.
+
+
+<P>     <A NAME="figure1"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_orig-scan-annotated.jpg"
+WIDTH=461 HEIGHT=346
+ALT="Scanner setup"
+TITLE="Scanner setup"
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 1.</B> Scanner
+setup.  (Right-click then View Image to
+see full resolution.)</TD></TR>
+</TABLE>
+
+<P>Fig. 1-(1):  You can see the edges of the plexiglass sheet placed
+over the book.  If the book is small like this one, it is easiest to
+scan it sideways like this.
+
+<P>Fig. 1-(2):  I placed stickers marking where the book should be
+positioned.  It is important to get the positioning consistent since
+that will allow automated batch trimming later based on absolute image
+coordinates.
+
+<P>Fig. 1-(3):  Press down in or near the middle of the facing pages so
+the pages end up flush against the plexiglass.  Pay particular attention
+to the center of the book, which may require some pressure to get as
+flat as possible.  You may have to fold the book back a little to get
+the binding to open better.
+
+<P><B>Warning:</B> This may damage the book's binding!  To reduce
+possible damage, follow the rules you may have learned in grade school
+for breaking in a new textbook.  This consists of opening several pages
+partially throughout the book, then repeating the process to open them
+more and more, so the spine follows a gentle rounded curve rather than
+having a sudden severe, ugly bend at one spot.  If the book is very old
+with hardened, brittle glue holding it together, accept the fact that
+you will probably break the binding and will need to repair or discard
+it.  Do not scan with this method if that is not acceptable!
+
+<P>For a larger book that must be positioned left to right, it might
+be easier to work from the side of the scanner to prevent your arms
+from blocking the image.  I don't have experience with a large book
+yet.
+
+<P>Fig. 1-(4):  The LEDs must be turned off, and the external lamps must
+be positioned so they don't reflect off of the plexiglass.  Here you can
+see the left lamp's partial reflection, but as long as it is not over
+the book it is fine.  Try to get the illumination as uniform as
+you can, although it's not necessary for it to be perfect.
+
+<P>Fig. 1-(5):  When scanning the first and last few pages of the book,
+one side will be thinner (have fewer pages) than the other, making it
+hard to press flat.  I solved this by placing a couple of crumpled tisses
+(or soft foam) under the front cover to help push the thin side against
+the plexiglass.
+
+<P>Fig. 1-(6): To make sure that you have the right mode enabled as above, check
+that the image size is exactly 4608 by 3456 pixels.  If it is different,
+either the lasers weren't blocked or you selected single page mode
+instead of book mode.
+
+<P>Fig. 1-(7):  I've circled a portion of the smaller text on the page
+that appears in Fig. 2 and Fig. 3.
+
+<P>Fig. 2 shows a blowup of this circled portion.
+
+
+<P>     <A NAME="figure2"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_hi-res-orig-sample.jpg"
+WIDTH=365 HEIGHT=293
+ALT="Portion of Fig. 1"
+TITLE="Portion of Fig. 1"
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 2.</B>Portion of Fig. 1. (Right-click then View Image to
+see full resolution.)</TD></TR>
+</TABLE>
+
+
+
+
+<P>Fig. 3 shows the final 600 ppi (pixels per inch) bitmap after
+post-processing.  Bitmaps will result in a much smaller file size than a
+full color image, and OCR accuracy is often better as well.  It is
+still very legible and looks reasonably clean.
+
+
+<P>     <A NAME="figure3"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_final-bitmap-sample.jpg"
+WIDTH=365 HEIGHT=294
+ALT="Final bitmap for Fig. 2"
+TITLE="Final bitmap for Fig. 2"
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 3.</B>Final bitmap for Fig. 2. (Right-click then View Image to
+see full resolution.)</TD></TR>
+</TABLE>
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="post"></A><B>Suggestions for post-processing</B>
+
+<P>Here I will give an overview of how I post-processed the image to
+achieve the bitmap of Fig. 3. Your process may vary depending on your
+software.  Of course you want to exploit any batch processing features
+of your software such as scripting (called "actions" in Photoshop) in
+order to achieve the most efficient workflow.  I won't get into those
+details here.
+
+<P>After scanning your pages, the Czur images will be stored under
+"C:\Program Files (x86)\Czur scanner\sources\2016_mm_dd_hh_mm_ss\"
+(where mm is the month, etc.) as files image0001.jpg, image0002.jpg,
+etc.  This directory requires administrator privileges, so to work with
+the files you may need to copy this folder to a folder under your C:\User
+account.
+
+<P>To achieve the result of Fig. 3, I performed the following
+processing steps starting from Fig. 2 (the original scan).
+
+<P>1.  For some reason the Czur image resolution is set to 72 ppi.  I
+measured the actual scanner resolution to be about 250 ppi (it varies with
+vertical distance i.e. thickness book; see below).  So first I
+corrected this (without resampling the image).  In Photoshop 7 this is
+done by selecting Image -> Image Size and changing the Resolution from
+72 to 250 ppi with resampling turned off.
+
+<P>2.  Because of the uneven illumination of the page, threshold
+detection at this point won't work well directly.  I passed the image
+through Photoshop's high pass filter, under Filter -> Other -> High Pass
+with Radius set to 60 pixels.  Basically you want to get the background
+to be more or less uniform.
+
+<P>3.  To obtain a good bitmap that isn't too jagged, we need to
+increase the resolution.  I did this by selecting Image -> Image Size
+and changing the Resolution from 250 ppi to 600 ppi with bicubic
+resampling.  Actually, 300 ppi is probably adequate for most books
+without small fonts, and it will result in a smaller final PDF.
+(Update, June 5, 2016: I have been resampling to 400 ppi for
+the several most recent books I scanned, and it seems to be a
+good compromise.)
+
+<P>4.  Now it is a matter of converting to black and white.  The method
+for Photoshop is described in the next section, and the result
+is Fig. 3.
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="ps7"></A><B>Some details for Photoshop 7</B>
+
+<P>(Added June 5, 2016)
+
+<P>I was asked about the process I used with Photoshop.  I never
+upgraded from PS7 since it does what I need.  The commands in other
+versions of PS or alternatives may be different, but my experience may
+serve as a guide.
+
+<P>You can find Photoshop 7 tutorials online, and I will assume you know
+how to create Actions (scripts) for trimming the image and extracting
+the left and right of facing pages.  Always save the JPG with the
+highest quality at intermediate steps.  Tip:  when running the Action
+(via File -> Automate -> Batch) to extract the right-hand page, under
+File Naming use Document Name + extension + extension.  If the left-hand
+page is named image0055.jpg, then the right-hand page will be named
+image0055jpg.jpg and thus will sort immediately after the left-hand page
+for later page assembly with a PDF creator.
+
+<P>I will assume you've succeeded in making a directory with
+the  JPG images of the left and right book pages.
+
+<P>The critical step is converting color to bitmap, and I'll give the
+exact steps I used.  After a number of experiments, I've determined that
+resampling to 400 ppi seems to be a good compromise between file size
+and bitmap quality.  I created an Action (script) that recorded the
+following steps:
+
+<OL>
+<LI> File -> Open -> select a JPG file with a book page -> Open
+<LI> Image -> Image size -> change 72 to 250 with Resample image unchecked -> OK
+<LI> Image -> Image size -> change 250 to 400 with Resample image set to
+ Bicubic -> OK
+<LI> Filter -> Other -> High pass -> set Radius to 60 pixels -> OK
+<LI> Image -> Mode -> Grayscale -> Discard color information? -> OK
+<LI> Image -> Adjustments -> Curves -> horizontally drag bottom of curve
+ to Input 65%,
+ horizontally drag top of curve to Input 67% -> OK
+<LI> Image -> Mode -> Bitmap -> Output 400 pixels/inch, Use 50% Threshold -> OK
+<LI> File -> Save As -> select PNG extension -> Save -> PNG Options None -> OK
+</OL>
+
+<P>The settings in these steps work well over a wide range of page
+illumination and is relatively insensitive to non-uniformities in the
+illumination.
+
+<P>This procedure is intended to convert text to black and white letters
+for both smaller file size and for better OCR performance.  Photos and
+other images with color and gray will be damaged by this conversion, and
+you need to separate out such pages.
+
+
+
+<HR NOSHADE SIZE=1>
+
+
+<P><A NAME="quality"></A><B>Czur scanner quality vs. flatbed scanner quality</B>
+
+<P>(Added June 3, 2016)
+
+<P>For most of my past scans I've used a flatbed scanner at 300 ppi,
+which has been more than enough for essentially all books and documents
+that I've ever scanned.  Some perfectionists use 600 ppi to obtain a
+professional, publication-quality scan, but for home use
+that is overkill, and I don't like the greater file size.  Even the
+tiniest math subscripts have been clearly legible at 300 ppi.
+
+<P>I made a full-color scan of the page above at 300 ppi on an Epson
+NX420.  Fig. 4 shows a side-by-side view of the Czur and
+the Epson, greatly magnified so they can be compared at the pixel level.
+The Czur scan is smaller since its resolution is about 250 ppi.  (The
+flatbed scan is slightly tilted but should give the idea. I didn't feel like
+doing it over again.)
+
+<P>     <A NAME="figure4"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_vs_scanner1.jpg"
+WIDTH=560 HEIGHT=395
+ALT="Czur vs. flatbed scanner"
+TITLE="Czur vs. flatbed scanner"
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 4.</B>Czur vs. flatbed scanner. (Right-click then View Image to
+see full resolution.)</TD></TR>
+</TABLE>
+
+
+<P>In Fig. 5, I did a bicubic resampling of the Czur to 300 ppi for an
+easier comparison.
+
+<P>     <A NAME="figure5"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_vs_scanner2.jpg"
+WIDTH=627 HEIGHT=397
+ALT="Czur (resampled to 300 ppi)
+ vs. flatbed scanner"
+TITLE="Czur (resampled to 300 ppi)
+ vs. flatbed scanner"
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 5.</B>Czur (resampled to 300 ppi)
+ vs. flatbed scanner. (Right-click then View Image to
+see full resolution.)</TD></TR>
+</TABLE>
+
+<P>The Czur isn't as crisp as the Epson, so this is a tradeoff that you
+should be aware of.  I think the Czur will be fine for most books.  For
+a math text with tiny subscripts, you probably want to check the
+legibility with the Czur and perhaps revert to a flatbed scanner for
+problematic pages.
+
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="pixels"></A><B>Resolution of the scanned image</B>
+
+<P>(Added June 4, 2016)
+
+<P>I measured the pixels per inch by scanning a ruler, and it varies
+with vertical distance (z-direction), i.e. thickness of the book, as one
+would expect.  It was 242.8 ppi with the ruler placed directly on top of
+the black mat, 253.9 ppi on top of a book with 0.62-inch thickness, and
+266.0 ppi on top of a book with 1.20-inch thickness.  Thus starting from
+242.8 ppi at the mat, the resolution increases an average of about 18.8
+ppi for every vertical (z-direction) inch.  I am now using 250 ppi
+as a typical value for post-processing software.
+
+<P>Note that this is <I>not</I> the actual resolution of the scanner,
+since the camera does not focus down the the pixel level (see Fig. 4
+above).  Someone else who is knowledgeable about these things may want
+to measure the true resolution, for example with a test sheet of lines that
+get closer and closer together until they can no longer be distinguished.
+
+<HR NOSHADE SIZE=1>
+
+
+<P><A NAME="further"></A><B>Further comments and suggestions</B>
+
+<P>(Added June 4, 2016)
+
+<P>1.  In Fig. 1 above, notice that there is a vertical smear on tip of
+my right thumb.  At first I thought I had moved my thumb during the
+scan, but actually it is an artifact of the scanner, because I have seen
+similar vertical smears at other times even when my hands are nowhere
+near the scanner.  Thankfully it hasn't happened on top of the book page
+and is usually on the dark side of an edge, but it may be a problem when
+scanning pages with photographs.  It seems that the "dumb" scan mode I'm
+trying to trick the scanner into is doing some kind of unwanted
+processing anyway, Again, I wish Czur would provide a feature to turn
+off ALL image processing and just let us use the hardware!
+
+<P>2. After scanning and post-processing several books, here are some
+things I found helpful.
+<UL>
+<LI>If the plexiglass isn't parallel to the mat but at a slight
+angle (for example when scanning near the beginning or end of the book),
+the text can have a noticeable distortion (text lines closer together
+at one end of the page) due to the variation in the
+ppi in the z-direction.  So I now I try to make sure that the plexiglass
+is reasonably parallel by stuffing the necessary amount of
+tissues under the thinner side.  In the future I may try thin sheets
+of soft foam rubber where I remove them as scanning progresses then add them
+to the other side when I'm past the middle page.
+</LI>
+
+<LI>In Fig. 1-(2), I show alignment stickers only on the bottom of the
+figure.  I get better post-processing results with alignment
+stickers at all four
+corners.
+</LI>
+
+<LI>Because of the slight blurriness of the image at the pixel level, I
+found I get slightly improved final bitmaps if I do bicubic resampling
+at 600 ppi rather than 300 ppi, before converting to bitmap.  It seems
+this provides a cleaner threshold (Fig. 3 above).  The final bitmap file
+size is about 2 times larger, so I probably would still use 300 ppi
+resampling for a book that has no footnote-size text.  (With my flatbed
+scanner, I always leave it at 300 ppi without resampling since the
+flatbed scanner is precise down to the single pixel level.)  </LI> </UL>
+
+<HR NOSHADE SIZE=1>
+
+
+<P><A NAME="surprise"></A><B>An unpleasant surprise</B>
+
+<P>(Added June 12, 2016)
+
+
+
+<P>     <A NAME="figure6"></A>
+<TABLE ALIGN=CENTER WIDTH="10%"><TR><TD>
+ <IMG BORDER=0 SRC="czur_deleted-smeared-life.jpg"
+WIDTH=500 HEIGHT=375
+ALT='Deletion of "L" and smearing of "I"'
+TITLE='Deletion of "L" and smearing of "I"'
+ALIGN=RIGHT STYLE="margin-bottom:0px">
+</TD></TR>
+<TR><TD ALIGN=CENTER><B>Figure 6.</B> Deletion of "L" and smearing of "I" in
+the word "LIFE".
+(Low resolution version of the Czur scanner's 4608 x 3456 image.)</TD></TR>
+</TABLE>
+
+
+<P>In the scan of this book cover, the word "LIFE" in the book's title
+has a missing "L" and a smeared "I"!  I had hoped that I had disabled
+all "smart" processing by covering the laser in Books mode to achieve
+the full 4608 x 3456 camera image, but I assumed wrong.  This happens
+intermittently, and the algorithm it uses is bizarre and unreliable.
+Maybe it thought the "L" in the title was a fingertip and deleted it?
+
+<P>I discovered this long after I thought my scan was finished.
+Fortunately I still had the book and was able to make another scan
+without this artifact, which sometimes happens and sometimes doesn't.
+
+<P>This is <I>unacceptable.</I> It means that I have to carefully
+inspect every scan for such surprises, greatly slowing down the scanning
+process.  Because the software cleverly restores the background color,
+it can sometimes be subtle and hard to detect except by careful
+comparison to the original.  Even in this case, if it weren't for the
+misspelling, one might think it was just an artistic effect to convey
+fast-paced corporate life. :)
+
+<P>A lot of us have used flatbed scanners for many years and have our
+own post-processing methods that we are happy with.  All we need is
+a method for getting the images into the computer.  The big advantage
+of Czur for us is the high speed of the hardware, and that alone is
+worth the money I paid.  But if we can't get the images into
+the computer in a reliable way, the high speed is worthless.
+
+<P>We desperately need a checkbox or third option to "Single"/"Books"
+called "Unprocessed" or "Raw" on the Czur software that turns off
+<B>all</B> "smart" processing and provides us with the 4608 x 3456
+<B>unprocessed</B> image that you see on the computer screen.  (If Czur
+is reading this, by "Raw" I don't mean the photographic RAW file of the
+camera but just the image like in Fig. 6 above without any smart
+processing artifacts like the missing L. "Unprocessed" might be a better
+name.)  I think this would be relatively simple for Czur to do, since it
+is just just disabling or bypassing those processing steps in their
+software.  That would make me and I think a lot of other users much
+happier.
+
+<!--
+<P>A TWAIN driver allowing us to feed an <B>unprocessed</B> image
+directly into Photoshop or equivalent would also be welcome.  TWAIN is
+the industry standard protocol that is used by virtually every other
+scanner in the world, except Czur.
+-->
+
+
+<HR NOSHADE SIZE=1>
+
+<P><A NAME="conclusion"></A><B>Conclusion</B>
+
+<P>The image produced by the Czur scanner is about 250 ppi.  The actual
+resolution may be somewhat less since the camera focusing is not perfect
+down to the pixel level.  But as the samples above show, it should be
+more than adequate for a typical book.
+
+<P>The big advantage for home use is that it is MUCH faster than a
+typical home-use flatbed scanner.  While the resolution tradeoff is one
+thing to consider, the higher speed is a very attractive feature that
+makes it worthwhile.  In my case, I think that I will be using the Czur
+to scan all but the most demanding books.
+
+
+<HR NOSHADE SIZE=1>
+
+<A NAME="user"></A>
+<P><B>User comment</B>
+
+<P>Heiko Rath writes (2-Jun-2016):
+
+<BLOCKQUOTE>
+
+<P>Thank you for sharing your scanning process.  One thing I noticed
+while trying to work around limitations of the Czur scanner software is
+that new/unmodified images are initially stored in the following folder:
+
+<P>&nbsp; &nbsp; &nbsp; C:\Users\&lt;user name&gt;\AppData\Local\Temp\sources
+
+<P>and deleted when you close the program/switch to another folder.
+
+<P>As you mentioned post-processing capabilities in the application are
+pretty limited.  I've gotten better results when I copy the source scans
+from C:\Users\&lt;User&gt;\AppData\Local\Temp\sources and then perform
+post-processing with Scan Tailor to rotate/split pages/select
+content/remove extraneous borders/normalize exposure &amp; resize all pages
+to exact same size.  Then I've used IrfanView to rename all files as
+image00xxx and run the embedded Abbyy FineReader OCR over it to turn
+things into a PDF with searchable text.  This generates pretty good
+output, but there is one thing that slightly bothers me.  Abbyy
+FineReader apparently analyzes the images and decides to also slightly
+rotate/resize resulting in some pages that are just a little
+tilted/different sizes.  If there were an option to tell Abbyy
+Finereader not to rotate/resize it should be made user selectable.  I am
+starting to experiment with Tesseract on a Linux box to see if I can get
+improved results.
+
+</BLOCKQUOTE>
+
+
+<HR NOSHADE SIZE=1>
+
+<TABLE BORDER=0 WIDTH="100%"><TR>
+
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><FONT SIZE=-2 FACE=sans-serif>
+&nbsp;</FONT></TD>
+
+<TD NOWRAP ALIGN=CENTER><I><FONT SIZE=-1>This
+ page was last updated on 2-Jun-2016.</FONT></I><BR><FONT
+FACE="ARIAL" SIZE=-2>Norman Megill <A HREF="../email.html"><IMG BORDER=0
+SRC="_nmemail.gif"
+ALT="nm at alum dot mit dot edu"
+TITLE="nm at alum dot mit dot edu"
+ WIDTH=90 HEIGHT=13 STYLE="margin-bottom:-3px"></A><BR>
+
+<!--
+<A HREF="../copyright.html">Copyright terms and conditions</A><BR>
+-->
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A></FONT></TD>
+
+<TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT FACE="ARIAL" SIZE=-2>
+<A
+HREF="http://validator.w3.org/check?uri=referer">W3C HTML validation</A>
+[external]
+</FONT>
+</TD>
+
+</TR></TABLE>
+
+<!-- <SCRIPT SRC="http://www.google-analytics.com/urchin.js" TYPE="text/javascript">
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+_uacct = "UA-1862729-1";
+urchinTracker();
+</SCRIPT>
+-->
+
+</BODY>
+</HTML>
+

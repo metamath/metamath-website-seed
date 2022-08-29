@@ -1,0 +1,150 @@
+How to set up a mirror site for the metamath.org web site
+---------------------------------------------------------
+
+If you want to mirror this site publicly, you may want to consider doing
+so under a metamath.org subdomain.  These instructions show you how to
+do this.
+
+
+1. Get a subdomain name from me
+-------------------------------
+
+First you should provide me (Norm Megill, nm at alum dot mit dot edu)
+with the IP address or domain name of your server.  I will then provide
+you with a subdomain name (nl.metamath.org in this example).
+
+
+2. Set up your Apache web server
+--------------------------------
+
+(Do this step logged in as root.)
+
+If you are using Apache on Linux, edit your /etc/httpd/conf/httpd.conf
+(Red Hat 7.2) or /etc/apache/conf/httpd.conf (Debian 3.0) file to
+include a VirtualHost section like this, where in this example
+"/var/www/html/metamathsite" is the directory where the Metamath site
+resides; then /var/www/html/metamathsite/index.html will be the home
+page and /var/www/html/metamathsite/mirror.txt will be this file
+(the file you are reading right now).
+
+  # See http://www.apache.org/docs/vhosts/
+  NameVirtualHost *
+  <VirtualHost *>
+  #    ServerAdmin webmaster@dummy-host.example.com
+      DocumentRoot /var/www/html/metamathsite
+      ServerName nl.metamath.org
+      ErrorDocument 404 /missing.html
+      ErrorDocument 403 /unauthorized.html
+  #    ErrorLog logs/dummy-host.example.com-error_log
+  #    CustomLog logs/dummy-host.example.com-access_log common
+  </VirtualHost>
+
+Restart Apache with 'service httpd restart' (Red Hat) or
+'apachectl restart' (Debian).
+
+
+(Optional but highly desireable) Also add the virtual hosts
+au.metamath.org, de.metamath.org, and us.metamath.org since that will
+allow me to redirect to your mirror in the event that one of these
+"permanent" mirrors goes offline.
+
+
+3. Set up a nightly cron job to keep your mirror up-to-date
+-----------------------------------------------------------
+
+This step assumes there is a user mmadmin (for example) with full
+permissions for the /var/www/html/metamathsite directory.
+
+This step will set up a cron job to keep the site synchronized.  We will
+assume you are logged in as user mmadmin.  Create the following script
+and name it (for example) /home/mmadmin/mirrorsync.sh:
+
+  #!/bin/sh
+  rsync -vrltS -z --delete --delete-after --block-size=400 \
+      rsync://rsync.metamath.org/metamath /var/www/html/metamathsite
+
+Remember to change the script permission to "execute":
+
+  chmod +x /home/mmadmin/mirrorsync.sh
+
+This script should be run periodically as a cron job.  To set up the
+cron job, type 'crontab -e', and in the vi editor session that results,
+insert the line
+
+  7 2 * * * /home/mmadmin/mirrorsync.sh
+
+if you want it to run at 2:07AM every night.  To verify the crontab
+entry, type 'crontab -l'.  Note:  the crontab file will be located at
+/var/spool/cron/mmadmin (Red Hat) or /var/spool/cron/crontabs/mmadmin
+(Debian), but it should not be edited directly.
+
+
+4. Set up a public rsync server (optional)
+------------------------------------------
+
+(Do this step logged in as root.)
+
+If you also wish to set up your site as a public rsync server, edit your
+/etc/rsyncd.conf file (creating it if it doesn't exist) to look like
+this (for Red Hat):
+
+  [metamath]
+      comment = metamath
+      path = /var/www/html/metamathsite
+      read only = yes
+      list = yes
+      uid = nobody
+      gid = nobody
+
+(On Debian, the line reading "gid = nobody" should be "gid = nogroup".)
+
+Next, activate the rsync service if necessary:
+
+  On Red Hat:  Type 'ntsysv' and enable rsyncd.  Type 'service xinetd
+  restart' to start up the rsync server.
+
+  On Debian:  If the file /etc/inetd.conf does not have a line starting
+  'rsync stream tcp nowait...', then to put it in you should type
+
+    update-inetd --add \
+      'rsync stream tcp nowait root /usr/bin/rsync rsyncd --daemon'
+
+In your firewall open the 'rsync' port (port 873).  From outside your
+firewall, test with 'rsync nl.metamath.org::'  to verify that rsync is
+working (it should respond with 'metamath metamath').
+
+Now public users should be able to synchronize to your mirror with the
+following command (typed in the _parent_ directory of metamathsite):
+
+  rsync -vrltS -z --delete --delete-after \
+      rsync://nl.metamath.org/metamath metamathsite
+
+
+=======================================================================
+
+
+Special instructions for mirror sites
+-------------------------------------
+
+(You can ignore this section if you followed the instructions above.)
+
+1. If the Metamath site is not under a top-level URL root directory, please
+update your robots.txt file per the robots.txt in this directory.
+
+2. In your Apache configuration file, please point errors as follows for
+the relevant virtual server:
+
+  ErrorDocument 404 /missing.html
+  ErrorDocument 403 /unauthorized.html
+
+(or the equivalent for non-Apache web servers)
+
+3. To keep the site up-to-date, run this command (usually as a cron job)
+where $DIR/index.html is the Metamath home page:
+
+  rsync -vrltS -z --delete --delete-after \
+      rsync://rsync.metamath.org/metamath $DIR
+
+
+
+Norm Megill nm (at) alum.mit.edu    29-May-05

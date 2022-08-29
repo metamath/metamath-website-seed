@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2ProofAssistantDeriveFeature</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2ProofAssistantDeriveFeature" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2ProofAssistantDeriveFeature" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2ProofAssistantDeriveFeature">mmj2ProofAssistantDeriveFeature</a></h1></div><div class="content browse"><p>(This looks better in html format. it is a throwaway, draft document provided for early review &#x2013; pending a planned May 1 release of the new code&#x2026;)</p><hr /><h1>Links</h1><ul><li>mmj2 Main Page: <a class="local" href="mmj2">mmj2</a></li><li>Please use the dedicated page for mmj2 Feedback/Questions: <a class="local" href="mmj2Feedback">mmj2Feedback</a></li><li>Here is a dedicated page for feedback about the mmj2 Proof Assistant GUI: <a class="local" href="mmj2ProofAssistantFeedback">mmj2ProofAssistantFeedback</a></li></ul><p>Comments about the new "Derive" Feature should be posted here: <a class="local" href="mmj2ProofAssistantDeriveFeature">mmj2ProofAssistantDeriveFeature</a></p><p>Thanks! --<a class="local" href="ocat">ocat</a></p><hr /><h1>User Interface Question: "Derive" Hypotheses</h1><p>OK, I would like input on a specific question  from anyone who may use the Proof Assistant. It regards the user interface for deriving hypotheses.</p><p>The "Derive" feature is triggered for Hypotheses when a Ref label is entered AND the user enters at  least one "?" in the Hyp sub-field of the Step:Hyp:Ref  token at the start of derivation steps. Like so:</p><pre>    3:?,1:ax-mp |- blah blah
+        </pre><p>There are validation checks though. If the user enters the following step, an error message complaining about the number of input Hyp numbers is produced:</p><pre>    3:?,1,2:ax-mp |- blah blah
+        </pre><p>ax-mp uses 2 logical hypotheses, so if the user inputs 2 Hyps there is nothing to derive. Likewise in the case of ax-1 which uses 0 logical hypotheses:</p><pre>    3:?:ax-1 |- blah blah
+        </pre><p>Question 1: if the Ref requires 0 hypotheses and the user inputs a "?" should the program complain, or should it just make the "?" go away &#x2013; of course, it would not invoke Derive for hypotheses because there is nothing to derive.</p><p>Question 2: if the Ref requires n hypotheses where n &gt; 0 and the user inputs a "?" and n hypotheses  should the program complain?</p><p>The way it is coded now (fully tested) is to complain. The basis for that is that the user may have typed in the wrong Ref, or that the user is expecting the Derive feature to kick in and may be confused when it doesn't if the program just makes the "?" disappear. Also, after a few error messages, I expect that the user will learn not to put in a "? in this situation, so it is a matter of giving negative feedback at the beginning and then the "problem" goes away.</p><p>--<a class="local" href="ocat">ocat</a> 14-Mar-2006</p><p>If the action can be documented in the Unify log screen, and nothing would be "hidden" from the user (no things mysteriously disappearing without explanation), then I would prefer just doing it, without interrupting the user with an error message prompt.</p><p>Another alternative: in "3::", when the user enters "ax-mp", the program automatically puts in "?,?".</p><p>Or, the the program automatically creates new numbered empty steps 1 and 2, and puts in "1,2", when the user enters "ax-mp". (Renumbering would be needed eventually.) When the program gets smart enough some day, the new steps 1 and 2 could be partially filled in with what is known.</p><p>--<a class="local" href="norm">norm</a> 14-May-2006</p><p>Actually, I'm a little uncertain about the typical scenario where the user is led to entering the "?", and my comments may be inapplicable. What would typically exist before the ax-mp?</p><dl class="quote"><dt /><dd>The "Usage:" section a few scrolls down (after Purpose, Motivations and Limitations) covers it pretty well. After trying "Derive" I find it isn't as super fantastic as I had envisioned. Derive generates Formula and/or Hyps, so now the (mental) equation 'Ref(Hyps) = Formula' can be  solved for the unknowns on any step except the hypothesis or 'qed' steps (Formula is always required on the 'qed' step and isn't derived).</dd></dl><p>Re your question:</p><p>Derive is basically for proving backwards from conclusion to hypotheses. So, at minimum, the hypothesis steps will exist. I don't think Derive will be used all that much except by "experts" &#x2013; it can reduce the amount of typing needed on those long formulas though!</p><p>Re your comments:</p><p>1) I am not in favor of writing to the batch window or error log when a "?" is made to disappear. Already the Derive program adjusts the user's Hyp input to make the missing Hyps match the number of Hyps required by the Ref - so "?,2" gets expanded to "?,2,?" if 3 are required.</p><p>2) In response to "3::" just generating "?,?". I've tried to retain the old, non-Derive functionality, so entering  "3::ax-mp" will generate an error message because the number of input hyps is wrong.</p><p>3) The Derive program <b>does</b> automatically create missing hypothesis steps and link the current step to them. So "3:?:ax-mp |- blah" will generate steps 2003 and 3003 (if 3 is the greatest step number on the proof" and it will update step 3 to be: "3:1003,2003:ax-mp |- blah". The generated hypothesis steps are inserted in the proof only if their formulas are not already present &#x2013; if the Derived hypothesis formula is already there, the program just links the current step to it.</p><p>It may be that it will work best to just release the code and let you try it. I would prefer to not have to make any changes, but &#x2026; some things must be seen to be believed :)</p><p>--<a class="local" href="ocat">ocat</a></p><h1>Proof Assistant GUI "Derive" Feature</h1><hr /><p>Purpose:</p><pre>    * To satisfy expert users of mmj2's Proof Assistant GUI by partially
+      solving the problem of correctly entering certain long and
+      complicated formulas, the new Derive Feature generates missing
+      proof step formulas using input Ref labels. This is the inverse of
+      the normal Unification process of finding a matching assertion Ref
+      label for an input formula and its associated hypotheses.
+    * Also, to assist users in developing proofs by reasoning backwards
+      from conclusion to premisses, proof step hypotheses are
+      automatically generated and/or linked to previous proof steps when
+      the user inputs "?" in the Hyp sub-field of the Step:Hyp:Ref
+      field of a derivation proof step and supplies a Ref label. This
+      powerful capability complements the new formula generation
+      function and aids in the creation of proofs for theorems that are
+      so insanely complex that even typing in the formulas correctly by
+      hand is a superhumanly difficult task :)</pre><p>Motivations:</p><pre>    * Typing Metamath formulas by hand is error prone and difficult,
+      especially for long formulas. Part of the reason for this is that
+      Metamath has no built-in grammar or syntax beyond the requirements
+      of the input .mm file format. This is a feature, not a bug. The
+      downside of Metamath's agnosticism is that there are no notational
+      short-cuts; outer parentheses cannot be skipped and extra
+      parentheses are not tolerated! Given that there may be dozens of
+      syntax axioms used to build formulas and that even a single 
+      typing error generates an error message, the user may find it
+      difficult to even input derivations, much less prove them! At some
+      point a "Formula Builder" helper screen may be added to the mmj2
+      Proof Assistant GUI, but until then, the new Derive Feature will
+      be useful. Note: the File/New menu option that is used to begin a
+      new proof initializes the Proof Text area with the specified
+      Theorem's hypotheses and conclusion proof steps, so the remaining
+      challenge is to enter derivation steps.
+    * The new Derive Feature provides an educational and investigational
+      "what if?" capability allowing the user to easily answer questions
+      such as, "Given a specific formula and assertion Ref label, what
+      hypotheses do I need to obtain/prove in order to justify this
+      derivation proof step?" Or, "If a specific assertion (Ref) is
+      applied to a set of hypotheses (which may be incomplete), what
+      formula is derived?"</pre><p>Limitations:</p><pre>    * The mmj2 Proof Assistant GUI requires that each derivation proof
+      step Ref label specify an assertion -- logical axiom or theorem --
+      in the input Metamath .mm file. The Ref, together with the
+      associated hypotheses may be viewed as being a function call which
+      generates the proof step formula. For example, treating the modus
+      ponens axiom as a function with arguments '|- A|' and '|- ( A -&gt;
+      B )' yields "ax-mp|('|- A', '|- ( A -&gt; B )') = '|- B'". In
+      this case, the Ref, |ax-mp|, together with the hypothesis
+      arguments completely specify and determine the contents of the
+      resulting formula. However, the new Derive Feature allows the
+      hypotheses to be incompletely specified -- missing hypotheses are
+      designated with "?". In these cases the output formula will, of
+      course, be incompletely specified as well! So,  "ax-mp('|- A',
+      '?') = '|- ?'". (A similar situation arises for generated
+      hypotheses.) This is a feature, not a bug. But to properly present
+      the unknowns in the generated formulas, the new Derive Feature
+      needs to be able to present the un-determined variables in a
+      helpful way. The Metamath Proof Assistant uses "$1", "$2",
+      etc. for un-determined variables, so the Proof Assistant GUI will
+      follow suit, but will also provide a RunParm option allowing the
+      user to specify an alternate prefix such as "?" instead of
+      "$". (Note: in some cases it may appear obvious to the user that
+      a generated "$1" variable can be unified with a sub-formula of
+      some previous step(s) -- and it is natural to ask why doesn't the
+      program just go ahead and figure out the obvious substitution. The
+      answer? Because that would require an entirely new unification
+      search process inside the Derive Feature, as well as additional
+      intelligence that is not programmed into the code...)
+    * The mmj2 Proof Assistant GUI respects the order of input
+      hypotheses for a derivation proof step during unification, but if
+      the given order does not yield a consistent set of variable
+      substitutions for a Ref assertion, the program methodically tests
+      other sequences and dynamically rearranges its input Hyp's. For
+      example, if the user inputs Hyp "1,2,3" referring to previous
+      steps numbered 1, 2, and 3, but the referenced steps do not
+      unify with the Ref's 1st, 2nd, and 3rd hypotheses, the program
+      seeks an alternate arrangement, such as "3,1,2". In some cases,
+      there may be multiple satisfactory sequences of hypotheses, which
+      is one reason why the program gives the user's initial input order
+      priority. For example, assume hypotheses "|- A" and "|- B" for
+      assertion "|- ( A -&gt; B )". In this example, both possible
+      sequences of hypotheses will satisfy the requirements of
+      unification! Now consider the situation where the user does not
+      completely specify the hypotheses and inputs one or more "?"s in
+      the Hyp sub-field. With incompletely specified hypotheses, the
+      situation is even more ambiguous for the program's attempt to
+      deduce the correct sequence of hypotheses! There is no perfect
+      solution to this problem, but the Proof Assistant GUI will
+      continue to respect the given Hyp order and seek an alternate
+      sequence only if the given order fails unification. Thus, if the
+      user inputs "?,3,?", the program will attempt unification of the
+      3rd proof step with the Ref's 2nd hypothesis before trying the
+      alternatives. (On the plus side, since hypothesis generation is
+      performed only when a Ref label is input, it may be assumed that
+      the user has access to or knowledge of the Ref assertions
+      hypotheses and their order -- and can use trial and error, if
+      necessary.)
+    * Even with the new Derive Feature, the mmj2 Proof Assistant GUI is
+      far from being the ultimate tool for proving theorems.And, in
+      fact, there is no proof that the Proof Assistant GUI is better for
+      beginners than paper and pencil. The mouse/screen/keyboard
+      interface may even hinder, at least initially, a student's
+      development. The next major step in  proof-assistive technology
+      will use handwriting recognition technology, perhaps via a tablet
+      PC equipped with a stylus and appropriate software for emulation
+      of a blackboard. But even virtual reality software supporting an
+      infinite virtual blackboard cannot replace the ultimate tool -- a
+      higly motivated and well-educated mind. In the end, the value of
+      this software or any other software must be measured by the human
+      accomplishments it enables; if the software is helpful, fine,
+      otherwise, do not hesitate to rubbish it and find a new way!</pre><hr /><p>Usage: There is no change to the format of the Proof Assistant GUI proof text, but merely minor changes in the way the user's input is validated and interpreted. The new Derive Feature is tightly integrated into the existing Unification process and is triggered in due course by user input, as follows:</p><pre>   1. Formula Generation: Formula is now an optional entry on derivation
+      proof steps except for the 'qed' (final) step (and remains
+      mandatory on hypothesis steps). Either Formula or Ref must be
+      entered on each derivation proof step. In the case where the
+      Formula is not input then a Ref label is required, and is used
+      along with the input Hyp's to generate a Formula. Variables that
+      are not completely determined by the input Ref and Hyp(s) are
+      shown as "$1", "$2", etc. (or with a different prefix such as "?"
+      according to a new optional RunParm entry.) Note: if the Ref
+      requires no hypotheses and the Formula is left blank, then the
+      Formula's variables are considered -- by definition -- to be
+      completely determined and the generated Formula is simply the
+      Ref'd assertion's formula.
+   2. Hypothesis Generation: input "?" Hyp sub-field entries are used
+      to generate hypothesis proof steps only if a Ref label is input
+      and the total number of non-"?" Hyp entries is less than the
+      number of hypotheses used by the Ref'd assertion -- and no other
+      errors are found. The process contains a tiny amount of built-in
+      intelligence and works as  follows: unification of the input Ref
+      assertion with the derivation step's Formula and given (non-"?")
+      Hyp entries is attempted. If this partial unification is
+      successful, an hypothesis Formula is generated for each input
+      "?". Then, each generated Formula that is completely determined
+      (contains no "$1", "$2", etc. variables), is compared to the
+      Formulas of the previous proof steps. If a match is found, then
+      the corresponding "?" is changed to the Step number of the
+      matching formula. Otherwise, if no matching Formula is found, or
+      if the generated Formula contains un-determined variables, then a
+      new derivation proof step is created and inserted in the proof
+      immediately prior to the current derivation step, and the
+      corresponding "?" is updated to reflect the inserted Step
+      number. Generated Step numbers are assigned sequentially by adding
+      1000 to the greatest Step number in the proof at that moment. So,
+      if the greatest Step number in the proof  = 5, then the generated
+      hypothesis steps are numbered 1005, 2005, ..., etc. Note: for each
+      generated hypothesis inserted in the proof, the output Hyp and
+      Ref sub-fields are set to null. Originally, the plan was to set
+      Hyp to "?", which would automatically prevent unification of the
+      generated step. However, given that in many cases the generated
+      Formula will be completely determined (with no $1, $2
+      variables) and would unify with an assertion requiring no logical
+      hypotheses! And(!), generated proof steps that are completely
+      determined will be subjected to the unification search process,
+      which will generate an error message if no unifying assertion is
+      found. Proof steps that are not completely determined will not be
+      routed through the unification search, and will not trigger error
+      messages -- unless the user fails to update the Formula, replacing
+      the $1, $2 variables, prior to the next unification request.</pre><hr /><h1>Discussion, 10-Mar-2006</h1><p>Hi Norm, Raph, frl and other mmj2 users (if any):</p><dl class="quote"><dt /><dd>Yes, there is at least one other active user who corresponds with me. Due to an unexpected project, my proof worksheet interface is behind schedule but is very much part of my plan. Then I'll bet you are going to see an influx of new users. --<a class="local" href="norm">norm</a> 11-Mar-2006</dd></dl><p>Brain surgery on the ProofUnifier<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofUnifier">?</a> to accomplish the new "Derive" Feature in Proof Assistant is complete.</p><p>Not tested (or installed) yet though, as I need to go down into ProofWorksheet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofWorksheet">?</a> and alter the field-level validation routines. The changes in the core unification search/match process were surprisingly minor &#x2013; basically just allowing "null" formulas to "unify" and keeping track of un-substituted variables for the Derive process.</p><p>I added a minor embellishment, which I wanted to mention, but the main reason for communicating involves local- scope variables used in the formulas of theorems and their logical hypotheses.</p><p>I understand why it is a good thing to use local variables to keep the Optional Frames small in subsequent theorems.</p><p>However, the problem is that these non-global variables are useless outside their defining scope when a program is determining the meaning of a formula &#x2013; one has to access the Frames to see these variable types.</p><p>This is an issue in Embellishment #1, in which I allow the Proof Assistant user to input just a "?" Hyp and an assertion label Ref &#x2013; no formula and no non-"?" Hyps. In this case I could have treated all of the variables in the assertion and logical hyps as "un-determined", but that would generate a bazillion dummy variables and be a source of user complaints. So, in this case, where <b>all</b> of the variables are, by definition un-determined (i.e. not substituted), I just insert the logical hypotheses (if not already present), along with the assertion's formula in the proof, <b>as is</b>. But since a variable defined in-scope of a Ref'd assertion is out of scope of the proof's theorem, I am required to substitute dummy variables for any locally defined variables if the Ref or its hypotheses (a nuance&#x2026;)</p><p>And, from a database design viewpoint it would be far better then if all variables in formulas were defined globally. Just saying, not complaining, but it seems to me that using locally defined variables should be done rarely if at all, except when dummy variables are needed in proofs. That will facilitate export of Metamath databases to other systems, also&#x2026;</p><p>[Raph's suggestion about having a "*" wildcard option on the Ref field does not seem ideal, and I am not doing it (yet :). For one thing, an explicitly input Ref that fails to unify or that results in a Distinct Variable Restriction error will generate a message showing alternate Ref labels that <b>do</b> unify (and the DV error is automatically fixed if a better Ref is found.) So putting the wildcard option on the proof itself would be cumbersome, and not add much I think. An alternative that might be considered would be a query screen showing full details about the alternative Ref's that unify &#x2013; or just expanding the content of the existing message text. I think Metamath's Proof Assistant's Search facility will obviate the need for this enhancement, especially when its mmj2 Import/Export feature is ready.]</p><p>--<a class="local" href="ocat">ocat</a> 10-Mar-2006</p><hr /><h1>OBSOLETE PRIOR VERSION OF DOC FOLLOWS</h1><p>. . .</p><p>*mmj2 Proof Assistant GUI &#x2013; Proposed Addition to Unify Menu: <b>DeriveAndUnify</b> option*</p><p><b>DeriveAndUnify</b> is performed after the standard field validation edits used now prior to Unification. Field validation errors terminate the process prior to Unification or DeriveAndUnify<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveAndUnify">?</a>.</p><p>Assuming that there are no field validation errors, <b>DeriveAndUnify</b> works as follows: a "Derive" pre-process is performed, and then if no errors are encountered, and if all variables and hypotheses are fully determined by the  derivation constraints, the standard Unification  process is performed.</p><p>The new Derive pre-process treats the Hyp and  Formula portions of a Proof Step as solvable unknowns in a Hyp, Ref, Formula equation. (The existing Unification process, which will not be changed, solves for Ref.)</p><hr /><p>For clarity, here is the layout of a hypothetical Proof Step (Step 9 with Hyps = Step 1 and Step 2, Ref label = "XXXX", and Formula = "|- BLAH BLAH".)</p><pre>    Step:Hyp:Ref         Formula
+    ============         =======================
+    9:1,2:XXXX           |- BLAH BLAH</pre><hr /><h1>DeriveAndUnify Processing</h1><pre>    |===============================|===============================|
+    |       Formula Present         |      Formula Not Present      |
+    |===============================|===============================|
+    |  Ref Present  |Ref Not Present|  Ref Present  |Ref Not Present|
+    |===============|===============|===============|===============|
+    | &gt;= 1  | 0-&gt;n  | &gt;= 1  | 0-&gt;n  | &gt;= 1  | 0-&gt;n  | &gt;= 1  | 0-&gt;n  |
+    |Hyp = ?|Hyp(s) |Hyp = ?|Hyp(s) |Hyp = ?|Hyp(s) |Hyp = ?|Hyp(s) |
+    |       |Present|       |Present|       |Present|       |Present|
+    |=======|=======|=======|=======|=======|=======|=======|=======|
+    |#1     |#2     |#3     |#4     |#5     |#6     |#7     |#8     |
+    |Derive |No     |No     |No     |Derive |Derive |Error: |Error: |
+    |Hyp    |Change,|Change,|Change,|Formula|Formula|We're  |We're  |
+    |then   |just do|just do|just do|then   |then   |not    |not    |
+    |Unify  |normal |normal |normal |Derive |Unify  |mind   |mind   |
+    |       |Unify  |Unify  |Unify  |Hyp    |       |readers|readers|
+    |       |       |       |       |then   |       |       |       |
+    |       |       |       |       |Unify  |       |       |       |
+    |=======|=======|=======|=======|=======|=======|=======|=======|</pre><hr /><p>Notes:</p><p>#1 DeriveHyp<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveHyp">?</a>: attempts to determine the formula(s) of the missing Hyp(s). Then, if the formula is already present in the Proof Text area prior to the current Proof Step, the "?" in the Hyp is replaced with the Step number of the matching formula. Otherwise, if there is not already a matching formula in the Proof Text area, a new Proof Step is generated and inserted in the Proof Text just prior to the existing Proof Step; then the "?" in the Hyp is replaced with the newly generated Proof Step number. The new step number = greatest step number in Proof Text area + 1000. Any undetermined variables in the output are shown as "?" and Unification is not performed ("?" is used instead of guessing &#x2013; if the user does not change the "?"s to actual variables before the next Unification/DeriveAndUnify<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveAndUnify">?</a> request, a field validation error is triggered.)</p><p>The generated step will look like this:</p><pre>    1009:?:      |- something for missing blah-blah hyp
+    </pre><p>After DeriveHyp<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveHyp">?</a>, assuming that no new errors are encountered, <b>and</b> that there are no undetermined variables or hypotheses, the standard Unification process is performed.</p><p>#5/#6 DeriveFormula<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveFormula">?</a>: attempts to determine as much of the Proof Step's formula as possible given the input Hyp(s); the input Hyp(s) may only partially determine the formula substitutions (and may not even unify with the input Ref's Hyp(s)!), and any undetermined variable substitutions will be created by mapping from variables in the Frame of the theorem being proved to undetermined variables in the Ref's formula. Processing then proceeds as in #1, with DeriveHyp<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=DeriveHyp">?</a> if any of the input Hyp sub-fields = "?", and  then Unification.</p><hr /><h1>Sample #1: Input</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+    
+    qed:?:ax-mp    |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /><h1>Sample #1: Output</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::            |- ( ph -&gt; ps ) 
+    h2::            |- ( ps -&gt; ch ) 
+    
+    2002:?:         |- ?
+    3002:?:         |- ( ? -&gt; ( ph -&gt; ch ) ) 
+    qed:3002,3003:ax-mp |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /><h1>Sample #5: Input</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+     
+    3:?:a2i    
+    qed:?:         |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /><h1>Sample #5: Output</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+     
+    3003:?:        |- ( ph -&gt; ( ps -&gt; ch ) 
+    3:3003:a2i     |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) 
+    qed:?:         |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /><h1>Sample #6: Input</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+     
+    3:2:a1i    
+    qed:?:         |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /><h1>Sample #6: Output</h1><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+    
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+     
+    3:2:a1i        |- ( ? -&gt; ( ps -&gt; ch ) )    
+    qed:?:         |- ( ph -&gt; ch )     
+    
+    $)
+    </pre><hr /></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2ProofAssistantDeriveFeature">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2ProofAssistantDeriveFeature">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2ProofAssistantDeriveFeature">Administration</a></span><span class="time"><br /> Last edited 2006-03-15 13:31 UTC by <a class="author" title="from 66-81-75-44.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2ProofAssistantDeriveFeature">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

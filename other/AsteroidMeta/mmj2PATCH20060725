@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2PATCH20060725</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2PATCH20060725" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2PATCH20060725" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2PATCH20060725">mmj2PATCH20060725</a></h1></div><div class="content browse"><p>PATCH 2006-07-25 : Modifications to c:\mmj2\src\mmj\pa\ProofUnifier<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofUnifier">?</a>.java</p><p>1) replace line 2434 in doDeriveFormulaAndOrHyps()</p><pre>        if (proofWorksheet.getGreatestDummyVarNbr() &gt; 0) {</pre><p>with</p><pre>      //PATCH 2006-07-25 SIMULTANEOUS DERIVES
+      //if (proofWorksheet.getGreatestDummyVarNbr() &gt; 0) {
+        if (nbrDummyVarsAssigned &gt; 0) {
+      //END-PATCH 2006-07-25 SIMULTANEOUS DERIVES
+ </pre><hr /><p>2) replace line 907 thru 909 at end of stepLoop: while loop label in unifyStepsHavingRefLabels()</p><pre>        }
+ 
+        dsa1Count                 = dsa1List.size();</pre><p>with</p><pre>            //PATCH 2006-07-25 prevent repeated Derive!
+            derivStep.deriveStepFormula
+                                  = false;
+            derivStep.deriveStepHyps
+                                  = false;
+            //END-PATCH 2006-07-25 prevent repeated Derive!
+        }
+    
+        dsa1Count                 = dsa1List.size();</pre><p>3) replace lines 873 thru 874 at start of hypLoop   in unifyStepsHavingRefLabels():</p><pre>                if (derivStep.hyp[i] != null &amp;&amp;
+                    derivStep.hyp[i].getStatus() &lt;</pre><p>with</p><pre>                if (derivStep.hyp[i] != null &amp;&amp;
+                    //PATCH 2006-07-25 INSERT FOLLOWING TWO LINES:
+                    derivStep.hyp[i].getStatus() !=
+                        PaConstants.PROOF_STMT_INCOMPLETE_HYPS &amp;&amp;
+                    //END-PATCH 2006-07-25
+                    derivStep.hyp[i].getStatus() &lt;</pre><hr /><p>4) replace lines 9 thru 16</p><pre>    /*
+     *  ProofUnifier.java  0.02 04/01/2006
+     *
+     *  Version 0.02:
+     *      - extensive changes to incorporate new Proof Assistant
+     *        "Derive" Feature.
+     */</pre><p>with</p><pre>    /*
+     *  ProofUnifier.java  0.03 07/25/2006
+     *
+     *  Version 0.02:
+     *      - extensive changes to incorporate new Proof Assistant
+     *        "Derive" Feature.
+     *  Version 0.03:
+     *      - bug fixes for "Derive" feature
+     */</pre><hr /><p>#2 fixes the primary bug which results in a java.lang.NullPointerException<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=NullPointerException">?</a> when "Derive" is used with a blank input formula and no hypotheses, and the referenced assertion has $d specifications that are not satisfied by the theorem's (that is being proved) $d specifications.</p><p>To recreate the bug, copy the following ProofWorksheet<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofWorksheet">?</a> into the mmj2ProofAssistant<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAssistant">?</a> screen (with set.mm as the input file) and then press Ctrl-U (StartUnification<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StartUnification">?</a>):</p><p>$( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=ZZZZZZZ  LOC_AFTER=? 2::btwnz qed:?: |- ph</p><p>After successfully applying the fix and recompiling mmj2, step 2's btwnz formula  is generated and $d error messages appear.</p><hr /><p>#3 fixes a bug reported by <a class="local" href="frl">frl</a> and is  included here for expediency. The bug was added <b>by</b> the addition of the Derive feature. It manifests when a Ref label is present on a Derivation Proof Step, along with 1 or more Hyps and one of the referenced Hyps is incomplete &#x2013; meaning that the referenced Hyp itself has a "?" in one of its Hyp fields. The bug is that in this situation Unification is not  attempted on the Derivation Proof Step BUT had the Ref been left blank, Unification would have been attempted.</p><pre>   A Hyp pointing to another Derivation Proof
+   Step which contains a "?" in one of its Hyps
+   is valid -- the Proof Assistant is designed
+   to allow this so that a proof can be written
+   bottom up and refer to previous steps as Hyps
+   that are not themselves yet proven. </pre><pre>   Unfortunately, the Derive feature introduces
+   complexities in the Unification process 
+   because it actually generates hypothesis 
+   steps. The bug was introduced accidentally
+   to cover the situation where a generated
+   Hypothesis step failed unification, perhaps
+   due to containing dummy variables. Perhaps
+   this is the last Derive-related bug :)</pre><ul><li>* *</li></ul></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2PATCH20060725">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2PATCH20060725">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2PATCH20060725">Administration</a></span><span class="time"><br /> Last edited 2006-07-29 20:11 UTC by <a class="author" title="from 66-81-74-187.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2PATCH20060725">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

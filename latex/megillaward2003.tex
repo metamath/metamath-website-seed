@@ -1,0 +1,631 @@
+
+\documentclass{slides}
+
+%page size
+\usepackage{anysize}
+\papersize{8in}{11in}
+%left,right,top,bottom
+%\marginsize{0.4706in}{0.4706in}{0.476in}{0.4706in}
+\marginsize{1in}{1in}{0.2in}{1in}
+
+\usepackage{color}
+\definecolor{mint}{rgb}{.933,1,.98}
+\definecolor{darkgreen}{rgb}{0,.7,0}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+
+\begin{document}
+\raggedright
+\pagecolor{mint}
+
+
+\begin{slide}
+\begin{center}
+\textcolor{blue}{\textbf{\LARGE Orthomodular Lattices\\
+and Beyond}}\\
+\vspace{3ex}
+{\large Norman Megill}\\
+\vspace{1ex}
+\textcolor{darkgreen}{\texttt{nm {}@ alum.mit.edu\qquad http://metamath.org}}
+\end{center}
+\end{slide}
+
+\begin{slide}
+An \textcolor{red}{\textit{ortholattice} (OL)} is an algebra
+$\langle A,\cup,\cap,'>$ in which the following conditions hold:
+\begin{eqnarray}
+a\cup b & = & b\cup a\\
+(a\cup b)\cup c & = & a\cup (b\cup c)\\
+a'' & = & a\\
+a\cup (a\cap b) & = & a\\
+a\cap b & = & (a'\cup b')'
+\end{eqnarray}
+An \textcolor{red}{\textit{orthomodular lattice} (OML)} is an OL in which
+\begin{eqnarray}
+a\cup b & = & ((a\cup b)\cap b')\cup b
+\end{eqnarray}
+
+
+A \textcolor{red}{\textit{Boolean algebra} (BA)}
+is an OML in which
+\begin{eqnarray}
+a & = & (a\cap b)\cup (a\cap b')
+\end{eqnarray}
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{A Neat Result}}
+
+There is a single axiom of length 23 for OML, where
+$\textcolor{red}{a|b}\,{\buildrel\rm def\over =}\,
+a'\cup b'$ is the Sheffer stroke (McCune, Rose, Veroff
+\textcolor{darkgreen}{
+\texttt{http://www.mcs.anl.gov/{\char`\~}mccune/papers/olsax/}}):
+\begin{eqnarray}
+((((b|a)|(a|c))|d)|(a|((c|((a|a)|c))|c))) &=
+  & a  % OML-saa
+\end{eqnarray}
+
+Open problem(?):  is there one of length 21?
+\end{slide}
+
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{Some Definitions}}
+\begin{eqnarray}
+\textcolor{red}{1} &
+{\buildrel\rm def\over =}& a\cup a' \quad\mbox{(unit)}\\
+\textcolor{red}{0} &
+{\buildrel\rm def\over =}& 1' \quad\mbox{(zero)}\\
+\textcolor{red}{a\le b} &
+{\buildrel\rm def\over \Leftrightarrow}& a=a\cap b
+ \quad\mbox{(less-than-or-equal)} \\
+\textcolor{red}{a\equiv b} &{\buildrel\rm def\over =}&
+(a\cup b)\cap(a'\cup b')  \quad\mbox{(equivalence)} \\
+\textcolor{red}{a \,{\rm C}\, b} &
+{\buildrel\rm def\over \Leftrightarrow}& a=(a\cap b)
+ \cup(a\cap b')
+ \quad\mbox{(commutes)}
+\end{eqnarray}
+
+\end{slide}
+
+
+
+\begin{slide}
+A \textcolor{red}{\textit{weakly orthomodular lattice} (WOML)}
+ is an OL in which
+\begin{eqnarray}
+(a'\cap (a\cup b))\cup b'\cup (a\cap b) & = & 1
+\end{eqnarray}
+
+A \textcolor{red}{\textit{weakly Boolean algebra} (WBA)}
+ is a WOML in which
+\begin{eqnarray}
+a'\cup (a\cap b)\cup (a\cap b') & = & 1
+\end{eqnarray}
+
+
+
+
+%\begin{figure}[htbp]\centering
+  % Set unitlength to default in case it's not
+  \setlength{\unitlength}{1pt}
+  \begin{picture}(100,90)(0,0)
+
+    \put(30,0){
+      \begin{picture}(60,80)(-10,-10)
+%                1
+%               / \
+%              y   x'
+%              |   |
+%              x   y'
+%               \ /
+%                0
+        \put(20,0){\line(-1,1){20}}
+        \put(20,0){\line(1,1){20}}
+        \put(0,20){\line(0,1){20}}
+        \put(40,20){\line(0,1){20}}
+        \put(0,40){\line(1,1){20}}
+        \put(40,40){\line(-1,1){20}}
+
+        \put(20,-5){\makebox(0,0)[t]{$0$}}
+        \put(-5,20){\makebox(0,0)[r]{$x$}}
+        \put(45,20){\makebox(0,0)[l]{$y'$}}
+        \put(-5,40){\makebox(0,0)[r]{$y$}}
+        \put(45,40){\makebox(0,0)[l]{$x'$}}
+        \put(20,65){\makebox(0,0)[b]{$1$}}
+
+        \put(20,0){\circle*{3}}
+        \put(0,20){\circle*{3}}
+        \put(40,20){\circle*{3}}
+        \put(0,40){\circle*{3}}
+        \put(40,40){\circle*{3}}
+        \put(20,60){\circle*{3}}
+
+        \put(100,80){\makebox(0,0)[l]{Lattice O6 is an example of a WOML and a WBA.}}
+        \put(100,50){\makebox(0,0)[l]{It is non-orthomodular and non-distributive,}}
+        \put(100,20){\makebox(0,0)[l]{yet it is a model for both quantum and classical}}
+        \put(100,-10){\makebox(0,0)[l]{propositional calculus!}}
+
+      \end{picture}
+    } % end of O6 subpicture
+
+  \end{picture}
+%  \caption
+%    Lattice O6
+%  \label{fig:o6mo2}}
+%\end{figure}
+
+\end{slide}
+
+
+\begin{slide}
+\textcolor{blue}{\textbf{Summary of WOML and WBA Results}}
+
+\begin{itemize}
+\item All OMLs (BAs) are WOMLs (WBAs).
+\item Not all WOMLs (WBAs) are OMLs (BAs).
+\item Any OML (BA) equation can be represented in WOML (WBA) with
+the following mapping:
+\begin{center}
+\begin{tabular}{c|c}
+OML (BA) & WOML (WBA)  \\
+\hline
+$a=b$ & $a\equiv b=1$
+\end{tabular}
+\end{center}
+\item WOMLs (WBAs) are more general models for quantum (classical)
+propositional calculus, than the usual OML (BA) models.
+\end{itemize}
+\end{slide}
+
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{The 6 Implications in OMLs}}
+\begin{eqnarray}
+\textcolor{red}{a\to_0b} &
+{\buildrel\rm def\over =}& a'\cup b \quad\mbox{(classical)}\\
+\textcolor{red}{a\to_1b} &
+{\buildrel\rm def\over =}& a'\cup(a\cap b) \quad\mbox{(Sasaki)}\\
+\textcolor{red}{a\to_2b} &
+{\buildrel\rm
+def\over =}&\ b'\to_1a'  \quad\mbox{(Dishkant)}\\
+\textcolor{red}{a\to_3b} &
+{\buildrel\rm def\over =}& (a'\cap b)\cup(a'\cap b')\cup
+(a\to_1b)                 \quad\mbox{(Kalmbach)}\\
+\textcolor{red}{a\to_4b} & {\buildrel\rm def\over =}&
+b'\to_3a'                            \quad\mbox{(non-tollens)}\\
+\textcolor{red}{a\to_5b} & {\buildrel\rm def\over =}&
+(a\cap b)\cup(a'\cap b)\cup(a'\cap b')  \quad\mbox{(relevance)}
+\end{eqnarray}
+
+All 6 implications evaluate
+to $a\to_0b$ in a Boolean lattice.
+$\to_i$, for $i\ne 0$, is called a
+\textcolor{red}{{\em quantum}} implication.  $\to_0$ is
+called a \textcolor{red}{{\em classical}} implication.
+
+\end{slide}
+
+\begin{slide}
+Quantum implications are distinguished by the fact
+in an OML they
+satisfy the \textcolor{red}{{\it Birkhoff-von Neumann condition}}:
+\begin{eqnarray}
+a\to_i b=1 & \Leftrightarrow & a\le b, \quad i=1,\ldots,5
+\end{eqnarray}
+
+Neat result (Pavi\v ci\'c/Megill, 1998):
+\begin{eqnarray}
+a\cup b&=&(a\rightarrow_i b)\rightarrow_i(((a
+\rightarrow_i b)\rightarrow_i(b \to_i a))\rightarrow_i a)
+\end{eqnarray}
+holds in any OML for $i=1,\ldots,5$.  This observation lets us to
+construct, by adding a constant $0$, an OML-equivalent ``unified''
+algebra with an (unspecified) quantum implication as its only
+binary operation.  Thus, we can study the properties common to all
+quantum implications without a philosophical debate of which is
+the ``real'' implication.
+
+\end{slide}
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{Orthoimplication Algebra
+$\langle A,.\rangle$ (Abbott, 1976)}}
+\begin{eqnarray}
+(ab)a & = & a\\
+(ab)b & = & (ba)a\\
+a((ba)c) & = & ac
+\end{eqnarray}
+If ``$.$'' is interpreted as $\to_2$, then each equation holds in OML.
+
+Conjecture (completeness):  All such equations
+(i.e.\ polynomials in $\to_2$ on each side of equality) that hold in OML
+can be proved from this algebra.
+
+
+\end{slide}
+
+
+\begin{slide}
+
+
+
+\textcolor{blue}{\textbf{Quasi-Implication Algebra
+ $\langle A,.\rangle$ (Hardegree, 1981)}}
+\begin{eqnarray}
+(a b) a & = & a\\
+(a b) (a c) & = & (b a) (b c)\\
+((a b)(b a)) a & = & ((b a)
+     (a b)) b
+\end{eqnarray}
+If ``$.$'' is interpreted as $\to_1$, then each equation holds in OML.
+
+Theorem (completeness) [Hardegree]:  All such equations that hold in OML,
+ with $\to_1$ as the
+only operation, can be proved from this algebra.
+
+
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{Other Implication Algebras}}
+
+Similar algebras for $\to_3$, $\to_4$, and $\to_5$ have not been
+proposed nor any completeness results obtained.
+
+The most promising
+system for future study is $\to_5$, because  $a\to_1 b=
+a\to_5 (a\to_5 b)$ in any OML, holding promise that
+the ideas in Hardegree's $\to_1$
+proof can be adapted for $\to_5$.
+
+Systems for $\to_3$ and $\to_4$, as well as completeness of
+Abbott's $\to_2$ system, remain complete mysteries.
+
+\end{slide}
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{Another Open OML Problem}}
+
+Problem:  does the following equation hold in all OMLs?
+\begin{eqnarray}
+\lefteqn{(a \to_5 b) \cap (b \to_5 c)
+      \cap (c \to_5 d) \cap (d \to_5 e) \cap (e \to_5 a)
+          =}\qquad\qquad\nonumber\\
+  & & (a \equiv b) \cap (b \equiv c) \cap (c \equiv d) \cap (d \equiv e)
+      \label{eq:theeqi5}
+\end{eqnarray}
+Note:  It holds for $\le 4$ variables.  It does not hold for $\ge 6$ variables.
+\end{slide}
+
+
+
+
+
+\begin{slide}
+\textcolor{blue}{\textbf{Orthomodular Lattices and Hilbert Space}}
+
+\textbf{Fact:} The OML axioms hold in the lattice of closed subspaces of
+infinite dimensional Hilbert space,
+\textcolor{red}{${\cal C}({\cal H})$}.  This is a primary motivation for
+studying them.  But they aren't the only equations that hold!
+
+\textbf{Some history:}
+\begin{itemize}
+\item 1936 - Birkhoff/von Neumann attempt to find a ``logical structure''
+  for quantum mechanics, but find only the modular law (holding only
+  for finite-dimensional Hilbert space).
+\item 1937 - Husumi discovers the orthomodular law and
+  shows that it holds in ${\cal C}({\cal H})$.
+\end{itemize}
+
+\end{slide}
+\begin{slide}
+\textcolor{blue}{\textbf{History (cont.)}}
+
+\begin{itemize}
+\item 1975 - Day discovers the orthoarguesian law and shows that it
+  holds in ${\cal C}({\cal H})$.
+\item 1981 - Godowski discovers an infinite equational variety
+derived from properties of
+ states on ${\cal C}({\cal H})$, that holds
+in ${\cal C}({\cal H})$.
+\item 1985 - Mayet extends Godowski's discovery to prove the existence
+of a more general equational variety that
+  holds in ${\cal C}({\cal H})$.  (However Mayet
+provides no actual examples of these new equations that are stronger than
+Godowski's.)
+\end{itemize}
+
+\end{slide}
+
+\begin{slide}
+
+
+\textcolor{blue}{\textbf{History (cont.)}}
+
+\begin{itemize}
+\item 1995 - Sol\`er proves that an OML, with certain additional conditions,
+determines a Hilbert space (very significant).  Thus OML theory (with
+these conditions) and
+Hilbert space theory are duals.
+\end{itemize}
+
+\end{slide}
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{Some recent results:}}
+
+\begin{itemize}
+\item 2000 - Megill/Pavi\v ci\'c found an infinite equational variety
+related to orthoarguesian equations, but stronger, that
+holds in ${\cal C}({\cal H})$.
+\item 2003 - Megill/Pavi\v ci\'c found examples (unpublished)
+ of Mayet's equations
+that are stronger than Godowski's, that
+hold in ${\cal C}({\cal H})$.
+\end{itemize}
+
+
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{Equations Related to States
+That Hold in ${\cal C}({\cal H})$}}
+
+The simplest \textcolor{red}{\em Godowski equation} is
+\begin{eqnarray}
+(a\to_1 b)\cap(b\to_1 c)\cap(c\to_1 a) &\le& a\to_1 c
+\end{eqnarray}
+
+Using Mayet's theory, Megill/Pavi\v ci\'c (unpublished) found examples
+of equations stronger than (independent from) Godowski's.  The
+simplest example is
+\begin{eqnarray}
+( ( a \to_1 b ) \to_1 ( c \to_1 b ) ) \cap
+                     ( a \to_1 c ) \cap ( b \to_1 a )& \le&  c \to_1 a
+\end{eqnarray}
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{More Definitions}}
+\begin{eqnarray}
+\textcolor{red}{a{\buildrel c\over\equiv}b}
+&{\buildrel\rm def\over =}& ((a\to_1 c)
+\cap(b\to_1 c))
+\cup((a'\to_1 c)\cap(b'\to_1 c)) \\
+\textcolor{red}{a{\buildrel c,d\over\equiv}b}
+&{\buildrel\rm def\over =}& (a{\buildrel d\over\equiv}b)\cup
+((a{\buildrel d\over\equiv}c)\cap
+(b{\buildrel d\over\equiv}c))
+\end{eqnarray}
+
+\textcolor{blue}{\textbf{Orthoarguesian Equations
+That Hold in ${\cal C}({\cal H})$}}
+\begin{eqnarray}
+(a\to_1 c)\cap (a{\buildrel c\over\equiv}b) & \le  b\to_1 c
+\quad\mbox{(\textcolor{red}{OA3})} \\
+(a\to_1 d)\cap (a{\buildrel c,d\over\equiv}b) & \le  b\to_1 d
+\quad\mbox{(\textcolor{red}{OA4})}
+\end{eqnarray}
+OA4 is a 4-variable equivalent to Day's original 6-variable orthoarguesian
+equation.  OA3 is a strictly weaker 3-variable
+equation, that is still stronger than the OM law.  OMLs in which
+OA3 or OA4 hold are called \textcolor{red}{3OA}s,
+\textcolor{red}{4OA}s respectively.
+
+\end{slide}
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{Generalization of Orthoarguesian Law (Definitions)}}
+\begin{eqnarray}
+\textcolor{red}{a_1{\buildrel (3)\over\equiv}a_2}
+&{\buildrel\rm def\over =}& a_1{\buildrel a_3\over\equiv}a_2\  \\
+\textcolor{red}{a_1{\buildrel (4)\over\equiv}a_2}
+&{\buildrel\rm def\over =}& a_1{\buildrel a_4,a_3\over\equiv}a_2\ \\
+\textcolor{red}{a_1{\buildrel (5)\over\equiv}a_2}
+&{\buildrel\rm def\over =}& (a_1{\buildrel (4)\over\equiv}a_2)\cup
+((a_1{\buildrel (4)\over\equiv}a_5)\cap
+(a_2{\buildrel (4)\over\equiv}a_5))\label{5oaoper}\\
+\textcolor{red}{a_1{\buildrel (n)\over\equiv}a_2}
+&{\buildrel\rm def\over =}& (a_1{\buildrel (n-1)\over\equiv}a_2)\cup
+((a_1{\buildrel (n-1)\over\equiv}a_n)\cap
+(a_2{\buildrel (n-1)\over\equiv}a_n)),\nonumber\\
+& & n\ge 4
+\end{eqnarray}
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{Generalization of Orthoarguesian Law
+ (Definitions, cont.)}}
+
+To obtain
+${\buildrel (n)\over\equiv}$ we substitute in each
+${\buildrel (n-1)\over\equiv}$ subexpression only the two explicit
+variables, leaving the other variables the same.  For example,
+$(a_2{\buildrel (4)\over\equiv}a_5)$ in (\ref{5oaoper}) means
+$(a_2{\buildrel (3)\over\equiv}a_5)\cup ((a_2{\buildrel
+(3)\over\equiv}a_4)\cap (a_5{\buildrel (3)\over\equiv}a_4))$ which means
+$(((a_2\to_1 a_3)\cap(a_5\to_1 a_3)) \cup((a_2'\to_1 a_3)\cap(a_5'\to_1
+a_3)))\cup
+(
+(((a_2\to_1 a_3)\cap(a_4\to_1 a_3))
+\cup((a_2'\to_1 a_3)\cap(a_4'\to_1 a_3)))
+\cap
+(((a_5\to_1 a_3)\cap(a_4\to_1 a_3))
+\cup((a_5'\to_1 a_3)\cap(a_4'\to_1 a_3)))
+)
+$
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{Generalization of Orthoarguesian Law
+ (cont.)}}
+
+Theorem [Megill/Pavi\v ci\'c, 2000]: The \textcolor{red}{$n$OA {\em laws}}
+\begin{eqnarray}
+(a_1\to_1 a_3) \cap (a_1{\buildrel (n)\over\equiv}a_2)
+\le a_2\to_1 a_3\,.\label{eq:noa}
+\end{eqnarray}
+hold in   ${\cal C}({\cal H})$.  In addition, they form a series of
+successively stronger laws than 3OA and 4OA (proved for $n=5$ and $n=6$;
+open problem for $n>6$).
+
+The independence proof for $n=6$ required 10 CPU years on a 192-CPU Linux
+cluster at Australian National University.
+\end{slide}
+
+\begin{slide}
+
+\textcolor{blue}{\textbf{``Orthoarguesian Identity'' Laws}}
+
+The relations
+\begin{eqnarray}
+a{\buildrel c\over\equiv}b=1\qquad & \Leftrightarrow & \qquad
+a\to_1c=b\to_1c\qquad\mbox{(\textcolor{red}{OI3})}\\
+a{\buildrel c,d\over\equiv}b=1\qquad & \Leftrightarrow & \qquad
+a\to_1d=b\to_1d\qquad\mbox{(\textcolor{red}{OI4})}
+\end{eqnarray}
+hold in all 3OAs, 4OAs respectively.
+
+Open problems:\\
+\textcolor{red}{OI3 {\em conjecture}}:  All OMLs in which OI3 holds
+are 3OAs.\\
+\textcolor{red}{OI4 {\em conjecture}}:  All OMLs in which OI4 holds
+are 4OAs.
+
+\end{slide}
+
+\begin{slide}
+\textcolor{blue}{\textbf{\LARGE \$100 Prize}}
+
+I have ``wasted'' so much time and effort over the past 3 years trying
+to prove or disprove the OI3 conjecture that, in an effort to maintain my
+sanity, I hereby offer this prize to anyone who proves or disproves
+it.
+
+\end{slide}
+
+
+\begin{slide}
+The following equation, if it holds in all OMLs, will prove the
+OI3 conjecture (note that $-a$ means $a'$):
+
+$((((-(-a \cup (a \cap c)) \cup ((-(-a \cup (a \cap c)) \cup -(-b
+\cup (b \cap c))) \cap (-a \cup -b))) \cup (((-a \cup (a \cap c))
+\cap (((-a \cup (a \cap c)) \cap (-b \cup (b \cap c))) \cup (a \cap
+b))) \cap c)) \cap ((-(-b \cup (b \cap c)) \cup ((-(-a \cup (a \cap
+c)) \cup -(-b \cup (b \cap c))) \cap (-a \cup -b))) \cup (((-b
+\cup (b \cap c)) \cap (((-a \cup (a \cap c)) \cap (-b \cup (b \cap
+c))) \cup (a \cap b))) \cap c))) \cup ((-a \cup (a \cap c)) \cap (-b
+\cup (b \cap c)))) = 1$
+
+Using the Sasaki implication, we can abreviate this as follows:
+
+$(((((a \to_1 c) \cap (((a \to_1 c) \cap (b \to_1 c)) \cup (a \cap b)))
+\to_1 c) \cap (((b \to_1 c) \cap (((a \to_1 c) \cap (b \to_1 c)) \cup (a
+\cap b))) \to_1 c)) \cup ((a \to_1 c) \cap (b \to_1 c))) = 1$
+
+
+\end{slide}
+
+\begin{slide}
+
+%
+%   (aIc)^(a=c=b) C bIc                   (a) (proved 3OA-equivalent in
+%                                             Theorem 1 of email of 28-Apr-02)
+%   (aIc)^(a=c=b) C (bIc)^(a=c=b)         (b)
+%   -(-aIc)^(a=c=b) =< bIc                (c)
+%   -(-aIc)^(a=c=b) C bIc                 (d)
+%   -(-aIc)^(a=c=b) C (bIc)^(a=c=b)       (e)
+%   c^(aIc)^(a=c=b) =< (bIc)              (f)
+%   c^(aIc)^(a=c=b) C (bIc)               (g)
+%   c^(aIc)^(a=c=b) C (bIc)^(a=c=b)       (h)
+%   ((aIc)^(a=c=b))Ic = ((bIc)^(a=c=b))Ic (i) (proved 3OA-equivalent in
+%                                             email of 12-May-02)
+%   ((aIc)^(a=c=b))Ic C ((bIc)^(a=c=b))Ic (j)
+%
+% From earlier emails, we know:
+%
+%   (a) => (b)
+%   (a) => (c) => (d) => (e)
+%   (a) => (f) => (g) => (h)
+%   (a) <=> (i) => (j)
+%
+% Here is one minor improvement I have made.  I will prove that
+% (h) => (f), establishing
+%
+%   (f) <=> (g) <=> (h)
+\textcolor{blue}{\textbf{Equations Related to the OI3 Conjecture}}
+\begin{eqnarray}
+(a\to_1 c)\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  b\to_1 c                  \label{eqa}\\
+(a\to_1 c)\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  (b\to_1 c)\cap (a{\buildrel c\over\equiv}b)    \label{eqb}\\
+(a'\to_1 c)'\cap (a{\buildrel c\over\equiv}b)  & \le &  b\to_1 c                    \label{eqc}\\
+(a'\to_1 c)'\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  b\to_1 c                \label{eqd}\\
+(a'\to_1 c)'\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  (b\to_1 c)\cap (a{\buildrel c\over\equiv}b)  \label{eqe}\\
+c\cap (a\to_1 c)\cap (a{\buildrel c\over\equiv}b)  & \le &  (b\to_1 c)              \label{eqf}\\
+c\cap (a\to_1 c)\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  (b\to_1 c)          \label{eqg}\\
+c\cap (a\to_1 c)\cap (a{\buildrel c\over\equiv}b)  & {\rm C} &  (b\to_1 c)\cap (a{\buildrel c\over\equiv}b)     \label{eqh}\\
+((a\to_1 c)\cap (a{\buildrel c\over\equiv}b))\to_1 c & = & ((b\to_1 c)\cap (a{\buildrel c\over\equiv}b))\to_1 c \label{eqi}\\
+((a\to_1 c)\cap (a{\buildrel c\over\equiv}b))\to_1 c  & {\rm C} &  ((b\to_1 c)\cap (a{\buildrel c\over\equiv}b))\to_1 c
+  \label{eqj}
+\end{eqnarray}
+
+
+\end{slide}
+
+
+\begin{slide}
+\textcolor{blue}{\textbf{Equations Related to the OI3 Conjecture (cont.)}}
+
+All of these equations are implied by the 3OA law.  All of
+these equations imply OI3.  Unknown is whether most of them are
+equivalent to the 3OA law.  A proof of the OI3 conjecture would
+establish all of them as equivalent to the 3OA law.  Known results
+are as follows
+(note that $\Rightarrow$ means ``can be proved from the axiom
+system of OML $+$ the left-hand side equation added as an axiom''):
+
+\qquad   OA3 $\Leftrightarrow$ \ref{eqa} $\Rightarrow$ \ref{eqb}
+   $\Rightarrow$ OI3\\
+\qquad   OA3 $\Rightarrow$ \ref{eqc} $\Rightarrow$ \ref{eqd}
+    $\Rightarrow$ \ref{eqe}  $\Rightarrow$ OI3 \\
+\qquad   OA3 $\Rightarrow$ \ref{eqf} $\Leftrightarrow$
+    \ref{eqg} $\Leftrightarrow$ \ref{eqh}  $\Rightarrow$ OI3\\
+\qquad   OA3 $\Leftrightarrow$ \ref{eqi}
+  $\Rightarrow$ \ref{eqj}  $\Rightarrow$ OI3
+
+\end{slide}
+
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{References}}
+
+Most of the references for this material can be found at:
+
+\textcolor{darkgreen}{
+\texttt{http://us.metamath.org/qlegif/mmql.html{\char`\#}ref}}
+
+\vspace{3ex}
+
+More miscellaneous stuff can be found at:\\
+\textcolor{darkgreen}{
+\texttt{http://users.shore.net/{\char`\~}ndm/award2003.html}}
+
+\end{center}
+\end{slide}
+
+\end{document}
+
+

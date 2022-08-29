@@ -1,0 +1,10 @@
+The files here are described on the Metamath Home Page at
+http://metamath.org .
+
+
+Copyright
+---------
+
+See http://us.metamath.org/copyright.html for license and copyright
+information that applies to the content of these packages.
+

@@ -1,0 +1,10 @@
+For the Metamath Proof Explorer, open mmset.html in your browser.
+For the Hilbert Space Explorer, open mmhil.html in your browser.
+For the Metamath Music Page, open mmmusic.html in your browser.
+
+Copyright
+---------
+
+See http://us.metamath.org/copyright.html for license and copyright
+information that applies to the content of this package.
+

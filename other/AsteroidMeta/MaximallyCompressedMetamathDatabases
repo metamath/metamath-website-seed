@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: MaximallyCompressedMetamathDatabases</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: MaximallyCompressedMetamathDatabases" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=MaximallyCompressedMetamathDatabases" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=MaximallyCompressedMetamathDatabases">MaximallyCompressedMetamathDatabases</a></h1></div><div class="content browse"><p>Here is a first draft of "compressed1.mm" which documents how a Metamath database can be "maximally" (I think) compressed. The .mm lines are indented to the right by 4 columns to prevent the Asteroid from manipulating the  text.</p><pre>    $( compressed1.mm - Version of 9-May-2008</pre><pre>    #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+        Metamath source file for experimentation with Maximally Compressed
+        Metamath databases. 
+    #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#</pre><pre>                               ~~ PUBLIC DOMAIN ~~</pre><pre>    This file is placed in the public domain per the Creative Commons Public
+    Domain Dedication:  http://creativecommons.org/licenses/publicdomain/
+    The public domain release applies worldwide.  In case this is not
+    legally possible, the right is granted to use the work for any purpose,
+    without any conditions, unless such conditions are required by law.</pre><pre>    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    Maximally Compressed Metamath Databases.
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</pre><pre>        The idea behind "maximally" compressed Metamath databases is
+        that a theorem's formula and the formulas of its Logical
+        Hypotheses can be generated in Most General Form using just
+        its proof; the syntax labels in the proof are not needed for
+        this purpose. Also, any $d restrictions which are required
+        for a theorem can be generated from the $d restrictions of
+        the axioms and theorems it refers to in its proof (all $d
+        restrictions are, ultimately, obtained from the axioms.)</pre><pre>        A "Maximally Compressed Metamath Database" consists of
+        .mm source (exemplified by the sample below) -- containing
+        all of the $c, $v, $f, $a, $d and $e's for the $a's -- 
+        followed by and a binary bitstream as defined in this file.</pre><pre>        The bitstream consists of a Header section, a Body, and
+        a Trailer.</pre><pre>        The bit stream is encoded using Variable Length
+        Words which increase in length by one bit each time
+        a Word is used consisting of all B'1' bits (binary one bits).</pre><pre>        Header: Describes the parameters used to encode the .mm
+                theorem bitstream.</pre><pre>            -   Initial Word Size: 
+                    * n B'1' (Binary one) bits where 'n' is the Initial 
+                      Word Size.</pre><pre>                    * NOTE: Initial Word Size is considered the first
+                            word. The next word will be n + 1 bits
+                            long.</pre><pre>                    * Default = 9 (i.e. B'111111111').</pre><pre>            -   Maximum Logical Hypotheses: </pre><pre>                    * maximum number of Logical (Essential) Hypotheses 
+                      which can be used in an Axiom or Theorem. References
+                      inside the bitstream to Logical Hypotheses are 
+                      always local to a theorem's proof and are 
+                      referred to as 1, 2, 3, ... within the proof
+                      (i.e. B'1', B'10', B'11', etc.)</pre><pre>                    * Default = 32 (i.e. B'0000010000')</pre><pre>                    * From Maximum Logical Hypotheses and Initial Word Size
+                      the Maximum Logical Axioms is computed (inferred).
+                      This is the number of axioms where are reserved
+                      for use in the numbering scheme. It is computed
+                      as follows:</pre><pre>                        Maximum Axioms = 2**Initial Word Size
+                                         - Maximum Logical Hypotheses
+                                         - 1.</pre><pre>                        Default = 991 (i.e. B'1111011111').</pre><pre>        Body: Consists of 0 or more encoded theorems, each consisting
+              of Words encoding the Theorem Number (label) followed
+              by Proof Steps. </pre><pre>            - Theorem Number:</pre><pre>                  * Encoded as one Word. </pre><pre>                  * Theorem Numbers are assigned sequentially by
+                    adding 1 to the previous Theorem Number, except
+                    for the first Theorem Number which equals Maximum
+                    Logical Axioms plus 1 (by definition).</pre><pre>            - Proof Steps: </pre><pre>                  * Each Proof Step is encoded as one Word. </pre><pre>                  * If the Theorem Number consists of all binary ones
+                    (B'1') when converted into binary, then the Word 
+                    size in the bitstream is increased by one bit,
+                    and therefore, the theorem's Proof Step Word
+                    size is one greater than the Theorem Number's
+                    word size.</pre><pre>                  * Proof Steps are in Reverse Polish Notation 
+                    order (as per the Metamath step). Thus, the 'qed'
+                    Proof Step is the final Proof Step for the 
+                    Theorem. </pre><pre>                  * Each Proof Step is encoded as a single Word which
+                    contains either:</pre><pre>                        a) a previous Theorem Number (e.g. 992, 993, ...)</pre><pre>                             or</pre><pre>                        b) a Logical Axiom number (e.g. 33, 34, ..., 991)</pre><pre>                             or</pre><pre>                        c) a Logical Hypothesis Number (e.g. 1, 2, ..., 32).
+                           NOTE: a theorem's Logical Hypotheses are not
+                                 declared, they are simply used at the
+                                 appropriate locations within the proof.
+                                 Thus, if a proof contains references to
+                                 Logical Hypotheses 1, 2, and 3, then
+                                 *by definition* the Theorem uses three
+                                 Logical Hypotheses. </pre><pre>                  * A Proof Step number need not match the Metamath
+                    label of the assertion or logical hypothesis. It
+                    is imagined that a lookup table could be used to
+                    translate between Proof Step number and Metamath
+                    label. </pre><pre>                  * The end of the Proof Steps for a Theorem is
+                    indicated by the following Theorem Number -- which
+                    is distinguished by its value, which is one greater
+                    than the current Theorem Number -- or by the bitstream
+                    Footer, which consists of one Word of binary zeroes
+                    (B'0').</pre><pre>        Trailer: One Word containing all binary zeroes (B'0000....000'). </pre><pre>    $)</pre><pre>      $c ( $.  
+      $c ) $.  
+      $c -&gt; $. 
+      $c wff $.
+      $c |- $.</pre><pre>      $v ph $.
+      $v ps $.
+      $v ch $.
+      $v th $.
+      $v ta $.</pre><pre>      wph $f wff ph $.
+      wps $f wff ps $.
+      wch $f wff ch $.
+      wth $f wff th $.
+      wta $f wff ta $.</pre><pre>      wi $a wff ( ph -&gt; ps ) $.</pre><pre>      ${ $( referred to in the binary bitstream as #33 $)
+        min   $e |- ph $.
+        maj   $e |- ( ph -&gt; ps ) $.
+        ax-mp $a |- ps $.
+      $}</pre><pre>      $( #34 $)
+      ax-1 $a |- ( ph -&gt; ( ps -&gt; ph ) ) $.</pre><pre>      $( #35 $)
+      ax-2 $a |- ( ( ph -&gt; ( ps -&gt; ch ) ) -&gt; 
+                   ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) ) $.</pre><pre>    ${ $( dummy provided for mmj2 use only $)
+      dummy.1 $e |- ph $.
+      dummy   $p |- ph $= ? $.
+    $}</pre><pre>    $( === end of native .mm source === $)</pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=MaximallyCompressedMetamathDatabases">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=MaximallyCompressedMetamathDatabases">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=MaximallyCompressedMetamathDatabases">Administration</a></span><span class="time"><br /> Last edited 2008-05-10 21:53 UTC by <a class="author" title="from 66-81-74-171.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=MaximallyCompressedMetamathDatabases">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

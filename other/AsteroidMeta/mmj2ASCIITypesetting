@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2ASCIITypesetting</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2ASCIITypesetting" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2ASCIITypesetting" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2ASCIITypesetting">mmj2ASCIITypesetting</a></h1></div><div class="content browse"><p>back to <a class="local" href="mmj2">mmj2</a></p><hr /><p>Comments?</p><pre>    Following is a brief sketch of my ASCII typesetting
+    plan for use with the mmj2 Proof Assistant GUI.
+    
+    Problem: to render a Metamath formula using ASCII
+    =======  in a way that facilitates comprehension.
+    
+    Stipulations:
+    =============
+         1) The formula has a parse tree (aka "exprRPN");
+         2) The output goes into a StringBuffer with
+            a specified left hand indentation and a 
+            right hand margin (both numbers given in
+            terms of number of characters);
+         3) The rendered formula StringBuffer will be 
+            displayed using a fixed width font of a size 
+            that is compatible with the given right hand 
+            margin (it fits, in other words);
+         4) Carriage returns are inserted into the 
+            StringBuffer to start new lines and 
+            space characters are used for horizontal
+            positioning of symbols.
+         5) If any errors are encountered the formula
+            is not "pretty printed" but is just output
+            symbol by symbol into the given margins
+            (an error message should be sent to the
+            error log however);
+         6) This solution and the resulting code are
+            independent of any subsequent typesetting
+            efforts involving MathML, etc. 
+              
+    Strategy:
+    =========
+         Because Metamath accomodates infix, postfix
+         prefix and combinations of these syntax
+         categories, it is impossible for any one
+         "pretty-printing" algorithm to satisfy all
+         users of all varieties of Metamath databases.
+    
+         Therefore, a default scheme shall be provided
+         (Method A) and a RunParm will be provided 
+         allowing the user to specify a different
+         default ASCII typesetting method for an 
+         input Metamath file.
+    
+         In addition, the user shall be able to specify
+         exceptions to the default method for specific
+         syntax axioms. For example:
+    
+             ASCIITypesetDefault,A
+             ASCIITypesetMethod,B,wi,wbr,weq
+             ASCIITypesetMethod,C,blah,blahblah,blahblahblah
+    
+    
+         Method A:
+         ========
+    
+         Default Method A is very primitive. It operates
+         recursively starting at the root node of the
+         formula's parse tree.
+    
+         1)  At a given parse node the subtree expression
+             is formatted as a single line within the left
+             hand indentation and right hand margin.</pre><pre>         2)  If the length of the formatted expression
+             overflows the right hand margin:
+                 
+             1. The symbols prior to the first variable
+                in the node's syntax axiom are printed
+    
+             2. Each variable subtree is formatted using
+                Method A, using left hand indentation
+                parameters such that all variable expressions
+                are aligned vertically
+    
+             3. The constant symbols, if any, following
+                each variable expression subtree is
+                formatted.
+    
+         Here is an example of Method A output for Theorem
+         ser1absdiflem using very narrow margins to 
+         illustrate the method (it also uses the "Fencing
+         Symbol Doublespacing" scheme that is described
+         below):
+    
+    
+             |- (  ( A e. NN /\ B e. NN ) -&gt; 
+                   ( abs 
+                     ` 
+                     (  (  ( + seq1 F ) ` ( A + B )  ) 
+                        - 
+                        (  ( + seq1 F ) ` A )  )  ) 
+                   &lt;_ 
+                   (  (  ( + seq1 G ) ` ( A + B )  ) 
+                      - 
+                      (  ( + seq1 G ) ` A )  )  ) 
+    
+    
+         ExprRPN for ser1absdiflem:
+             cA cn wcel cB cn wcel wa cA cB caddc co 
+             caddc cF cseq1 co cfv cA caddc cF cseq1 
+             co cfv cmin co cabs cfv cA cB caddc co 
+             caddc cG cseq1 co cfv cA caddc cG cseq1 
+             co cfv cmin co cle wbr wi 
+    
+    Fencing Symbol Doublespacing:
+    ============================
+                    
+         Finally, to (minimally) improve readability of
+         formulas with nested "fencing" symbols (parentheses,
+         brackets, etc), the following RunParm is provided 
+         which will insert an extra space character outside of
+         an inner fencing symbol if adjacent to a nesting
+         fencing symbol:
+    
+             ASCIITypesetFencingSpacing,(,)
+    
+         (where the pair of "fencing" symbols are provided
+         and multiple "ASCIITypesetFencingSpacing" RunParms
+         may be input.)
+      
+    </pre><hr /><p>Original Source in set.mm:</p><pre>        mdsymlem5 $p |- ( ( q e. Atoms /\ r e. Atoms ) -&gt; ( -. q = p -&gt;
+                        ( ( p (_ ( q vH r ) /\ ( q (_ A /\ r (_ B ) ) -&gt;
+                        ( ( ( c e. CH /\ A (_ c ) /\ p e. Atoms ) -&gt;
+                        ( p (_ c -&gt; p (_ ( ( c i^i B ) vH A ) ) ) ) ) ) $=
+    </pre><p>QED Proof Step Generated by BatchMMJ<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=BatchMMJ">?</a>2 using RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> "PrintStatementDetails<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=PrintStatementDetails">?</a>,mdsymlem5":</p><p>qed:107:com24</p><pre>             |- ( ( q e. Atoms /\ r e. Atoms ) -&gt; ( -. q = p -&gt; ( ( p (_ ( q vH r )
+                /\ ( q (_ A /\ r (_ B ) ) -&gt; ( ( ( c e. CH /\ A (_ c ) /\ p e. Atoms
+                ) -&gt; ( p (_ c -&gt; p (_ ( ( c i^i B ) vH A ) ) ) ) ) )
+    </pre><p>ExprRPN<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ExprRPN">?</a> Printed By BatchMMJ<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=BatchMMJ">?</a>2 using RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> "ProofAsstExportToFile<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstExportToFile">?</a>,mdsymlem5,mdsymlem5.txt,new,unified,NotRandomized<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=NotRandomized">?</a>,Print"</p><pre>    mdsymlem1.vq cv cat wcel mdsymlem1.vr cv cat wcel wa mdsymlem1.vq 
+    cv mdsymlem1.vp cv wceq wn mdsymlem1.vp cv mdsymlem1.vq cv mdsymlem1.vr 
+    cv chj co wss mdsymlem1.vq cv cA wss mdsymlem1.vr cv cB wss wa wa 
+    mdsymlem1.vc cv cch wcel cA mdsymlem1.vc cv wss wa mdsymlem1.vp cv 
+    cat wcel wa mdsymlem1.vp cv mdsymlem1.vc cv wss mdsymlem1.vp cv 
+    mdsymlem1.vc cv cB cin cA chj co wss wi wi wi wi wi
+    
+   </pre><p>Notation Syntax Axioms Used in ExprRPN<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ExprRPN">?</a>:</p><pre>      wi   $a wff   ( ph -&gt; ps )   $.
+      wn   $a wff   -. ph          $.
+      wa   $a wff   ( ph /\ ps )   $.
+      wcel $a wff   A e. B         $.
+      wceq $a wff   A = B          $.
+      wss  $a wff   A (_ B         $.
+      co   $a class ( A F B )      $.
+      cin  $a class ( A i^i B )    $.
+    
+   </pre><p>Typeset Version of mdsymlem5 with ruler (Parms: infix; break overflow; align var @ op 1; left col=10; right col=79):</p><pre>             1         2         3         4         5         6         7         8
+    12345678901234567890123456789012345678901234567890123456789012345678901234567890
+             |- ( ( q e. Atoms /\ r e. Atoms ) -&gt;
+                  ( -. q = p -&gt;
+                    ( ( p (_ ( q vH r ) /\ ( q (_ A /\ r (_ B ) ) -&gt;
+                      ( ( ( c e. CH /\ A (_ c ) /\ p e. Atoms ) -&gt;
+                        ( p (_ c -&gt; p (_ ( ( c i^i B ) vH A ) ) ) ) ) )
+    </pre><p>With Double-spaced Fencing:</p><pre>             1         2         3         4         5         6         7         8
+    12345678901234567890123456789012345678901234567890123456789012345678901234567890
+             |- (  ( q e. Atoms /\ r e. Atoms ) -&gt;
+                   ( -. q = p -&gt;
+                     (  ( p (_ ( q vH r ) /\ ( q (_ A /\ r (_ B )  ) -&gt;
+                        (  (  ( c e. CH /\ A (_ c ) /\ p e. Atoms ) -&gt;
+                              ( p (_ c -&gt; p (_ (  ( c i^i B ) vH A )  )  )  )  )  )
+    </pre><p>Typeset Version of mdsymlem5 with ruler (Parms: infix; break overflow; 2-col align cnst&amp;var @ sym 1; left col=10; right col=79):</p><pre>             1         2         3         4         5         6         7         8
+    12345678901234567890123456789012345678901234567890123456789012345678901234567890
+             |- (  ( q e. Atoms /\ r e. Atoms )
+                -&gt; (  -. q = p
+                   -&gt; (  ( p (_ ( q vH r ) /\ ( q (_ A /\ r (_ B ) )
+                      -&gt; (  ( ( c e. CH /\ A (_ c ) /\ p e. Atoms )
+                         -&gt; ( p (_ c -&gt; p (_ ( ( c i^i B ) vH A ) )
+                         )
+                      )
+                   )
+                )
+    </pre><p>With Double-spaced Fencing:</p><pre>             1         2         3         4         5         6         7         8
+    12345678901234567890123456789012345678901234567890123456789012345678901234567890
+             |- (  ( q e. Atoms /\ r e. Atoms )
+                -&gt; (  -. q = p
+                   -&gt; (  ( p (_ ( q vH r ) /\ ( q (_ A /\ r (_ B )  )
+                      -&gt; (  (  ( c e. CH /\ A (_ c ) /\ p e. Atoms )
+                         -&gt; ( p (_ c -&gt; p (_ (  ( c i^i B ) vH A )  )
+                         )
+                      )
+                   )
+                )
+    
+    </pre><hr /><p>This is definitely easier to read than the set.mm source. :) Question: why has it chosen '-&gt;' to break on and not '/\', 'e.' etc.? Does it break on those too, if the line becomes too long? --<a class="local" href="norm">norm</a> 18-May-2006</p><dl class="quote"><dt /><dd>I am trying to invent this (still), so nothing is fixed yet except the idea that the parse tree root node, wi, is formatted  between left and right margins. If that overflows, then  we split it somehow, and recursively repeat for each child node. The two main candidates (I will likely code both) are 1-column alignement and 2-column alignment (this is for infix and prefix, probably need another algorithm for postfix). Two column alignment aligns the notation syntax axiom's constants vertically in one column and the variables in a column to the right (if there are no constants it defaults to a single column.) One column alignment is similar except that (most usefully) it will involve aligning the variables of the overflowed syntax axiom vertically (see example above). I am planning run parm options so that "notation breaks" can be generated instead of (line width) "overflow breaks", but typically the lines look best with overflow breaks. Another question is how wide should a line be for ease of comprehension. --<a class="local" href="ocat">ocat</a> 18-May-2006</dd></dl></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2ASCIITypesetting">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2ASCIITypesetting">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2ASCIITypesetting">Administration</a></span><span class="time"><br /> Last edited 2006-05-19 00:38 UTC by <a class="author" title="from 66-81-74-9.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2ASCIITypesetting">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

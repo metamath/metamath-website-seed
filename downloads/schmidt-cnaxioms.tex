@@ -1,0 +1,473 @@
+% The author of this works hereby waives, to the fullest extent possible
+% by law, all rights to the work, in accordance with the Creative Commons
+% CC0 1.0 Universal waiver. See
+% http://creativecommons.org/publicdomain/zero/1.0/ for more information.
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6in}
+\setlength{\textheight}{8in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topmargin}{0in}
+
+\newcommand\bC{\mathbb{C}}
+\newcommand\bF{\mathbb{F}}
+\newcommand\bR{\mathbb{R}}
+\newcommand\bQ{\mathbb{Q}}
+\newcommand\bZ{\mathbb{Z}}
+
+\newcommand\cA{\mathcal{A}}
+\newcommand\cB{\mathcal{B}}
+\newcommand\cC{\mathcal{C}}
+
+\newcommand\rM{\mathrm{M}}
+\newcommand\rr{\mathrm{r}}
+
+\DeclareMathOperator{\linspan}{span}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem*{theorem}{Theorem}
+
+% Don't hyphenate axiom labels
+\hyphenation{resscn icn addcl addrcl mulcl mulrcl addcom mulcom addass mulass distr negex recex rnegex rrecex cnre lttri ltadd sup addrass mulrass rdistr}
+
+\begin{document}
+
+\begin{center}
+{\Large Reductions in Norman Megill's axiom system for complex numbers}\newline
+\ \newline
+Eric Schmidt
+\end{center}
+The author of this works hereby waives, to the fullest extent possible by law, all rights to the work, in accordance with the Creative Commons CC0 1.0 Universal waiver. See \url{http://creativecommons.org/publicdomain/zero/1.0/} for more information.
+
+\section{Introduction}
+
+Metamath\footnote{\url{http://metamath.org}} is a formal proof verifier designed and implemented by Norman Megill. He has also formalized many mathematical proofs in this system. As part of this project, he devised a collection of axioms for complex numbers. As with any set of axioms, we may ask whether or not any of the axioms are redundant, that is, derivable from the other axioms. Additionally, we may investigate whether replacing an axiom with an apparently weaker assertion results in a system of the same strength. In general, given some axiom system, we would like, by a process of removing and weakening axioms, to arrive at a system in which there are (provably) no redundancies and (apparently) no notable weakenings.
+
+Some simplifications of Megill's original system were known before this paper. We describe further simplifications, and make significant progress towards proving that the resulting system contains no redundancies. We also present some related results of interest.
+
+\section{Axioms}
+
+\subsection{Axiom system $\cC_1$}
+We will describe Megill's original system as a collection of 26 first-order axioms and one second-order axiom. The system contains unary predicates for ``is a complex number'' and ``is a real number'', denoted, respectively, as $\_\_ \in \bC$ and $\_\_ \in \bR$. It also contains binary operations $+$ and $\cdot$, a binary relation $<$, and constants $0$, $1$, and $i$. We strive to use typical notation. For instance, we denote $\cdot$ as simply juxtaposition and consider $\cdot$ to have higher precedence than $+$. We also use set-theoretic notation, particularly to describe axiom (sup) below. The statement (sup) could, of course, be written purely in the language of second-order logic.
+
+We define $\cC_1$ to be the set of the following first-order statements:
+\begin{tabbing}
+mmmmmmm \=\kill
+(resscn)  \> $\forall x \in \bR\ x \in \bC$ \\
+(0re)     \> $0 \in \bR$ \\
+(1re)     \> $1 \in \bR$ \\
+(icn)     \> $i \in \bC$ \\
+(addcl)   \> $\forall z$, $w \in \bC\ z+w\in\bC$ \\
+(addrcl)  \> $\forall x$, $y \in \bR\ x+y\in\bR$ \\
+(mulcl)   \> $\forall z$, $w \in \bC\ zw\in\bC$ \\
+(mulrcl)  \> $\forall x$, $y \in \bR\ xy\in\bR$ \\
+(addcom)  \> $\forall z,w \in \bC\ z+w=w+z$ \\
+(mulcom)  \> $\forall z$, $w \in \bC\ zw=wz$ \\
+(addass)  \> $\forall z$, $w$, $u \in \bC\ (z+w)+u=z+(w+u)$ \\
+(mulass)  \> $\forall z$, $w$, $u \in \bC\ (zw)u=z(wu)$ \\
+(distr)   \> $\forall z$, $w$, $u \in \bC\ z(w+u) = zw + zu$ \\
+(1ne0)    \> $1 \ne 0$ \\
+(0id)     \> $\forall z \in \bC\ z+0=z$ \\
+(1id)     \> $\forall z \in \bC\ z1=z$ \\
+(negex)   \> $\forall z \in \bC\ \exists w \in \bC\ z + w = 0$ \\
+(recex)   \> $\forall z \in \bC\ (z \ne 0 \rightarrow \exists w \in \bC\ zw = 1)$ \\
+(rnegex)  \> $\forall x \in \bR\ \exists y \in \bR\ x + y = 0$ \\
+(rrecex)  \> $\forall x \in \bR\ (x \ne 0 \rightarrow \exists y \in \bR\ xy = 1)$ \\
+(i2m1)    \> $ii + 1 = 0$ \\
+(cnre)    \> $\forall z \in \bC\ \exists x$, $y \in \bR\ z = x + yi$ \\
+(lttri)   \> $\forall x$, $y \in \bR\ (x < y \leftrightarrow \lnot (x=y \vee y < x))$ \\
+(lttrn)   \> $\forall x$, $y$, $z \in \bR\ ((x < y \wedge y < z) \rightarrow x < z)$ \\
+(ltadd)   \> $\forall x$, $y$, $z \in \bR\ (x < y \rightarrow z + x < z + y)$ \\
+(mulgt0)  \> $\forall x$, $y \in \bR\ ((0 < x \wedge 0 < y) \rightarrow 0 < xy)$,
+\end{tabbing}
+and the following second-order statement:
+\begin{tabbing}
+mmmmmmm \=\kill
+(sup)     \> $\forall S \subseteq \bR\ ((S \ne \varnothing \wedge \exists x \in \bR 
+             \ \forall y \in S\ y < x)$ \\
+          \> $\quad\rightarrow \exists x \in \bR\ (\forall y \in S\ (\lnot\,x < y) \wedge
+              \forall y \in \bR\ (y < x \rightarrow \exists z \in S\ y < z))).$
+\end{tabbing}
+
+\textit{Notes:}
+\begin{enumerate}
+\item Megill's system, as he describes it, contains an axiom equivalent to the assertion that $\bC$ is a set, rather than a proper class. We have omitted it since this cannot be stated in our formulation as a second-order theory. There are other, minor differences between our presentation and Megill's; these need not detain us.
+\item Megill observes that (i2m1) could be used to eliminate $0$ as a primitive constant, at the expense of complicating the statements of the other axioms.
+\item We could assume that the universe is the set of complex numbers, which would make superfluous a number of the axioms. We have not done this since we wish to investigate whether these axioms are redundant.
+\end{enumerate}
+
+\subsection{Candidates for weaker axioms}
+
+Part of our aim is to investigate whether various axioms can be replaced with weaker axioms. We must, however, ask the question: what makes an axiom ``weaker''? Consider, say, the axiom (1re). If we were able to replace this axiom with the assertion $1 \in \bC$ (which, we will soon show, we can), we would be inclined to regard this as a weakening of (1re). However, since, as a whole, the resulting system is just as strong, in what sense has anything been ``weakened''? We cannot resolve this by considering (1re) in isolation, since $1 \in \bR \rightarrow 1 \in \bC$ is not a logical truth. It is only together with the axiom (resscn) that it becomes coherent to regard $1 \in \bR$ as a stronger assertion than $1 \in \bC$.
+
+Additionally, some weakenings may actually be considered undesirable. For instance, we could weaken (addass) by restricting $u$ to be nonzero, since the case where $u=0$ can be easily recovered from the other axioms. However, this would complicate the statement of the axiom.
+
+We will not attempt to provide a solution to these matters. Instead, we will simply consider a restricted class of weakenings. These are of two types: replacing universal quantification over $\bC$ with universal quantification over $\bR$, and replacing membership in $\bR$ with membership in $\bC$. In particular, we will discuss the following statements as potential weakenings of axioms of $\cC_1$:
+
+\begin{tabbing}
+mmmmmmm \=\kill
+(1cn)     \> $1 \in \bC$ \\
+(addrass) \> $\forall x,y,z \in \bR\ (x+y)+z=x+(y+z)$ \\
+(mulrass) \> $\forall x,y,z \in \bR\ (xy)z=x(yz)$ \\
+(rdistr)  \> $\forall x,y,z \in \bR\ x(y+z) = zy + xz$ \\
+(r1id)    \> $\forall x \in \bR\ x1=x$.
+\end{tabbing}
+
+\section{Reductions}
+\label{reduction}
+In this section, we discuss various \textit{reductions} of $\cC_1$, that is, ways of either removing axioms or weakening them.
+
+\subsection{The reduction to $\cC_2$}
+
+We first discuss the reductions found and published on the Metamath website prior to this paper. Define $\cC_2$ to be $\cC_1 - \mathrm{(0re)} - \mathrm{(negex)} - \mathrm{(recex)} - \mathrm{(1re)} + \mathrm{(1cn)}$. We will show the equivalence of this system with $\cC_1$.
+
+The first reduction was found by Megill in 2005.
+
+\begin{lemma}[Megill]
+The statement $\mathrm{(0re)}$ is derivable from $\cC_1 - \mathrm{(0re)}$.
+\end{lemma}
+\begin{proof}
+By (1re) and (rnegex), there exists $x \in \bR$ such that $1 + x = 0$. Then, by (addrcl), we conclude $0 \in \bR$.
+\end{proof}
+In 2007, the author discovered the following.
+\begin{lemma}
+\label{c2->c1}
+$\cC_2 \vdash \cC_1$.
+\end{lemma}
+\begin{proof}
+Deduction of (0re): By either (icn) or (1cn), $\bC$ is nonempty. Thus, by (cnre), $\bR$ is also nonempty. Take $x \in \bR$. By (rnegex), there exists $y \in \bR$ such that $x + y = 0$. Then, using (addrcl), we deduce (0re). At this point, we know that $\bR$ is an ordered field.
+
+Deduction of (negex): By (cnre), any complex number may be expressed as $a + bi$ for some $a,b \in \bR$. Again, from (cnre) we know that $0 = x + yi$ for some $x$, $y \in \bR$. Then, $yi = -x \in \bR$. Therefore, there exists $c \in \bR$ such that $b + c = yi$. Then, $a + bi + ci = a + yi \in \bR$, so it has an additive inverse $d \in \bR$. Thus, $ci + d$ is the desired additive inverse of $a + bi$. At this point, we know that $\bC$ is a commutative ring.
+
+Deduction of (1re): Using (1cn) and (cnre), we know that $1 = x + yi$ for some $x$, $y \in \bR$. Because $\bC$ is a ring, $0i = 0$. Thus, if we had $x=y=0$, we would have $1 = 0$, which contradicts (1ne0). Thus, there exists a nonzero real number. So, applying (rrecex) and (rmulcl), we deduce (1re).
+
+Deduction of (recex): Take an arbitrary nonzero complex number $a + bi$, with $a$, $b \in \bR$. Since $a + bi \ne 0$, either $a \ne 0$ or $b \ne 0$. Since $\bR$ is an ordered field, $a^2 + b^2 > 0$. Then, $(a - bi)(a^2 + b^2)^{-1}$ is a multiplicative inverse to $a + bi$.
+\end{proof}
+
+\subsection{Some useful lemmas}
+
+Here we prove some lemmas that we will have need of later. First we have a basic fact noted by Dummit and Foote.\footnote{Dummit, David Steven, and Richard M.~Foote. \textit{Abstract Algebra.} 3rd ed. John Wiley \& Sons Inc, 2004., p.~223.}
+
+\begin{lemma}
+\label{ringabl}
+Suppose $R$ is a set with a group operation $+$ and a monoid operation $\cdot$ (with identity element 1), such that $\cdot$ distributes over $+$. Then, $+$ is commutative. Thus, $R$ is a ring.
+\end{lemma}
+\begin{proof}
+By distributing the left term, we have $(a + b) \cdot (1 + 1) = a + b + a + b$. By distributing the right term instead, we obtain $(a + b) \cdot (1 + 1) = a + a + b + b$. By cancelling, we find that $a + b = b + a$.
+\end{proof}
+
+The following result and its proof are based on formal derivations found on the Metamath website.\footnote{See \url{http://us.metamath.org/mpegif/grpidinvlem1.html} and f{}f.~(where ``left'' and ``right'' are reversed from our formulation).}
+
+\begin{lemma}
+\label{isgrp}
+Let $G$ be a set with a binary operation denoted by juxtaposition. Suppose that the binary operation is associative and that there exists $e \in G$ such that $ge = g$ for all $g \in G$. Suppose also that for all $g \in G$, there exists $h \in G$ such that $gh = e$. Then $G$ is a group.
+\end{lemma}
+\begin{proof}
+Suppose $g \in G$. Then, by assumption, there exists $h \in G$ with $gh = e$. We claim that also $hg = e$. To prove this, note that there exists $k \in G$ such that $hgk = e$. Then, $hg = hge = hghgk = hegk = hgk = e$. Moreover, $e$ is a left identity element since $eg = ghg = ge = g$. Thus, $G$ is a group.
+\end{proof}
+
+Last, we present two more lemmas that we need.
+
+\begin{lemma}
+\label{addcancel}
+It follows from $\mathrm{(addrcl)}$, $\mathrm{(lttri)}$, and $\mathrm{(ltadd)}$ that for all $x$, $y$, $z \in \bR$, if $z + x = z + y$, then $x = y$.
+\end{lemma}
+\begin{proof}
+If $x \ne y$, then by (lttri), either $x < y$ or $y < x$. If $x < y$, then (ltadd) gives $z + x < z + y$, so $z + x \ne z + y$. We obtain the same conclusion if $y < x$.
+\end{proof}
+
+\begin{lemma}
+\label{cnreunique}
+It follows from $\cC_1 - \mathrm{(sup)}$ that every member of $\bC$ has a unique representation in the form $a + bi$ with $a$, $b \in \bR$.
+\end{lemma}
+\begin{proof}
+By (cnre), such representations exist, so we need only show uniqueness. By (i2m1), we have $i^2 = -1 < 0$, so $i \notin \bR$. Next, suppose that $a + bi = 0$ with $a$, $b \in \bR$. Then $b = 0$, for otherwise we would have $i = -a/b$. It then follows that $a = 0$. Thus, $0 + 0i$ is the unique representation of $0$. To prove the result, take complex numbers $a_1 + b_1i$, $a_2 + b_2i$, and apply the previous observation to $(a_1 - a_2) + (b_1 - b_2)i$.
+\end{proof}
+
+\subsection{The reduction to $\cC_3$}
+
+We now show how $\cC_2$ may be reduced even further.
+Let $\cC_3 = \cC_2 - \mathrm{(addcom)} - \mathrm{(0id)} - \mathrm{(1id)} + \mathrm{(r1id)}$. 
+
+\begin{lemma}
+$\cC_3 \vdash \cC_1$.
+\end{lemma}
+\begin{proof}
+Deduction of (0re): As in Lemma~\ref{c2->c1}.
+
+Deduction of (1re): Using (1ne0), we see that there exist at least two complex numbers, so by (cnre), there exist at least two real numbers. Thus there exists a nonzero real number, so by (rrecex) and (mulrcl), we deduce (1re).
+
+Deduction of (1id): For any $a + bi \in \bC$, we have $(a + bi)1 = a1 + (b1)i = a + bi$.
+
+Deduction of (0id): First we claim that $0 = 0 + 0$. To prove this, note that by (rnegex), there exists $c \in \bR$ with $0 + c = 0$. If $0 \ne 0 + 0$, then $c \ne 0$. For any $x \in \bR$, we have $0x + 0 = (0 + c)x + 0 = 0x + cx + 0$. By Lemma~\ref{addcancel}, $0 = cx + 0$.  Then, take $x = c^{-1}0$ to obtain $0 = 0 + 0$, a contradiction.
+
+Next, we claim that $0x = 0$ for all $x \in \bR$. For suppose we had $x \in \bR$ with $0x \ne 0$. Then, for any $z \in \bC$, multiplying the equation $0 = 0 + 0$ by $(0x)^{-1}xz$ yields $z = z + z$. Suppose $y \in \bR$ and $w \in \bC$. Write $w = a + bi$, with $a$, $b \in \bR$. Then, $y + a = y + y + a$, so by Lemma~\ref{addcancel}, $a = y + a$. Adding $bi$ on the right, we obtain $w = y + w$, for all real $y$ and complex $w$. In particular, by (cnre), every complex number has the form $bi$ for some $b \in \bR$. Since there are at least two reals, there are at least two choices of $b \in \bR$ such that $bi \in \bR$. Hence, we can choose such a $b$ so that $b \ne 0$. Then, $i = b^{-1}bi \in \bR$. So, from $i^2 + 1 = 0$, we obtain $1 = 0$, a contradiction.
+
+Further, we claim that $0z = 0$ for all $z \in \bC$. To prove this, by writing $z = a + bi$ with $a$, $b \in \bR$, we see that $0z = 0 + 0i$, for all $z \in \bC$. When $z$ is real, we know also that $0z = 0$. Thus $0 + 0i = 0$ and $0z = 0$ for all $z \in \bC$.
+
+Now we complete the proof of (0id). There exists $c \in \bR$ with $1 + c = 0$. Then, $1 + c + 0 = 0 + 0 = 0 = 1 + c$, and applying Lemma~\ref{addcancel}, we obtain $c + 0 = c$. If $c \ne 0$, then, for any $z \in \bC$, we may multiply by $c^{-1}z$ to obtain $z + 0 = z$, and we are done. So, suppose that $c = 0$. Then, $1 + 0 = 0$. Multiplying by $z$, we find that $z + 0 = 0$ for all $z \in \bC$. From (i2m1), we have $i^2 + 1 = 0$, so by adding $i^4$ on the left, we obtain $i^4 + i^2 + 1 = 0$. Then,
+\[0 + 0 = 0 = i^4 + i^2 + 1 = i^2(i^2 + 1) + 1 = 0 + 1,\]
+and applying Lemma~\ref{addcancel}, we obtain $0 = 1$, a contradiction.
+
+Deduction of (addcom): By Lemma~\ref{isgrp}, we find that $\bR$ is a group under addition. Then, we may prove (negex) as in Lemma~\ref{c2->c1}. By applying Lemma~\ref{isgrp} again, $\bC$ is a group under addition. By Lemma~\ref{ringabl}, we deduce (addcom).
+
+Now we know that $\cC_3 \vdash \cC_2$, so by Lemma~\ref{c2->c1}, we are done.
+\end{proof}
+
+\subsection{Other reductions from $\cC_1$}
+
+Here we present various reductions from $\cC_1$. These arguments do not allow us to simplify $\cC_3$ even further, since they use axioms not contained in that system. Combined with some of the independence results of Section~\ref{independence}, this shows that there are multiple, mutually exclusive ways to simplify $\cC_1$.
+
+\begin{lemma}
+$\mathrm{(mulrcl)}$ is derivable from $\cC_1 - \mathrm{(mulrcl)}$.
+\end{lemma}
+\begin{proof}
+If $0 < 1$, then by adding 1 to both sides, we obtain $1 < 2$. Similarly if $1 < 0$, then $2 < 1$. Thus, $2 \ne 0$.
+We claim that if $x \in \bR$, then $x/2 \in \bR$. This is immediate if $x = 0$, and for $x \ne 0$, this follows from the identity $x/2 = (x^{-1} + x^{-1})^{-1}$.
+We claim next that if $x \in \bR$, then $x^2 \in \bR$. This is obvious if $x = 0$ or $x = 1$, and in other cases this follows from the identity $x^{-1} + (1-x)^{-1} = (x - x^2)^{-1}$.
+Finally, for any $x$, $y \in \bR$, the identity $xy = ((x+y)^2 - x^2 - y^2)/2$ shows that $xy \in \bR$.
+\end{proof}
+
+\begin{lemma}
+The system $\cC_1 - \mathrm{(negex)} - \mathrm{(rnegex)}$ is logically equivalent to $\cC_1$.
+\end{lemma}
+\begin{proof}
+Deduction of (negex): First, for any $x \in \bR$, we have $0x = (0+0)x = 0x + 0x$, and so by Lemma~\ref{addcancel}, we have $0x = 0$. Now, using (cnre), write $a + bi = 0$ for some $a,b \in \bR$. Multiplying this equation by $0$, we obtain $0i = 0$. From this we see that $0z = 0$ for all $z \in \bC$. Thus, we have $z + zi^2 = z(1 + i^2) = z0 = 0$, so (negex) follows.
+
+Deduction of (rnegex): As $-a = (-1)a$ for any $a$, it suffices to show that $-1 \in \bR$. If $i \in \bR$, this is immediate, so suppose that $i \notin \bR$. Write $a + bi = -1$ for some $a,b \in \bR$. Then, $bi = (1 + a)i^2$. So, by cancelling, $b = (1+a)i$. This implies that $a = -1$, for otherwise we would have $i = b/(1+a)$, contradicting the assumption that $i \notin \bR$. Since $a \in \bR$ by hypothesis, we are done.
+\end{proof}
+
+\begin{lemma}
+The system $\cC_1 - \mathrm{(0id)} - \mathrm{(rnegex)}$ is logically equivalent to $\cC_1$.
+\end{lemma}
+\begin{proof}
+By the previous lemma, it suffices to derive (0id). By (negex), there exists $u \in \bC$ such that $0 + u = 0$. Then, for any $z \in \bC$, $0 + u + z = 0 + z$, and using Lemma~\ref{addcancel} and (cnre), we may cancel to get $u + z = z$. So we need only show that $u = 0$. To do this, suppose that $u \ne 0$. Then, we may multiply the equation $u + u = u$ by $u^{-1}0$, to obtain $0 + 0 = 0 = 0 + u$. We then cancel to obtain $0 = u$, a contradiction.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(rrecex)}$ is derivable from $\cC_1 - \mathrm{(rrecex)}$.
+\end{lemma}
+\begin{proof}
+Let $A$ be a model of $\cC_1 - \mathrm{(rrecex)} - \mathrm{(sup)}$. We use the symbols $\bR_A$ and $<_A$ to denote, respectively, the real numbers and the ordering relation in $A$. We use unadorned symbols $\bC$, etc., to denote the other components of $A$. Now, we know that $\bR_A$ is an ordered ring, and we want to know that is is an ordered field. Using (mulgt0), we see that $\bR_A$ is an integral domain. Let $\bR_B$ denote the fraction field of $\bR_A$ in $\bC$. Suppose we have fractions $a/b$, $c/d \in \bR_B$, where $a$, $b$, $c$, $d \in \bR_A$ and $b$, $d > 0$. Write $a/b <_B c/d$ if{}f $ad <_A cb$. This makes $\bR_B$ into an ordered field. Form a structure $B$ from $A$ by replacing $\bR_A$ with $\bR_B$ and $<_A$ with $<_B$. Since (cnre) is true in $A$, it is immediate that is it also true in $B$. Thus, $B$ is a model of $\cC_1 - \mathrm{(sup)}$.
+
+Now, by applying Lemma~\ref{cnreunique} to $B$, we find that any $z \in \bC$ has a unique representation in the form $a + bi$ with $a$, $b \in \bR_B$. We will be done if we show that $\bR_A = \bR_B$. Plainly, $\bR_A \subseteq \bR_B$. For the other inclusion, suppose that $x \in \bR_B$. Then $x + 0i$ is the unique representation of $x$. But, by applying (cnre) to $A$, we find that $x = a + bi$ for some $a$, $b \in \bR_A$. It follows that $x = a$, so $x \in \bR_A$. Hence $\bR_B \subseteq \bR_A$. This completes the proof.
+
+\end{proof}
+
+\section{Independence proofs}
+\label{independence}
+In this section we present proofs of the independence of various axioms. In each case, in order to prove that a sentence $P$ cannot be derived from a collection $\cA$ of axioms, we exhibit a structure $(U; \bC_\rM, \bR_\rM, 0_\rM, 1_\rM, i_\rM, +_\rM, \cdot_\rM, <_\rM)$, where $U$ is the universe, that satisfies $\cA$ but not $P$. In what follows, if the universe is a ring, the symbols $+$, $\cdot$, etc., refer to the addition, multiplication, etc., of the universe.
+
+\subsection{Axioms independent in $\cC_1$}
+
+We have shown that a number of the axioms of $\cC_1$ are redundant in that system. We now show that most of the rest are not redundant.
+
+\begin{lemma}
+$\mathrm{(resscn)}$ cannot be derived from $\cC_1 - \mathrm{(resscn)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bQ(i); \bQ(i), \bR, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(1cn)}$ cannot be derived from $\cC_1 - \mathrm{(1re)}$.
+\end{lemma}
+\begin{proof}
+Let $x$ and $y$ be distinct objects. Let $+_\rM = \cdot_\rM$ be the binary operation on $\{x, y\}$ with constant value $x$.
+Use $(\{x,y\}; \{x\}, \{x\}, x, y, x, +_\rM, \cdot_\rM, \varnothing)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(icn)}$ cannot be derived from $\cC_1 - \mathrm{(icn)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bR, \bR, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(addcl)}$ cannot be derived from $\cC_1 - \mathrm{(addcl)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bR \cup \bR i, \bR, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(addrcl)}$ cannot be derived from $\cC_1 - \mathrm{(addrcl)}$.
+\end{lemma}
+\begin{proof}
+Let $<_\rM$ be the smallest transitive relation on $\bF_5$ such that
+\[ -2 <_\rM 1 <_\rM 0 <_\rM 1 <_\rM 2. \]
+Use $(\bF_5; \bF_5, \{-1, 0, 1\}, 0, 1, 2, +, \cdot, <_\rM)$. 
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(addass)}$ cannot be derived from $\cC_1 - \mathrm{(addass)} + \mathrm{(addrass)}$.
+\end{lemma}
+\begin{proof}
+For any $z$, $w \in \bC$, define
+\[ z +_\rM w = \begin{cases} 0 & \text{if $w \ne 0$ and $z/w \in \{1+i, (1+i)^{-1}\}$,} \\ z+w & \text{otherwise.}\end{cases} \]
+Use $(\bC; \bC, \bR, 0, 1, i, +_\rM, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(mulass)}$ cannot be derived from $\cC_1 - \mathrm{(mulass)} + \mathrm{(mulrass)}$.
+\end{lemma}
+\begin{proof}
+Let $\cB_\rr$ be a basis for $\bR$ as a $\bQ$-vector space, chosen so that $1 \in \cB_\rr$. Extend $\cB_\rr$ to a basis $\cB$ for $\bC$ as a $\bQ$-vector space, chosen so that $i \in \cB$. For each integer $n \ge 0$, we will define a partial map $\phi_n$ on $\cB \times \cB$. After this, we will define multiplication of elements of $\cB$ in such a way so that $\alpha \cdot_\rM \beta = \phi_n(\alpha,\beta)$ whenever $(a,b)$ is in the domain of $\phi_n$. Finally, we will extend the definition of multiplication to all complex numbers by requiring that it be bilinear.
+
+We define $\phi_0$ as follows. For any $\alpha, \beta \in \cB_\rr$, let $\phi_0(\alpha,\beta) = \alpha\beta$. Additionally, for any $\alpha \in \cB$, let $\phi_0(\alpha, 1) = \phi_0(1, \alpha) = \alpha$, and, for $\alpha \in \cB_\rr \cup \{i\}$, let $\phi_0(\alpha, i) = \phi_0(i, \alpha) = \alpha i$. The effect of these definitions will be to ensure that $x \cdot_\rM y = xy$ for $x$, $y \in \bR$, that $z \cdot_\rM 1 = z$ for $z \in \bC$, and that $z \cdot_\rM i = zi$ for $z \in \bR \cup \{i\}$.
+
+Next, we will define $\phi_n$ for each $n \ge 1$ in such a way as to ensure that each nonzero complex number has a multiplicative inverse. Let $\{\cB_n\}_{n \ge 1}$ be a partition of $\cB$ such that all the $\cB_n$, for $n \ge 1$, have the same (infinite) cardinality. (This will be the cardinality of the continuum, but we do not need that fact for this proof.) Also, choose this partition so that $\cB_\rr \cup \{i\} \subseteq \cB_1$. For each $n \ge 1$, let $\cA_n = \bigcup_{i=1}^n \cB_i$, and choose bijections $f_n : \linspan_\bQ(\cA_n) \longrightarrow \cB_{n+1}$.
+
+Fix $n$, and consider some $z \in \linspan_\bQ(\cA_n)$ such that $z \notin \bR$. Write $z = q + p_1\alpha_1 + \cdots + p_m\alpha_m$ with $p_1,\dotsc,p_m \in \bQ \setminus \{0\}$, $q \in \bQ$, and $\alpha_1, \dotsc, \alpha_m \in \cA_n \setminus \{1\}$. Let
+\[\phi_n(\alpha_1, f_n(z)) = \phi_n(f_n(z), \alpha_1) = \frac{1 - qf_n(z)}{p_1}.\]
+For $2 \le i \le m$, let $\phi_n(\alpha_i, f_n(z)) = \phi_n(f_n(z), \alpha_i) = 0$. Thus, we will ensure that $z \cdot_\rM f_n(z) = 1$ for all nonreal $z \in \linspan_\bQ(\cA_n)$. Since every $z$ is in $\linspan_\bQ(\cA_n)$ for some $n$, we have guaranteed the existence of multiplicative inverses.
+
+Now we define $\cdot_\rM : \bC \times \bC \longrightarrow \bC$ as follows. For $\alpha$, $\beta \in \cB$, if there is some (necessarily unique) $n$ for which $(\alpha, \beta)$ is in the domain of $\phi_n$, let $\alpha \cdot_\rM \beta = \phi_n(\alpha, \beta)$. Otherwise, let $\alpha \cdot_\rM \beta = 0$. Extend $\cdot_\rM$ to $\bC \times \bC$ by requiring that it be $\bQ$-bilinear. Now, $\cdot_\rM$ is not associative, for if it were associative, $(\bC, +, \cdot_\rM)$ would be a field. Since there exist basis elements whose product is 0 (for instance, any two elements of $\cB_n$ for $n > 1$), this is impossible.
+
+To prove the lemma, use $(\bC; \bC, \bR, 0, 1, i, +, \cdot_\rM, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(distr)}$ cannot be derived from $\cC_1 - \mathrm{(distr)} + \mathrm{(rdistr)}$.
+\end{lemma}
+\begin{proof}
+For any $z \in \bC$, define
+\[ \phi(z) =
+\begin{cases}
+2 + i & \text{if $z = 1 + i$}, \\
+1 + i & \text{if $z = 2 + i$}, \\
+z     & \text{otherwise,}
+\end{cases}
+\]
+and for any $z$, $w \in \bC$, define
+\[ z \cdot_\rM w = \phi^{-1}(\phi(z)\phi(w)). \]
+Use $(\bC; \bC, \bR, 0, 1, i, +, \cdot_\rM, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(1ne0)}$ cannot be derived from $\cC_1 - \mathrm{(1ne0)}$.
+\end{lemma}
+\begin{proof}
+Let $U$ be the ring with one element.
+Use $(U; U, U, 0, 0, 0, +, \cdot, \varnothing)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(1id)}$ cannot be derived from $\cC_1 - \mathrm{(1id)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bC, \bR, 0, 2, i\sqrt{2}, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(i2m1)}$ cannot be derived from $\cC_1 - \mathrm{(i2m1)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bC, \bR, 0, 1, 2i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(cnre)}$ cannot be derived from $\cC_1 - \mathrm{(cnre)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC(x); \bC(x), \bR, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(lttri)}$ cannot be derived from $\cC_1 - \mathrm{(lttri)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bC, \bR, 0, 1, i, +, \cdot, \varnothing)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(lttrn)}$ cannot be derived from $\cC_1 - \mathrm{(lttrn)}$.
+\end{lemma}
+\begin{proof}
+For any $a$, $b \in \bF_3$, write $a <_\rM b$ if{}f $b - a = 1$.
+Let $i_\rM$ denote a square root of $-1$ in $\bF_9$.
+Use $(\bF_9; \bF_9, \bF_3, 0, 1, i_\rM, +, \cdot, <_\rM)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(ltadd)}$ cannot be derived from $\cC_1 - \mathrm{(ltadd)}$.
+\end{lemma}
+\begin{proof}
+For any $x \in \bR$, define
+\[ \phi(x) =
+\begin{cases}
+1 - x & \text{if $0 < x < 1$}, \\
+x & \text{otherwise.}
+\end{cases}
+\]
+For $x$, $y \in \bR$, write $x <_\rM y$ if{}f $\phi(x) < \phi(y)$.
+Use $(\bC; \bC, \bR, 0, 1, i, +, \cdot, <_\rM)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(mulgt0)}$ cannot be derived from $\cC_1 - \mathrm{(mulgt0)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bC, \bR, 0, 1, i, +, \cdot, >)$.
+\end{proof}
+
+\begin{lemma}
+$\mathrm{(sup)}$ cannot be derived from $\cC_1 - \mathrm{(sup)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bQ(i); \bQ(i), \bQ, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\subsection{Other sets of independent axioms}
+
+We now provide examples of sets of axioms that cannot be simultaneously removed from $\cC_1$ even though the individual axioms are redundant (or their status is unknown).
+\begin{lemma}
+Neither $\mathrm{(mulcl)}$ nor $\mathrm{(recex)}$ can be derived from $\cC_1 - \mathrm{(mulcl)} - \mathrm{(recex)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bC; \bR + \bZ i, \bR, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+Neither $\mathrm{(mulrcl)}$ nor $\mathrm{(1re)}$ can be derived from $\cC_1 - \mathrm{(mulrcl)} - \mathrm{(1re)} + \mathrm{(1cn)}$.
+\end{lemma}
+\begin{proof}
+For $z$, $w \in \bC$, write $z <_\rM w$ if{}f [($z,w \in \bR i$ and $z/i < w/i$) or ($z = 0$, $w \in \bR$, and $w < 0$)].  
+Use $(\bC; \bC, \bR i, 0, 1, i, +, \cdot, <_\rM)$.
+\end{proof}
+
+\begin{lemma}
+Neither $\mathrm{(recex)}$ nor $\mathrm{(rrecex)}$ can be derived from $\cC_1 - \mathrm{(recex)} - \mathrm{(rrecex)}$.
+\end{lemma}
+\begin{proof}
+Use $(\bZ[i]; \bZ[i], \bZ, 0, 1, i, +, \cdot, <)$.
+\end{proof}
+
+\begin{lemma}
+Neither $\mathrm{(0id)}$, $\mathrm{(negex)}$, nor $\mathrm{(rnegex)}$ can be derived from $\cC_1 - \mathrm{(0id)} - \mathrm{(negex)} - \mathrm{(rnegex)}$.
+\end{lemma}
+\begin{proof}
+Let $\bC_\rM = \bR_\rM$ denote the set of positive real numbers.
+Use $(\bR; \bC_\rM, \bR_\rM, 2, 1, 1, +, \cdot, <)$.
+\end{proof}
+
+\section{Conclusion}
+
+The results of Sections~\ref{reduction} and \ref{independence} prove the following.
+
+\begin{theorem}
+System $\cC_3$ is logically equivalent to $\cC_1$. Moreover, every axiom of $\cC_3$, with the possible exception of $\mathrm{(mulcom)}$, is independent of the others.
+\end{theorem}
+
+There remain a number of open questions. Most interesting would be to determine whether (mulcom) is redundant in $\cC_3$. Additionally, it is not known whether (mulcl) or (mulcom) are redundant in $\cC_1$.
+
+\end{document}

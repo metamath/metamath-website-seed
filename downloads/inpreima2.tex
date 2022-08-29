@@ -1,0 +1,165 @@
+\documentclass[a4paper,12pt,oneside,ms]{memoir}
+
+\usepackage{amssymb}
+\usepackage[svgnames]{xcolor}
+
+\usepackage{pf2}
+\usepackage{abbrev}
+
+
+\pagecolor{Lavender}
+\pagestyle{empty}
+\raggedright
+
+\begin{abbreviate}{FOO}{|[]`.}{|[]`.}
+  \x |¨|  {\bigcap }
+  \x |¨   {|¨}
+  \x |  {|}
+
+  \x `'F {F^{-1}}
+  \x `' {`'}
+  \x ` {`}
+  \x [ {\langle}
+  \x ] {\rangle}
+  \x .A {\forall}
+  \x .e {\in}
+  \x . {.}
+\end{abbreviate}
+
+\begin{document}
+
+\centerline{\textsc{Inpreima2}}
+\smallskip
+\centerline{FL}
+\smallskip
+\centerline{Tuesday 5 February 2012}
+% \medskip
+
+\FOO
+\begin{flushleft}\colorbox{PaleGoldenrod}{\begin{minipage}{\textwidth}
+\noindent\textsc{Theorem:}
+The preimage of the intersection of a non-empty set $A$ is 
+the intersection of the preimage of the elements of $A$.
+\end{minipage}}\end{flushleft} 
+
+\begin{flushleft}
+Remark: I write
+$F(x)$ when $x$ is an element of the domain of $F$ and $F[x]$
+when $x$ is a part of the domain of $F$.
+\end{flushleft} 
+
+\noFOO
+% \medskip
+
+\FOO
+\centerline{\rule{5cm}{1pt}}
+\bigskip
+\assume{
+  \begin{pfenum}
+    \item $A \neq \varnothing$ \label{in1}
+    \item $F$ is a function \label{in2}
+  \end{pfenum}}
+  \prove{$ `'F  [ |¨| A ] = |¨| _{x .e A} `'F [ x ]$}
+\begin{proof}
+  \pflet{y be a set}
+  \step{<3>1}{\suffices{$y .e  `'F  [ |¨| A ]$ iff $y .e |¨| _{x  .e  A} `'F [ x ]$}}
+  \begin{proof}
+    By definition of equality (see eqriv).
+  \end{proof}
+  \step{<3>2}{$y .e |¨| _{x  .e  A}  `'F [ x ]$ iff  $.A x .e A\; y .e `'F [ x ]$}
+  \begin{proof}
+    By definition of an intersection (eliin).
+  \end{proof}
+  \step{<3>3}{$y  .e  `'F [  |¨| A ] $ iff $ .A  x  .e  A\; y  .e   `'F  [  x  ] $}
+  \begin{proof}
+    \step{<5>1}{If $y  .e   `'F  [ |¨|  A ] $ then $ .A  x  .e  A\; y  .e   `'F  [  x  ] $.}
+    \begin{proof}
+      \step{<6>1}{\assume{$y  .e   `'F  [ |¨|  A ] $}\prove{$ .A  x  .e  A\; y  .e   `'F  [  x  ] $}}
+      \begin{proof}
+        \step{<7>1}{$F(y)  .e  |¨|  A$}
+        \begin{proof}
+          By  fvimacnv and assumption \stepref{<6>1}.
+        \end{proof}
+        \step{<7>2}{$ .A  x  .e  A\; F(y)  .e  x$ by \stepref{<7>1} and
+          definition of an intersection (elint).}
+        \qedstep
+        \begin{proof}
+          By  fvimacnv and \stepref{<7>2}.
+        \end{proof}
+      \end{proof}
+      \qedstep
+      \begin{proof}
+        By deduction theorem.
+      \end{proof}
+    \end{proof}
+    \step{<5>2}{If $ .A  x  .e  A\; y  .e   `'F  [  x  ] $ then $y  .e   `'F  [ |¨|  A ] $.}
+    \begin{proof}
+      \step{<6>1}{\assume{$ .A  x  .e  A\; y  .e   `'F  [  x  ] $}
+                  \prove{$y  .e   `'F  [ |¨|  A ] $}}
+      \begin{proof}
+        \step{<7>1}{$ .A  x  .e  A\; F(y)  .e  x$ (by assumption \stepref{<6>1} 
+          and fvimacnvi.)}
+        \step{<7>2}{$F(y)  .e  |¨|  A$ (by \stepref{<7>1} and definition
+          of an intersection (elint2).)}
+        \qedstep 
+        \begin{proof}
+           By \stepref{<7>2} and fvimacnv.
+        \end{proof}
+      \end{proof}
+      \qedstep
+      \begin{proof}
+        By deduction theorem.
+      \end{proof}
+    \end{proof}
+    \qedstep
+    \begin{proof}
+      By \stepref{<5>1} and \stepref{<5>2}.
+    \end{proof}
+  \end{proof}
+  \qedstep
+  \begin{proof}
+    By  \stepref{<3>2} and \stepref{<3>3}.
+  \end{proof}
+\end{proof}
+
+\noFOO
+\centerline{\rule{5cm}{1pt}}
+\medskip
+
+\textsc{Theorem fvimacnvi:} \FOO If $F$ is a function and $A .e `'F [
+B ]$ then $F(A) .e B$. \noFOO
+\medskip
+
+\textsc{Theorem fvimacnv:} \FOO If $F$ is a function and $A$ an element of its
+domain then $A  .e  `'F [  B  ] $ iff $F(A)  .e  B$. \noFOO
+\medskip
+\newpage
+\textsc{Theorem elint2:} \FOO If $A$ is a set, and $B$ a class, 
+$A .e |¨| B$ iff $.A x .e B\; A .e x$. \noFOO
+\medskip
+
+\centerline{\rule{5cm}{1pt}}
+\medskip
+
+Simple propositional  calculus tautologies  may be used  without being
+explicitely mentionned. The ``deduction''  theorem may be used without
+being explicitely mentionned.
+
+\bigskip
+The keyword ``suffices'' changes the  goal. The goal is always mention
+at the  upper level. When ``suffices''  is used this  goal changes and
+the proof  behind the ``suffices'' step  ensures the new  goal and the
+former one  are equivalent. The other  steps at the  same level behind
+the ``suffices'' are used to prove  the new goal. The ``Q.E.D'' at the
+end of the level refers to the new goal.
+
+\bigskip
+The system used is in the Gentzen style. Let's recall set.mm is in
+the Hilbert style.
+
+\centerline{\rule{5cm}{1pt}}
+\medskip
+
+Modified on 3 June 2013 and again 13 July 2016.
+
+\end{document}

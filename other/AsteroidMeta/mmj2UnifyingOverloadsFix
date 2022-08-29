@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2UnifyingOverloadsFix</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2UnifyingOverloadsFix" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2UnifyingOverloadsFix" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2UnifyingOverloadsFix">mmj2UnifyingOverloadsFix</a></h1></div><div class="content browse"><p>Hi Norm,</p><p>re: <a class="url" href="mmj2UnifyingOverloads">/mmj2UnifyingOverloads</a></p><p>Short answer: let's use syntax theorems weq, wel and wsb! Your idea is brilliant&#x2026;</p><pre>  weq $p wff x = y $= vx cv vy cv wceq $.
+  wel $p wff x e. y $= vx cv vy cv wcel $.
+  wsb $p wff [ y / x ] ph $= wph vx vy cv wsbc $. </pre><p>Voila, no operator overloading in set.mm anymore!</p><p>Long answer:</p><p>I think the "syntax theorem" approach has merit. And it works with my program, but the key point is what is the correct thing to do &#x2013; and then make the programs match <b>that</b>.</p><p>I tested it and there are maybe 20 proofs out of the entire set.mm that have a stack mismatch and will need hand correction. It definitely works with my program, but I need to tweak my new "test" code that automatically builds Proof Worksheets from existing RPN proofs (to change it to NOT put syntax theorems into the proofs -- the user will not input them either!!!)</p><p>Theoretically, "overloaded operators" is not a problem per se. The problem is ambiguity. We see, for example, in languages like Java that this is considered ambiguous and unacceptable:</p><pre>    int functionA(int x) {}
+    int functionA(long x) {}</pre><p>but this is not ambiguous:</p><pre>    int functionA(int x) {}
+    int functionA(String x) {}</pre><p>Likewise with set.mm, the problem is not that "=" is used twice, but that "x = y" has two possible parses. mmj2 bootstraps a Grammar that eliminates the class parse of "x = y" but the Metamath Proof Assistant does not, meaning that although the statements of set.mm may be regarded as unambiguous according to the mmj2 Grammar, the set.mm proofs use ambiguous parses for "x = y", etc. Metamath's proof  assistant is sneaky and does that behind  the scenes, and it works, but it is an  ambiguity &#x2013; there should be exactly one  possible parse tree for each proof  derivation step!</p><p>So, I recommend implementing the change to set.mm and documenting it somewhere for posterity. Suggest running mmj2 after making the fix, just to double-check me.</p><p>I think this is the right move  on theoretical grounds.</p><p>It was necessary to move class A and B, plus some punctuation, as well as wceq, etc. Not hard at all.</p><p>Here are some notes and data items for your review&#x2026;</p><h6>=</h6><p>Output from RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a>:</p><pre>    PrintStatementDetails,*
+    </pre><h6>=</h6><pre>    Theorem: weq Typ: wff isActive isAssrt VarHypArray: [ vx ,vy ] 
+      Formula: wff x = y
+      ExprRPN: vx cv vy cv wceq 
+      Mandframe, hypArray: [ vx ,vy ] 
+                 DjVars  : [] 
+      Optframe, optHypArray: [ wph,wps,wch,wth,wta,vz,vw,vv,vu,cA,cB] 
+                 DjVars  : [] 
+      Proof: vx cv vy cv wceq 
+     
+    Theorem: wel Typ: wff isActive isAssrt VarHypArray: [ vx ,vy ] 
+      Formula: wff x e. y
+      ExprRPN: vx cv vy cv wcel 
+      Mandframe, hypArray: [ vx ,vy ] 
+                 DjVars  : [] 
+      Optframe, optHypArray: [ wph,wps,wch,wth,wta,vz,vw,vv,vu,cA,cB] 
+                 DjVars  : [] 
+      Proof: vx cv vy cv wcel 
+        
+    Theorem: wsb Typ: wff isActive isAssrt VarHypArray: [ wph ,vx ,vy ] 
+      Formula: wff [ y / x ] ph
+      ExprRPN: wph vx vy cv wsbc 
+      Mandframe, hypArray: [ wph ,vx ,vy ] 
+                 DjVars  : [] 
+      Optframe, optHypArray: [ wps,wch,wth,wta,vz,vw,vv,vu,cA,cB] 
+                 DjVars  : [] 
+      Proof: wph vx vy cv wsbc 
+          </pre><h6>=</h6><p>Just a few proofs that have a stack error problem resulting from the change to "syntax proofs": </p><h6>=</h6><pre>    **** I-UT-0015 Processing RunParmFile Command #12 = VerifyProof,*
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem2 Step#: 232 Step Label: zornlem1
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidm Step#: 66 Step Label: infxpidmlem12
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem6 Step#: 204 Step Label: zornlem5
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: kmlem9 Step#: 62 Step Label: kmlem8
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: mulsrpr Step#: 1663 Step Label: oprec
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: oprec Step#: 827 Step Label: th3q
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: kmlem12 Step#: 1136 Step Label: kmlem9
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: aceq5 Step#: 3810 Step Label: aceq5lem5
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: aceqkm Step#: 376 Step Label: kmlem12
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem9 Step#: 797 Step Label: infxpidmlem8
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem12 Step#: 32 Step Label: infxpidmlem9
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: th3q Step#: 1101 Step Label: th3qlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem7 Step#: 386 Step Label: infxpidmlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: addpipq Step#: 1365 Step Label: oprec
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: mulpipq Step#: 852 Step Label: oprec
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: aceq5lem5 Step#: 51 Step Label: aceq5lem4
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem5 Step#: 140 Step Label: infxpidmlem4
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem5 Step#: 511 Step Label: zornlem1
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem3 Step#: 341 Step Label: infxpidmlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zorn Step#: 2402 Step Label: zornlem7
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem3 Step#: 96 Step Label: zornlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: kmlem11 Step#: 1068 Step Label: kmlem10
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem7 Step#: 400 Step Label: zornlem4
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem8 Step#: 398 Step Label: infxpidmlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: addsrpr Step#: 852 Step Label: oprec
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem11 Step#: 1635 Step Label: infxpidmlem3
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem4 Step#: 54 Step Label: infxpidmlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: th3qcor Step#: 295 Step Label: th3qlem2
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: zornlem4 Step#: 564 Step Label: zornlem1
+    E-PR-0008 VerifyProof: proof stack item type not = hypothesis type: class Stack item type = set Theorem: infxpidmlem10 Step#: 511 Step Label: infxpidmlem3
+    **** I-UT-0015 Processing RunParmFile Command #13 = Parse,* 
+    **** I-UT-0014 RunParmFile line comment. Line #14 = * VerifyParse,*
+    **** I-UT-0015 Processing RunParmFile Command #15 = PrintSyntaxDetails</pre><h6>=</h6><p>Output from RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> showing proof with syntax proof:</p><pre>    ProofAsstExportToFile,cleqf,cleqf.mmp,update,unified
+    </pre><p>As you can see, my "test" code in VerifyProofs<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=VerifyProofs">?</a> which I use to extract proof steps for Proof Assistant needs to be modified to NOT put syntax theorems into the list! (And the code is stupid, it just stacks steps in blissful ignorance, so the proof shown below is very, very wrong! I  manually fixed it back up and show that after being unified by Proof Assistant.)</p><h6>=</h6><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=cleqf  LOC_AFTER=?
+    
+    h1::cleqf.1        |- ( y e. A -&gt; A. x y e. A ) 
+    h2::cleqf.2        |- ( y e. B -&gt; A. x y e. B ) 
+    3::dfcleq          |- ( A = B &lt;-&gt; A. y ( y e. A &lt;-&gt; y e. B ) ) 
+    4::ax-17           |- ( ( x e. A &lt;-&gt; x e. B ) -&gt; A. y ( x e. A &lt;-&gt; x 
+                          e. B ) ) 
+    5:1,2:hbbi         |- ( ( y e. A &lt;-&gt; y e. B ) -&gt; A. x ( y e. A &lt;-&gt; y 
+                          e. B ) ) 
+    6::weq             wff x = y 
+    7::eleq1           |- ( x = y -&gt; ( x e. A &lt;-&gt; y e. A ) ) 
+    8::eleq1           |- ( x = y -&gt; ( x e. B &lt;-&gt; y e. B ) ) 
+    9:7,8:bibi12d      |- ( x = y -&gt; ( ( x e. A &lt;-&gt; x e. B ) &lt;-&gt; ( y e. A
+                          &lt;-&gt; y e. B ) ) ) 
+    10:5,6,9:cbval     |- ( A. x ( x e. A &lt;-&gt; x e. B ) &lt;-&gt; A. y ( y e. A 
+                          &lt;-&gt; y e. B ) ) 
+    qed:4,10:bitr4     |- ( A = B &lt;-&gt; A. x ( x e. A &lt;-&gt; x e. B ) ) 
+    
+    $)</pre><h6>=</h6><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=cleqf  LOC_AFTER=?
+    
+    h1::cleqf.1        |- ( y e. A -&gt; A. x y e. A ) 
+    h2::cleqf.2        |- ( y e. B -&gt; A. x y e. B ) 
+    3::dfcleq          |- ( A = B &lt;-&gt; A. y ( y e. A &lt;-&gt; y e. B ) ) 
+    4::ax-17           |- ( ( x e. A &lt;-&gt; x e. B ) -&gt; A. y ( x e. A &lt;-&gt; x 
+                          e. B ) ) 
+    5:1,2:hbbi         |- ( ( y e. A &lt;-&gt; y e. B ) -&gt; A. x ( y e. A &lt;-&gt; y 
+                          e. B ) ) 
+    7::eleq1           |- ( x = y -&gt; ( x e. A &lt;-&gt; y e. A ) ) 
+    8::eleq1           |- ( x = y -&gt; ( x e. B &lt;-&gt; y e. B ) ) 
+    9:7,8:bibi12d      |- ( x = y -&gt; ( ( x e. A &lt;-&gt; x e. B ) &lt;-&gt; ( y e. A
+                          &lt;-&gt; y e. B ) ) ) 
+    10:4,5,9:cbval     |- ( A. x ( x e. A &lt;-&gt; x e. B ) &lt;-&gt; A. y ( y e. A 
+                          &lt;-&gt; y e. B ) ) 
+    qed:3,10:bitr4     |- ( A = B &lt;-&gt; A. x ( x e. A &lt;-&gt; x e. B ) ) 
+    
+    $=   cA cB wceq vy cv cA wcel vy cv cB wcel wb vy wal vx cv cA wcel 
+         vx cv cB wcel wb vx wal vy cA cB dfcleq vx cv cA wcel vx cv cB 
+         wcel wb vy cv cA wcel vy cv cB wcel wb vx vy vx cv cA wcel vx cv cB
+         wcel wb vy ax-17 vy cv cA wcel vy cv cB wcel vx cleqf.1 cleqf.2
+         hbbi vx cv vy cv wceq vx cv cA wcel vy cv cA wcel vx cv cB wcel
+         vy cv cB wcel vx cv vy cv cA eleq1 vx cv vy cv cB eleq1 bibi12d
+         cbval bitr4 $. 
+    $)</pre><h6>=</h6><p>I don't know if this next part is interesting to you, particularly, but here are the new RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a> for Proof Assistant (my current test file). As you can see there is:</p><p>ProofAsstExportToFile<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstExportToFile">?</a>,sb5,sb5.mmp,update,unified</p><p>which can also be coded like this to get all proofs written to a file!</p><p>ProofAsstExportToFile<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstExportToFile">?</a>,*,allproofsfile.mmp,update,unified</p><p>("unified" means with Ref labels on the steps, the default is "un-unified").</p><p>There is also this command to test  Proof Worksheet sb5.mmp, which is cool:</p><p>ProofAsstBatchTest<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstBatchTest">?</a>,*,sb5.mmp,unified</p><p>What is neat is coding it like this without a filename for input:</p><p>ProofAsstBatchTest<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstBatchTest">?</a>,*,,unified</p><p>What happens with that is that it simulates an input file and for each theorem in memory it first exports to memory and then reads the proof worksheet back in! So the Proof Assistant can be run against every theorem as a test with no Proof Worksheet files involved.</p><pre>     *==================================================
+     * CommentLine: Example Running ProofAsstGUI
+     *==================================================
+    MaxStatementPrintCount,9999
+    MaxErrorMessages,15000
+    MaxInfoMessages,1000
+    LoadEndpointStmtNbr,999999999
+    LoadEndpointStmtLabel,ZZZ999ZZZ
+    * LoadFile,c:\mmj2\java\test\mmj\pa\RunPAGUI.mm
+    LoadFile,c:\metamath\expsetTEST20060120v2.mm
+    *LoadFile,c:\metamath\expset.mm
+    VerifyProof,*
+    Parse,* 
+    * VerifyParse,*
+    * PrintSyntaxDetails
+    * PrintStatementDetails,*
+    RecheckProofAsstUsingProofVerifier,yes
+    ProofAsstFontSize,14 
+    ProofAsstFormulaLeftCol,20
+    ProofAsstFormulaRightCol,69 
+    ProofAsstRPNProofLeftCol,6
+    ProofAsstRPNProofRightCol,69     
+    ProofAsstProofFolder,c:\mmj2\java\test\mmj\pa\proofs
+    * ProofAsstExportToFile,sb5,sb5.mmp,update,unified
+    * ProofAsstExportToFile,sb6,sb6.mmp,update,unified
+    * ProofAsstExportToFile,eu1,eu1.mmp,update,unified
+    * ProofAsstExportToFile,mo,mo.mmp,update,unified
+    * ProofAsstExportToFile,cleqf,cleqf.mmp,update,unified
+    * ProofAsstExportToFile,hbel,hbel.mmp,update,unified
+    * ProofAsstExportToFile,hblem,hblem.mmp,update,unified
+    * ProofAsstExportToFile,rgen,rgen.mmp,update,unified
+    * ProofAsstExportToFile,reu2,reu2.mmp,update,unified
+    * ProofAsstExportToFile,clelab,clelab.mmp,update,un-unified
+    * ProofAsstExportToFile,aceq5lem3,aceq5lem3.mmp,update,unified
+    * ProofAsstBatchTest,*,sb5.mmp
+    * ProofAsstBatchTest,*,sb6.mmp
+    * ProofAsstBatchTest,*,eu1.mmp
+    * ProofAsstBatchTest,*,mo.mmp
+    * ProofAsstBatchTest,*,cleqf.mmp 
+    * ProofAsstBatchTest,*,hbel.mmp
+    * ProofAsstBatchTest,*,hblem.mmp 
+    * ProofAsstBatchTest,*,rgen.mmp
+    * ProofAsstBatchTest,*,reu2.mmp
+    * ProofAsstBatchTest,*,clelab.mmp 
+    * ProofAsstBatchTest,*,aceq5lem3.mmp,update,unified
+    * ProofAsstExportToFile,*,expsetExport10000.mmp,new,unified
+    * proofAsstBatchTest,*,,unified
+    RunProofAsstGUI </pre><h1>fix to proof errors</h1><p>Invented by Norm:</p><p>Step 1: Delete "$c class $."</p><p>Steps 2a through 2d: Delete statements cv, wceq, wcel, and wsbc.</p><p>Going back to top of file, continue down:</p><p>Step 3: Replace "weq $a wff x = y $." with this:</p><pre>   $c class $.
+   ${
+     $v A $.
+     $v B $.
+     wceq.cA $f class A $.
+     wceq.cB $f class B $.
+     cv $a class x $.
+     wceq $a wff A = B $.
+   $}
+   weq $p wff x = y $= vx cv vy cv wceq $.</pre><p>Step 4: Replace "wel $a wff x e. y $." with this:</p><pre>   ${
+     $v A $.
+     $v B $.
+     wcel.cA $f class A $.
+     wcel.cB $f class B $.
+     wcel $a wff A e. B $.
+   $}
+   wel $p wff x e. y $= vx cv vy cv wcel $.</pre><p>Step 5: Replace "wsb $a wff [ y / x ] ph $." with this:</p><pre>   ${
+     $v A $.
+     wsbc.cA $f class A $.
+     wsbc $a wff [ A / x ] ph $.
+   $}
+   wsb $p wff [ y / x ] ph $= wph vx vy cv wsbc $.</pre><p>--<a class="local" href="ocat">ocat</a> 22-Jan-2006</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2UnifyingOverloadsFix">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2UnifyingOverloadsFix">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2UnifyingOverloadsFix">Administration</a></span><span class="time"><br /> Last edited 2006-01-22 17:08 UTC by <a class="author" title="from global-66-81-64-204.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2UnifyingOverloadsFix">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

@@ -1,0 +1,363 @@
+% The following warnings occur throughout when I compile with pdflatex.
+% They don't seem to affect the output significantly.
+%
+%
+% LaTeX Font Warning: Font shape `U/msa/m/n' in size <19.907> not available
+% (Font)              size <20.74> substituted on input line 39.
+%
+% ! pdfTeX warning (ext4): destination with the same identifier (name{page.0}) ha
+% s been already used, duplicate ignored
+% <to be read again>
+%                    \penalty
+% l.802 \end{slide}
+%                   [26] (./megillaward2005.aux)
+%
+% LaTeX Font Warning: Size substitutions with differences
+% (Font)              up to 0.83301pt have occurred.
+%
+% LaTeX Warning: There were multiply-defined labels.
+
+
+
+
+\documentclass{slides}
+
+%page size
+\usepackage{anysize}
+\papersize{8in}{11in}
+%left,right,top,bottom
+%\marginsize{0.4706in}{0.4706in}{0.476in}{0.4706in}
+\marginsize{1in}{1in}{0.2in}{1in}
+
+\usepackage{color}
+%\definecolor{mint}{rgb}{.933,1,.98}
+\definecolor{mint}{rgb}{.960784,.996078,.976470}
+\definecolor{darkgreen}{rgb}{0,.7,0}
+\definecolor{lightgray}{gray}{0.75}
+\definecolor{mscolor}{rgb}{1.0,0,0}
+\definecolor{orange}{rgb}{1.0,0.5,0}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+
+% http://www.misojiro.t.u-tokyo.ac.jp/~kuroky/suribt/hyperref_options.pdf
+\usepackage[bookmarks=false]{hyperref}
+
+\begin{document}
+\raggedright
+\pagecolor{mint}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{\LARGE The Existential Uniqueness Quantifier}}\\
+\vspace{3ex}
+{\large Norman Megill}\\
+\vspace{1ex}
+\textcolor{darkgreen}{\texttt{nm{}@{}alum.mit.edu\qquad
+\url{http://metamath.org}}}\\
+\vspace{1ex}
+August 12, 2005
+\end{center}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Existential
+  uniqueness; ``at most one''}}
+\end{center}
+
+Unless otherwise specified, $\varphi$ has free variable $x$ (and
+no others).
+
+
+``There exists exactly one $x$ such that $\varphi$''
+\begin{eqnarray}
+ \textcolor{red}{ \exists{!} x \varphi}
+       & {\buildrel\rm def\over \leftrightarrow} &
+        \exists y \forall x ( \varphi
+\leftrightarrow x = y ) \label{df-eu}
+\end{eqnarray}
+
+
+``There exists at most one $x$ such that $\varphi$''
+\begin{eqnarray}
+\textcolor{red}{ \exists^\ast x \varphi}
+& {\buildrel\rm def\over \leftrightarrow} & \exists y \forall x ( \varphi
+\rightarrow x = y ) \label{mo2}
+\end{eqnarray}
+
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Other definitions
+ for existential uniqueness}}
+\end{center}
+\begin{eqnarray}
+  \exists{!} x \varphi
+        & \leftrightarrow & \exists x ( \varphi \wedge
+\forall y ( [ y / x ] \varphi \rightarrow x = y ) ) \label{eu1} \\
+        & \leftrightarrow & ( \exists x \varphi \wedge
+\forall x \forall y ( ( \varphi \wedge [ y / x ] \varphi ) \rightarrow x = y )
+)  \label{eu2}  \\
+        & \leftrightarrow & ( \exists x \varphi \wedge
+\exists y \forall x ( \varphi \rightarrow x = y ) ) \label{eu3} \\
+        & \leftrightarrow & ( \exists x \varphi \wedge
+\exists^\ast x \varphi ) \label{eu5}
+\end{eqnarray}
+
+\begin{center}
+\textcolor{blue}{\textbf{Other definitions for ``at most one''}}
+\end{center}
+\begin{eqnarray}
+\exists^\ast x \varphi & \leftrightarrow & ( \exists x \varphi \rightarrow
+\exists{!} x \varphi ) \label{df-mo} \\
+        & \leftrightarrow & \forall x \forall y ( ( \varphi
+\wedge [ y / x ] \varphi ) \rightarrow x = y )  \label{mo3}
+\end{eqnarray}
+
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Double existential uniqueness}}
+\end{center}
+
+Assume $\varphi$ has free variables $x$ and $y$.
+An idiom frequently used in literature is $\exists{!} x \exists{!} y
+ \varphi$ to denote ``there exists exactly one $x$ and exactly one $y$
+such that $\varphi$ is true.''  But formally it is
+\textcolor{orange}{false}:
+\begin{eqnarray} \textcolor{orange}{\nvdash} \ \ \exists{!}
+x \exists{!} y \varphi
+ \leftrightarrow ( \exists x \exists y \varphi
+\wedge \exists z \exists w \forall x \forall y ( \varphi \rightarrow ( x
+= z \wedge y = w ) ) )
+\end{eqnarray}
+However, we do have the following equivalences:
+\begin{eqnarray}
+     \lefteqn{( \exists x \exists y  \varphi  \wedge \exists z
+\exists w \forall x \forall y ( \varphi  \rightarrow
+( x = z \wedge y = w ) ) ) } \nonumber \\
+       & \leftrightarrow &  \exists{!} x \exists{!} y \varphi
+           \wedge \forall x \exists^\ast y
+\varphi ) \label{2eu5} \\
+       & \leftrightarrow &  \exists z \exists w \forall x \forall y ( \varphi
+\leftrightarrow ( x = z \wedge y = w ) ) \label{2eu6} \\
+       & \leftrightarrow & \exists{!} x \exists{!} y ( \exists x \varphi \wedge \exists
+y \varphi ) \label{2eu7} \\
+       & \leftrightarrow & \exists{!} x \exists{!} y ( \exists{!} x \varphi \wedge
+\exists y \varphi ) \label{2eu8} \\
+       & \leftrightarrow & ( \exists{!} x \exists y \varphi \wedge \exists{!} y \exists x \varphi
+) \label{2eu4}
+\end{eqnarray}
+
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Uniqueness theorems (1 of 3)}}
+\end{center}
+
+Assume that $\varphi$ and $\psi$ have $x$
+free and that $\chi$ does not have $x$ free.
+\begin{eqnarray}
+ ( \lnot \chi \wedge \exists{!} x \psi ) & \rightarrow & \exists{!} x (
+\chi \vee \psi ) \label{euorv} \\ %euorv
+ \exists x \varphi & \leftrightarrow & ( \exists^\ast x \varphi \rightarrow
+\exists{!} x \varphi ) \label{exmoeu} \\ %exmoeu
+   ( \forall x ( \varphi \rightarrow \psi ) & \rightarrow & ( \exists^\ast x
+\psi \rightarrow \exists^\ast x \varphi ) \label{immo} \\ %immo
+   \exists^\ast x ( \chi \rightarrow \psi ) & \rightarrow & ( \chi
+\rightarrow \exists^\ast x \psi ) \label{moimv} \\ %moimv
+  \forall x ( \varphi \rightarrow \psi ) & \rightarrow & ( \exists{!} x \psi
+\rightarrow \exists^\ast x \varphi ) \label{euimmo} \\ %euimmo
+   \exists^\ast x \varphi & \rightarrow & \exists^\ast x ( \psi \wedge
+\varphi ) \label{moan} \\ %moan
+   \exists^\ast x ( \varphi \vee \psi ) & \rightarrow & \exists^\ast x
+\varphi \label{moor} \\ %moor
+    ( \exists^\ast x \varphi \vee \exists^\ast x \psi ) & \rightarrow &
+\exists^\ast x ( \varphi \wedge \psi ) \label{mooran1} \\ %mooran1
+     \exists^\ast x ( \varphi \vee \psi ) & \rightarrow & ( \exists^\ast x
+\varphi \wedge \exists^\ast x \psi ) \label{mooran2}  %mooran2
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Uniqueness theorems (2 of 3)}}
+\end{center}
+
+Assume that $\varphi$ and $\psi$ have $x$
+free and that $\chi$ does not have $x$ free.
+\begin{eqnarray}
+     \exists^\ast x ( \chi \wedge \psi ) & \leftrightarrow & ( \chi
+\rightarrow \exists^\ast x \psi ) \label{moanimv} \\ %moanimv
+      \exists{!} x ( \chi \wedge \psi ) & \leftrightarrow & ( \chi \wedge
+\exists{!} x \psi ) \label{euanv} \\ %euanv
+   ( \exists^\ast x \varphi \wedge \exists x ( \varphi \wedge \psi ) )
+& \rightarrow & ( \varphi \rightarrow \psi ) \label{mopick} \\ %mopick
+    ( \exists{!} x \varphi \wedge \exists x ( \varphi \wedge \psi ) )
+& \rightarrow & ( \varphi \rightarrow \psi ) \label{eupick}  \\ %eupick
+   ( \exists{!} x \varphi \wedge \exists{!} x \psi \wedge \exists x (
+\varphi \wedge \psi ) ) & \rightarrow &
+( \varphi \leftrightarrow \psi) \label{eupickb} \\ %eupickb
+   \lnot \exists{!} x \,x = x & \leftrightarrow & \lnot
+    \forall x \,x = y  \label{exists1} \\ %exists1
+( \exists x \varphi \wedge \exists x \lnot \varphi ) & \rightarrow & \lnot
+\exists{!} x \,x = x \label{exists2} %exists2
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Uniqueness theorems (3 of 3)}}
+\end{center}
+
+Assume that $\varphi$ has $x$ and $y$ free and
+that $\psi$ has $x$ but not $y$ free.
+\begin{eqnarray}
+( \exists^\ast x \psi \wedge \forall x \exists^\ast y \varphi )
+& \rightarrow &
+ \exists^\ast y \exists x ( \psi \wedge \varphi ) \label{moexexv} \\ %moexexv ph y
+   \exists^\ast x \exists y \varphi & \rightarrow & \forall y \exists^\ast x
+\varphi \label{2moex} \\ %2moex
+    \exists{!} x \exists y \varphi & \rightarrow & \exists y \exists{!} x
+\varphi \label{2euex} \\ %2euex
+    \exists{!} x \exists^\ast y \varphi & \rightarrow & \exists^\ast x
+\exists{!} y \varphi \label{2eumo} \\ %2eumo
+     \exists{!} x \exists{!} y \varphi & \rightarrow & \exists x \exists y
+\varphi \label{2eu2ex} \\ %2eu2ex
+    \forall x \exists^\ast y \varphi & \rightarrow & ( \exists^\ast x \exists
+y \varphi \rightarrow \exists^\ast y \exists x \varphi ) \label{2moswap} \\ %2moswap
+    \forall x \exists^\ast y \varphi & \rightarrow & ( \exists{!} x \exists y
+\varphi \rightarrow \exists{!} y \exists x \varphi ) \label{2euswap} \\ %2euswap
+    ( \exists{!} x \exists y \varphi \wedge \exists{!} y \exists x \varphi
+) & \rightarrow & \exists{!} x \exists{!} y \varphi \label{2exeu}  %2exeu
+\end{eqnarray}
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Open Problem (?)}}
+\end{center}
+
+Is there a ``finite'' axiomatization (i.e. a finite number of axiom
+schemes) for extending predicate calculus (without
+equality) with $\exists{!}$, so that all theorems involving $\exists{!}$
+but not involving equality can be proved?
+
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+\begin{center}
+\textcolor{blue}{\textbf{Appendix - Equation references}}
+\end{center}
+
+The following list provides the hyperlinks to the formal proofs
+for most of the theorems.
+
+Eq.~\ref{df-eu}---\url{http://us.metamath.org/mpegif/df-eu.html}         \\
+Eq.~\ref{mo2}---\url{http://us.metamath.org/mpegif/mo2.html}             \\
+Eq.~\ref{eu1}---\url{http://us.metamath.org/mpegif/eu1.html}             \\
+Eq.~\ref{eu2}---\url{http://us.metamath.org/mpegif/eu2.html}             \\
+Eq.~\ref{eu3}---\url{http://us.metamath.org/mpegif/eu3.html}             \\
+Eq.~\ref{eu5}---\url{http://us.metamath.org/mpegif/eu5.html}             \\
+Eq.~\ref{df-mo}---\url{http://us.metamath.org/mpegif/df-mo.html}         \\
+Eq.~\ref{mo3}---\url{http://us.metamath.org/mpegif/mo3.html}             \\
+Eq.~\ref{2eu5}---\url{http://us.metamath.org/mpegif/2eu5.html}
+Eq.~\ref{2eu6}---\url{http://us.metamath.org/mpegif/2eu6.html}           \\
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+Eq.~\ref{2eu7}---\url{http://us.metamath.org/mpegif/2eu7.html}           \\
+Eq.~\ref{2eu8}---\url{http://us.metamath.org/mpegif/2eu8.html}           \\
+Eq.~\ref{2eu4}---\url{http://us.metamath.org/mpegif/2eu4.html}           \\
+Eq.~\ref{euorv}---\url{http://us.metamath.org/mpegif/euorv.html}           \\
+Eq.~\ref{exmoeu}---\url{http://us.metamath.org/mpegif/exmoeu.html}         \\
+Eq.~\ref{immo}---\url{http://us.metamath.org/mpegif/immo.html}             \\
+Eq.~\ref{moimv}---\url{http://us.metamath.org/mpegif/moimv.html}           \\
+Eq.~\ref{euimmo}---\url{http://us.metamath.org/mpegif/euimmo.html}         \\
+Eq.~\ref{moan}---\url{http://us.metamath.org/mpegif/moan.html}             \\
+Eq.~\ref{moor}---\url{http://us.metamath.org/mpegif/moor.html}             \\
+Eq.~\ref{mooran1}---\url{http://us.metamath.org/mpegif/mooran1.html}       \\
+Eq.~\ref{mooran2}---\url{http://us.metamath.org/mpegif/mooran2.html}       \\
+Eq.~\ref{moanimv}---\url{http://us.metamath.org/mpegif/moanimv.html}       \\
+Eq.~\ref{euanv}---\url{http://us.metamath.org/mpegif/euanv.html}           \\
+Eq.~\ref{mopick}---\url{http://us.metamath.org/mpegif/mopick.html}
+Eq.~\ref{eupick}---\url{http://us.metamath.org/mpegif/eupick.html}         \\
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+
+Eq.~\ref{eupickb}---\url{http://us.metamath.org/mpegif/eupickb.html}       \\
+Eq.~\ref{exists1}---\url{http://us.metamath.org/mpegif/exists1.html}       \\
+Eq.~\ref{exists2}---\url{http://us.metamath.org/mpegif/exists2.html}       \\
+Eq.~\ref{moexexv}---\url{http://us.metamath.org/mpegif/moexexv.html} \\
+Eq.~\ref{2moex}---\url{http://us.metamath.org/mpegif/2moex.html} \\
+Eq.~\ref{2euex}---\url{http://us.metamath.org/mpegif/2euex.html} \\
+Eq.~\ref{2eumo}---\url{http://us.metamath.org/mpegif/2eumo.html} \\
+Eq.~\ref{2eu2ex}---\url{http://us.metamath.org/mpegif/2eu2ex.html} \\
+Eq.~\ref{2moswap}---\url{http://us.metamath.org/mpegif/2moswap.html} \\
+Eq.~\ref{2euswap}---\url{http://us.metamath.org/mpegif/2euswap.html} \\
+Eq.~\ref{2exeu}---\url{http://us.metamath.org/mpegif/2exeu.html} \\
+
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
+

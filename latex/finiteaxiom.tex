@@ -1,0 +1,1421 @@
+% This LaTeX file, finiteaxiom.tex, is self-contained.  To generate a PDF file
+% in Linux (or Cygwin for Windows), cd to the directory with this file
+% then type
+
+%   pdflatex finiteaxiom
+%   pdflatex finiteaxiom
+
+% Title:  A Finitely Axiomatized Formalization of Predicate Calculus with
+%       Equality
+% Author:  N. Megill
+% Email:  nm @ alum.mit.edu
+
+%\documentstyle[leqno]{article} % LaTeX 2.09 - obsolete
+\documentclass[leqno]{article}
+
+%load in AMS fonts
+\usepackage{amssymb}
+
+% Uncomment the following line for double-spacing for copy editing
+% Comment it out for standard spacing
+%\renewcommand{\baselinestretch}{2}
+
+\raggedbottom
+\title{A Finitely Axiomatized Formalization of Predicate Calculus with
+Equality}
+\author{}
+\date{July 7, 1995}
+
+% From notes: how to use \textheight etc.
+%   \addtolength{\textheight}{13mm}
+%   \addtolength{\topmargin}{-1cm}
+%   etc. Use \setlength if you prefer.
+%   If you want to know what something is currently set to
+%   you can say eg \showthe\topmargin .
+
+% For compatibility with LaTeX 2.09:  add -0.95cm to make page height
+% match.  This was done so I don't have to change page numbers in all
+% the references to this preprint.  I don't know what the correct value
+% should be but for this paper it works for -0.7cm to -1.2cm inclusive
+% (to 1 decimal place), so % I took the average and used -0.95 cm.
+%\addtolength{\textheight}{-0.95cm}
+
+% (Later) Actually it seems 0.95cm = 0.374in ~ 0.375in = 3/8" so that
+% must be it!
+\addtolength{\textheight}{-0.375in}
+
+
+\begin{document}
+
+%(LaTeX 2.09 stuff, obsolete:)
+%load in AMS fonts
+%\input amssym.def
+%\input amssym.tex
+%\input{c:/texmf/tex/plain/amsfonts/amssym.def}
+%\input{c:/texmf/tex/plain/amsfonts/amssym.tex}
+
+
+\bibliographystyle{plain}
+\pagenumbering{arabic}
+\pagestyle{myheadings}
+\begin{titlepage}
+
+\vfill
+\hfill
+
+\begin{center}
+{\LARGE A Finitely Axiomatized Formalization of\\ Predicate Calculus with
+Equality}
+\end{center}
+
+\begin{center}
+%Norman D. Megill\\19 Locke Lane\\Lexingtion, MA 02420\\Email:  nm @ alum.mit.edu\\
+%July 7, 1995 \\
+\vspace{10ex}
+Note: This is a preprint of Megill,
+``A Finitely Axiomatized Formalization of Predicate Calculus with Equality,''
+{\em Notre Dame Journal of Formal Logic,} 36:435-453, 1995.
+\end{center}
+
+\vspace{10ex}
+
+The paper as published has the following errata that have been
+corrected in this preprint.
+\begin{itemize}
+\item On p.\ 439, line 7, ``(Condensed detachment)'' should be followed
+by a reference to a footnote, ``The arrays
+start at index $i=1$.  In Step 3, $i$ is increased {\em before}
+each comparison is made.''
+
+\item On p.\ 446, line 17, ``unnecessary'' is misspelled.
+
+\item On p.\ 448, 2nd line from bottom, ``that in Section 8.'' should be
+followed by ``In addition, S3\mbox{$'$} has the following stronger
+property.''
+
+\item On p.\ 449, line 22, ``$u_i$'' should be ``$u_1$''.
+
+\item On p.\ 450, line 27, ``{\tt D}$pq$'' should be ``{\tt D}$qp$''.
+
+\item On p.\ 451, line 2, ``shorter proof string'' should be followed
+by a reference to a footnote, ``Found by the {\sc Otter} theorem
+prover \cite{Wos}.''
+\end{itemize}
+
+\vspace{10ex}
+
+In August 2017, Tony H\"{a}ger identified and provided the proofs for
+two missing lemmas needed for the Substitution Theorem proof, and also
+found some shorter proofs for other lemmas.  The necessary corrections
+have not yet been incorporated in this preprint but can be found in the
+discussion starting at \\
+{\tt https://groups.google.com/d/msg/metamath/t2G8X-dvTbA/Tqfxeo1sAwAJ}
+
+
+
+\vfill
+\hfill
+
+\end{titlepage}
+\markright{A Finitely Axiomatized Formalization of Predicate Calculus with
+Equality}
+\maketitle
+
+\section*{Abstract}
+
+     We present a formalization of first-order predicate calculus with
+equality which, unlike traditional systems with axiom schemata or substitution
+rules, is finitely axiomatized in the sense that each step in a formal proof
+admits only finitely many choices.  This formalization is primarily based on
+the inference rule of condensed detachment of C.~A.~Meredith.  The usual
+primitive notions of free variable and proper substitution are absent, making
+it easy to verify proofs in a machine-oriented application.  Completeness
+results are presented.  The example of Zermelo-Fraenkel set theory is shown to
+be finitely axiomatized under the formalization.  The relationship with
+resolution-based theorem provers is briefly discussed.  A closely related
+axiomatization of traditional predicate calculus is shown to be complete in a
+strong metamathematical sense.
+
+\section{Introduction}
+
+     We define a formal theory to be {\em finitely axiomatized} if each step
+of a formal proof in the theory admits only finitely many choices.  This
+definition implies that the underlying logic is finitely axiomatized; it is
+stricter than the usual definition which requires only that the number of
+nonlogical axioms of the theory be finite.
+
+     Traditional axiom systems of first-order predicate calculus are usually
+presented with axiom schemata each of which represents infinitely many axioms
+(e.g.\ \cite[p.\ 73]{Hamilton}).  Throughout this paper we assume
+familiarity with such a  system and refer to it as {\em traditional predicate
+calculus}. Church \cite[pp.\ 218--219]{Church} presents a formalization of
+predicate calculus with a finite number of axioms together with substitution
+rules. However, a substitution rule is really a rule schema admitting an
+infinite number of choices, so Church's system is not finitely axiomatized in
+our terminology.
+
+     The finiteness of the number of nonlogical axioms in a theory is often
+considered philosophically or aesthetically desirable, as in, for example, NBG
+(von Neumann-Bernays-G\"{o}del) set theory \cite[pp.\ 173--219]{Mendelson}.
+However, the underlying logic usually tends to be viewed only in terms of
+schemata of infinite axioms.  Kleene \cite[p.\ 140]{Kleene} writes that
+whether we set up propositional calculus with axiom schemata or with
+particular axioms and a substitution rule, ``the rules  of inference must have
+the character of schemata, i.e.\ they must employ  metamathematical variables,
+since infinitely many applications have to be  provided for.''  Tarksi and
+Givant \cite[p.\ 7]{TarskiG}, state that ``[the] set of logical axioms is
+necessarily infinite'' in a formalization of predicate calculus.
+
+     We shall describe a new formalization of predicate calculus with equality
+that is finitely axiomatized when the number of nonlogical symbols in the
+language is finite.  Finite axiomatization is achieved by treating what are
+ordinarily thought of as metavariables as the primitive variables of the
+system and providing inference rules to manipulate these directly.  We then
+show how to map a subset of the resulting ``metatheorems'' directly into the
+theorems of traditional predicate calculus and show that this mapping is
+complete.  (However, not all formulas of our system that are true when
+interpreted as metatheorems are provable; see Remark 2 in Section
+\ref{furtherRemarks}.)
+
+     Our formalization uses C.~A.~Meredith's inference rule of {\em condensed
+detachment} (Rule ${\bf D}$) \cite{Meredith} in place of modus ponens and
+substitution.  Any axiom system with Rule ${\bf D}$ as its rule of inference
+is finitely axiomatized in our sense because at any point in a proof
+there are only finitely many earlier steps to which Rule ${\bf D}$ can be
+applied, and the outcome of Rule ${\bf D}$ is unique (up to renaming
+variables).  However the underlying axiom system has to have a certain minimum
+strength in order for the system to be complete, in the sense of being able to
+prove all possible substitution instances of theorems.  Some properties
+sufficient to achieve this {\em ${\bf D}$-completeness} for weak implicational
+systems are discussed in \cite{Hindley} and \cite{Megill}.
+
+     The remaining remarks in this section assume the reader is familiar with
+resolution and related techniques in the field of automated reasoning.
+
+     An inference rule related to Rule ${\bf D}$ is the {\em resolution
+principle} of J.~A.~Robinson \cite{Robinson}, commonly used in automated
+theorem proving.  A deductive system of logic whose inference rules
+are resolution together with the related rules of factoring and paramodulation
+can be considered finitely axiomatized in our sense and can produce clauses
+(theorems) that correspond to Skolemizations of theorems of predicate calculus
+with equality.  But such a system is not ``deduction complete'' so that, for
+example, G\"{o}del's completeness theorem fails to hold \cite{WosR}.
+
+     However, it is possible to use resolution with our system S1 below to
+achieve deduction completeness in an indirect way.  Kalman \cite{Kalman}
+showed that Rule ${\bf D}$ can be subsumed within resolution by treating
+formulas of logic as terms and introducing a provability predicate, a method
+now often used (in refutation systems) to find proofs in fragments of
+propositional calculus \cite[pp.\ 355 and 480--482]{Wos}.  This method
+represents Rule ${\bf D}$ with the clause $-P(x) | -P(i(x,y)) | P(y)$ where
+$P$ is the provability predicate and $i$ represents the binary connective
+$\rightarrow$ in system S1.  The other inference rule we will need for system
+S1, {\em condensed generalization}, also can be subsumed within resolution
+with the clause $-P(x) | P(a(y,x))$ where $a$ represents the binary connective
+$\forall$ in system S1.  Because resolution-style inferences preserve the
+positions of arguments, individual and propositional variables will not mix
+and thus will not allow us to prove ill-formed formulas.
+
+     Resolution-based theorem provers typically have other inference rules
+involving substitution, and we must ensure that these also will not mix
+variables in the presence of a candidate theorem that qualifies as a wff (as
+defined below).  If we are uncertain about the substitution rules used by a
+theorem prover, we can restore confidence in its output by verifying that each
+step of the generated proof is a wff.  Roughly, any resolution-based prover
+suitable for assisting ${\bf D}$-completeness proofs (e.g.\ \cite{Mints}) is
+sound for system S1.  However a brief experiment showed that the theorem
+prover described in \cite{Wos}, which is not suitable in this sense, did
+correctly prove general cases of our lemmas L1--L22 whenever it was able (on a
+small computer) to find a proof (from which the exact lemmas follow by the
+Substitution Theorem below).
+
+\section{The System S1}
+
+     To simplify our notation, we shall restrict our study to a subset of
+predicate calculus that has equality, one additional binary predicate symbol,
+and no function or constant symbols.  This subset suffices for set theory, and
+the choice of the symbol $\in $ for the additional binary predicate is not
+accidental, but the axioms apply to any binary predicate.  It is possible to
+add an arbitrary finite number of $n$-place predicate symbols to the system in
+a straightforward fashion and, using methods described in \cite[pp.\
+405--420]{Kleene}, to add constants and function symbols by means of
+definitions.
+
+     We now describe S1, the main system of our discourse. The
+undefined symbols of S1 are represented by
+  an infinite number of variables in sequence $a$, $b$, $c$,\ldots;
+  a unary connective $\lnot $; and
+  binary connectives $\rightarrow $, $\forall $, $=$, $\in $.
+A {\em formula} is a string of these symbols.  The axioms of S1 are the
+following formulas.
+\setcounter{equation}{0}
+\renewcommand{\theequation}{A\arabic{equation}}
+\begin{eqnarray}
+  & \rightarrow a\rightarrow ba \\
+  & \rightarrow \rightarrow a\rightarrow bc\rightarrow \rightarrow
+  ab\rightarrow ac \\
+  & \rightarrow \rightarrow \lnot a\lnot b\rightarrow ba \\
+  & \rightarrow \forall a\rightarrow \forall abc\rightarrow \forall
+    ab\forall ac \\
+  & \rightarrow \forall abb \\
+  & \rightarrow \forall a\forall bc\forall b\forall ac \\
+  & \rightarrow \lnot a\forall b\lnot \forall ba \\
+  & \rightarrow =ab\rightarrow =ac=bc \\
+  & \rightarrow \lnot \forall a=ab\rightarrow \lnot \forall
+    a=ac\rightarrow =bc\forall a=bc \\
+  & \rightarrow \forall a\rightarrow =ab\forall acc \\
+  & \rightarrow \forall a=ab\rightarrow \forall ac\forall bc \\
+  & \rightarrow =ab\rightarrow \in ac\in bc \\
+  & \rightarrow =ab\rightarrow \in ca\in cb \\
+  & \rightarrow \lnot \forall a=ab\rightarrow \lnot \forall
+    a=ac\rightarrow \in bc\forall a\in bc
+\end{eqnarray}
+
+The inference rules of S1 are
+  {\em condensed detachment} (Rule ${\bf D}$)  and
+  {\em condensed generalization} (Rule ${\bf G}$).
+They are analogous to modus ponens and generalization in traditional predicate
+calculus, but we shall defer their precise definition until the next section.
+
+     Unless otherwise stated, we shall use $F$, $G$, and $H$ (possibly with
+subscripts) as metavariables ranging over formulas, and $u$ and $v$ as
+metavariables ranging over variables.
+
+     To facilitate the description of the rules of S1, we have displayed its
+axioms in {\em Polish prefix} notation, in which a variable is an atomic {\em
+primitive formula}, and if $F$ and $G$ are primitive formulas, so are $\lnot F$,
+$\rightarrow FG$, $\forall FG$, $=FG$, and $\in FG$.
+
+     A {\em proof} in S1 is a finite sequence of {\em theorems}, each of which
+is an axiom, the result of Rule ${\bf D}$ applied to two previous theorems in
+the sequence (if the result exists), or the result of Rule ${\bf G}$ applied
+to a previous theorem in the sequence.  The {\em result of a proof} is the
+last theorem in the sequence.  A {\em ${\bf D}$-derivation} is a proof from a
+finite number of axioms that uses ${\bf D}$ and ${\bf G}$ as the only rules;
+thus all proofs in system S1 are ${\bf D}$-derivations.
+
+     To avoid ambiguity, we shall sometimes call an arbitrary variable of
+system S1 a {\em primitive variable}.  We define an {\em individual variable}
+as a (primitive) variable that occurs as the first argument of a $\forall $
+connective or as either argument of an $=$ or $\in $ connective.  A variable
+in any other position is defined as a {\em propositional variable}.
+
+     We define an atomic {\em well-formed formula} ({\em wff}) as either a
+(propositional) variable or a primitive formula of the form $=uv$ or $\in uv$;
+and if $F$ and $G$ are wffs, so are $\lnot F$, $\rightarrow FG$, and $\forall
+uF$, provided that no variable becomes both a propositional variable and an
+individual variable.  It may be observed that each axiom of S1 is a wff.
+
+     The variables in a formula are {\em normalized} if they occur in
+alphabetic order $a$, $b$, $c$,\ldots by first appearance.  The axioms and
+rules of S1 are such that all theorems have normalized variables.
+
+     The connectives $=$ and $\in $ are {\em predicate symbols}.  The
+connectives $\lnot $, $\rightarrow $, and $\forall $ are {\em logical
+connectives}.  The predicate symbol $\in $ is a {\em nonlogical symbol}.
+
+
+\section{The Rules ${\bf D}$ and ${\bf G}$}\label{rulesdg}
+
+     The rule of {\em condensed detachment}, which we shall call {\em Rule
+${\bf D}$}, was introduced by C.~A.~Meredith \cite{Meredith} as a method for
+abbreviating proofs in propositional calculus.  In traditional propositional
+calculus, the result of applying modus ponens (with some appropriate
+substitutions), if it can be applied, to theorems of the form $\rightarrow FG$
+and $H$ is an infinite set of substitution instances of $G$.  From this set
+Rule ${\bf D}$ picks a theorem that is {\em most general} in the sense that
+all other theorems in the set are substitution instances of it.  To make it
+unique, the most general theorem that is picked is the one with its variables
+normalized according to some convention.  We denote this most general theorem
+by ${\bf D}(\rightarrow FG,H)$ and say that it is the result of {\em
+detaching} $H$ from $\rightarrow FG$.  Rigorous treatments of Rule ${\bf D}$
+are provided in \cite{Hindley} and \cite{Kalman}, and an informal tutorial is
+presented in \cite[pp.\ 2--6]{Zeman}.  A specific example is given in the
+Appendix of this paper.
+
+     We extend the use of Rule ${\bf D}$ to system S1, treating all
+connectives as if they were propositional connectives.  It is important to
+note that in system S1, unlike propositional calculus, the general
+substitution of a variable with a wff is not a defined or derived rule, nor
+will such a substitution necessarily result in a valid theorem.  We shall show
+later that when operating on the axioms of S1, Rule ${\bf D}$ will perform
+only acceptable substitutions and, less obviously, can perform all possible
+acceptable substitutions.  This is the essential feature that allows the
+predicate calculus to be complete yet still finitely axiomatized, because each
+application of Rule ${\bf D}$ (or Rule ${\bf G}$) results in a unique theorem.
+The nature of Rule ${\bf D}$ is such that when it is applied to two wffs,
+the result, if it exists, is a wff; in particular, Rule ${\bf D}$ will never
+mix individual and propositional variables.
+
+     The following algorithm from Peterson \cite{Peterson}, with the addition
+of step 10, generates ${\bf D}(\rightarrow FG,H)$ or shows that it does not
+exist.  A {\em subformula} is the shortest sequence of symbols that begins at
+an indicated point in a formula and satisfies the definition of a primitive
+formula.  $F$ is the subformula beginning at the second symbol in $\rightarrow
+FG$.  To find ${\bf D}(\rightarrow FG,H)$, we represent formulas $F$, $G$, and
+$H$ as strings of nonzero integers stored left-justified in arrays $A$, $B$,
+and $C$ such that (for example) the variables are represented by positive
+integers and the connectives by negative integers.  A zero represents the end
+of a string.
+
+{\bf Algorithm ${\bf D}$} (Condensed detachment)\footnote{The arrays
+% start at index $i=1$.  In Step 3, a comparison is made {\em after}
+% each increase in
+% $i$.} \hspace{.5em}
+start at index $i=1$.  In Step 3, $i$ is increased {\em before}
+each comparison is made.} \hspace{.5em}
+  {\em Step 1.} Renumber the variables in $C$ so that it has no variables
+      in common with $A$ and $B$.
+  {\em Step 2.} Set $i$ to $0$.
+  {\em Step 3.} Increase $i$ by $1$ until $A[i]\neq C[i]$ or $C[i]=0$.
+  {\em Step 4.} If $C[i]=0$ then go to 10.  Otherwise continue.
+  {\em Step 5.} If $C[i]$ is a variable then set $m$ to $C[i]$ and place the
+      subformula beginning with $A[i]$ in array $E$.  Go to 8.
+      Otherwise continue.
+  {\em Step 6.} If $A[i]$ is a variable then set $m$ to $A[i]$ and place the
+      subformula beginning with $C[i]$ in array $E$.  Go to 8.
+      Otherwise continue.
+  {\em Step 7.} Terminate the algorithm.  ${\bf D}(\rightarrow FG,H)$ does
+      not exist.
+  {\em Step 8.} If $m$ occurs in array $E$ then go to 7.  Otherwise
+      continue.
+  {\em Step 9.} Substitute the content of array $E$ for each occurrence
+      of $m$ throughout arrays $A$, $B$, and $C$.  Go to 3.
+  {\em Step 10.} ({\em Normalization}) Renumber the variables in $B$ so that
+      they occur, by first appearance, in alphabetic order
+      $a$, $b$, $c$,\ldots .  Terminate the
+      algorithm.  The content of array $B$ is ${\bf D}(\rightarrow FG,H)$.
+
+
+     {\em Condensed generalization} or {\em Rule ${\bf G}$} quantifies a
+theorem $F$ with a variable not appearing in the theorem and normalizes the
+result.  The following algorithm performs this rule.
+
+  {\bf Algorithm ${\bf G}$} (Condensed generalization) \hspace{.5em}
+  {\em Step 1.} Change each variable in $F$ to the next variable in the
+      language's list of variables, so that $a$ becomes $b$, $b$
+      becomes $c$, etc.
+  {\em Step 2.} Preface $F$ with ``$\forall a$''.  Terminate the algorithm.
+
+\section{The System S2}
+
+     We next define S2, an axiomatization that represents an intermediate
+step between S1 and traditional predicate calculus.  We shall later show that
+S1 and S2 are equivalent.
+
+     S1 and S2 differ only in their rules.  Except for notation, the axioms of
+system S2 are the same as those of S1.  The individual and propositional
+variables of S1 are replaced with distinguished groups of symbols and the
+notation is changed from Polish prefix to a more conventional one.
+Implicitly, each theorem of S2 is a metamathematical representation of a
+theorem in the normalized notation of S1, even though the axioms of S2 do not
+explicitly exhibit nor the rules explicitly require variable normalization.
+We allow the theorems of S2 to contain unnormalized variables only as a
+metamathematical convenience.  Henceforth, we shall restrict the metavariables
+$u$ and $v$ to range over individual variables (and not propositional
+variables) unless otherwise stated.
+
+     The symbols of S2 are represented by
+propositional variables  $P$, $Q$, $R$, $S$,\ldots ;
+individual variables  $x$, $y$, $z$,\ldots ;
+unary connective  $\lnot $;
+binary connectives  $\rightarrow $, $\forall $, $=$, $\in $; and
+parentheses  $($, $)$.
+
+     In system S2, an atomic wff is either a propositional variable or an
+expression of the form $u=v$ or $u\in v$; and if $F$ and $G$ are wffs, so are
+$\lnot F$, $(F\rightarrow G)$, and $\forall uF$.  For readability we
+omit the outermost parentheses when writing formulas.  The axioms of S2
+follow, separated into related groups:
+
+\vspace{1ex}
+  (Axioms for propositional calculus)
+\setcounter{equation}{0}
+\renewcommand{\theequation}{B\arabic{equation}}
+\begin{eqnarray}
+    & P\rightarrow (Q\rightarrow P) \\
+    & (P\rightarrow (Q\rightarrow R))\rightarrow ((P\rightarrow
+Q)\rightarrow (P\rightarrow R)) \\
+    & (\lnot P\rightarrow \lnot Q)\rightarrow (Q\rightarrow P)
+\end{eqnarray}
+
+  (Axioms for pure predicate calculus)
+\begin{eqnarray}
+    & \forall x(\forall xP\rightarrow Q)\rightarrow (\forall
+xP\rightarrow \forall xQ) \\
+    & \forall xP\rightarrow P \\
+    & \forall x\forall yP\rightarrow \forall y\forall xP \\
+    & \lnot P\rightarrow \forall x\lnot \forall xP
+\end{eqnarray}
+
+  (Axioms for equality and substitution)
+\begin{eqnarray}
+    & x=y\rightarrow (x=z\rightarrow y=z) \\
+    & \lnot \forall xx=y\rightarrow (\lnot \forall xx=z\rightarrow
+      (y=z\rightarrow \forall xy=z)) \\
+    & \forall x(x=y\rightarrow \forall xP)\rightarrow P \\
+    & \forall xx=y\rightarrow (\forall xP\rightarrow \forall yP)
+\end{eqnarray}
+
+  (Axioms for a binary predicate)
+\begin{eqnarray}
+    & x=y\rightarrow (x\in z\rightarrow y\in z) \\
+    & x=y\rightarrow (z\in x\rightarrow z\in y) \\
+    & \lnot \forall xx=y\rightarrow (\lnot \forall xx=z\rightarrow (y\in
+        z\rightarrow \forall xy\in z))
+\end{eqnarray}
+
+The inference rules of system S2 are the following.
+(1) {\em Modus ponens}:  From $F$ and $F\rightarrow G$, infer $G$.
+(2) {\em Generalization}:  From $F$, if $u$ is any individual variable, infer
+        $\forall uF$.
+(3) {\em Substitution for propositional variables}:  From $F$, infer a new
+  formula obtained by replacing all occurrences of some propositional
+  variable in $F$ with any wff.
+(4) {\em Substitution for individual variables}:  From $F$, infer a new
+  formula obtained by replacing all occurrences of some individual variable in
+  $F$ with any other individual variable.
+
+     In the modus ponens inference, $F$ is called the {\em minor premise} and
+$F\rightarrow G$ the {\em major premise}.  In the major premise, $F$ is
+called the {\em antecedent} and $G$ the {\em consequent}.  We say that $F$ is
+{\em detached} from $F\rightarrow G$ to result in $G$ (although usually we
+shall use the word ``detach'' in the sense of condensed detachment
+defined above).  We may use the term ``antecedent'' somewhat informally; for
+example in $F\rightarrow (G\rightarrow H)$, $F$ and $G$ may both be called
+antecedents.
+
+     It will be convenient to have available other logical connectives defined
+in terms of the primitive connectives; we define $F\vee G$ ({\em disjunction}),
+$F\wedge G$ ({\em conjunction}), $F\leftrightarrow G$, and $\exists uF$ as
+abbreviations for $\lnot F\rightarrow G$, $\lnot (F\rightarrow \lnot G)$,
+$\lnot ((F\rightarrow G)\rightarrow \lnot (G\rightarrow F))$, and $\lnot
+\forall u\lnot F$ respectively.
+
+     Unlike S1, S2 is not finitely axiomatized because of its substitution
+rules.  However, S2 is interesting in its own right because the axioms have no
+verbal restrictions on variables, i.e.\ there are no primitive notions of free,
+bound, or distinct individual variables, nor are there complex rules for
+proper substitutions.  This property is essential for compatibility with Rule
+${\bf D}$ of S1, but as a side benefit the inherent simplicity of S2 can make
+it easy to study as a formal system.
+
+     Because the wffs of S2 are the same as those of S1 except for notation,
+we shall usually represent wffs of S1 in the more standard notation of S2.
+We shall also interchangeably refer to axioms A1 through A14 and B1 through
+B14, whichever are more convenient for the situation at hand.  It should be
+emphasized, however, that the wffs of S2 are metamathematical representations
+of those of S1 and at the primitive level there is no distinction between
+individual and propositional variables in S1.  After we show that S1 and S2
+are equivalent, we shall interchangeably refer to these two systems.
+
+
+\section{Equivalence of Systems S1 and S2}\label{equivs1s2}
+
+     We say that two formal systems are {\em equivalent} if any theorem that
+can be proved in one system can also be proved in the other (except for a
+possible difference of notation).  In the case of systems S1 and S2, our main
+task is to prove from S1 the substitution rules of S2.  The rest of the proof
+follows as easy corollaries.
+
+
+{\bf Theorem \ref{equivs1s2}.1} (Substitution Theorem) \hspace{.5em} {\em Rules ${\bf D}$
+and ${\bf G}$ of system {\rm S1} generate exactly those substitution instances
+defined by the substitution rules of system {\rm S2}.}
+
+{\em Proof}: First, we show that Algorithm ${\bf D}$ can generate {\em only}
+those substitution instances defined by the substitution rules of system S2.
+By inspection of Algorithm ${\bf D}$ and the axioms of S1, we notice that only
+individual variables (never wffs) will be substituted for individual
+variables.  This follows from the fact that the axioms are wffs, so that no
+wff appears as an argument of an $=$ or $\in $ connective nor as the first
+argument of a $\forall$  connective.  Similarly, we notice that only wffs
+(never individual variables) will be substituted for propositional variables.
+Thus Rule ${\bf D}$ will never violate the substitution rules of system S2.
+
+     Similarly, Algorithm ${\bf G}$ will generate only acceptable substitution
+instances of the generalization rule of S2.
+
+     It remains to be shown that Rules ${\bf D}$ and ${\bf G}$ are complete,
+i.e.\ that they can derive {\em all} instances of the substitution rules of
+system S2.
+
+     Assume that a proof exists in system S2 for some theorem $F_s$.  We want
+to show that we can prove this theorem using the axioms and rules of system
+S1.
+
+     First we convert the proof in S2 to a proof in S1 by deleting all
+applications of the substitution rules, replacing modus ponens with Rule ${\bf
+D}$ and replacing generalization with Rule ${\bf G}$.  The result of the new
+proof will be a most general theorem $F_g$ of which the desired theorem $F_s$
+is a substitution instance.
+
+     Rule ${\bf D}$ has the following property.  If $F_s$ is any substitution
+instance of a theorem $F_g$, then ${\bf D}(\rightarrow F_sF_s,F_g)$ (i.e.\
+$F_g$ detached from $F_s\rightarrow F_s$) is $F_s$.  This is easy to see by
+examining Algorithm ${\bf D}$.
+
+     We shall show that any formula of the form $F_s\rightarrow F_s$, where
+$F_s$ is a wff, is ${\bf D}$-derivable, i.e.\ can be proved in system S1.  Then
+by applying the property of Rule ${\bf D}$ just mentioned, we can ${\bf
+D}$-derive $F_s$ when it is a substitution instance of some theorem $F_g$.
+This will complete our proof of the Substitution Theorem.
+
+     First we construct a proof of a theorem of the form
+$F_v\rightarrow (F_d\rightarrow F_d)$.  $F_d$ is a wff identical to $F_s$
+except that all appearances of the propositional variables and individual
+variables in $F_d$ will be distinct, i.e.\ each variable will appear only once.
+$F_v$ is a disjunction of all of the propositional variables contained in
+$F_d$ and also of formulas of the form $\forall uG$, one for each
+individual variable $u$ contained in $F_d$ (and $G$ is a dummy ``place holder''
+propositional variable not in $F_d$ nor elsewhere in $F_v$).
+
+     We prove $F_v\rightarrow (F_d\rightarrow F_d)$ by induction on the number
+of connectives in the wff $F_d$ (i.e.\ in $F_s$).  The induction basis is one
+of the ${\bf D}$-derivable lemmas
+\setcounter{equation}{0}
+\renewcommand{\theequation}{L\arabic{equation}}
+\begin{eqnarray} % L1-L3
+  & P\rightarrow (P\rightarrow P) \\
+  & (\forall xP\vee \forall yQ)\rightarrow (x=y\rightarrow x=y) \\
+  & (\forall xP\vee \forall yQ)\rightarrow (x\in y\rightarrow x\in y)
+\end{eqnarray}
+corresponding to the atomic wffs $P$, $x=y$, and $x\in y$.  (The proofs of
+all lemmas are given in the Appendix.)  Note that in L2 and L3, $P$ and $Q$
+are dummy place holder propositional variables mentioned above, and their
+purpose is to capture $x$ and $y$ so that $x$ and $y$ can be manipulated in a
+manner similar to propositional variables.
+
+     For the induction hypothesis, we assume that all theorems with fewer
+connectives than $F_v\rightarrow (F_d\rightarrow F_d)$ and of that form can
+be proven.  $F_d$, if not atomic, must be of the form $\lnot G$,
+$G\rightarrow H$, or $\forall uG$ by the definition of a wff.  We prove
+$F_v\rightarrow (F_d\rightarrow F_d)$ by detaching from one of the
+${\bf D}$-derivable lemmas
+\begin{eqnarray} % L4-L6
+  & (P\rightarrow (Q\rightarrow Q))\rightarrow (P\rightarrow (\lnot
+      Q\rightarrow \lnot Q)) \\
+  & (P\rightarrow (Q\rightarrow Q))\rightarrow ((R\rightarrow
+     (S\rightarrow S))\rightarrow
+        \qquad\qquad\qquad
+         \\
+        \qquad\qquad
+    & ((P\vee R)\rightarrow ((Q\rightarrow
+       S)\rightarrow (Q\rightarrow S)))) \nonumber \\
+  & (P\rightarrow (Q\rightarrow Q))\rightarrow ((P\vee \forall
+     xR)\rightarrow (\forall xQ\rightarrow \forall xQ))
+\end{eqnarray}
+corresponding to the connectives $\lnot $, $\rightarrow $, and $\forall $
+respectively.  In L6, $R$ is a dummy propositional variable that captures $x$.
+
+     At this point we have completed constructing a proof of $F_v\rightarrow
+(F_d\rightarrow F_d)$.  Each variable in $F_d$ will appear only once, whereas
+in $F_s$ some variables will probably appear more than once.  We must
+transform $F_d$ to $F_s$ by forcing some of the distinct propositional
+variables and distinct individual variables in $F_d$ to become identical to
+each other.  Pick two such propositional variables $G$ and $H$.  If $F_v$ has
+more than two disjuncts, we detach $F_v\rightarrow (F_d\rightarrow F_d)$
+repeatedly from the ${\bf D}$-derivable lemmas
+\begin{eqnarray} % L7-L8
+  & ((P\vee Q)\rightarrow R)\rightarrow ((Q\vee P)\rightarrow R) \\
+  & (((P\vee Q)\vee R)\rightarrow S)\rightarrow ((P\vee (Q\vee
+      R))\rightarrow S)
+\end{eqnarray}
+to make $G$ and $H$ become the leftmost disjuncts of $F_v$, so that $F_v$ is
+of the form $(G\vee H)\vee F$ where $F$ is the rest of the disjunction.  (We
+are implicitly assuming that we are keeping track of the variables
+metamathematically, since the actual subtheorems in the notation of system S1
+have normalized variables after each application of Rule ${\bf D}$.)  Next we
+detach from one of the ${\bf D}$-derivable lemmas
+\begin{eqnarray} % L9-L10
+  & ((P\vee P)\rightarrow Q)\rightarrow ((P\vee P)\rightarrow Q) \\
+  & (((P\vee P)\vee Q)\rightarrow R)\rightarrow (((P\vee P)\vee
+      Q)\rightarrow R)
+\end{eqnarray}
+(L9 if $F_v$ has only two disjuncts, L10 otherwise) to force the two distinct
+propositional variables $G$ and $H$ to match each other.  The result is a
+theorem of the form $F_v'\rightarrow (F_d'\rightarrow F_d')$ in which the
+propositional variables $G$ and $H$ are now identical.
+
+     To make individual variables identical to each other, we perform the same
+kinds of manipulations with L7 and L8, except that we move disjuncts of the
+form $\forall uG$ and $\forall vH$ to the leftmost positions.  Detaching from
+L9 or L10 will force $u$ and $v$ to match each other; $G$ and $H$ in this case
+will also become identical, but this is irrelevant because they are dummy
+propositional variables.
+
+     We repeat the above steps for all distinct variables in $F_d$ that must
+be made identical to obtain a theorem of the form $F_v''\rightarrow
+(F_s\rightarrow F_s)$.  We detach this from the ${\bf D}$-derivable lemma
+\begin{equation} % L11
+   (P\rightarrow (Q\rightarrow Q))\rightarrow (Q\rightarrow Q)
+\end{equation}
+to discard the antecedent and finally obtain $F_s\rightarrow F_s$.
+
+     A simple example is helpful to understand these steps.  Suppose we have
+proved $P\rightarrow P$ in system S1, and we want to prove the substitution
+instance $\lnot P\rightarrow \lnot P$.  Let $F_g$ be $P\rightarrow P$ and
+$F_s$ be $\lnot P\rightarrow \lnot P$.  First we construct a proof for
+$F_s\rightarrow F_s$, i.e.\ $(\lnot P\rightarrow \lnot P)\rightarrow (\lnot
+P\rightarrow \lnot P)$.  We start with Lemma L1, $P\rightarrow (P\rightarrow
+P)$.  We detach this from L4 to obtain $P\rightarrow (\lnot P\rightarrow \lnot
+P)$, which we then detach twice from L5 to obtain $(P\vee Q)\rightarrow
+((\lnot P\rightarrow \lnot Q)\rightarrow (\lnot P\rightarrow \lnot Q))$.  We
+must make $P$ and $Q$ identical.  Since there are only two propositional
+variables, we do not need L7 or L8.  Detaching from L9, we obtain $(P\vee
+P)\rightarrow ((\lnot P\rightarrow \lnot P)\rightarrow (\lnot P\rightarrow
+\lnot P))$.  Detaching from L11, we obtain $(\lnot P\rightarrow \lnot
+P)\rightarrow (\lnot P\rightarrow \lnot P)$, which is the desired
+$F_s\rightarrow F_s$.  Detaching $P\rightarrow P$ from $(\lnot P\rightarrow
+\lnot P)\rightarrow (\lnot P\rightarrow \lnot P)$, we finally obtain $\lnot
+P\rightarrow \lnot P$.
+
+(End of proof of Substitution Theorem.) \hfill $\square$
+
+
+     The Substitution Theorem shows that the substitution rules of S2 can be
+derived from the axioms and rules of S1.  As an easy corollary, the
+modus ponens rule of S2 is a special case of Rule ${\bf D}$ of S1, and the
+generalization rule of S2 follows from Rule ${\bf G}$ of S1 and the
+Substitution Theorem.  Conversely, since Rule ${\bf D}$ can be used as a rule
+of inference in a substitution and detachment system \cite{Kalman}, Rule ${\bf
+D}$ of S1 follows from modus ponens and the substitution rules of S2, and Rule
+${\bf G}$ of S1 follows as a special case of the generalization rule of S2.
+The axioms of S1 and S2 are identical except for notation.  It follows that S1
+and S2 have the same power of proof.
+
+     Having proved the Substitution Theorem, we shall make use of it
+implicitly henceforth in order to shorten proofs.  Thus in the Appendix, a
+formal proof of any of the remaining lemmas in this paper may yield a more
+general case of the lemma.
+
+
+\section{The System S3}
+
+     Tarski \cite{Tarski} presents a simplified axiom system for traditional
+predicate calculus.  His system shares some similarities with our S2 above,
+and it will be convenient to prove the completeness of S2 (and hence S1) by
+deriving from S2 that fragment of Tarski's system which contains only the
+predicate symbols $=$ and $\in $.  We shall call this fragment system S3.
+(For simplicity we are concerned with completeness of systems with only these
+two predicate symbols;  extension to an arbitrary finite number of predicate
+symbols is straightforward.)  We denote the infinite set of (individual)
+variables of S3 arranged in sequence ${\bf x}$, ${\bf y}$, ${\bf z}$,\ldots .
+If $u$ and $v$ are variables, then $u=v$ and $u\in v$ are atomic wffs; and if
+$F$ and $G$ are wffs, so are $\lnot F$, $F\rightarrow G$, and $\forall uF$.
+The following are the axiom schemata of S3, where $F$, $G$, and $H$ are wffs:
+\setcounter{equation}{0} \renewcommand{\theequation}{C\arabic{equation}}
+\begin{eqnarray} % C1-C7
+  & (F\rightarrow G)\rightarrow ((G\rightarrow H)\rightarrow (F\rightarrow
+     H)) \\
+  & (\lnot F\rightarrow F)\rightarrow F \\
+  & F\rightarrow (\lnot F\rightarrow G) \\
+  & \forall u(F\rightarrow G)\rightarrow (\forall uF\rightarrow \forall
+     uG) \\
+  & F\rightarrow \forall uF, \;
+        \mbox{where $u$ is not among the set of variables
+              occurring in $F$}  \\
+  & \lnot \forall u\lnot u=v, \;
+           \mbox{where $u$ and $v$ are distinct
+           variables} \\
+  & u=v\rightarrow (F\rightarrow G), \;
+         \parbox[t]{20em}{where $F$ is any atomic wff in which
+             $u$ occurs, and $G$ is obtained from $F$ by
+               replacing a single occurrence of $u$
+		            with $v$}
+\end{eqnarray}
+The inference rules of S3 are modus ponens and generalization.
+
+
+\section{Mapping Formulas from S1 into S3}\label{mapping}
+
+     We define a {\em distinctor} as a formula in S1, S2, or S3 of the form
+$\lnot \forall uu=v$ where $u$ and $v$ are distinct variables.  We define as
+{\em propositionless} a formula of S1 (or S2) containing only individual
+variables.  We recall that the variables of S1 are arranged in sequence
+$a$, $b$, $c$,\ldots and those of S3 in sequence ${\bf x}$, ${\bf y}$, ${\bf
+z}$,\ldots .  In this section we shall use non-Polish notation when
+displaying formulas of system S1.
+
+     Certain axioms of S3 require that some individual variables be distinct
+from one another, a requirement absent from S1; in particular, the
+Substitution Theorem permits arbitrary substitutions of individual variables
+for individual variables in S1.  Therefore we must represent the formulas of
+S3 indirectly in S1 by means of a suitable mapping.  The completeness of S1
+will then be proved by showing that the set of propositionless theorems of S1
+maps {\em onto} the set of theorems of S3.  (We shall not be concerned with
+those theorems of S1 that have propositional variables since any such theorem
+corresponds to a theorem schema, not a particular theorem, of system S3.)
+
+     The mapping we shall use in the completeness proof of S1 is the {\em
+method of distinctor elimination}.  This mapping requires that we sacrifice
+soundness in the one-element domain because, as we shall see, the theorem
+$\lnot \forall aa=b\rightarrow \lnot \forall aa=b$ in S1 maps to the formula
+$\lnot \forall {\bf x}{\bf x}={\bf y}$ in S3 which is false in an
+interpretation of S3 with a one-element domain.  However, we have chosen to
+use this mapping because of its simplicity.  (It is possible to devise other
+mappings that are sound in all non-empty domains.  S1 is complete in the
+one-element domain provided that we add to any theory with that domain the
+nonlogical axiom $a\rightarrow \forall ba$.)
+
+     The method of distinctor elimination makes use of the following fact.  A
+distinctor $\lnot \forall uu=v$ in S3 is true in all multiple-element domains
+(it also a theorem of set theory).  It can therefore be detached when used as
+an antecedent of a theorem of S3, which under this mapping is implicitly
+extended to exclude the one-element domain.  Specifically, this mapping first
+replaces the variables $a$, $b$, $c$,\ldots in a theorem of S1 with the
+variables ${\bf x}$, ${\bf y}$, ${\bf z}$,\ldots of S3 on a one-to-one basis.
+It then discards the theorem's antecedent (if there is one) when the
+antecedent is a distinctor or a conjunction of distinctors.  For example, the
+theorems $\exists aa=b$, $(\lnot \forall aa=b\wedge \lnot \forall
+aa=c)\rightarrow \exists aa=b$, $\lnot \forall aa=b\rightarrow (\lnot \forall
+aa=c\rightarrow \exists aa=b)$, and $\lnot \forall aa=a\rightarrow \exists
+aa=b$ are mapped to $\exists {\bf x}{\bf x}={\bf y}$, $\exists {\bf x}{\bf
+x}={\bf y}$, $\lnot \forall  {\bf x}{\bf x}={\bf z}\rightarrow \exists {\bf
+x}{\bf x}={\bf y}$, and $\lnot \forall {\bf x}{\bf x}={\bf x}\rightarrow
+\exists {\bf x}{\bf x}={\bf y}$ respectively (note that $\lnot \forall {\bf
+x}{\bf x}={\bf x}$ is not a distinctor).  The completeness proof of S2 (and
+thus S1) will show that any theorem of S3 can be proved in S2 provided we
+allow the theorem to be prefixed with a possible antecedent consisting of a
+distinctor or a conjunction of distinctors.
+
+     Distinctors are primarily intended to specify those pairs of variables in
+the theorem that must be distinct.  If the Substitution Theorem is used to
+replace the two variables in a distinctor with a single variable, the
+distinctor becomes the false formula $\lnot \forall uu=u$, and the theorem
+will remain valid because $\lnot \forall uu=u$ is conjoined to its
+antecedent.  After making such a substitution, the method of distinctor
+elimination will not discard $\lnot \forall uu=u$ thus ensuring validity of
+the theorem in S3.
+
+     Distinctors have two other roles.  First, the variables in any theorem of
+S1 are normalized, whereas S3 permits any permutation of variables in a
+theorem.  To achieve an arbitrary permutation of variables in the
+representation in S3, the order of the distinctors can be rearranged as needed
+and dummy distinctors added so that the part of the theorem after the
+conjunction of distinctors has its variables appear with the desired
+permutation.  For example, $\lnot \forall aa=b\rightarrow \exists bb=a$
+becomes $\exists {\bf y}{\bf y}={\bf x}$ and $(\lnot \forall aa=b\wedge \lnot
+\forall aa=c)\rightarrow \exists cc=a$ becomes $\exists {\bf z}{\bf z}={\bf
+x}$.  The rearranging and adding of distinctors is done using simple
+tautologies, the Substitution Theorem and the following lemma:
+\setcounter{equation}{11}
+\renewcommand{\theequation}{L\arabic{equation}}
+\begin{equation} % L12
+  \lnot \forall aa=b\rightarrow \lnot \forall bb=a
+\end{equation}
+
+     Second, a result of Andr{\'{e}}ka (proved in \cite{Nemeti}) shows that if we
+restrict S3 to the fragment containing only a finite number $n$ of variables
+($n>2$) then infinitely many wff metavariables are required for a complete
+axiomatization. Since the axiomatization of S3 has finitely many wff
+metavariables, it follows that {\em dummy variables}, distinct from the
+variables in the theorem to be proved, must sometimes be introduced during the
+course of a proof in S3. In system S2 (and thus S1), these dummy individual
+variables must remain embedded in the result of the proof, for otherwise we
+could simply substitute for them, throughout a proof, some other individual
+variable that occurs in the result, then restate the proof in the language of
+S3, contrary to \cite{Nemeti}.  However, propositionless theorems can be
+proved so that the dummy variables appear only in the conjunction of
+distinctors that forms the antecedent of the theorem.  This fact falls out of
+the method we use to construct a proof for axiom C5 in the next section, C5
+being the only axiom that is not valid unless certain variables are distinct.
+Distinctors can thus serve to collect the dummy variables and discard them
+when the theorem is mapped into S3.
+
+ \section{Completeness and Consistency of System S2}\label{completeness}
+
+     We now focus on the completeness of system S2, from which the
+completeness of S1 will follow because of its equivalence with S2.  In this
+discussion, we may implicitly assume that distinctors are being used as
+described above to indicate distinct variable restrictions, eliminate dummy
+variables, and force specific permutations of variables in the theorems of S3.
+
+     In this section we assume that system S3 is consistent and complete.  The
+proofs are found in \cite{Tarski} and \cite{Kalish}.
+
+     First we show that S2 is consistent.  The axioms of S2 are easily seen
+to be metatheorems of S3 when the propositional and individual variables of
+S2 are interpreted as metavariables ranging over wffs and variables of S3.
+It is also easy to verify that the axioms remain metatheorems when subjected
+to the substitution rules, i.e.\ that there are no distinct variable
+restrictions on the axioms.  The rules of modus ponens and generalization are
+the same as in system S3.  These two rules preserve soundness.  Finally, it is
+easy to see that a substitution rule applied to the result of another rule can
+be eliminated by making appropriate substitutions at earlier steps in a proof,
+so that an equivalent proof can be obtained in which substitutions apply only
+to axioms.  Therefore system S2 is consistent.
+
+     It remains to be shown that system S2 is complete.  We shall do this by
+deriving from S2 the axioms and rules of system S3.
+
+     Axiom schemata C1 through C4 correspond to all substitution instances of
+the following four lemmas of S2, whose proofs are in the Appendix.
+\setcounter{equation}{0}
+\renewcommand{\theequation}{\ifcase\value{equation} \or
+   L13\or
+   L14\or
+   L15\or
+   L16\or
+   B8\or
+   L17\or
+   B12\or
+   B13\or
+   L18\or
+   B9\or
+   B14\or
+   L19\or
+   L20\or
+   L21\or
+   L22\or
+   ? \else ? \fi}
+\begin{eqnarray} % L13-L16
+  & (P\rightarrow Q)\rightarrow ((Q\rightarrow R)\rightarrow
+(P\rightarrow R)) \\
+  & (\lnot P\rightarrow P)\rightarrow P \\
+  & P\rightarrow (\lnot P\rightarrow Q) \\
+  & \forall x(P\rightarrow Q)\rightarrow (\forall xP\rightarrow \forall
+      xQ)
+\end{eqnarray}
+
+     Axiom schema C7 corresponds to all substitution instances of the
+following three axioms and one lemma of S2.
+\begin{eqnarray} % B8,L17,B12,B13
+  & x=y\rightarrow (x=z\rightarrow y=z) \\
+  & x=y\rightarrow (z=x\rightarrow z=y) \\
+  & x=y\rightarrow (x\in z\rightarrow y\in z) \\
+  & x=y\rightarrow (z\in x\rightarrow z\in y)
+\end{eqnarray}
+
+     Axiom schema C6 has the unnecessary verbal restriction ``where $u$ and
+$v$ are distinct variables.''  In S2, we can prove the following more general
+restrictionless lemma.
+\begin{equation} % L18
+  \lnot \forall x\lnot x=y
+\end{equation}
+
+     Axiom schema C5 is proved as a metatheorem of S2 by induction on the
+number of connectives in the wff $F$ in $F\rightarrow \forall uF$.  The basis
+for the induction are the following two axioms of S2 along with those
+substitution instances in which $x$ remains distinct from $y$ and $z$.
+\begin{eqnarray} % B9,B14
+  & \lnot \forall xx=y\rightarrow (\lnot \forall xx=z\rightarrow
+    (y=z\rightarrow \forall xy=z)) \\
+  & \lnot \forall xx=y\rightarrow (\lnot \forall xx=z\rightarrow (y\in
+    z\rightarrow \forall xy\in z))
+\end{eqnarray}
+Here, the antecedents of the form $\lnot \forall uu=v$ are distinctors
+specifying (when mapping to S3) that $u$ and $v$ be distinct variables.  Thus
+B9 and B14 state, in effect, ``$y=z\rightarrow \forall xy=z$ where $x$ does
+not occur in $y=z$'' and ``$y\in z\rightarrow \forall xy\in z$ where $x$ does
+not occur in $y\in z$''.
+
+     In the induction step that follows, we shall implicitly use the lemma
+\begin{equation} % L19
+   \lnot \forall xx=y\rightarrow \forall z\lnot \forall xx=y
+\end{equation}
+which in effect states that a distinctor behaves as if no variable were free
+in it (including $y$, as can be seen by substituting $y$ for $z$ in L19).
+According to the Deduction Theorem for predicate calculus (which can be proved
+for S2 in a manner analogous to that in \cite[p.\ 77]{Hamilton}, with the
+slight complication that  applications of the substitution rule inside a
+deduction may affect the assumptions; cf.\ \cite[p.\ 140]{Kleene}), Lemma L19
+allows us to use distinctors as assumptions or hypotheses in a deduction,
+without having to worry about any undesirable side effects that may result
+from using the generalization rule inside of a deduction.  In what follows we
+shall assume that all distinctors have been temporarily removed and placed
+into an assumption list.
+
+     If the $F$ in $F\rightarrow \forall uF$ is not an atomic wff then
+$F\rightarrow \forall uF$ must have one of the three forms $(G\rightarrow
+H)\rightarrow \forall u(G\rightarrow H)$, $\lnot G\rightarrow \forall u\lnot
+G$, or $\forall vG\rightarrow \forall u\forall vG$ by the definition of a wff.
+As our induction hypothesis, we assume that we have proven the shorter cases
+of C5, i.e.\ $G\rightarrow \forall uG$ and $H\rightarrow \forall uH$ (in the
+case of $\rightarrow$).  We can prove $F\rightarrow \forall uF$ by first
+applying the generalization rule as needed to the shorter cases then
+detaching from a substitution instance of the lemma of the following three
+that corresponds to the form of $F\rightarrow \forall uF$.
+\begin{eqnarray} % L20-L22
+  & \forall x(P\rightarrow \forall xP)\rightarrow ((Q\rightarrow \forall
+xQ)\rightarrow ((P\rightarrow Q)\rightarrow \forall x(P\rightarrow Q))) \\
+  & \forall x(P\rightarrow \forall xP)\rightarrow (\lnot P\rightarrow
+\forall x\lnot P) \\
+  & \forall y(P\rightarrow \forall xP)\rightarrow (\forall yP\rightarrow
+\forall x\forall yP)
+\end{eqnarray}
+
+     There will be one assumption of the form $\lnot \forall uu=v$ for each
+variable $v$ in $F$ required to be distinct from $u$.  We use the Deduction
+Theorem to re-attach a conjunction of these assumptions as an antecedent $G$
+to the formula $F\rightarrow \forall uF$, and we interpret $G$ as the informal
+phrase ``where $u$ is not among the set of variables occurring in $F$''.  The
+antecedent $G$ is discarded when mapping $G\rightarrow (F\rightarrow \forall
+uF)$ to system S3 by the method of distinctor elimination.  (This completes
+the proof of axiom schema C5.  This proof is analogous to one given by Lemmas
+22 through 25 in \cite{MonkS}.)
+
+     Finally, the rules of S3 follow from the rules of S2 because they are
+the identical.
+
+
+\section{Further Remarks}\label{furtherRemarks}
+
+     {\bf Remark \ref{furtherRemarks}.1} The theorems of system S2 may be viewed as metatheorems
+of S3 (i.e.\ traditional predicate calculus), where the individual variables
+of S2 range over the variables of S3 and the propositional variables of S2
+range over wffs of S3.  Three correspondences are useful in this context.
+First, as described previously, an antecedent in the form of a distinctor
+$\lnot \forall uu=v$ can be interpreted as the requirement that $u$ and $v$
+be distinct. Second, if a propositional variable $P$ is prefixed with
+$\forall u$ throughout a formula, we can interpret $\forall uP$ as a formula
+metavariable $F$ ranging over wffs in which $u$ is not free.  Third, if we
+interpret a propositional variable $P$ as $F$, the formula $(u=v\rightarrow
+P)\wedge \exists u(u=v\wedge P)$ can be interpreted as $F(u|v)$, i.e.\ as the
+proper substitution of $v$ for $u$ in $F$; $u$ and $v$ need not be distinct.
+Note that $F(u|u) \leftrightarrow F$.
+
+     {\bf Remark \ref{furtherRemarks}.2} S2 (or S1) is not complete in the sense that some
+propositionless formulas corresponding to metatheorems of S3 are not provable
+in S2 because any dummy variable used in a proof must appear in the result of
+the proof.  In particular, for a given theorem of S3, we cannot know how it may
+be represented in S2 until we have a proof and thus obtain an upper bound for
+the number of dummy variables required.  To achieve completeness in this sense
+we can add to S2 the inference rule of {\em quantifier elimination}:  if, in a
+theorem of S2, a variable $u$ occurs as the first argument of one or more
+$\forall $ connectives but nowhere else, delete all occurrences of $\forall u$
+from the theorem.  (An analogous rule that preserves finite axiomatization can
+be added to S1.)  To use this rule we avoid any reference to B9 and B14 (whose
+quantifiers are the source of dummy variables) in the construction of C5 in
+Section \ref{completeness} and instead use the required instance of C5
+(prefixed with quantifiers to bind its variables) as an assumption for the
+proof.  Applied to the result of the proof, the rule of quantifier elimination
+will reduce these assumptions to (quantified) tautologies that can be
+discarded.
+
+     {\bf Remark \ref{furtherRemarks}.3} The following result for S2 is useful for eliminating
+unnecessary distinctors.  (It will not eliminate distinctors containing dummy
+variables.)  The proof, whose details we omit, appeals to axiom B11 in
+particular to construct a proof of $\forall uu=v\rightarrow (F(u,u)\rightarrow
+F(u,v))$ by induction on the number of connectives in $F(u,v)$.
+
+  {\bf Theorem \ref{furtherRemarks}.4} (Distinctor Reduction Theorem)
+\hspace{.5em} {\em Let $F(u,v)$ be any formula that may contain variables $u$
+and $v$, free or bound in any combination, as well as any other variables.
+Suppose we have proofs of two theorems of the forms:  (1) $\lnot \forall
+uu=v\rightarrow F(u,v)$ and (2) $F(u,u)$ where {\rm all} occurrences of $v$
+(both free and bound) in $F(u,v)$ are replaced with $u$.  Then $F(u,v)$ is a
+theorem.}
+
+     {\bf Remark \ref{furtherRemarks}.5} An open question is whether in S2 we can prove
+\setcounter{equation}{14}
+\renewcommand{\theequation}{B\arabic{equation}}
+\begin{equation} %B15
+   \lnot \forall xx=y\rightarrow (x=y\rightarrow (P\rightarrow \forall
+x(x=y\rightarrow P))).
+\end{equation}
+
+     {\bf Remark \ref{furtherRemarks}.6} We define a {\em simple metatheorem} as any metatheorem
+of S3 consisting only of connectives, individual metavariables, and wff
+metavariables (with no arguments i.e.\ no explicit substitutions) and
+possibly accompanied by a set of variable restrictions of the two forms
+``where $u$ and $v$ are distinct variables'' and ``where $u$ is not among the
+set of variables occurring in $F$.''  For example, all axiom schemata of S3
+except C7 are simple metatheorems.  We define a system as {\em metalogically
+complete} if all of its simple metatheorems can be proved with {\em simple
+metalogic} as follows:  each step in the proof must be a simple metatheorem,
+and the inference metalogic consists only of the two rules of S3, together
+with the obvious two substitution rules (for individual and wff
+metavariables) to produce new simple metatheorems from existing ones provided
+that variable restrictions are not violated.  At each step, the set
+of variable restrictions is adjusted for any substitutions so that each
+restriction has only two metavariables, and restrictions involving
+metavariables not contained in the step are dropped.  We do not formalize
+these notions here but it should be clear how to do so, e.g.\ as in
+\cite{Tarski}.
+
+A metalogically complete system can be advantageous in a machine-oriented
+application and perhaps in studies of logic since theorem schemata of
+traditional predicate calculus, not just specific theorems, can be proved
+directly with simple metalogic.
+
+We define system S3\mbox{$'$} as follows.  Rewrite B1 through B15 in the
+formalization of S3 by replacing $P$ with $F$, $x$ with $u$, etc.\ and call
+them C1\mbox{$'$} through C15\mbox{$'$}.  Let S3\mbox{$'$} consist of the
+language and rules of S3 along with axiom schemata C5, C1\mbox{$'$} through
+C13\mbox{$'$}, C15\mbox{$'$}, and
+\setcounter{equation}{15}
+\renewcommand{\theequation}{C\arabic{equation}\mbox{$'$}}
+\begin{eqnarray} %C16'
+%   & \lnot \forall uu=v\rightarrow (u=v\rightarrow (F\rightarrow \forall
+%u(u=v\rightarrow F))) \\
+   & \forall uu=v\rightarrow (F\rightarrow \forall uF){,}\quad
+          \mbox{where $u$ and $v$ are distinct
+           variables.}
+\end{eqnarray}
+All of the axiom schemata of S3\mbox{$'$} are simple metatheorems.
+(C14\mbox{$'$} is omitted from S3\mbox{$'$} because it can be proved from the
+others using only simple metalogic.)
+
+It is not hard to show that S3\mbox{$'$} is logically equivalent to S3
+and thus has the same set of simple metatheorems; the reasoning is
+similar to that in Section 8. In addition, S3\mbox{$'$} has the
+following stronger property.
+
+{\bf Theorem \ref{furtherRemarks}.7} (Metalogical Completeness Theorem)
+\hspace{.5em} {\em System {\rm S3\mbox{$'$}} is metalogically complete}.
+
+{\em Proof:} We describe the main ideas of the proof but leave some details
+to the reader.  We let $s$ and $t$ (as well as $u$ and $v$) represent
+individual metavariables and use $F(u|v)$ to abbreviate $(u=v\rightarrow
+F)\wedge \exists u(u=v\wedge F)$.  Let $H$ be the simple metatheorem we wish
+to prove.  Let $u_1,\ldots ,u_n$ be the distinct individual metavariables in
+$H$.  We associate with each wff metavariable $F_i$ in $H$ an $m$-ary
+predicate $P_i$ where $m=n$ and whose $j$th argument corresponds to
+individual metavariable $u_j$ in $H$, except that we reduce the arity of
+$P_i$ by one and remove its $j$th argument for each variable restriction
+``where $u_j$ does not occur in $F_i$''.  We temporarily extend S3\mbox{$'$}
+with these predicates and add equality axioms for them (similar to schema C7
+of S3).  Let $H_e$ be the formula of extended S3\mbox{$'$} obtained by
+rewriting $H$ with individual metavariables replaced with actual variables
+${\bf x}_1,\dots ,{\bf x}_n$ of S3\mbox{$'$} and each wff metavariable $F_i$
+replaced with its corresponding extended $m$-ary predicate $P_i{\bf
+x}_{i_1}\cdots {\bf x}_{i_m}$ ($1 \le i_1 < \cdots < i_m \le n$).  Since
+$H_e$ is an instance of metatheorem $H$ and hence an actual theorem, it has
+an ordinary proof in extended S3\mbox{$'$}.
+
+     To construct a proof for $H$ in the original S3\mbox{$'$}, using only
+simple metalogic, we mimic the proof of $H_e$.  In the proof, in place of
+variables ${\bf x}_1,\ldots ,{\bf x}_{n+d}$ (where $d$ is the number of
+distinct dummy variables in the proof) outside of extended predicates we use
+individual metavariables $u_1, \ldots ,u_{n+d}$.  In place of an extended
+predicate occurrence $P_i{\bf x}_{j_1}\cdots {\bf x}_{j_m}$ ($1 \le j_k \le
+n+d$) we use the wff $F_i(u_{i_1}|v_1) \cdots (u_{i_m}|v_m) (v_1|u_{j_1})
+\cdots  (v_n|u_{j_m})$, where $v_1,\ldots ,v_m$ are dummy variables distinct
+from each other and from $u_1, \ldots ,u_{n+d}$ and that do not occur in
+$F_i$.  We recover $F_i$ from $F_i(u_{i_1}|v_1) \cdots (u_{i_m}|v_m)
+(v_1|u_{i_1}) \cdots (v_m|u_{i_m})$ at the end of the proof using
+substitution laws $F(u|v) (s|t) \leftrightarrow F(s|t) (u|v)$ (where $u$ and
+$s$ are distinct, $u$ and $t$ are distinct, and $s$ and $v$ are distinct) and
+$F(u|v) (v|u) \leftrightarrow F$ (where $v$ does not occur in $F$), both
+provable in S3\mbox{$'$} with simple metalogic. (C15\mbox{$'$} seems to be
+needed for these proofs.  Since we omit the proofs of these and a few other
+simple metatheorems, the reader may just regard them as additional,
+though redundant, axioms of S3\mbox{$'$} for the purpose of understanding
+the main proof.)
+
+     In mimicking the proof, all applications of axioms and rules are
+analogous except for three cases.  (1) Whenever an equality axiom for an
+extended predicate is referenced, we use instead the metatheorem $u=v
+\rightarrow (F(s|u)\rightarrow F(s|v))$ (provable in S3\mbox{$'$} with simple
+metalogic; C15\mbox{$'$} seems to be needed), manipulating $F$ with the
+first substitution law above before and after this metatheorem is applied.
+(2) Whenever schema C5 is referenced, we instead construct with simple
+metalogic an appropriate metatheorem of the form $F\rightarrow \forall u F$
+(in a manner similar to the proof of C5 in Section 8, possibly using C5
+itself and also making use of the metatheorem $\forall u F \rightarrow
+\forall u\forall u F$ as needed).  We place in an assumption list any
+distinctors that arise.  We use C16\mbox{$'$} to eliminate a distinctor
+whenever $H$ has a restriction of the form ``where $u$ and $v$ are distinct''
+and whenever a (distinct) dummy variable is introduced.  (3) Whenever schema
+C16\mbox{$'$} is referenced but the variables $u$ and $v$ are not required to
+be distinct in $H$, we use instead the tautology $\lnot \forall
+uu=v\rightarrow(\forall uu=v\rightarrow (F\rightarrow \forall uF))$ and place
+its antecedent in the assumption list of distinctors.
+
+     To eliminate any remaining distinctors not part of $H$, we apply
+the Distinctor Reduction Theorem (restated in the language of S3\mbox{$'$}),
+repeating the entire procedure above to obtain a proof of its special case
+$F(u,u)$. \hfill $\square$
+
+
+\section{ZF Set Theory}
+
+     Zermelo-Fraenkel (ZF) set theory is not a finitely axiomatizable
+extension of traditional predicate calculus because the Axiom Schema of
+Replacement requires a formula metavariable $F$ ranging over certain wffs
+\cite[p.\ 83]{Cohen}. (``No finite number of axioms of ZF imply all the axioms
+of ZF.'')  In the formalization of system S2, however, we can represent a
+schema containing a wff metavariable $F$ by a formula containing a
+propositional variable $P$, allowing the Axiom Schema of Replacement to become
+a particular axiom.  At the primitive level of system S1, this propositional
+variable is indistinguishable from the other variables but behaves as if
+it were a formula metavariable when subjected to the axioms and rules of S1.
+We can always write a formula of S3 in the formalization of S2 by
+anteceding it with a conjunction of distinctors; in particular, we
+can state Replacement as
+\begin{eqnarray*}
+  & (\lnot \forall xx=y\wedge \lnot \forall xx=z\wedge \lnot \forall
+yy=z)  \rightarrow \qquad\qquad\qquad\qquad\qquad\qquad \\
+  & \qquad\qquad\qquad (\forall x\exists z\forall y(\forall
+     zP\rightarrow y=z)\rightarrow
+    \exists x\forall y(y\in x\leftrightarrow \exists x(\forall zP\wedge
+    x\in z))).
+%  ax-rep $a |- -] x ( -] y \-/ z ( ph -> z = y ) ->
+%      \-/ z ( z -= x <-> -] x ( x
+%      -= w /\ \-/ y ph ) ) ) $.
+% zfrep2.1 $e |- ( ph -> \-/ z ph ) $.
+% zfrep2 $p |- ( \-/ x -] z \-/ y ( ph -> y = z ) ->
+%     -] z \-/ y ( y -= z <-> -] x ( x -= w /\ ph ) ) ) $= ... $.
+\end{eqnarray*}
+
+     Boyer et.\ al.\ \cite{Boyer} write, ``since [ZF] cannot be finitely
+axiomatized, it cannot be input to a resolution-based theorem prover'' and
+base theirs (see also \cite{Wos33}) on NBG, which is finitely axiomatized
+(in the customary sense).  While ZF cannot be directly input to such a prover,
+using the formalization of S1 it can be indirectly input via the provability
+predicate method described in the Introduction.  Whether this offers practical
+advantages is not known.
+
+\section*{Appendix:  Proofs of the Lemmas in This Paper}
+
+     We can make use of the fact that Rules ${\bf D}$ and ${\bf G}$ have
+unique results to communicate, unambiguously, complete formal proofs in system
+S1 in a compact manner.  We denote axioms A1 through A9 by the characters
+{\tt 1} through {\tt 9} and A10 through A14 by the characters {\tt
+a} through {\tt e}.  A character string is constructed as follows.  {\tt
+D}$qp$ represents the result of Rule ${\bf D}$ when the theorem expressed by
+string $p$ is detached from the theorem expressed by string $q$.  {\tt G}$p$
+is represents the result of Rule ${\bf G}$ applied to the theorem expressed by
+string $p$.  We call a proof expressed in this notation a {\em proof string}.
+
+     As an example of how a proof string is constructed, consider a proof of
+$\forall xP\rightarrow \forall x\forall xP$.  For readability the notation of
+system S2 is used to display the subtheorems, but the proof is implicitly in
+system S1 and uses Rules ${\bf D}$ and ${\bf G}$ of system S1.
+
+\vspace{1ex}
+\begin{tabular}{c|c|c|c}
+ Step  &  Subtheorem		&	Reason  &      Proof string \\
+\hline
+   a. & \multicolumn{1}{l|}{$(P\rightarrow (Q\rightarrow R))\rightarrow $}
+            	& Axiom A2   &   {\tt 2} \\
+      & \multicolumn{1}{r|}{$((P\rightarrow
+Q)\rightarrow (P\rightarrow R))$}	&     &     \\
+   b. & $P\rightarrow (Q\rightarrow P)$		&			Axiom A1 & {\tt 1} \\
+   c. & $(P\rightarrow Q)\rightarrow (P\rightarrow P)$		&		Rule
+${\bf D}$,a,b  &  {\tt D21} \\
+   d. & $P\rightarrow (Q\rightarrow P)$		&			Axiom A1 & {\tt 1} \\
+   e. & $P\rightarrow P$		&			Rule ${\bf D}$,c,d  &  {\tt DD211} \\
+   f. & $\forall x(P\rightarrow P)$		&			Rule ${\bf G}$,e & {\tt GDD211} \\
+   g. & $\forall x(\forall xP\rightarrow Q)\rightarrow (\forall xP\rightarrow
+\forall xQ)$	&	Axiom A4    &  {\tt 4} \\
+   h. & $\forall xP\rightarrow \forall x\forall xP$		&		Rule
+${\bf D}$,g,f  &  {\tt D4GDD211}
+\end{tabular}
+
+\vspace{1ex} \noindent Thus the proof string for this proof is {\tt
+D4GDD211}.  (The reader may wish to verify that a shorter proof
+string\footnote{Found by the {\sc Otter} theorem prover \cite{Wos}.} for
+this theorem is {\tt D4GD4G5}.)
+
+     A proof string, then, is essentially a list of the steps in a formal
+proof expressed in a Polish prefix notation.  A simple computer program
+(incorporating algorithms ${\bf D}$ and ${\bf G}$) can scan the proof string
+in reverse order and reconstruct the formal proof.
+
+     In general, proof strings cannot represent the shortest possible proofs
+in system S1 because subtheorems used more than once must have their proof
+strings repeated.  However, the proof strings below are short enough so that
+we don't bother to introduce notation that permits references to repeated
+subtheorems or other lemmas.  We use the character {\tt S} to abbreviate {\tt
+DD2D1} (representing a syllogism inference).
+
+     Because they are used to prove the Substitution Theorem, Lemmas L1
+through L11 are the exact theorems proved by their proof strings.  The
+remaining lemmas may be substitution instances of the theorems proved by their
+proof strings and in such cases we implicitly apply the Substitution Theorem.
+
+\begin{flushleft}
+%  Set space between paragraphs.
+\setlength{\parskip}{0.5ex}
+\noindent (L1)~{\em Proof:}~{\small\tt DDD21DD22D211}
+
+\noindent (L2)~{\em Proof:}~{\small\tt
+DD2SSD2SD2D1DD2S3D\-2S311SDD2S21D1S3D2D1D3DD\-%
+2\-S\-3\-S\-3\-1\-1\-S\-2\-1\-1\-D\-2\-D\-1\-S\-S\-D\-2\-S\-8\-D\-D\-%
+2\-8\-D\-3\-D\-D\-2\-S\-3\-1\-S\-a\-S\-D\-%
+4\-G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-1\-S\-5\-S\-D\-D\-2\-1\-b\-%
+D\-4\-G\-S\-D\-3\-D\-D\-2\-S\-3\-1\-S\-a\-S\-D\-4\-G\-S\-D\-D\-D\-2\-%
+2\-D\-2\-1\-9\-5\-7\-5\-D\-1\-S\-8\-S\-5\-S\-D\-D\-2\-1\-b\-D\-4\-G\-%
+S\-D\-3\-D\-D\-2\-S\-3\-1\-S\-a\-S\-D\-4\-%
+G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-5}
+
+\noindent (L3)~{\em Proof:}~{\small\tt
+DD2SSD2SD2D1DD2S3D2S311SDD2S21D1S3D2D1D3DD\-%
+2\-S\-3\-S\-3\-1\-1\-S\-2\-1\-1\-D\-2\-D\-1\-S\-d\-S\-5\-S\-D\-%
+D\-2\-1\-b\-D\-4\-G\-S\-D\-3\-D\-D\-2\-S\-3\-1\-S\-a\-S\-D\-4\-%
+G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-5\-D\-1\-S\-c\-%
+S\-5\-S\-D\-D\-2\-1\-b\-D\-4\-G\-S\-D\-3\-D\-D\-2\-S\-3\-1\-S\-%
+a\-S\-D\-4\-G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-5}
+
+\noindent (L4)~{\em Proof:}~{\small\tt
+D2D1S3SDDD21DD2D21D1SSDDD21DD2D21\-%
+D1DD211331D211}
+
+\noindent (L5)~{\em Proof:}~{\small\tt
+SD2SSSDD22D11S12SD2D1SD2SD2D1DD2S3D2S311SD\-%
+D\-2\-S\-2\-1\-D\-1\-S\-3\-D\-2\-D\-1\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1\-S\-%
+2\-1\-1\-S\-2\-1\-D\-2\-D\-1\-S\-2\-1\-S\-D\-D\-2\-S\-2\-1\-%
+D\-1\-1\-S\-2\-D\-2\-D\-1\-S\-1\-S\-D\-2\-S\-%
+2\-1\-1}
+
+\noindent (L6)~{\em Proof:}~{\small\tt
+DD2SSSDD22D11S12SD2D1SD2SD2D1DD2S3D2S311SD\-%
+D\-2\-S\-2\-1\-D\-1\-S\-3\-D\-2\-D\-1\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1\-S\-2\-%
+1\-1\-S\-2\-1\-D\-1\-S\-4\-D\-4\-G\-S\-S\-D\-D\-2\-S\-2\-1\-D\-1\-5\-D\-1\-D\-%
+D\-2\-1\-1\-5\-D\-2\-D\-1\-S\-S\-S\-D\-2\-D\-1\-D\-4\-G\-5\-D\-2\-1\-D\-D\-D\-%
+D\-2\-1\-D\-D\-2\-2\-D\-2\-1\-1\-5\-D\-D\-2\-S\-2\-1\-D\-1\-5}
+
+\noindent (L7)~{\em Proof:}~{\small\tt DD2S21D1S3D2D1D3DD2S3S311}
+
+\noindent (L8)~{\em Proof:}~{\small\tt
+DD2S21D1SS3D2D1D3DD2S3S311SSDD22D11S12D2DDD21S\-%
+3\-D\-2\-1\-D\-1\-S\-3\-D\-2\-D\-1\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1}
+
+\noindent (L9)~{\em Proof:}~{\small\tt DD2S21D1DD21D2S31}
+
+\noindent (L10)~{\em Proof:}~{\small\tt DD2S21D1DD21SD2D1DD21D2S31S3D21}
+
+\noindent (L11)~{\em Proof:}~{\small\tt SDD2SD2211DDD21DD2S21S21D1DD211}
+
+\noindent (L12)~{\em Proof:}~{\small\tt
+D3SD3DD2S3S311SSD4GSDD28D3DD2S31SaSD4GSDDD22D2195\-%
+7\-5\-D\-D\-2\-b\-D\-4\-G\-5\-D\-D\-2\-S\-3\-S\-3\-1\-1}
+
+\noindent (L13)~{\em Proof:}~{\small\tt SD2S211}
+
+\noindent (L14)~{\em Proof:}~{\small\tt DD2S3D2S311}
+
+\noindent (L15)~{\em Proof:}~{\small\tt SD2S311}
+
+\noindent (L16)~{\em Proof:}~{\small\tt S4D4GSDD2S21D155}
+
+\noindent (L17)~{\em Proof:}~{\small\tt SD2S8DD28D3DD2S31SaSD4GSDDD22D219571}
+
+\noindent (L18)~{\em Proof:}~{\small\tt DaGS7D3DD2S3S311}
+
+\noindent (L19)~{\em Proof:}~{\small\tt
+SD4GSD3SD3DD2S3S311SS6D4GDD3DD2S31SSSDD2S2\-%
+1\-D\-1\-D\-D\-2\-b\-D\-4\-G\-5\-b\-S\-D\-4\-G\-S\-D\-D\-2\-8\-D\-3\-D\-D\-%
+2\-S\-3\-1\-S\-a\-S\-D\-4\-G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-5\-D\-D\-%
+2\-b\-D\-4\-G\-5\-D\-3\-S\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1\-D\-D\-3\-D\-D\-%
+2\-S\-3\-1\-S\-S\-1\-S\-b\-S\-D\-4\-G\-S\-D\-D\-2\-8\-D\-3\-D\-D\-2\-S\-3\-%
+1\-S\-a\-S\-D\-4\-G\-S\-D\-D\-D\-2\-2\-D\-2\-1\-9\-5\-7\-5\-D\-D\-2\-b\-D\-%
+4\-G\-5\-D\-3\-S\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1\-S\-D\-2\-D\-1\-D\-D\-2\-%
+S\-2\-1\-D\-1\-5\-9\-1\-1\-D\-D\-2\-S\-3\-S\-3\-1\-1\-5\-7}
+
+\noindent (L20)~{\em Proof:}~{\small\tt
+SSD2SSDD22D11S12SD2D1SDD2S21D1S3D2D1D3DD2S\-%
+3\-S\-3\-1\-1\-S\-D\-2\-D\-1\-D\-D\-2\-S\-3\-D\-2\-S\-3\-1\-1\-S\-2\-1\-S\-%
+S\-2\-1\-D\-2\-D\-1\-D\-4\-G\-S\-1\-5\-1\-S\-D\-2\-S\-S\-4\-D\-4\-G\-S\-S\-%
+D\-D\-2\-S\-2\-1\-D\-1\-5\-S\-S\-2\-1\-S\-3\-1\-5\-7\-1}
+
+\noindent (L21)~{\em Proof:}~{\small\tt
+SDD2S21D17S4D4GSSDD2S21D15SS3SDD22D2S3S311\-%
+D\-2\-D\-1\-D\-3\-D\-D\-2\-S\-3\-S\-3\-1\-1\-5}
+
+\noindent (L22)~{\em Proof:}~{\small\tt
+SD2D16S4D4GSDD2S21D155}
+%  Restore default space between paragraphs.
+\setlength{\parskip}{0ex}
+\end{flushleft}
+
+\newpage
+
+\begin{thebibliography}{99}
+
+\bibitem{Boyer} Boyer, Robert, Ewing Lusk, William McCune, Ross Overbeek,
+Mark Stickel, and Lawrence Wos, ``Set theory in first order logic:  Clauses
+for G\"{o}del's axioms,'' {\em Journal of Automated Reasoning}, vol.\ 2
+(1986), pp.\ 287--327.
+
+\bibitem{Church} Church, Alonzo, {\em Introduction to Mathematical Logic},
+Volume 1,  Princeton University Press, Princeton, N.~J., 1956.
+
+\bibitem{Cohen} Cohen, Paul J., {\em Set Theory and the Continuum Hypothesis},
+W.~A.~ Benjamin, Inc., Reading, Mass., 1966.
+
+\bibitem{Hamilton} Hamilton, Alan G., {\em Logic for Mathematicians},
+Cambridge University  Press, Cambridge, 1988.
+
+\bibitem{Hindley} Hindley, J.~Roger and David Meredith, ``Principal
+type-schemes and  condensed detachment,'' {\em The Journal of Symbolic Logic},
+vol.\ 55 (1990),  pp.\ 90--105.
+
+\bibitem{Kalish} Kalish, Donald and Richard Montague, ``On Tarski's
+formalization of predicate logic with identity,'' {\em  Archiv f{\"{u}}r
+Mathematische Logik und Grundlagenforschung}, vol.\ 7 (1965),  pp.\ 81--101.
+
+\bibitem{Kalman} Kalman, J.~A., ``Condensed detachment as a rule of
+inference,''{\em Studia  Logica}, vol.\ 42 No.\ 4 (1983), pp.\ 443--451.
+
+\bibitem{Kleene} Kleene, Stephen Cole, {\em Introduction to Metamathematics},
+D.~Van  Nostrand Company, Inc., Princeton (1952).
+
+\bibitem{Megill} Megill, Norman D.\ and Martin W.~Bunder, ``Weaker D-complete
+logics,'' The University of Wollongong Department of Mathematics Preprint
+Series no.\ 15/94.  Submitted.
+
+\bibitem{Mendelson} Mendelson, Elliott, {\em Introduction to Mathematical
+Logic}, second edition, D.~Van Nostrand Company, Inc., New York (1979).
+
+\bibitem{Meredith} Meredith, David, ``In memoriam Carew Arthur Meredith
+(1904--1976),'' {\em  Notre Dame Journal of Formal Logic}, vol.\ XVIII (1977),
+pp.\ 513--516.
+
+\bibitem{Mints} Mints, Grigori and Tanel Tammet, ``Condensed detachment is
+complete for relevance logic:  A computer-aided proof,'' {\em Journal of
+Automated Reasoning}, vol.\ 7 (1991), pp.\ 587--596.
+
+\bibitem{MonkS} Monk, J.~Donald, ``Substitutionless predicate logic with
+identity,'' {\em  Archiv f{\"{u}}r Mathematische Logik und
+Grundlagenforschung}, vol.\ 7 (1965),  pp.\ 103--121.
+
+%\bibitem{MonkP} Monk, J.~Donald, ``Provability with finitely many variables,''
+%{\em The  Journal of Symbolic Logic}, vol.\ 27 (1971), pp.\ 353--358.
+
+\bibitem{Nemeti} Nemeti, I., ``Algebraizations of quantifier logics, an
+overview,'' version 11.4, preprint, Mathematical Institute, Budapest, 1994.
+A shortened version without proofs appeared in {\em Studia Logica}, vol. 50
+(1991), pp.\ 485--569.
+
+\bibitem{Peterson} Peterson, Jeremy George, ``An automatic theorem prover for
+substitution  and detachment systems,'' {\em Notre Dame Journal of Formal
+Logic}, vol.\ XIX  (1978), pp.\ 119--122.
+
+\bibitem{Robinson} Robinson, J.~A., ``A machine-oriented logic based on the
+resolution  principle,'' {\em Journal of the Association for Computing
+Machinery}, vol.\ 12  (1965), pp.\ 23--41.
+
+\bibitem{Tarski} Tarski, Alfred, ``A simplified formalization of predicate
+logic with  identity,'' {\em Archiv f{\"{u}}r Mathematische Logik und
+Grundlagenforschung}, vol.\ 7 (1965), pp.\ 61--79.
+
+\bibitem{TarskiG} Tarski, Alfred and Steven Givant, {\em A Formalization of
+Set Theory  Without Variables}, American Mathematical Society Colloquium
+Publications,  vol.\ 41, American Mathematical Society, Providence, R.~I.,
+1987.
+
+\bibitem{Wos33} Wos, L., {\em Automated Reasoning: 33 Basic Research
+Problems}, Prentice-Hall, Englewood Cliffs, N.~J., 1987
+
+\bibitem{Wos} Wos, Larry, Ross Overbeek, Ewing Lusk and Jim Boyle, {\em
+Automated Reasoning:  Introduction and Applications}, second edition,
+McGraw-Hill, Inc., New York, 1992.
+
+\bibitem{WosR} Wos, L.~T., and G.~A.~Robinson, ``Maximal models and refutation
+completeness:  Semidecision procedures in automated theorem proving,'' in
+William W.~Boone, Frank Benjamin Cannonito, and Roger C.~Lyndon, editors, {\em
+Word Problems:  Decision Problems and the Burnside Problem in Group Theory},
+pp.\ 609--639, North-Holland, Amsterdam, 1973, Studies in Logic and the
+Foundations of Mathematics, vol.\ 71.
+
+\bibitem{Zeman} Zeman, J.~J., {\em Modal Logic}, Oxford University Press,
+Oxford, 1973.
+
+\end{thebibliography}
+
+\end{document}
+
+%

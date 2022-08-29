@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+.r { font-family: "Arial Narrow";
+     font-size: x-small;
+   }
+.i { font-family: "Arial Narrow";
+     font-size: x-small;
+     color: gray;
+   }
+-->
+</STYLE>
+
+<TITLE>ax-A - Wolfram Axiom for BA</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"><A HREF=
+    "mmwba.html"><IMG SRC="mm.gif"
+      BORDER=0
+      ALT="WABA Home"
+      TITLE="WABA Home"
+      HEIGHT=32 WIDTH=32 ALIGN=TOP STYLE="margin-bottom:0px"></A>
+    </TD>
+    <TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP><FONT SIZE="+3" COLOR="#006633"><B>
+Wolfram Axiom for BA
+      </B></FONT></TD>
+    <TD ALIGN=RIGHT VALIGN=TOP WIDTH="25%">
+      <FONT SIZE=-1 FACE=sans-serif>
+      <A HREF="ax-shefeq2.html">
+      &lt; Previous</A>&nbsp;&nbsp;
+      <A HREF="eqcom.html">Next &gt;</A>
+      </FONT><FONT FACE=sans-serif SIZE=-2>
+      <BR><A HREF="mmtheorems1.html#ax-A">Nearby theorems</A>
+      </FONT>
+    </TD>
+  </TR>
+  <TR>
+    <TD COLSPAN=2 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2
+      FACE=sans-serif>
+      <A HREF="../mm.html">Mirrors</A>&nbsp; &gt;
+      &nbsp;<A HREF="../index.html">Home</A>&nbsp; &gt;
+      &nbsp;<A HREF="mmwba.html">WABA Home</A>&nbsp; &gt;
+      &nbsp;<A HREF="mmtheorems.html">Th. List</A>&nbsp; &gt;
+      &nbsp;ax-A
+      </FONT>
+    </TD>
+    <TD COLSPAN=2 ALIGN=RIGHT VALIGN=TOP>
+      <FONT SIZE=-2 FACE=sans-serif>
+
+      <A HREF="../wbagif/ax-A.html">GIF version</A>
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>
+<HR NOSHADE SIZE=1>
+<CENTER><B><FONT SIZE="+1">Axiom <FONT
+COLOR="#006633">ax-A</FONT></FONT></B>&nbsp;<SPAN CLASS=r
+STYLE="color:#F70900">7</SPAN></CENTER>
+<CENTER><TABLE><TR><TD ALIGN=LEFT><B>Description: </B>The Wolfram single axiom
+for Boolean algebra.  The primary goal of this
+     database is to prove Sheffer's 3 axioms for BA from this axiom.  See
+     theorems <A HREF="T1.html">T1</A>&nbsp;<SPAN CLASS=r
+STYLE="color:#4E8D00">69</SPAN>, <A HREF="T2.html">T2</A>&nbsp;<SPAN CLASS=r
+STYLE="color:#009060">104</SPAN>, and <A HREF="T3.html">T3</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#0087C7">123</SPAN>.  (Contributed by SW,
+14-May-2002.)</TD></TR></TABLE></CENTER>
+
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Assertion">
+<CAPTION><B>Assertion</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD><FONT COLOR="#006633"><B>ax-A</B></FONT></TD><TD>
+<SPAN >(((<I><FONT COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT
+COLOR="#CC4400">c</FONT></I>) &#8739; <I><FONT COLOR="#CC4400">a</FONT></I>)
+&#8739; (<I><FONT COLOR="#CC4400">b</FONT></I> &#8739; ((<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT COLOR="#CC4400">a</FONT></I>)
+&#8739; <I><FONT COLOR="#CC4400">b</FONT></I>))) = <I><FONT
+COLOR="#CC4400">a</FONT></I></SPAN></TD></TR>
+</TABLE></CENTER>
+
+
+<HR NOSHADE SIZE=1>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Detailed syntax breakdown of axiom">
+<CAPTION><B>Detailed syntax breakdown of Axiom <FONT
+   COLOR="#006633">ax-A</FONT></B></CAPTION>
+<TR><TH>Step</TH><TH>Hyp</TH><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD>1</TD><TD>&nbsp;</TD><TD>wvb</TD><TD><A NAME="1"></A>
+<SPAN CLASS=i>. . . . 5</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT><I><FONT
+COLOR="#CC4400">b</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>2</TD><TD>&nbsp;</TD><TD>wvc</TD><TD><A NAME="2"></A>
+<SPAN CLASS=i>. . . . 5</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT><I><FONT
+COLOR="#CC4400">c</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>3</TD><TD><A HREF="#1">1</A>, <A HREF="#2">2</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="3"></A>
+<SPAN CLASS=i>. . . 4</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>(<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT
+COLOR="#CC4400">c</FONT></I>)</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>4</TD><TD>&nbsp;</TD><TD>wva</TD><TD><A NAME="4"></A>
+<SPAN CLASS=i>. . . 4</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT><I><FONT
+COLOR="#CC4400">a</FONT></I></SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>5</TD><TD><A HREF="#3">3</A>, <A HREF="#4">4</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="5"></A>
+<SPAN CLASS=i>. . 3</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>((<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT COLOR="#CC4400">c</FONT></I>)
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>)</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>6</TD><TD><A HREF="#1">1</A>, <A HREF="#4">4</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="6"></A>
+<SPAN CLASS=i>. . . . 5</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>(<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT
+COLOR="#CC4400">a</FONT></I>)</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>7</TD><TD><A HREF="#6">6</A>, <A HREF="#1">1</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="7"></A>
+<SPAN CLASS=i>. . . 4</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>((<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT COLOR="#CC4400">a</FONT></I>)
+&#8739; <I><FONT COLOR="#CC4400">b</FONT></I>)</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>8</TD><TD><A HREF="#1">1</A>, <A HREF="#7">7</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="8"></A>
+<SPAN CLASS=i>. . 3</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>(<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; ((<I><FONT COLOR="#CC4400">b</FONT></I>
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>) &#8739; <I><FONT
+COLOR="#CC4400">b</FONT></I>))</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>9</TD><TD><A HREF="#5">5</A>, <A HREF="#8">8</A></TD><TD><A
+HREF="tshef.html"
+TITLE="Sheffer stroke syntax contstructor: if ` a ` and ` b ` are terms, so is ` ( a | b ) ` .">tshef</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FB0000">1</SPAN></TD><TD><A NAME="9"></A>
+<SPAN CLASS=i>. 2</SPAN>
+<SPAN ><FONT COLOR="#00CC00">term&nbsp; </FONT>(((<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT COLOR="#CC4400">c</FONT></I>)
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>) &#8739; (<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; ((<I><FONT COLOR="#CC4400">b</FONT></I>
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>) &#8739; <I><FONT
+COLOR="#CC4400">b</FONT></I>)))</SPAN></TD></TR>
+<TR ALIGN=LEFT><TD>10</TD><TD><A HREF="#9">9</A>, <A HREF="#4">4</A></TD><TD><A
+HREF="weq.html"
+TITLE="If ` a ` and ` b ` are terms, ` a = b ` is a wff. This is not needed by proofs, but...">weq</A>&nbsp;<SPAN
+CLASS=r STYLE="color:#FA0100">2</SPAN></TD><TD><A NAME="10"></A>
+<SPAN CLASS=i>1</SPAN>
+<SPAN ><FONT COLOR="#00CC00">wff&nbsp; </FONT>(((<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; <I><FONT COLOR="#CC4400">c</FONT></I>)
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>) &#8739; (<I><FONT
+COLOR="#CC4400">b</FONT></I> &#8739; ((<I><FONT COLOR="#CC4400">b</FONT></I>
+&#8739; <I><FONT COLOR="#CC4400">a</FONT></I>) &#8739; <I><FONT
+COLOR="#CC4400">b</FONT></I>))) = <I><FONT
+COLOR="#CC4400">a</FONT></I></SPAN></TD></TR>
+</TABLE></CENTER>
+<CENTER><TABLE CELLSPACING=5><TR><TD ALIGN=LEFT><FONT SIZE=-1><B>Colors of
+variables:</B>  <FONT COLOR="#CC4400">term</FONT></FONT></TD></TR>
+<TR><TD ALIGN=LEFT><FONT SIZE=-1><B>This axiom is referenced by:</B> &nbsp;<A HREF="L1.html">L1</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#738600">57</SPAN> &nbsp;<A HREF="L2.html">L2</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#718600">58</SPAN> &nbsp;<A HREF="L3.html">L3</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#6F8700">59</SPAN> &nbsp;<A HREF="L4.html">L4</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#6C8800">60</SPAN> &nbsp;<A HREF="L5.html">L5</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#698800">61</SPAN> &nbsp;<A HREF="L6.html">L6</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#668900">62</SPAN> &nbsp;<A HREF="L7.html">L7</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#628A00">63</SPAN> &nbsp;<A HREF="L8.html">L8</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5F8B00">64</SPAN> &nbsp;<A HREF="L9.html">L9</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5C8B00">65</SPAN> &nbsp;<A HREF="L10.html">L10</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#588C00">66</SPAN> &nbsp;<A HREF="L13.html">L13</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#4A8E00">70</SPAN> &nbsp;<A HREF="L14.html">L14</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#478E00">71</SPAN> &nbsp;<A HREF="L16.html">L16</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#408F00">73</SPAN> &nbsp;<A HREF="L20.html">L20</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#309100">77</SPAN> &nbsp;<A HREF="L30.html">L30</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#079310">87</SPAN> &nbsp;<A HREF="L31.html">L31</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#039313">88</SPAN> &nbsp;<A HREF="L32.html">L32</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#009316">89</SPAN> &nbsp;<A HREF="L35.html">L35</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#009226">92</SPAN> &nbsp;<A HREF="nksL1.html">nksL1</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0086CF">124</SPAN> &nbsp;<A HREF="nksL2.html">nksL2</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0085D6">125</SPAN> &nbsp;<A HREF="nksL3.html">nksL3</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0084DC">126</SPAN> &nbsp;<A HREF="nksL4.html">nksL4</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0083E1">127</SPAN> &nbsp;<A HREF="nksL5.html">nksL5</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0182E6">128</SPAN> &nbsp;<A HREF="nksL6.html">nksL6</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0182EB">129</SPAN> &nbsp;<A HREF="nksL7.html">nksL7</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#0181F0">130</SPAN> &nbsp;<A HREF="nksL12.html">nksL12</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#177CFF">135</SPAN> &nbsp;<A HREF="nksL14.html">nksL14</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#2A7AFF">137</SPAN> &nbsp;<A HREF="nksL15.html">nksL15</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#3379FF">138</SPAN> &nbsp;<A HREF="nksL20.html">nksL20</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#5673FF">143</SPAN> &nbsp;<A HREF="nksL24.html">nksL24</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#706CFF">148</SPAN> &nbsp;<A HREF="nksL25.html">nksL25</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#736AFF">149</SPAN> &nbsp;<A HREF="nksL26.html">nksL26</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#7769FF">150</SPAN> &nbsp;<A HREF="nksL30.html">nksL30</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#8664FF">154</SPAN> &nbsp;<A HREF="nksL36.html">nksL36</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#9F53FF">160</SPAN> &nbsp;<A HREF="nksL39.html">nksL39</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#AB4BFF">163</SPAN> &nbsp;<A HREF="nksL42.html">nksL42</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#B242FF">166</SPAN> &nbsp;<A HREF="nksL43.html">nksL43</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#B43FFF">167</SPAN> &nbsp;<A HREF="nksL57.html">nksL57</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#D214EE">182</SPAN> &nbsp;<A HREF="nksL61.html">nksL61</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#D70BE7">186</SPAN> &nbsp;<A HREF="nksL68.html">nksL68</A>
+&nbsp;<SPAN CLASS=r STYLE="color:#DC00DE">191</SPAN></FONT></TD></TR></TABLE></CENTER>
+<TABLE BORDER=0 WIDTH="100%">
+<TR><TD WIDTH="25%">&nbsp;</TD>
+<TD ALIGN=CENTER VALIGN=BOTTOM>
+<FONT SIZE=-2 FACE=sans-serif>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A>
+</FONT></TD><TD ALIGN=RIGHT VALIGN=BOTTOM WIDTH="25%">
+<FONT SIZE=-2 FACE=sans-serif>
+<A HREF="http://validator.w3.org/check?uri=referer">
+W3C validator</A>
+</FONT></TD></TR></TABLE>
+</BODY></HTML>

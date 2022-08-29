@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2BetaRelease01Sep2007Feedback</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2BetaRelease01Sep2007Feedback" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2BetaRelease01Sep2007Feedback" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2BetaRelease01Sep2007Feedback">mmj2BetaRelease01Sep2007Feedback</a></h1></div><div class="content browse"><h1>mmj2 Beta Release 01-Sep-2007 Version</h1><p><a class="url" href="http://planetmath.cc.vt.edu/~mmj2/mmj2jar.zip">http://planetmath.cc.vt.edu/~mmj2/mmj2jar.zip</a></p><p>unzip to a temp directory and read the enclosed BetaReleaseREADME<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=BetaReleaseREADME">?</a>.html.</p><p>OK, more testers are needed.</p><p>Note: I believe, but have not yet tested this, that Java in Mac OS-X now supports Sun Java Version 1.5, which is the minimum prerequisite for mmj2.</p><p>I you are new to mmj2, please download the old version first as it contains installation instructions, documentation, source code, etc.</p><p>Also, a Java Swing Expert's help is urgently required for bug remediation regarding "Undo".</p><h1>problems, suggestions, questions or remunerative contributions</h1><pre>    ============
+    ============
+    2007-07-10.1
+    ============
+    ============
+     
+    PROBLEM:  "E-PA-0403 is useless and prevents that 
+              things go smooth (?)" --[[fl]]
+     
+    SOLUTION: 
+     
+    E-PA-0403 now has code:
+     
+        public static final String ERRMSG_INCOMPLETE_HYPS_1 =
+            "E-PA-0403 Theorem ";
+        public static final String ERRMSG_INCOMPLETE_HYPS_2 =
+            " Step ";
+        public static final String ERRMSG_INCOMPLETE_HYPS_3 =
+            ": Proof incomplete for derivation proof step."
+            + " The step was successfully unified with Ref ";
+        public static final String ERRMSG_INCOMPLETE_HYPS_4 =
+            ", but one (or more) of the step's hypotheses"
+            + " has an incomplete Hyp value (='?').";
+     
+     
+    The motivation for this message is that an "incomplete
+    Hyp value (='?')" is not an Error, and does not 
+    generate an error message (assuming that Ref = blank,
+    etc.) 
+      
+    So, if E-PA-0403 were not displayed, the user would
+    sometimes hit Ctrl-U and see no result! It would
+    appear to the user that mmj2 did NOTHING...and then
+    the user would blame Mel O'Cat for putting a bug into
+    the code.
+     
+    I will be happy to review a specific example of a proof
+    worksheet which produces E-PA-0403 after Ctrl-U and
+    you believe the message is bogus (should not appear.)
+     
+    =======================================================
+     
+    ============
+    ============
+    2007-07-10.2
+    ============
+    ============
+     
+    PROBLEM:  "When you come across a theorem (without 
+              premisses) like pnfxr or pnfget in ioosre,
+              mmj2 doesn't identify the theorem automatically." --[[fl]]
+          
+    SOLUTION: 
+     
+    I have tested ioossre's steps 7 (pnfget) and step 9 (pnfxr)
+    both ways: 1) erase the Ref (theorem label) and leave formula
+    intact, then hit Ctrl-U; and 2) erase formula and leave
+    Ref intact, then hit Ctrl-U. 
+     
+    In both instances of *my* testing, mmj2 correctly 
+    filled in the Ref label or the formula.
+     
+    BUT there are cases where "Unification Search" does
+    not take place during Ctrl-U processing. 
+     
+    By "Unification Search" I mean the search for a Ref
+    label that unifies with the step formula (conclusion)
+    and the step hypotheses. The search proceeds from
+    the first assertion in the input .mm and proceeds
+    up to, but not including, the theorem being proved
+    (excluding assertions excluded by RunParm request.)
+     
+    *WHEN* a proof step or its hypotheses contain Work
+    Variables, or when the Ref label is non-blank and
+    either the formula is blank or one of the Hyp
+    fields is missing, THEN Unification Search is not
+    performed. 
+     
+    Soooo...assume this is the situation in ioossre:
+     
+     
+    7::                |- ( &amp;C1  e. RR* -&gt; &amp;C1  &lt;_ +oo )
+    8::mnfxr           |- -oo e. RR*
+    9::pnfxr           |- +oo e. RR*
+    10::iooss2         |- (  (  ( -oo e. RR* /\ &amp;C1   e. RR* /\ +oo e. RR* )
+                             /\ &amp;C1   &lt;_ +oo )
+                          -&gt; ( -oo (,) &amp;C1   ) (_ ( -oo (,) +oo ) )
+    11:9,10:mp3anl3    |- (  ( ( -oo e. RR* /\ &amp;C1   e. RR* ) /\ &amp;C1   &lt;_ +oo )
+                          -&gt; ( -oo (,) &amp;C1   ) (_ ( -oo (,) +oo ) )
+    12:8,11:mpanl1     |- (  ( &amp;C1   e. RR* /\ &amp;C1   &lt;_ +oo )
+                          -&gt; ( -oo (,) &amp;C1   ) (_ ( -oo (,) +oo ) )
+    13:7,12:mpdan      |- ( &amp;C1   e. RR* -&gt; ( -oo (,) &amp;C1   ) (_ ( -oo (,) +oo ) )
+     
+    NOW...hit Ctrl-U: the Ref in 7 will be loaded with "pnfget"
+    automatically AFTER Work Variable &amp;C1 is resolved
+    (to "B"). 
+     
+    And in fact, if you substitute that excerpt into
+    the ioossre Proof Worksheet and hit Ctrl-U, the
+    &amp;C1 Work Variables are all updated automatically.
+     
+    Here is how the process works in Proof Unifier
+    (the short version):
+     
+    1) Steps involving Work Variables, or which require
+    DeriveHypotheses or DefiveFormula, are processed
+    using the new StepUnifier.
+     
+    2) Steps that are still not unified but are not
+    in error and don't have Work Variables now, that 
+    contain a non-blank Ref label are unified using
+    the old ProofUnifier logic.
+     
+    3) Any remaining steps still not unified and
+    error free, with no Work Variables, are sent through
+    the UnificationSearch process -- and if a Ref
+    is found to unify a step, the step is unified
+    using the old ProofUnifier logic. (Also, "Hints"
+    are generated during the single pass through
+    the assertion table.)
+     
+    4) Finalization: build proofs for unified steps,
+    or produce error messages for un-unified steps,
+    and output any Hints, etc. 
+     
+    I will be happy to review a specific example of a proof
+    worksheet which does not produce Ref labels pnfget
+    or pnfxr (assertion with zero hypotheses) after Ctrl-U 
+    if you believe the processing is incorrect. Please
+    send me examples so that I can perform further
+    analysis -- and add test cases for later use in
+    regression testing. (Thanks!)
+     
+     </pre><pre>    =======================================================
+          
+    ============
+    ============
+    2007-07-10.3
+    ============
+    ============
+          
+    PROBLEM:  "There is no let command to replace all the 
+              variables by a subformula." --[[fl]]
+               
+    SOLUTION: 
+     
+    I agree that this is a "nice to have" feature. It would
+    be nice to have a full Search/Replace feature!
+     
+    However...with the new StepUnifier algorithm, it is not
+    necessary to manually replace *all* occurrences of a
+    given Work Variable. Just update one, say, change 
+    "&amp;C1" to "B", and, because the proof steps are logically
+    linked, once unification is achieved *all* occurrences
+    of "&amp;C1" will be automatically updated to "B" (assuming
+    that does not create any inconsistencies elsewhere...
+    and assuming that the "&amp;C1"s are linked -- which would
+    be the case if mmj output the &amp;C1's (if you manually
+    enter a bunch of &amp;C1's in different proof steps they
+    may not be consistent and linked logically.)
+     
+    ALSO, there is another workaround. Use a text editor.
+    For example, my text editor can edit a Proof Worksheet
+    *while* it is open in the mmj2 PA GUI. So, the procedure
+    would be to Save in the GUI, ALT-Tab to the editor,
+    re-get the file, make the changes and Save in the 
+    editor, then re-get in the GUI. Simple... :-) Not.
+    But you shouldn't need to do that very often -- hardly
+    at all, actually...
+     
+    The new mmj2 unification algorithm in StepUnifier.java
+    differs from the Metamath.exe PA because mmj2 knows the
+    parse tree of the formulas it is trying to unify. So
+    it does not ask you to choose between two different
+    unification candidate expressions.
+     
+    Still, there is the case where the Hyp entries are
+    input in the wrong order (not matching the Hypotheses
+    of the Ref), and the Ref Hypotheses all have the
+    same shape (e.g. "|- A e. V" &amp;&amp; "|- B e. V" &amp;&amp; 
+    "|- C e. V", etc.) mmj2 selects the first Hypothesis
+    order it finds that *works* -- that unifies 
+    successfully. Sometimes there is more than one
+    possible unification -- using a different Hyp
+    order. In that case, use "Undo" and then change
+    the order of the entries in the Hyp field of the
+    proof step in question.
+     </pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2BetaRelease01Sep2007Feedback">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2BetaRelease01Sep2007Feedback">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2BetaRelease01Sep2007Feedback">Administration</a></span><span class="time"><br /> Last edited 2007-07-17 12:48 UTC by <a class="author" title="from 66-81-75-134.bayarea.dialup.o1.com" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2BetaRelease01Sep2007Feedback">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

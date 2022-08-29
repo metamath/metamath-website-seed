@@ -1,0 +1,371 @@
+#!/bin/sh
+# Script to rebuild the whole metamath site
+# 6-Jun-2019 nm - make sure mpeuni has appropriate mmrecents; xfr newly added
+#     files _before_ doing main file xfr
+# 4-Aug-2016
+
+# WARNING: This script is meant to rebuild the metamath site on the
+# us2 server and has hard-coded directory paths custom to that
+# server.  It is not intended for general use.  If you want to
+# build the metamath site on your local computer, use install.sh
+# instead.  Note that this script calls install.sh.
+#
+# To run:
+#    [ -f nohup.out ] && mv --backup=numbered nohup.out 2.tmp; \
+#       nohup ./build-metamath-site &
+
+# Normally this is run from /home/bfwa on the us2 server.  In any case,
+# it currently must be run from the admin's home ($HOME)
+
+# Input:
+# /opt/dts/mmmaster/metamathsite - master location of sources
+#
+# Output:
+# /opt/dts/0/metamathsite - version for apache (robots.txt denies)
+# /opt/dts/1/metamathsite - version for rsync (normal robots.txt)
+#   Actually is /opt/dts/xxnew/ is created instead of /opt/dts/1/
+#   When we are happy with the script run, we manually rename the existing
+#   /opt/dts/1/ to /opt/dts/xxold, then rename /opt/dts/xxnew to /opt/dts/1/
+#   Note that this script erases any previous xxold and xxnew.
+#   An existing /opt/dts/1/ is untouched by this script.
+# /opt/dts/2/metamathsite - previous version of 1
+# /opt/dts/3/metamathsite - generated version that incrementally updates 0,1
+# /opt/dts/4/metamathsite - previous version of 3
+
+# Save old start and middle and end times if we want to compare them
+# (us ls -l ?.tmp and look at date/time stamps)
+[ -f $HOME/s.tmp ] && cp -p $HOME/s.tmp $HOME/t.tmp
+[ -f $HOME/m.tmp ] && cp -p $HOME/m.tmp $HOME/n.tmp
+[ -f $HOME/e.tmp ] && cp -p $HOME/e.tmp $HOME/f.tmp
+# Indicate start time
+touch $HOME/s.tmp
+# Note that the above file name is used for time stamp
+# comparisons below, so don't change it!
+
+# The mmmaster stuff must be there, or this script won't work.
+# Create any other missing directories we might need at this point.
+[ -f /opt/dts/mmmaster/metamathsite/metamath/metamath.c ] || \
+   echo "Error: /opt/dts/mmmaster/metamathsite/metamath/metamath.c is missing"
+for i in 0 1 2 3 4
+do
+  [ -d /opt/dts/${i} ] || mkdir /opt/dts/${i}
+  [ -d /opt/dts/${i}/metamathsite ] || mkdir /opt/dts/${i}/metamathsite
+  [ -d /opt/dts/${i}/metamathsite/metamath ] || \
+        mkdir /opt/dts/${i}/metamathsite/metamath
+done
+
+
+##### Make sure no files will end up read-protected from Apache
+cd /opt/dts/mmmaster/metamathsite
+chmod -Rc +r *
+
+
+################### Create official set.mm ################
+# 4-Aug-2016 nm - this used to strip off unfinished proofs,
+#   identified by "?" in the date field, but we are not doing
+#   that anymore.  So this whole section has been commented out.
+#   The official set.mm is assumed to be metamath/set.mm.
+
+# M=`date | cut -f2 -d ' '`
+# D=`date | sed -e 's/[  ][ ]*/ /g' | cut -f3 -d ' '`
+# Y=`date | sed -e 's/[  ][ ]*/ /g' | cut -f6 -d ' ' | sed -e 's/20//'`
+# cd /opt/dts/mmmaster/metamathsite
+#
+# if [ $# -eq 0 ]; then
+#   # Just "./b" was given by user - this dummy subst. won't change anything
+#   sed -e "1,/\[?\]/ s/\[xxxxxxx?\]/[$D-$M-$Y]/" < set.mm \
+#     > metamath/1.tmp
+#   echo "Non-increment mode"
+# else
+#   # "./b incr" was given by user (note: argument not validated)
+#   sed -e "1,/\[?\]/ s/\[?\]/[$D-$M-$Y]/" < set.mm \
+#     > metamath/1.tmp
+#   echo "Increment mode"
+# fi
+#
+# cd /opt/dts/mmmaster/metamathsite
+# mv set.mm set.mm~1
+# cp /opt/dts/mmmaster/metamathsite/metamath/1.tmp set.mm
+#
+# cd /opt/dts/mmmaster/metamathsite/metamath
+# # Compile metamath if not already done
+# if [ ! -f /opt/dts/0/metamathsite/metamath/metamath ]; then
+#   cp -p * /opt/dts/0/metamathsite/metamath/
+#   cd /opt/dts/0/metamathsite/metamath/
+#   gcc m*.c -o metamath
+#   cd /opt/dts/mmmaster/metamathsite/metamath
+# fi
+#
+# # Strip out theorems in progress: ../set.mm -> 1.tmp -strip-> 2.tmp
+# cd /opt/dts/mmmaster/metamathsite/metamath
+# # 14-May-04: why "[ -f 1.tmp ] ||"?
+# [ -f 1.tmp ] || cp -p ../set.mm 1.tmp
+# # 14-Nov-2013: take out the /clean; causes too many problems
+# # /opt/dts/0/metamathsite/metamath/metamath 'r 1.tmp' \
+# #  'wr s 2.tmp/clean' q
+# /opt/dts/0/metamathsite/metamath/metamath 'r 1.tmp' \
+#   'wr s 2.tmp' q
+#
+#
+# # 24-Feb-04 Strip out the unknown dates (someday fix this in mmcmds.c)
+# # (This shouldn't be done if mmcmds.c is set up for xxx... placeholders)
+# grep -v '\$( \[?\] \$)' 2.tmp > 3.tmp
+# mv 3.tmp 2.tmp
+#
+#
+# # 24-Feb-04: what is the purpose of this?
+# # 11-Oct-05: I commented out these two lines because it prevents
+# # incremental updates while the site is being built.  Probably it
+# # was to allow for the case where an old set.mm was very corrupted;
+# # not sure.
+# #diff -q 2.tmp /opt/dts/0/metamathsite/metamath/set.mm \
+# #  || cp -p 2.tmp /opt/dts/0/metamathsite/metamath/set.mm
+#
+# diff -q 2.tmp set.mm || cp -p 2.tmp set.mm
+# rm -f 1.tmp 2.tmp
+
+################### End create official set.mm ################
+
+
+########### Update the site bz2 for the rsync mirror build ##########
+######## (the rsync mirror is built again to save bandwith...) ######
+#cd /opt/dts/mmmaster
+#tar -cjf /opt/dts/0/metamathsite/downloads/rsync-tmp.tar.bz2 metamathsite
+#chmod +r /opt/dts/0/metamathsite/downloads/rsync-tmp.tar.bz2
+
+
+
+# Move 3 to 4 for backup
+cd /opt/dts
+rm -rf 4
+mv 3 4
+mkdir 3
+cd 3
+# 12-Jul-2016 nm
+# Note that this will create all the subdirectories needed
+# In particular, /opt/dts/metamathsite/other/ itself may contain
+# directories and subdirectories. (Everything else is only 1 level
+# deep.)
+cp -rp ../mmmaster/metamathsite/ .
+cd metamathsite
+
+#DEBUG remove this and following line:
+touch $HOME/xxbeforeinstall.sh.tmp
+# This is the actual build
+echo "install.sh started..."
+sh -x ./install.sh >install.log 2>&1
+#DEBUG remove this and following line:
+touch $HOME/xxxafterinstall.sh.tmp
+
+# 4-Aug-2016 nm Obsolete, since set.mm is only in the metamath directory now
+# Copy the working version of set.mm for backup
+# cd /opt/dts/3
+# cp -p /opt/dts/mmmaster/metamathsite/set.mm metamathsite/
+
+# Copy, don't move, 1 to 2 in case 1 is being used
+cd /opt/dts
+rm -rf 2
+mkdir 2
+cd /opt/dts/2
+cp -rp ../1/metamathsite .
+
+cd /opt/dts/3
+
+# Create any missing directories in 0
+for i in `find . -type d -name "?*"`
+do
+  [ -d ../0/${i} ] || mkdir ../0/${i}
+done
+
+# Overwrite the new mmrecent.html with the old so new theorems won't be
+# missing during the directory transfer
+cp -p /opt/dts/3/metamathsite/mpegif/mmrecent.html \
+    /opt/dts/3/metamathsite/mpegif/mmrecent.save
+if [ -f /opt/dts/0/metamathsite/mpegif/mmrecent.html ] ; then
+  cp -p /opt/dts/0/metamathsite/mpegif/mmrecent.html \
+      /opt/dts/3/metamathsite/mpegif/
+fi
+cp -p /opt/dts/3/metamathsite/mpegif/mmrecent1000.html \
+    /opt/dts/3/metamathsite/mpegif/mmrecent1000.save
+if [ -f /opt/dts/0/metamathsite/mpegif/mmrecent1000.html ] ; then
+  cp -p /opt/dts/0/metamathsite/mpegif/mmrecent1000.html \
+      /opt/dts/3/metamathsite/mpegif/
+fi
+# 6-Jun-2019 nm Handle mpeuni separately
+cp -p /opt/dts/3/metamathsite/mpeuni/mmrecent.html \
+    /opt/dts/3/metamathsite/mpeuni/mmrecent.save
+if [ -f /opt/dts/0/metamathsite/mpeuni/mmrecent.html ] ; then
+  cp -p /opt/dts/0/metamathsite/mpeuni/mmrecent.html \
+      /opt/dts/3/metamathsite/mpeuni/
+fi
+cp -p /opt/dts/3/metamathsite/mpeuni/mmrecent1000.html \
+    /opt/dts/3/metamathsite/mpeuni/mmrecent1000.save
+if [ -f /opt/dts/0/metamathsite/mpeuni/mmrecent1000.html ] ; then
+  cp -p /opt/dts/0/metamathsite/mpeuni/mmrecent1000.html \
+      /opt/dts/3/metamathsite/mpeuni/
+fi
+
+#DEBUG remove this and following line:
+touch $HOME/xxxbeforeincrcp.sh.tmp
+
+# 6-Jun-2019 nm Moved this code up so that new files are copied first
+# Here we copy files from build to live that don't exist in live
+cd /opt/dts/3
+find metamathsite -type f \
+   \! -exec [ -f ../0/{} ] \; \
+    -exec cp -p {} ../0/{} \;
+
+# Incrementally copy only changed files so rsync will have less to do
+# Old method:
+## find metamathsite -type f ! -exec diff -q {} ../0/{} \; \
+##    -exec cp -p {} ../0/{} \;
+# 4-Aug-2016 nm New method:  if a revised file is copied to the
+# /opt/dts/0/ live site after the site build was started,
+# we assume this was an update that we want to keep instead of overwriting it.
+# Here we copy files from build (/opt/dts/3) to live (/opt/dts/0)
+# if the file exists in both build and live and the file changed,
+cd /opt/dts/0
+find metamathsite -type f \
+   \! -newer $HOME/s.tmp \
+   -exec [ -f ../3/{} ] \; \
+   \! -exec diff -q ../3/{} {} \; \
+    -exec cp -p ../3/{} {} \;
+#DEBUG remove this and following line:
+touch $HOME/xxxmidincrcp.sh.tmp
+
+# At this point, we still have to delete files in live that don't exist
+# in build.  This will be done after mmrecent.html is updated so that
+# the user won't see missing files while the build in in progress.
+#DEBUG remove this and following line:
+touch $HOME/xxxxafterincrcp.sh.tmp
+
+# 4-Aug-2016 nm Restore cd to the temporary build directory
+cd /opt/dts/3
+
+# Recreate mmrecent.html so date is closer to web page availability
+cd /opt/dts/3/metamathsite/mpegif
+mv mmrecent.save mmrecent.html
+mv mmrecent1000.save mmrecent1000.html
+# write recent_additions... = refresh recent additions
+../metamath/metamath  "read '../metamath/set.mm'" \
+    "write recent_additions mmrecent.html /html /limit 100" \
+    "write recent_additions mmrecent.html /html /limit 1000" \
+    "exit"
+rm -f mmrecent.html~2
+mv mmrecent.html mmrecent1000.html
+mv mmrecent.html~1 mmrecent.html
+
+# Recreate mmrecent.html in mpeuni directory
+cd /opt/dts/3/metamathsite/mpeuni
+mv mmrecent.save mmrecent.html
+mv mmrecent1000.save mmrecent1000.html
+# write recent_additions... = refresh recent additions
+../metamath/metamath  "read '../metamath/set.mm'" \
+    "write recent_additions mmrecent.html /alt_html /limit 100" \
+    "write recent_additions mmrecent.html /alt_html /limit 1000" \
+    "exit"
+rm -f mmrecent.html~2
+mv mmrecent.html mmrecent1000.html
+mv mmrecent.html~1 mmrecent.html
+cd ../mpegif
+
+# Restore the new version that was overwritten with the old above
+cp -p mmrecent.html /opt/dts/0/metamathsite/mpegif/
+cp -p mmrecent1000.html /opt/dts/0/metamathsite/mpegif/
+cp -p ../mpeuni/mmrecent.html /opt/dts/0/metamathsite/mpeuni/
+cp -p ../mpeuni/mmrecent1000.html /opt/dts/0/metamathsite/mpeuni/
+cd /opt/dts/3
+
+# Show what time the site was ready for users to view
+touch $HOME/m.tmp
+
+cd /opt/dts/0
+# Delete any files that went away with new version
+### 9/25/14 nm TODO: fix this to do it right
+###  1. should delete only if file doesn't exist in /3
+###  2. shouldn't delete any newer file than s.tmp
+## find metamathsite -type f ! -exec diff -q {} ../3/{} \; \
+##    -exec rm -f {} \;
+# 4-Aug-2016 nm Fixed the above problem:
+# Delete live site (/opt/dts/0) files that don't exist in build (/opt/dts/3)
+# and aren't newer than the build start time stamp.  (If newer, then we
+# assume the user put it there on purpose after the build start, and we
+# keep it.)
+cd /opt/dts/0
+find metamathsite -type f \
+   \! -newer $HOME/s.tmp \
+   \! -exec [ -f ../3/{} ] \; \
+   -exec rm -f {} \;
+
+# Create the rsync version with the official robots.txt
+cd /opt/dts
+# In case of earlier abort:
+rm -rf xxold xxnew
+mkdir xxnew
+cd /opt/dts/xxnew
+cp -rp ../0/metamathsite .
+cd /opt/dts
+# These two lines will minimize the gap where it's unavailable:
+#mv 1 xxold
+#mv xxnew 1
+#rm -rf xxold
+
+
+cd /opt/dts/0/metamathsite
+# Create robots.txt for apache version that blocks robots
+echo 'User-agent: *' > robots.txt
+echo 'Disallow: /' >> robots.txt
+echo 'User-agent: wget' >> robots.txt
+echo 'Disallow:' >> robots.txt
+
+# 4-Aug-2016 nm We will trust the primary robots.txt, and not update
+# html pages, because it creates confusion when users edit an html
+# page from the us2 site (/opt/dts/0).  If too many crawlers don't
+# respect this, we can put back the code below.
+##
+## # Disallow indexing for apache version that blocks robots
+## # 6/19/05 - removed mpegif/mmrecent.html from list
+## for i in index.html mpegif/mmset.html \
+##     mpegif/mmcomplex.html mpegif/mmdeduction.html mpegif/ax-ext.html \
+##     mpegif/ax-9.html \
+##     mpegif/mmzfcnd.html qlegif/mmql.html mpegif/ac2.html  screen1.html
+## do
+##   cp -p $i 1.tmp
+##   sed -e 's/<HEAD>/  <HEAD> <META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\"> <META NAME=\"ROBOTS\" CONTENT=\"NOARCHIVE\">    /' \
+##       < 1.tmp \
+##       > $i
+## done
+
+# 10/1/2008 - took this out due to problems reported from FL
+# # 11/21/07 - gzip us2.metamath.org:8888 for faster page load
+# cd /opt/dts/0/metamathsite/mpegif
+# gzip -f [a-m]*.html
+# gzip -f *.html
+# gzip -d mmrecent.html.gz
+# cd ../mpeuni
+# gzip -f [a-m]*.html
+# gzip -f *.html
+# gzip -d mmrecent.html.gz
+
+
+# 10/11/07 - copy ocat's stuff
+cd /opt/dts/1/metamathsite/
+rm -rf ocat/
+mkdir ocat/
+cp -Rp /home/ocat/www/* ocat/
+
+# 10/11/07 - copy ocat's stuff
+cd /opt/dts/xxnew/metamathsite/
+rm -rf ocat/
+mkdir ocat/
+cp -Rp /home/ocat/www/* ocat/
+
+
+
+cd /opt/dts/3
+echo "Done."
+# For visibility in   tail -f /opt/dts/3/metamathsite/install.log
+echo "Done." >> metamathsite/install.log
+
+# indicate end time
+touch $HOME/e.tmp

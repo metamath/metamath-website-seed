@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: PrecomputationOfLogHypUnifiers</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: PrecomputationOfLogHypUnifiers" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=PrecomputationOfLogHypUnifiers" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=PrecomputationOfLogHypUnifiers">PrecomputationOfLogHypUnifiers</a></h1></div><div class="content browse"><p>I have been considering opportunities for parallel processing during the proof search process. Several opportunities arise when the unification process is broken down according to geometric, syntactic and metalogical consistency checks.</p><p>And, although unification of a proof step and its hypotheses with an assertion and its hypotheses involves "side-effects" among the hypotheses and the conclusion formula, as well as any previous proof steps deriving the proof step hypotheses, each individual formula may be separately subjected to a syntactic consistency check &#x2013; then the set of hypothesis formulas and the conclusion formula can be brought together later for a joint unification to show that together they are syntactically consistent at the assertion level in spite of side effects involving work variables.</p><h1>CANDIDATE ASSERTION HYPOTHESIS UNIFICATIONS</h1><p>One opportunity for parallelism involves a proof step and a candidate assertion. Assume proof step "P" is passed to the Step Prover, with Givens X, Y and Z (these are "given" as hypotheses in the context of the sub-proof for use by the Step Prover as hypotheses and do not require proving inside the sub-proof.)</p><p>Now, assume that Assertion "A" is selected as a candidate for unification to justify proof step P. Further, assume that the formulas of A and P are syntactically consistent. Then, that means that if P has N hypotheses, the Step Prover generates N new proof steps, which must then be proven using either the Givens or using further derivations involving the database of assertions.</p><p>So, we have N new steps in the sub-proof, and each must be justified and proved or shown to be consistent with one of the Givens.</p><p>In theory each of the N new steps could be tested for unifiability with each assertion in the database, and with each Given proof step. This can be performed in serial fashion. Alternatively, since we know in advance that each of the N proof steps generated from A's hypotheses must be unified, we could consult a database of precomputed values.</p><p>For set.mm, I estimate that (approximately), a 99% reduction in the number of attempted formula unifications is achieved -- and these are the full-blown, expensive unifications which must return sets of substitution values.</p><p>Here is how the database would work. Assume that there are 10,000 logical assertions and 12,000 logical hypotheses. For each hypothesis we would pre-compute and store a list of assertions whose formulas are syntactically consistent with the hypothesis formula.</p><p>To do the computation, for all hypotheses, there would need to be 12,000 times 10,000 formula unifications &#x2013; or 120,000,000. I first had guesstimated that 1 in 100 assertions would be syntactically consistent with any given hypothesis, so for each hypothesis a list of 100 syntactically consistent assertions would result. The list of lists then, would have 12000 * 100 = 1,200,000 assertion labels. I also assumed that 100 pairs of formulas (conservative?) could be checked for syntactic consistency per second by my 7-year old single- core computer. Thus, the guesstimated time required for the computation would be 800,000 seconds, or 222 hours&#x2026;</p><p>Fortunately, I ran a test using highly optimized code which takes advantage of the fact that there are no work variables in the set.mm hypotheses or assertion formulas &#x2013; this yields much simpler unification logic (it is the "one way unification" we discussed previously.)</p><p>Here are the test results as implemented using the mmj2 Service feature to invoke a new helper class, mmj.pa.ComputeLogHypUnifications<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ComputeLogHypUnifications">?</a>.java in single thread mode via Lazy Evaluation of logical hypothesis unifiers (the code includes locking to make it thread safe):</p><pre>    Hello world, I am TSvcComputeLogHypUnifications3.java
+    Elapsed Milliseconds              = 20078
+    Total Nbr Assertions              = 10374
+    Total Nbr LogHyps                 = 12425
+    Total Nbr Unifications Attempted  = 128909375
+    Total Nbr Successful Unifications = 1058685
+    Unifications per second           = 6420429
+    Bye!
+    </pre><p>Assuming a dual-core computer, the build process for the precomputed database could be cut down to 10 seconds! 40! That is because this is what is technically called an "embarassingly parallel" problem &#x2013; each logical hypothesis can be processed simultaneously.</p><p>Unfortunately, storing the precomputed database in RAM, perhaps inside the mmj2 Logical System requires lots of memory. To solve that problem a new class (actually an interface and family of classes) was developed: mmj.util.StingyIndexArray<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StingyIndexArray">?</a>.java. What this does is store an array list of integers using the smallest atomic integer field available, based on the length of another list. The integer size determination is made at runtime on a case by case basis so that a list of indexes into an array list of 12000 elements can be stored using "short" integers which require only 2 bytes per integer, instead of 4 which would be required for "int" values.</p><p>The StingyIndexArray<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StingyIndexArray">?</a> allows the precomputed logical hypothesis unifiers to be stored in about 2MB of RAM instead of 4MB (based on a recent version of set.mm.) And, in the future, when set.mm has more than 64K assertions, the code will dynamically switch to 4 byte integers &#x2013; by then we assume that mmj2 users will have more RAM available and that this sudden jump in storage requirements will not be a showstopper&#x2026;</p><p>Now, the precomputed answers remain valid for the originally input Metamath database except in the case of new theorems, changed formulas, and deleted or renamed theorems. Accordingly, mmj2 has been modified to "null" out pre-computed answers, when necessary, when the mmj2 Theorem Loader is run and inserts theorems inside the range of precomputed indexes into the mmj2 Assertion List.</p><p>The benefits of having this database of pre-computed unifiable assertions for each hypothesis will be very significant for proof searching.</p><p>Consider for just one proof step and an assertion with 2 logical hypotheses which are not unifiable (an exhaustive search returns naught.)</p><p>Assume a database of 10,000 assertions in which each logical hypothesis is unifiable, on average, with 100 assertions. Also, assume that proof search is proceeding bottom-up wherein the justifying assertion (Ref) for the proof step generates two hypothesis steps &#x2013; each requiring justification, either with one of the Given hypotheses or with an assertion from the mmj2 Assertion List.</p><p>First, if the precomputed answers are not available, for the first hypothesis the unification search process must check each assertion in the Assertion List; and then if unification is successful, unify the second hypothesis against the Assertion List. This means, on average, 10000 unification attempts for the first hypothesis, and then for each successful unification of the first hypothesis another 10000 unification attempts for the second hypothesis. Thus, 10000 + 100 * 10000 = 1,010,000 unification attempts are required. And notice that these are the full- fledged unifications which require using "work variables" and returning the set of simultaneous substitutions, not just yes/no answers.</p><p>On the other hand, in the same example, using the precomputed logical hypothesis unifiable assertion data, on average, only 100 unification attempts are required for the first hypothesis, and then for each successful unification of the first hypothesis, another 100 unification attempts for the second. Thus, 100 + 100 * 100 = 10,100 unification attempts!</p><p>These are approximations, but it is clear that the savings are immense, because this scenario must be repeated during the proof search for every proof step and its hypotheses!</p><p>Obviously any "ignorant" exhaustive proof search is doomed by combinatorial explosion of possibilities once the search depth goes beyond two or three levels. However, given that the new mmj2 Step Prover is intended to aid the user in completing very short sub-proof sequences involving "easy" formula transformations involving simple things like propositional logic and basic predicate calculus, use of precomuted unifiers of logical hypotheses is an enabling invention &#x2013; without it the code performance would likely be intolerable!</p><p>Here is the code to perform the computations for a single hypothesis/assertion pair. It uses "fast-fail" heuristics involving parse tree depth and signature (which are computed during mmj2's start-up formula parsing.)</p><pre>    /**
+     *  Computes the list of indexes into the unifySearchList
+     *  of the unifiable assertions for a
+     *  single LogHyp.
+     *  &lt;p&gt;
+     *  The logical hypothesis is unified with assertions whose
+     *  indexes range from 0 through &lt;code&gt;nbrAssrtToSearch&lt;/code&gt;
+     *  and the results are returned in an array encoded into
+     *  a StingyIndexArray object.
+     *  &lt;p&gt;
+     *  FYI, ParseTree.maxDepth and levelOneTwo are used in this
+     *  function to "fast-fail" a unification attempt. These
+     *  data elements are pre-computed at parsing time. Because
+     *  formulas in the LogicalSystem do not contain Work Variables
+     *  these heuristics can be used:
+     *  &lt;ol&gt;
+     *    &lt;li&gt;if the candidate assertion's parse tree's maximum
+     *        depth is greater than the logical hypothesis parse
+     *        tree max depth, then unification is impossible.
+     *    &lt;li&gt;if both parse trees have a non-zero length
+     *        "levelOneTwo" string, and the two strings are
+     *        not equal, then unification is impossible. LevelOneTwo
+     *        is computed if and only if there are no variable
+     *        hypotheses in the parse tree root and its child nodes.
+     *        LevelOneTwo is simply a space-delimited string of
+     *        the concatenated statement labels of the root and
+     *        its child nodes.
+     *  &lt;/ol&gt;
+     *  &lt;p&gt;
+     *  Apparently, in &lt;code&gt;set.mm&lt;/code&gt; something like 95% of
+     *  unifications are fast-failed by these two heuristics,
+     *  which really speeds up the computation process! The
+     *  speed-up, compared to the normal node-by-node unification
+     *  algorithm is extreme -- in many cases the only data
+     *  element checked is &lt;code&gt;maxDepth&lt;/code&gt;. Test results
+     *  indicate 6.5 million unifications per second, approximately,
+     *  against a recent version of &lt;code&gt;set.mm&lt;/code&gt; using
+     *  a 1.8GHz Intel Celeron (with one core). That equates to
+     *  a merge 300 clock cycles per unification attempt.
+     *  &lt;p&gt;
+     *  @param logHyp the logical hypothesis for which computations
+     *              will be performed.
+     *  @return StingyIndexArray holding an array of indexes into
+     *          the unifySearchList of assertions which can be
+     *          unified with the logical hypothesis formula -- the
+     *          array may have zero length if there are no unifiable
+     *          assertions.
+     */
+    public StingyIndexArray computeOneLogHypsUnifications(LogHyp logHyp) {
+    
+        logHypParseTree           = logHyp.getExprParseTree();
+        logHypRoot                = logHypParseTree.getRoot();
+        logHypMaxDepth            = logHypParseTree.getMaxDepth();
+        logHypLevelOneTwo         = logHypParseTree.getLevelOneTwo();
+    
+        tempUnifierCnt            = 0;
+    
+        for (int k = 0; k &lt; nbrAssrtToSearch; k++) {
+    
+            candidateParseTree    =
+                ((Assrt)unifySearchList.get(k)).getExprParseTree();
+    
+            if (candidateParseTree.getMaxDepth() &gt;
+                logHypMaxDepth) {
+                continue;
+            }
+    
+            if (logHypLevelOneTwo.length() &gt; 0) {
+    
+                candidateLevelOneTwo
+                =
+                candidateParseTree.getLevelOneTwo();
+    
+                if (candidateLevelOneTwo.length() &gt; 0) {
+    
+                    if (!logHypLevelOneTwo.equals(
+                         candidateLevelOneTwo)) {
+                        continue;
+                    }
+                }
+            }
+    
+            if (checkSyntacticConsistency(
+                                    logHypRoot,
+                                    candidateParseTree.getRoot())) {
+                tempUnifier[tempUnifierCnt++]
+                                  = k;
+            }
+        }
+    
+        return
+            StingyIndexArrayFactory.
+                make(nbrAssrtToSearch,  //targetArrayLength
+                     tempUnifier,       //indexArray
+                     tempUnifierCnt,    //indexArrayCnt
+                     false);            //rangeChecking
+    }
+    
+    /**
+     *  Attempt to unify logHyp (source) with candidate (target).
+     *  &lt;p&gt;
+     *  There are no work variables present so we can use all of
+     *  the shortcuts from ProofUnifier.
+     *  &lt;p&gt;
+     *  @param sourceNode the root node from the proof step parse tree.
+     *  @param targetNode the root node from the candidate assertion
+     *         to be unified with the source code.
+     */
+    public boolean checkSyntacticConsistency(
+                                    ParseNode sourceNode,
+                                    ParseNode targetNode) {
+    
+        substCnt                  = 0;
+        nodeStackCnt              = 0;
+    
+        unifyLoop: while (true) {
+    
+            if (targetNode.stmt.isAssrt()) {
+                if (targetNode.stmt != sourceNode.stmt) {
+                    return false;
+                }
+                if (targetNode.child.length == 0) {
+                    if (nodeStackCnt-- &gt; 0) {
+                        targetNode
+                                  = targetNodeStack[nodeStackCnt];
+                        sourceNode
+                                  = sourceNodeStack[nodeStackCnt];
+                        continue unifyLoop;
+                    }
+                    return true;
+                }
+                for (int i = targetNode.child.length - 1; i &gt; 0; i--) {
+                    targetNodeStack[nodeStackCnt]
+                                  = targetNode.child[i];
+                    sourceNodeStack[nodeStackCnt]
+                                  = sourceNode.child[i];
+                    ++nodeStackCnt;
+                }
+                targetNode        = targetNode.child[0];
+                sourceNode        = sourceNode.child[0];
+                continue unifyLoop;
+            }
+    
+            vH                    = (VarHyp)targetNode.stmt;
+    
+            for (int i = 0; i &lt; substCnt; i++) {
+                if (vH == targetVarHyp[i]) {
+                    if (!sourceNode.isDeepDup(targetNode,
+                                              compareNodeStack)) {
+                        return false;
+                    }
+                    if (nodeStackCnt-- &gt; 0) {
+                        targetNode
+                                  = targetNodeStack[nodeStackCnt];
+                        sourceNode
+                                  = sourceNodeStack[nodeStackCnt];
+                        continue unifyLoop;
+                    }
+                    return true;
+                }
+            } 
+    
+            // FYI, this "if" statement slows down the total
+            //      computation process for set.mm by about
+            //      1%, and yet, removing it does not alter
+            //      the output unification.
+            if (vH.getTyp() != sourceNode.stmt.getTyp()) {
+                return false;
+            }
+    
+            targetVarHyp[substCnt]
+                                  = vH;
+            sourceSubst[substCnt] = sourceNode;
+            ++substCnt;
+    
+            if (nodeStackCnt-- &gt; 0) {
+                targetNode        = targetNodeStack[nodeStackCnt];
+                sourceNode        = sourceNodeStack[nodeStackCnt];
+                continue unifyLoop;
+            }
+            return true;
+        }
+    }
+    </pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=PrecomputationOfLogHypUnifiers">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=PrecomputationOfLogHypUnifiers">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=PrecomputationOfLogHypUnifiers">Administration</a></span><span class="time"><br /> Last edited 2008-11-07 12:28 UTC by <a class="author" title="from pool-96-249-204-163.snfcca.dsl-w.verizon.net" href="ocat">ocat</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=PrecomputationOfLogHypUnifiers">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

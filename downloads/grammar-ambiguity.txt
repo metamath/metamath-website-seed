@@ -1,0 +1,373 @@
+Grammar ambiguity in set.mm
+
+------------
+Introduction
+------------
+
+In the question of whether a grammar is ambiguous, we start from the syntax axioms, which allow us to build up formulas, which for these purposes are token strings on an alphabet, and ask if it is possible that there are two different ways of applying the axioms to achieve the same token string. Thus it concerns the mapping from token strings to RPN strings of axiom labels: For any (valid) RPN string of syntax axioms, there is a corresponding formula. But is this mapping one-to-one?
+
+Note that the only factors in judging a grammar for ambiguity are the constant and variable declarations ($c and $v), the floating hypotheses ($f), and syntax axioms ($a where the type code is not |- ). Theorems, and distinct variable considerations, do not affect the analysis (assuming, as is true for set.mm, that no syntax axiom has a distinct variable condition).
+
+For a simple example of an ambiguous grammar, suppose we had the following:
+
+$c wff $.
+$c /\ $.
+
+$v ph $.
+$v ps $.
+
+wph $f wff ph $.
+wps $f wff ps $.
+
+wa $a wff ph /\ ps $.
+
+There are four different types of axiom used above. $c declarations define constants, and $v declarations define variables. Both types of token constitute our alphabet; the difference is that a variable can be substituted for a wff expression (this is determined by the $f statement) while a constant admits no substitution. In an axiom such as wa, the variables ph and ps are automatically identified by the Metamath parser (because they have $v statements), so that wa actually has two hypotheses, corresponding to wph and wps. In general, an $a axiom will have an $f hypothesis for each variable in its symbol string, while an $f axiom will not have any hypotheses. We need $f axioms in order to build actual variables into the expression we are trying to construct; for constant expressions we only need $a axioms.
+
+This is a bit different than the situation with logical axioms and theorems, which have explicit $e hypotheses (in addition to $f hypotheses). In practice, the difference is that $e hypotheses have a |- typecode while $f hypotheses have another typecode (like wff or class). For the Metamath parser, the important difference is that substitutions for $f hypotheses are "grammar" constructs, and are subject to automatic proving by most proof assistants. This is where the requirement that syntax trees are uniquely determined comes in: without this constraint, the task of finding syntax proofs can become just as difficult as finding logical proofs (which have no restriction to a unique proof for a given theorem).
+
+The concept of a "type code" is not built in to Metamath, but makes a convenient convention. If it is known that every axiom ($f or $a) has "set" or "class" or "wff" as the first token in the string, and these words are constants, then it is a simple observation that every theorem in the system derivable from these axioms must also start with "set" or "class" or "wff". Thus we use these to "tag" the type of an expression.
+
+To demonstrate the ambiguity in the grammar above, consider the expression:
+
+wff ph /\ ps /\ ph
+
+This expression has two derivation trees:
+
+  wph: wff ph
+  wps: wff ps
+ wa:  wff ph /\ ps
+ wph: wff ph
+wa:  wff ph /\ ps /\ ph
+
+ wph: wff ph
+  wps: wff ps
+  wph: wff ph
+ wa:  wff ps /\ ph
+wa:  wff ph /\ ps /\ ph
+
+These derivations are written in RPN (reverse polish notation) style as "wph wps wa wph wa" and "wph wps wph wa wa", respectively. From the RPN label string, we can figure out the unique token string for the expression, but given the token string, we find two different RPN strings that represent it. This is a grammar ambiguity. Note that if we want to interpret the /\ symbol as "and", which is associative, we may not care which is which, since they have the same semantic meaning. For our purposes, this consideration is irrelevant: we need unique derivation trees, and so this grammar is unacceptable.
+
+------
+set.mm
+------
+
+As of this writing (9/01/2013), there are 599 $c statements, 357 $f statements, and 600 $a statements (not counting logical axioms). Of those, 567 of the $a statements use a constant that is not used in any other syntax axiom (we will call such constants "remarkable"). Here is the list of exceptions:
+
+wo $a wff ( ph \/ ps ) $.
+wa $a wff ( ph /\ ps ) $.
+w3o $a wff ( ph \/ ps \/ ch ) $.
+w3a $a wff ( ph /\ ps /\ ch ) $.
+wnand $a wff ( ph -/\ ps ) $.
+wal $a wff A. x ph $.
+cv $a class x $.
+wcel $a wff A e. B $.
+wex $a wff E. x ph $.
+wsbc $a wff [ A / x ] ph $.
+weu $a wff E! x ph $.
+cab $a class { x | ph } $.
+wral $a wff A. x e. A ph $.
+wrex $a wff E. x e. A ph $.
+wreu $a wff E! x e. A ph $.
+crab $a class { x e. A | ph } $.
+csn $a class { A } $.
+cpr $a class { A , B } $.
+cop $a class <. A , B >. $.
+ctp $a class { A , B , C } $.
+wbr $a wff A R B $.
+copab $a class { <. x , y >. | ph } $.
+co $a class ( A F B ) $.
+copab2 $a class { <. <. x , y >. , z >. | ph } $.
+cmpt $a class ( x e. A |-> B ) $.
+cmpt2 $a class ( x e. A , y e. B |-> C ) $.
+cec $a class [ A ] R $.
+cdiv $a class / $.
+wbnj17 $a wff ( ph /\ ps /\ ch /\ th ) $.
+w3nand $a wff ( ph -/\ ps -/\ ch ) $.
+wvd1 $a wff (. ph ->. ps ). $.
+wvd2 $a wff (. ph , ps ->. ch ). $.
+wvd3 $a wff (. ph , ps , ch ->. th ). $.
+
+These are the axioms that use only unremarkable symbols, used in other axioms. The reason this is an important distinction is that if an expression contains a remarkable symbol, one can be sure that the axiom will be used at least once in the derivation tree for the expression. This does not guarantee unambiguity: note that our earlier example ambiguous grammar had a remarkable symbol, namely /\ in wa, yet there were two ways to choose which of the two /\ symbols would represent the "root" of the expression. Nonetheless, it narrows the possibilities considerably if the axiom to be applied is known and only the substitutions must be considered.
+
+One important observation to make is that there is no $a axiom of the form "class A". This would automatically link the $f axiom "class A" as a hypothesis and so would be a do-nothing theorem like the logical theorem idi. The only $a axiom that is a type code followed by a variable is cv $a class x $. , but this changes the type code of an expression, from the $f input "set x" to the output "class x". Since all $f axioms have a type code followed by a single variable, the substitutions are always smaller than the output of the axiom, unless cv is being used, in which case the type code changes from set to class. Furthermore, since each substitution slot in an $a axiom is required to be different (i.e. $a wff ( ph /\ ph ) $. is an error), we can in fact make the claim that the total number of symbols in all hypotheses (not counting type codes) to an axiom is less than or equal to the number of symbols in the result of the axiom (we don't have strictly less because of wbr $a wff A R B $. , which has the same number of symbols in the $f hypotheses as in the result).
+
+Theorem 1: In any $a axiom, the length of the expression, not counting the type code and reduced by one for set expressions, is always less in any hypothesis than in the result of the axiom. Furthermore, the sum of the length of the expressions in all hypotheses is at most the length of the result of the axiom.
+
+Proof: See above paragraph.
+
+This is in stark contrast to logical proofs, for which statements with very short formulations, like ( sqrt ` 2 ) e/ QQ , have much longer proofs. Using this theorem, we can observe that a formula with n non-typecode symbols can have a proof at most 3n-1 steps long (this maximum could only be achieved through some scheme like
+
+cd $a class A B $.
+
+so that the formula "class x x x x", with n "x" symbols, has proof "vx cv vx cv cd vx cv cd vx cv cd", which is 3n-1 steps).
+
+The observation that all $f axioms are just a type code followed by a variable means that we are working with a context-free grammar, since each axiom like
+
+wal $a wff A. x ph $.
+
+translates to a production rule
+
+W -> A. V W
+
+where the type code is encoded in the variable letter (say V, C, or W). Thus we can equivalently ask if the resulting CFG is unambiguous, although that doesn't help too much except to link this question to some existing literature.
+
+Theorem 2: All set expressions have length 1 and are variables.
+
+Proof: This follows because there are no $a axioms with the type code "set", so any theorem with type code "set" must have an $f axiom for the root of the derivation tree, and no hypotheses ($f axioms do not take hypotheses). The only $f axioms with type code "set" are of the form "set x", where x is a (set) variable, so we have the desired statement.
+
+With these lemmas, we can start proving that certain axioms are unambiguous. Suppose there is an ambiguity in the grammar, and consider an ambiguity where the length of the symbol string is minimal. As we have described it, this means that there are at least two different derivation trees for the given expression (and we can choose two of these without loss of generality). The root of one of the derivation trees must be some $f or $a axiom; and it cannot be an $f axiom because these take no substitution and there are no repeated axioms (two axioms with identical symbol strings) in set.mm. Therefore we are looking for an $a axiom that admits such an ambiguity, either with itself (as in our example in the introduction) or with another $a axiom as the root of the other derivation tree.
+
+------------------------
+Constant axioms (type 1)
+------------------------
+
+The easiest axioms to analyze are those which take the form of a string of constants, for example
+
+c0 $a class (/) $. (Type 1 axiom)
+cdiv $a class / $.
+
+There are 486 of these, of which 484 are class constants, and all of them have length 1. If the constant is remarkable, it is impossible for there to be an ambiguity here, because if c0 is the root of one of the RPN strings, then the expression must be class (/) , so the other RPN string must contain c0 (because (/) is remarkable), and by theorem 1, if c0 was the hypothesis to some other expression, the result would have at least 2 non-typecode symbols, which is a contradiction. Therefore c0 is the root of both RPN strings, and since there are no hypotheses, they must be equal. (For concreteness, this is written using c0 and (/), but it should be clear that the proof works for any single remarkable constant.)
+
+cdiv requires special treatment, because it does not use a remarkable constant (csb and wcsb also use / ). However, because both of these two other axioms start with constants other than / , it is not possible for these to be the root of the other RPN string, since we know the first constant is / . Thus cdiv is in the other RPN string, and we can proceed as in the previous pararaph.
+
+----------------------
+Prefix axioms (type 2)
+----------------------
+
+Another category of axioms (there are 49 of these) take the form of a string of constants, at least one of which is remarkable, followed by one or more other symbols:
+
+wn $a wff -. ph $. (Type 2a axiom)
+wmo $a wff E* x ph $.
+syn-bnj19 $a wff _TrFo ( B , A , R ) $.
+
+cpw $a class ~P A $. (Type 2b axiom)
+crio $a class ( iota_ x e. A ph ) $.
+csb $a class [_ A / x ]_ B $.
+cif $a class if ( ph , A , B ) $.
+
+Type 2a axioms are wff expressions, and type 2b are class expressions. This category includes most "function" expressions, since the first token is the name of the function and is generally unique, a.k.a. remarkable. (Note that type 1 axioms can also fall under this category, but it is conceptually simpler to separate them this way.)
+
+If one of these was the root of a minimal grammar ambiguity (we will take wn for concreteness), then we know the first constant is -. , so we know that wn appears somewhere in the other derivation tree (pick the one that corresponds to the first -. in the expression). If wn is not the root, there is some axiom that is the direct parent of wn in the derivation tree. This axiom must have a wff variable which is being substituted for wn, and no constant can come before this wff variable, because the constant will go between the -. and the beginning of the expression, and we know the -. comes first. No variable can enter either, because set.mm does not allow empty substitutions for variables, which means the substitution will involve at least one symbol, and again -. will not come first in this case.
+
+Thus the parent of wn must start with a wff variable, and there is no such axiom in set.mm. Thus no grammar ambiguity can involve type 2a axioms. Type 2b axioms require more work, because there are in fact several axioms (including type 4 axioms) that start with a class variable. However, these axioms all have in common that they are wff expressions. They cannot be the root, because we know the expression has a class type code. Thus this axiom must itself have a parent that starts with a wff variable, and again this leads to a contradiction.
+
+Therefore this axiom is the root of both derivation trees. If the axiom only has one variable, this completes the proof, because the substitution to this variable must be the same symbol string in each case, and so this axiom's single child forms a smaller grammar ambiguity, in contradiction. If the prefix axiom has multiple children, the situation can become more complicated, and we will need theorem 5 to finish the proof, so we postpone the proof until then. As an example of the difficulty, suppose we add the following theorem to our ambiguous grammar from the introduction:
+
+wna $a wff -. ph /\ ps $.
+
+Then "wph wps wa wph wna" and "wph wps wph wa wna" are both encodings of the string "wff -. ph /\ ps /\ ph", and they are minimal in the sense that no substring of these two RPN strings generates another grammar ambiguity (they are not minimal with respect to symbol length, because the example in the introduction is shorter).
+
+-----------------------------
+Prefixes of class expressions
+-----------------------------
+
+As indicated in the previous section, we will need the important theorems 4 and 5 before we can make progress in proving that categories of axioms are unambiguous, so we take this detour here.
+
+Theorem 3: All bracket-type constants in valid wff or class expressions come in matched pairs, where the bracket-type constants are:
+
+( ) [ ] { } <. >. (. ). [_ ]_ << >>
+
+Proof: Every axiom that introduces a left bracket-type constant also introduces the right bracket to the right of the left bracket, so the number of total left and right brackets of each type is equal. Inducting on the derivation tree, if the substitutions have an equal number of each type of bracket, and the axiom adds an equal number of left and right brackets of each type, the axiom after substitution will also have equal left and right brackets.
+
+Furthermore, these brackets are in matched pairs, which can be expressed as the requirement that any prefix of the expression has at least as many left brackets as right brackets. This is also proved by induction on the derivation tree: any prefix of the expression will include a prefix of the constants in the axiom itself (which has more left brackets than right because the left bracket comes before the right in the axiom statement), as well as substitutions from the hypotheses, either in their entirety or as a prefix. In each case, there are more left than right brackets, by the induction hypothesis.
+
+Theorem 4:
+(i) No proper prefix of a set expression is a set expression.
+(ii) No proper prefix of a class expression is a class expression.
+(iii) No prefix of a class expression is a wff expression.
+(iv) No proper prefix of a wff expression is a wff expression.
+
+Proof: Suppose we have a minimal counterexample of one of these cases, which is to say that there is a class (or set or wff) expression A which is a proper prefix of the class (or set or wff) expression B, such that no other counterexample to any of the other cases has A' shorter than A, and no counterexample with A' of the same length as A has B' shorter than B. In other words, we will proceed by induction on formula length, where the hypothesis is that all four cases of theorem 4 are true for expressions of length n or shorter.
+
+If B is a set expression or B is a class expression with root cv, then we are done by theorem 2, since B is length 1, and there are no empty expressions in set.mm (and no wff expressions of length 1). This completes case (i).
+
+If the root of a derivation tree for B is a prefix axiom (type 1 to 3), the axiom would also have to be the root of the derivation tree for A (see the section on prefix axioms for details). This eliminates the possibility that A is a wff and B is a class expression, and (if A and B are the same type) means we can compare the substitutions in the prefix axiom, one by one from the left. If all of the substitutions are identical, then A and B are identical, contrary to the hypothesis. Thus there is a first variable X whose substitution differs in the derivation of A and of B. Since the previous symbols are all identical, it follows that either X_A is a prefix of X_B or vice versa (because A and B match on the first |A| symbols, and X_A and X_B start at the same character index), and |X_A| is not equal to |X_B|, or else they would be equal substitutions. Thus X is not a set variable (by theorem 2), but if X is a class or wff variable, then X_A and X_B are a smaller counterexample, contrary to minimality of A and B. Therefore no prefix axiom can generate a counterexample.
+
+-----------------------------
+Parenthesized axioms (type 3)
+-----------------------------
+
+wa $a wff ( ph /\ ps ) $. (Type 3a axiom)
+w3a $a wff ( ph /\ ps /\ ch ) $.
+
+cun $a class ( A u. B ) $. (Type 3b axiom)
+co $a class ( A F B ) $.
+
+wsbc $a wff [ C / x ] ph $. (other Type 3 axiom)
+cec $a class [ D ] R $. (variables renamed for convenience of discussion)
+
+Another class of axioms we can write off using theorem 3 are axioms that start with an open bracket-type constant. All of the axioms in set.mm of this form either end with the matching close bracket or have a single class or wff variable after the close bracket (in the case of wsbc and cec). If B has such an axiom as the root of its derivation tree, by theorem 3, it cannot be the case that A contains the open bracket but not the close bracket, because that would unbalance the brackets, and all class and wff expressions have balanced brackets.
+
+It might be possible that we are dealing with case (iii) and A = B, though (so A is a wff expression and B is a class expression). We can use the first symbol to reduce the possibilities - the only open bracket constant that has both wff and class axioms starting with the constant is "(". Let us partition the type 3 axioms that start with "(" into the wff expressions (type 3a) and the class expressions (type 3b). Thus we have deduced that the root of B's derivation tree is type 3a and A's derivation tree is type 3b. Not all of these use a remarkable constant, but all of the type 3a axioms satisfy a weak version of remarkability: each type 3a axiom uses a constant that is not used by any non-type 3a axioms  (for example, the "/\" constant is not remarkable, because both wa and w3a use it, but it is not used by any other axioms outside type 3a).
+
+The type 3a axioms all start with a wff variable (call it "ph"), followed by a pseudo-remarkable constant. Since A has a type 3a axiom at the root, we know B must have a type 3a axiom (call it T) somewhere in the derivation tree (but not the root) that produces this constant. T will also produce a "(" somewhere before the constant, because all type 3a axioms start with "(". Now B is a valid class expression, so it has matched parentheses, and this doesn't change if we take the substring dropping just the parentheses at the beginning and end of the expression. Thus in any prefix of this, there are at least as many left parens as right parens, and choosing as our prefix the string ending just before the "(" from T, we see that just after the "(" there are strictly more "(" than ")" constants, not including the initial "(" at the root of the expression. Following the "(" from T is a wff variable, which has matched brackets, and so we conclude that there are more left parens than right parens between the left paren at the root and the pseudo-remarkable constant from T. But this is a contradiction, because the exact same substring corresponds to a wff variable substitution in A, and so must have the same number of left and right parens. 
+
+The only remaining case is wsbc and cec, the two axioms with a variable after the end bracket. (Note that csb is a prefix axiom.) These two axioms also have in common that they are the only axioms beginning with the [ symbol, so it is not possible for any other axiom to be the root of the derivation tree for A. If A and B have the same type code, then it is not possible for A to have root wsbc and B have root cec, or vice versa. Thus A and B have the same root axiom, and we can apply the same logic as we did for prefix axioms to show that there is a smaller counterexample.
+
+If A is a wff and B is a class such that the root of A is wsbc and the root of B is cec (and either one is a prefix of the other), then A must contain the close bracket of cec (otherwise it would have unbalanced brackets), and this close bracket must correspond to a close bracket in the substitution for "C" or "ph" in wsbc, or else must match the literal ] constant in wsbc. If the close bracket is in the substitution for C, then D will be a proper prefix of C. Conversely, if the close bracket is in the substitution for "ph" or is the literal ] constant, then C will be a proper prefix of D. In both cases, we get a smaller counterexample, in contradiction.
+
+------------------------------
+Remarkable wff axioms (type 4)
+------------------------------
+
+Not counting cv, every syntax axiom not in types 1-3 are wff expressions. This means that we have completed theorem 4 in cases (ii) and (iii), since the root of the derivation tree must be a class axiom, and we just proved that this leads to contradiction.
+
+wceq $a wff A = B $. (Type 4 axiom)
+wf $a wff F : A --> B $.
+wf1 $a wff F : A -1-1-> B $.
+wiso $a wff H Isom R , S ( A , B ) $.
+
+The axioms in this category are defined by the fact that they contain a remarkable constant. All of them start with a class variable (call it "F"), followed by a remarkable constant, except for wf, whose constant ":" is pseudo-remarkable, being shared with three other type 4 axioms of the same form (and using a remarkable constant in the fourth position, after another class variable). Since we are left with (iv) to prove, assume A and B are wff expressions, and the root of B is a type 4 axiom. Then A cannot be a prefix of the substitution to F, by case (iii), and so it contains the remarkable constant. If the root of A is a type 2 (prefix) axiom, then so is B, and we are done. If the root of A is a type 3 (parenthesized) axiom that ends with a close bracket, then since A contains the constant after F, the substitution to F must contain the open paren but not the close paren from A, and so it will not be balanced. If the root of A is wsbc, then A starts with "[" , so the substitution to F must be cec, and we have already shown that it is impossible for wsbc and cec to be prefixes of each other.
+
+We will postpone the discussion of when both A and B are type 4 expressions to the exceptional case.
+
+-------------------
+Exceptions (type 6)
+-------------------
+
+Now we get to the long tail of exceptions that have not yet been categorized. There are eight axioms left (plus cv), but six of them are similar enough to form another group. The remaining two are similar to type 4 axioms:
+
+wcel $a wff A e. B $.
+wbr $a wff A R B $.
+
+But the "e." symbol is used in many axioms, and wbr has no constants at all, so they can't claim to be "remarkable". Except for type 5, the only case left is when both A and B are either these two or type 4 axioms.
+
+The initial class variable substitutions must match (otherwise there would be a counterexample in these substitutions), so unless one of A or B is wbr, the constant that follows must match. If this constant is remarkable, then the root of each expression is the same. If the constant is ":", then we are working with an axiom like wf; in this case we simply match the next class variable to get to the remarkable constant. In any case, knowing that the root is the same, we proceed as we did for type 2 axioms to finish the proof. 
+
+The remaining case is when one of A or B is wbr and the other is wcel or a type 4 axiom. In this case the substitution to the "R" class variable in wbr will have to start with a constant, either "e." or ":" or one of the remarkable constants in type 4. There are no axioms that start with "e.", and the only axioms that have ":" or a type 4 remarkable constant are in type 4 and don't start with that constant in any case, so we have a contradiction.
+
+--------------------
+Quantifiers (type 5)
+--------------------
+
+wal $a wff A. x ph $.
+wex $a wff E. x ph $.
+weu $a wff E! x ph $.
+wral $a wff A. x e. A ph $.
+wrex $a wff E. x e. A ph $.
+wreu $a wff E! x e. A ph $.
+
+These six axioms can be treated well as a group, and so we call these "type 5" axioms. These are essentially prefix axioms, except they come in two versions and are thus not quite remarkable. Nonetheless, one can apply the same argument as we did for prefix expressions: If either A or B starts with "A.", then both are either wal or wral, and thus we are in case (iv). After matching the set variable, we find that if A and B do not have the same root, then the one that has root wal must substitute a wff variable to a string of symbols that starts with "e.". Again, there is no axiom that starts with "e.", thus this is a contradiction. Thus A and B have the same root, and we are done.
+
+This completes the (very long) proof of Theorem 4.
+
+Theorem 5: No minimal grammar ambiguity can have the same axiom as the root of both derivation trees.
+
+Given two derivation trees for the same expression, using the same axiom at the root, we consider the variable substitutions from left to right. At least one of the substitutions must have two different derivation trees (otherwise the full derivation tree would be the same, having the same root and the same children), and if the resulting expression is the same in both trees, it would constitute a smaller grammar ambiguity. Thus there is a leftmost substitution that is different for the two expressions. The sequence of symbols to the left of this substitution must be the same, because all substitutions are the same to the left of the first difference, and the entire expression is the same for both derivation trees. Thus one of the symbol strings for the two different substitiutions must be a proper prefix of the other, and by theorem 4 this is impossible.
+
+-----------------
+Grammar ambiguity
+-----------------
+
+Now that we have Theorems 4 and 5 available as tools, we can return to the original goal of analyzing grammar ambiguities. We left off in the proof that no grammar ambiguity can involve a prefix axiom having proven that both derivation trees start with the same axiom; theorem 5 completes the proof. Now we can turn to the other types, beginning with the parenthesized axioms, type 3.
+
+-----------------------------
+Parenthesized axioms (type 3)
+-----------------------------
+
+In a grammar ambiguity, both expressions have the same type code, so we can partition the type 3 axioms based on initial bracket constant and type code. Moreover, theorem 4 gives us the ability to "read one class variable" from the expression string, since the prefix theorem tells us that there is at most one substring starting from a given point in the string that is a valid class expression. (We have used this ability several times already in the proof of theorem 4, under different names.) Thus we can easily disambiguate the different axioms simply by reading from left to right, and using the constants as we see them to identify each axiom.
+
+For example, given a wff expression, if the first constant is a "(", we have reduced the possibilities for the root of the expression to a type 3a axiom. Read one wff variable (this is a valid operation because every type 3a axiom has a wff variable after the "(", so there is a unique position further along the string for which the substring constitutes a valid wff expression), and examine the constant that comes after. This is often a remarkable constant and thus uniquely identifies the axiom; in this case by theorem 5 we are done. If it is not, then it is a scenario like:
+
+wa $a wff ( ph /\ ps ) $.
+w3a $a wff ( ph /\ ps /\ ch ) $.
+syn-bnj17 $a wff ( ph /\ ps /\ ch /\ th ) $.
+
+or similar for "\/" or "-/\". In this case, we read another wff variable and test if the next constant is ")". If so, it is wa; if not, read another wff variable and test the next constant. If ")" it is w3a; if not it is syn-bnj17.
+
+Since we were able to disambiguate every type 3a axiom by marching down the string from left to right and testing constants, it follows that no grammar ambiguity can be caused by type 3a expressions.
+
+For type 3b expressions, we can read a class variable and examine what comes next, but now it gets more complicated, because the next symbol is either a remarkable constant, "e." (cmpt and cmpt2), or another class variable (for co).
+
+co $a class ( A F B ) $.
+cmpt $a class ( x e. A |-> B ) $.
+cmpt2 $a class ( x e. A , y e. B |-> C ) $.
+
+Here we are saved because F cannot begin with one of those remarkable constants (because they always appear with a "(" first, being remarkable constants from type 3b), and F cannot begin with "e." either, so if the next symbol is "e." or a remarkable constant, the expression cannot have root co. Disambiguating constants is trivial, so now we only need to disambiguate cmpt from cmpt2, and we do that by reading a class variable and comparing "|->" to ",".
+
+If the bracket constant is "<." or "[", we are done (there is a unique axiom for these brackets, given a type code). If the bracket is "(.", we need to disambiguate:
+
+vd1 $a wff (. ph ->. ps ). $.
+vd2 $a wff (. ph , ps ->. ch ). $.
+vd3 $a wff (. ph , ps , ch ->. th ). $.
+
+Read a wff variable; compare "->." (vd1) to ","; read a wff variable; compare "->." (vd2) to "," (vd3).
+
+If the bracket is "{", we have the following choices:
+
+cab $a class { x | ph } $.
+crab $a class { x e. A | ph } $.
+csn $a class { A } $.
+cpr $a class { A , B } $.
+ctp $a class { A , B , C } $.
+copab $a class { <. x , y >. | ph } $.
+copab2 $a class { <. <. x , y >. , z >. | ph } $.
+
+Read a class variable. (Note that this reads "<. x , y >." from copab and "<. <. x , y >. , z >." from copab2.) If the next constant is "|", see the next paragraph; otherwise compare "}" (csn) and "e." (crab) to ","; read a class variable; compare "}" (cpr) to "," (ctp).
+
+We still need to disambiguate cab, copab, and copab2. Here we use theorem 2 to note that since only set variables appear to the left of the bar, we can just use the number of symbols between the "{" and "|" after substitution to tell them apart - cab has one, copab has five, and copab2 has nine.
+
+Note that all of the above is working under the assumption that our two derivation trees have a root that is in type 3. It does not address the situation of an ambiguity between type 4 and type 3 (for example, "wff ( 1 + 1 ) e. { 2 }" is derivable, but it is a wff expression starting with a "(" whose root is not type 3a.) 
+
+------------------------------
+Remarkable wff axioms (type 4)
+------------------------------
+
+If we know both derivation trees have a root that is type 4 or the exceptions wcel and wbr, we can read a class variable and test the constant that comes next. As before, if the constant is ":" or "e." or a remarkable constant, it is impossible for it to match the "R" class variable in wbr, so we have distinguished wbr from the others. If "e." is read, we know it is wcel; if a remarkable constant is read, we know what it is. If ":" is read, we can read a class variable and compare the remarkable constant that follows to disambiguate wf and friends.
+
+--------------------
+Quantifiers (type 5)
+--------------------
+
+These are handled just like prefix axioms. If the initial constant is "A." or "E." or "E!", we know the root of both expresstions is type 5, and we disambiguate wal from wral by reading a set variable and checking if the next constant is "e." (wral) or not (wal), since no wff expression starts with "e.".
+
+-----------------
+Type 3 and Type 4
+-----------------
+
+If one of the derivation trees (call it A) is type 3 and the other (call it B) is type 4, we know it is a wff expression (all type 4 expressions are wffs), so the root of A is either wsbc, or one of vd1-3, or a type 3a expression.
+
+vd1-3 leads to contradiction because they start with "(." (and no other axioms do), so the substitution to the initial class variable in B must either have unbalanced parens or else contain the matching ")."; but that constant is at the end of the expression, since the vd1-3 axiom is at the root, so there is no way to match the rest of B.
+
+wsbc starts with "[", so the initial class variable must have root cec. Then we can read a class variable after the "[" and compare "/" to "]" to find the contradiction.
+
+If the root of A is type 3a, then the initial class variable in B must contain the open paren but not the close paren from A, which is a contradiction. Thus it is impossible for A to be type 3 in any case.
+
+This concludes the proof.
+
+--------
+Appendix
+--------
+
+The following is a list of the syntax axioms and their classification according to the type system laid out in the body of the text.
+
+Type 1 (486 "Constant axioms"):
+Type 1a (2 wff constants): wtru, wfal
+Type 1b (484 class constants): cvv, c0, cep, cid, con0, com, c1st, c2nd, c1o, c2o, c3o, c4o, coa, comu, coe, cmap, cpm, cen, cdom, csdm, cfn, cund, cr1, crnk, ccrd, cale, ccf, ccda, cwina, cina, ctsk, ctc, cgru, cnpi, cpli, cmi, clti, cplpq, cmpq, cltpq, ceq, cnq, c1q, cerq, cplq, cmq, crq, cltq, cnp, c1p, cpp, cmp, cltp, cplpr, cmpr, cer, cnr, c0r, c1r, cm1r, cplr, cmr, cltr, cc, cr, cc0, c1, ci, caddc, cltrr, cmul, cle, cpnf, cmnf, cxr, clt, cmin, cdiv, cn, cn0, cz, cq, crp, c2, c3, c4, c5, c6, c7, c8, c9, c10, cfl, cmo, cioo, cioc, cico, cicc, cuz, cfz, cseq1, cshi, clsp, cseqz, cseq0, cexp, csqr, cre, cim, ccj, cabs, cfa, cbc, chash, cli, ccncf, ce, ceu, csin, ccos, cpi, cdivides, cgcd, cprime, cnx, cbs, cple, cpo, cplt, club, cglb, cjn, cmee, cp0, cp1, clat, ccla, cplusg, cgrp, c0g, cminusg, cabel, cmulr, crg, cur, cdivring, cinvr, ctop, ctpsOLD, cts, ctps, ctb, ctg, ctx, ccld, cnt, ccl, cnei, clp, ccn, ccnp, cha, cme, cmt, cbl, copn, clm, cca, cms, cgr, cgi, cgn, cgs, cgx, cabl, csubg, cga, cring, cdrng, csfld, cvc, cnv, cpv, cba, cns, cn0v, cnsb, cnm, cims, cip, css, clno, cnmo, cblo, c0o, caj, chmo, cphl, cbn, chl, cps, cspw, cinf, cla, clog, cghom, cgiso, csymgrp, ccha, cfi, chomeosm, chomeo, csubsp, cfbas, cfg, cfil, cflim1, cfilmap, cflimf, ccomp, ct1, ccon, cplig, cdir, ctail, cass, cexid, cmagm, csem, cmnd, ccm2, cfld, chil, cva, csm, c0v, cmv, csp, cno, ccau, chli, csh, cch, cort, cph, cspn, chj, chsup, c0h, ccm, cpj, chos, chot, chod, chfs, chft, ch0o, chio, cnop, cco, clo, cbo, cuo, cho, cnmf, cnl, ccnf, clf, cado, cbr, ck, cleo, cei, cel, cspc, cst, chst, cat, ccv, cmd, cdmd, cfm, csat, csate, cgoeq, cgoel, cgoan, cprv, cgoim, cgoor, cgobi, cgzext, cgzrep, cgzpow, cgzun, cgzreg, cgzinf, cgzf, csur, cslt, cbday, csset, ctrans, cbigcup, climits, cfuns, csingles, ctcl, crtcl, cpro, cproj, ccst, clatalg, ccur1, ccur2, cpreset, cmxl, cmnl, cub, clb, cge, cse, cantidir, cincfun, cdecfun, coriso, clbl, ccm1, clsg, csubsmg, csbsgrg, csmhom, cfsm, ctofld, czerodiv, cvec, csvec, cvr, cmmat, csmat, cxmat, craffsp, ctopx, ctopgrp, copfn, ctopring, ctopfld, ctopvec, claddex, cfrf, cslope, cder, cmgra, calg, cdom_, ccod_, cid_, co_, cded, ccat, chom, cepi, cmon, ciso, ccinv, cfunc, cifunc, csubc, ciobj, ctobj, csrce, csnk, cntrl, clmct, cprodo, csumo, ctarskim, ctar, ctr, cgruniOLD, cline, cplibg, cplibg0, cplibg1, cplibg2, cplibg3, cplibg4a, cplibg4b, cseg, ckln, cwrd, cgrm, csym, cprdct, cconc, cderv, c1stc, c2ndc, cfne, cref, cptfin, clocfin, ct0ALT, creg, cnrm, cufil, cfclus, cfclusf, cii, ctlm, ctotbnd, cbnd, cismty, crrn, cphtpy, cphtpc, cpi1b, cpco, cpi1, crnghom, crngiso, crisc, ccring, cidl, cpridl, cmaxidl, cprrng, cdmn, cigen, chgra, cpgra, csgra, cplusr, cminusr, ctimesr, crr3c, cplane3, cline3, coc, cops, ccmt, col, coml, ccvr, catm, cal, clc, chlt, cstv, csr, csd, cvbase, cvadd, cvsca, clvec, czv, cipr, cprehil, cplusss, cocv, ccsubsp, chs, clln, clpl, cvol, clines, cpoints, cpsubsp, cpmap, cpadd, cpol, cpsc, clh, claut, cwpoints, cpaut, cldil, cltrn, cdil, ctrn, ctrl, ctgrp, ctendo, cedring
+
+Type 2 (49 "Prefix Axioms"):
+Type 2a (14 wff prefix axioms):
+wn, wmo, wtr, word, wlim, wrel, wfun, wsmo, wer, wbnj19, wbox, wdia, wcirc, wprt
+Type 2b (35 class prefix axioms):
+csb, cif, cpw, cuni, cint, ciun, ciin, csuc, ccnv, cdm, crn, cio, crdg, cixp, crio, csup, cneg, csu, cbnj16, cbnj14, cbnj18, cgonot, cgoal, cgoex, cpred, ctrpred, cfix, caltop, cgcdOLD, cprd, cprd2, clminex, clsupp, clinfp, cptdfc
+
+Type 3 (39 "Parenthesized axioms"):
+Type 3a (11 axioms; wff axioms starting with a parenthesis):
+wi, wb, wo, wa, w3o, w3a, wnand, wbnj17, w3nand, wxo, wunt
+Type 3b (15 axioms; class axioms starting with a parenthesis):
+cdif, cun, cin, cxp, cres, cima, ccom, cfv, co, cmpt, cmpt2, cqs, csymdif, ctxp, caltxp
+Type 3c (3 axioms; wff axioms starting with a non-parenthesis bracket):
+wvd1, wvd2, wvd3
+Type 3d (10 axioms; class axioms starting with a non-parenthesis bracket):
+cab, crab, csn, cpr, cop, ctp, copab, cxp, copab2, cec
+
+Type 4 (17 "Remarkable wff axioms"):
+wceq, wne, wnel, wss, wpss, wpo, wor, wfr, wwe, wfn, wf, wf1, wfo, wf1o, wiso, wbnj13, wbnj15
+
+Type 5 (6 "Quantifier axioms"; all are wffs):
+wal, wex, weu, wral, wrex, wreu
+
+Type 6 (3 "Exceptions"):
+Type 6a (wffs): wcel, wbr
+Type 6b (classes): cv
+

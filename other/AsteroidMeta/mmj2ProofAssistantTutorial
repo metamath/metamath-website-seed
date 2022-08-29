@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2ProofAssistantTutorial</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2ProofAssistantTutorial" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2ProofAssistantTutorial" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2ProofAssistantTutorial">mmj2ProofAssistantTutorial</a></h1></div><div class="content browse"><p><a class="local" href="HomePage">HomePage</a> &#x2192; <a class="local" href="metamath">metamath</a> &#x2192; <a class="local" href="mmj2">mmj2</a> &#x2192; <a class="local" href="mmj2ProofAssistantFeedback">mmj2ProofAssistantFeedback</a> &#x2192; <a class="local" href="mmj2ProofAssistantTutorial">mmj2ProofAssistantTutorial</a></p><hr /><p>Here is how I use Proof Assistant&#x2026;</p><hr /><p>First, I open a Windows "Command Prompt" window (to create a desktop shortcut to "Command Prompt" use Start/Programs/Accessories then right-mouse click Command Prompt and select Create Short-Cut.)</p><hr /><p>Next, I enter these commands</p><pre>    cd c:\aMyName\myproofs
+    runpagui
+            </pre><p>Those commands trigger the Proof Assistant GUI (unless the input .mm file has load, validation or grammar errors).</p><p>The first command does "change directory" in Windows, making the directory "c:\aMyName\myproofs" the home directory for subsequent commands.</p><p>The second command runs a Windows "batch" command file named</p><pre>    "c:\aMyName\myproofs\RunPAGUI.bat".
+    </pre><p>Notice that the "runpagui" command doesn't care about capitalization or the ".bat" file extension, and since it is stored inside of "c:\aMyName\myproofs" I do not need to specify the directory.</p><p>[It is theoretically possible to just double-click on the "c:\aMyName\myproofs\RunPAGUI<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunPAGUI">?</a>.bat" file name inside a Windows Explorer window, but the problem with that is that when the program finishes the window closes automatically, and if there were any error messages, they disappear!]</p><p>Here are the contents of "c:\aMyName\myproofs\RunPAGUI<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunPAGUI">?</a>.bat" which could be obtained by copying from C:\mmj2\test\windows\RunPAGUI<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunPAGUI">?</a>.bat and changing the input RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> file name at the end:</p><pre>    CALL c:\mmj2\test\windows\RunBatchFramework.bat "c:\mmj2" BatchMMJ2 "c:\aMyName\myproofs\RunParmFileRunPAGUI.txt"
+        </pre><p>Here are the contents of "c:\aMyName\myproofs\RunParmFileRunPAGUI<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParmFileRunPAGUI">?</a>.txt"</p><pre>    *==================================================
+    * CommentLine: Example Running ProofAsstGUI
+    *==================================================
+    MaxStatementPrintCount,9999
+    MaxErrorMessages,15000
+    MaxInfoMessages,1000
+    LoadEndpointStmtNbr,999999999
+    LoadEndpointStmtLabel,pm2.521
+    LoadFile,c:\metamath\expset.mm
+    VerifyProof,*
+    Parse,* 
+    RecheckProofAsstUsingProofVerifier,yes
+    ProofAsstFontSize,14 
+    ProofAsstFormulaLeftCol,20
+    ProofAsstFormulaRightCol,79 
+    ProofAsstRPNProofLeftCol,5
+    ProofAsstRPNProofRightCol,79
+    ProofAsstUnifySearchExclude,biigb,xxxid
+    ProofAsstProofFolder,c:\aMyName\myproofs
+    RunProofAsstGUI
+    </pre><p>OK! Notice the LoadFile<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=LoadFile">?</a> command is set to read</p><pre>    c:\metamath\expset.mm
+            </pre><p>which contains the contents of set.mm with all of the proofs in "un-compressed" format.</p><p>Also notice that the ProofAsstProofFolder<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=ProofAsstProofFolder">?</a> is set to:</p><pre>    c:\aMyName\myproofs
+        </pre><p>That is the directory holding my ".txt" (text file) "Proof Worksheets".</p><p>A "Proof Worksheet" is what I call the contents of the Proof Assistant screen. This screen is just a big text area, and is free-form, subject to the validation rules of Proof Assistant. At any time you can use </p><pre>    File/Save
+        </pre><p>or </p><pre>    File/SaveAs
+        </pre><p>to save the contexts of the Proof Assistant GUI screen &#x2013; your Proof Worksheet, in other words.</p><p>[Now, since I am busy re-proving the first 100 theorems  of set.mm as a training exercise, I don't need to update  set.mm but I am keeping a copy of my Proof Worksheets.]</p><hr /><p>OK, the runpagui command displayed the following scren (I show just the Proof Text area here, not the menu options):</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl      LOC_AFTER=
+       
+    h1::           |- ( ph -&gt; ps ) 
+    h2::           |- ( ps -&gt; ch ) 
+    3:2:           |- ( ph -&gt; ( ps -&gt; ch ) ) 
+    4:3:           |- ( ( ph -&gt; ps ) -&gt; ( ph -&gt; ch ) ) 
+    qed:1,4:       |- ( ph -&gt; ch ) 
+        
+    $)
+        </pre><hr /><p>That is the initial screen displayed by Proof Assistant GUI. It shows a proof of theorem "syl" from set.mm just prior to the user selecting Unify/StartUnification<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StartUnification">?</a> (or Ctrl-U).</p><p>Since I am resuming work, I use the File/Open command to load saved Proof Worksheet "stoppedhere.txt". This is what appears after File/Open: </p><hr /><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=mpcom  LOC_AFTER=?
+        
+    h1::mpcom.1        |- ( ps -&gt; ph ) 
+    h2::mpcom.2        |- ( ph -&gt; ( ps -&gt; ch ) ) 
+    3:2:com12          |- ( ps -&gt; ( ph -&gt; ch ) ) 
+    qed:1,3:mpd        |- ( ps -&gt; ch ) 
+        
+    $=  wps wph wch mpcom.1 wph wps wch mpcom.2 com12 mpd $. 
+    $)
+                </pre><hr /><p>Apparently I finished "mpcom" yesterday. I can tell that by the "$=" Generated Proof Step line which shows the Metamath RPN format of the proof.</p><p>So, I open up my Mozilla browser and display </p><pre>    file:///C:/metamath/althtml/mmtheorems.html
+            </pre><p>That is a local copy of the webpage from metamath.org which I have stored on my hard drive for convenience. It shows the first 100 theorems in set.mm.</p><p>The next theorem after mpcom is syldd, "Nested syllogism deduction". So I use File/New to start the syldd proof. Here is the the Proof Worksheet that is displayed: </p><hr /><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syldd  LOC_AFTER=?
+        
+    h1::syldd.1        |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) 
+    h2::syldd.2        |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) ) 
+    3::                |- ?
+    qed::              |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) 
+        
+    $)
+                </pre><hr /><p>OK, notice that steps 1 and 2 are the logical hypotheses for syldd (as designated by the "h" at the start of the line.)</p><p>And notice that step 3 is a skeleton step, which contains just a step number and an initialized formula area set to "?".</p><p>The "qed" step is the syldd formula. "qed" is always the step number of the last step of a proof (using a special code like "qed" helps the program know what is intended in the proof.)</p><p>[OK, now I am looking at the GUI screen and drawing a blank. I cannot remember what I was doing yesterday, so I look at the the mmtheorems.html page for a little while.</p><p>still thinking</p><p>still thinking</p><p>aha!</p><p>]</p><p>OK, I remember an identity, which I type into step 3, and then, I see a modus ponens result so I create step 4 using cut and paste, linking steps 1 and 3, and indicate that the qed step has hyps 2 and 4. Here is what the page looks like after typing: </p><hr /><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syldd  LOC_AFTER=?
+        
+    h1::syldd.1        |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) 
+    h2::syldd.2        |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) ) 
+        
+    3::                |- ( ( ch -&gt; th ) -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) )
+        
+    4:1,3              |- ( ph -&gt; ( ps -&gt; 
+                          ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) )
+        
+    qed:2,4            |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) 
+        
+    $)
+        </pre><hr /><p>OK, now I press Ctrl-U (shortcut for Menu Option Unify/StartUnification<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=StartUnification">?</a>). Here is the updated Proof Text area:</p><p>OOOPS! The UnificationErrors<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=UnificationErrors">?</a> GUI page appears, with this message: </p><hr /><pre>    E-PA-0346 Theorem syldd Step 3: Formula contains one of
+    more grammatical parse errors (somewhere in there). The
+    error is probably a typo, like a missing space or 
+    unbalanced parentheses. Note that Metamath is 
+    case-sensitive, and in Proof Assistant, '$.' is not used
+    to terminate statements.  Proof Text input reader last 
+    position at  Line: 8 Column: 5
+                </pre><hr /><p>OK, so I add an extra ")" on step 3, like this:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syldd  LOC_AFTER=?
+        
+    h1::syldd.1        |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) 
+    h2::syldd.2        |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) ) 
+        
+    3::                |- ( ( ch -&gt; th ) -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) )
+        
+    4:1,3              |- ( ph -&gt; ( ps -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) )
+        
+    qed:2,4            |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) 
+        
+    $)
+        </pre><hr /><p>and do Ctrl-U again!!!</p><p>DANGIT. Another UnificationErrors<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=UnificationErrors">?</a> GUI page!</p><pre>    E-PA-0346 Theorem syldd Step 4: Formula contains one of
+    more grammatical parse errors (somewhere in there). The
+    error is probably a typo, like a missing space or
+    unbalanced parentheses. Note that Metamath is case-
+    sensitive, and in Proof Assistant, '$.' is not used to
+    terminate statements.  Proof Text input reader last
+    position at Line: 12 Column: 7
+                </pre><hr /><p>OK, so I add an extra ")" on step 4, like this:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syldd  LOC_AFTER=?
+        
+    h1::syldd.1        |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) 
+    h2::syldd.2        |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) ) 
+        
+    3::                |- ( ( ch -&gt; th ) -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) )
+        
+    4:1,3              |- ( ph -&gt; ( ps -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) ) )
+        
+    qed:2,4            |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) 
+       
+    $)
+                </pre><hr /><p>and do Ctrl-U again!!!</p><p>BINGO!</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syldd  LOC_AFTER=?
+        
+    h1::syldd.1        |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) ) 
+    h2::syldd.2        |- ( ph -&gt; ( ps -&gt; ( th -&gt; ta ) ) ) 
+        
+    3::imim1           |- ( ( ch -&gt; th ) -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) )
+        
+    4:1,3:syl6         |- ( ph -&gt; ( ps -&gt; 
+                            ( ( th -&gt; ta ) -&gt; ( ch -&gt; ta ) ) ) )
+        
+    qed:2,4:mpdd       |- ( ph -&gt; ( ps -&gt; ( ch -&gt; ta ) ) ) 
+        
+    $=  wph wps wth wta wi wch wta wi syldd.2 wph wps wch wth wi wth wta wi wch 
+        wta wi wi syldd.1 wch wth wta imim1 syl6 mpdd $. 
+    $)
+                </pre><hr /><p>Now, I do File/Save to save syldd.txt in my proofs folder.</p><p>And that's that!</p><p>But&#x2026;before exiting I also do a File/SaveAs<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=SaveAs">?</a> to store the contents of the GUI, my Proof Worksheet in file "stoppedhere.txt" so I can remember where I left off when I come back later!</p><hr /><p>P.S. Here is a new, shorter proof for sylcom. I think the new GUI has proven its worth!!!</p><pre>     $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=sylcom  LOC_AFTER=?
+          
+     h1::sylcom.1       |- ( ph -&gt; ( ps -&gt; ch ) ) 
+     h2::sylcom.2       |- ( ps -&gt; ( ch -&gt; th ) ) 
+          
+     3:2:a1i            |- ( ph -&gt; ( ps -&gt; ( ch -&gt; th ) ) )
+          
+     qed:1,3:mpdd       |- ( ph -&gt; ( ps -&gt; th ) ) 
+          
+     *my
+     $=  wph wps wch wth sylcom.1 wps wch wth wi wi wph sylcom.2 a1i
+         mpdd $. 
+     
+     *expset.mm
+     $=  wps wph wth wps wph wch wth wph wps wch sylcom.1 com12 sylcom.2
+         syld com12 $.
+     
+     $)     
+     </pre></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2ProofAssistantTutorial">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2ProofAssistantTutorial">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2ProofAssistantTutorial">Administration</a></span><span class="time"><br /> Last edited 2006-02-02 21:33 UTC by <a class="author" title="from 209-6-249-153.c3-0.lex-ubr2.sbo-lex.ma.cable.rcn.com" href="norm">norm</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2ProofAssistantTutorial">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>

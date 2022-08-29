@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+.r { font-family: "Arial Narrow";
+     font-size: x-small;
+   }
+-->
+</STYLE>
+
+<TITLE>TOC of Theorem List - Wolfram Axiom for BA</TITLE>
+<LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+-->
+</STYLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<TABLE BORDER=0 WIDTH="100%"><TR>
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%"
+ROWSPAN=2><A HREF="mmwba.html"><FONT SIZE=-2 FACE=sans-serif><IMG SRC="mm.gif"
+BORDER=0 ALT="Home Page" HEIGHT=32 WIDTH=32 ALIGN=MIDDLE>Home</FONT></A></TD>
+<TD NOWRAP ALIGN=CENTER ROWSPAN=2><FONT SIZE="+3" COLOR="#006633"><B>Wolfram
+Axiom for BA</B></FONT><BR><FONT SIZE="+2" COLOR="#006633"><B>Theorem List
+(Table of Contents)</B></FONT>
+</TD><TD NOWRAP ALIGN=RIGHT VALIGN=TOP WIDTH="25%"><FONT
+ SIZE=-1 FACE=sans-serif>
+<A HREF="mmtheorems2.html">&lt; Wrap</A>&nbsp;&nbsp;<A
+ HREF="mmtheorems1.html">Next &gt;</A>
+</FONT></TD></TR><TR><TD ALIGN=RIGHT><FONT FACE=sans-serif
+SIZE=-2>Bad symbols? Try the
+<BR><A HREF="../wbagif/mmtheorems.html">GIF
+version</A>.</FONT></TD>
+<TR>
+<TD COLSPAN=3 ALIGN=LEFT VALIGN=TOP><FONT SIZE=-2 FACE=sans-serif>
+<BR>
+<A HREF="../mm.html">Mirrors</A>
+&nbsp;&gt;&nbsp;<A HREF="../index.html">
+Metamath Home Page</A>
+&nbsp;&gt;&nbsp;<A HREF="mmwba.html">
+WABA Home Page</A>
+&nbsp;&gt;&nbsp;
+Theorem List Contents
+&nbsp; &nbsp; &nbsp; <B><FONT COLOR="#006633">
+This page:</FONT></B>
+&nbsp;<A HREF="#mmdtoc">Table of Contents</A>&nbsp;
+<A HREF="#mmpglst">Page List</A>
+</FONT>
+</TD>
+</TR></TABLE>
+<HR NOSHADE SIZE=1>
+<P><CENTER><A NAME="mmdtoc"></A><B>Table of Contents</B><BR>
+<B>(* means the section header has a description)</B></CENTER>
+<A NAME="dtl:1"></A>&#8203;<A HREF="mmtheorems1.html#mm1h"><B>PART
+ 1&nbsp;&nbsp;SYNTAX AND AXIOMS</B></A><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:1.1"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm1b"><B>1.1&nbsp;&nbsp;Equality axioms</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems1.html#mm1s">1.1.1&nbsp;&nbsp;Basic syntax</A> &nbsp; <A
+ HREF="tshef.html">tshef</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#FB0000">1</SPAN><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems1.html#mm3s">1.1.2&nbsp;&nbsp;Axioms for basic equality</A>
+ &nbsp; <A HREF="ax-eqcom.html">ax-eqcom</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#F90300">3</SPAN><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems1.html#mm5s">1.1.3&nbsp;&nbsp;Equality axioms for Sheffer
+ stroke</A> &nbsp; <A HREF="ax-shefeq1.html">ax-shefeq1</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#F80600">5</SPAN><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:1.2"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm7b"><B>1.2&nbsp;&nbsp;Wolfram axiom for Boolean
+ algebra</B></A><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:1.3"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm8b"><B>1.3&nbsp;&nbsp;Helper theorems associated with
+ equality</B></A><BR>
+<A NAME="dtl:2"></A>&#8203;<A HREF="mmtheorems1.html#mm50h"><B>PART
+ 2&nbsp;&nbsp;NEW DERIVATION OF THE SHEFFER BA AXIOMS FROM THE WOLFRAM
+ AXIOM</B></A><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:2.1"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm50b"><B>2.1&nbsp;&nbsp;Lemmas L1 through L12 towards
+ proving first Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems1.html#mm62s">2.1.1&nbsp;&nbsp;First Sheffer axiom for BA</A>
+ &nbsp; <A HREF="T1.html">T1</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#5E8B00">62</SPAN><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:2.2"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm63b"><B>2.2&nbsp;&nbsp;Lemmas L13 through L46 towards
+ proving second Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems1.html#mm97s">2.2.1&nbsp;&nbsp;Second Sheffer axiom for BA</A>
+ &nbsp; <A HREF="T2.html">T2</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#009150">97</SPAN><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:2.3"></A>&#8203;<A
+ HREF="mmtheorems1.html#mm98b"><B>2.3&nbsp;&nbsp;Lemmas L47 through L64 towards
+ proving third Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems2.html#mm116s">2.3.1&nbsp;&nbsp;Third Sheffer axiom</A> &nbsp;
+ <A HREF="T3.html">T3</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#008AB2">116</SPAN><BR>
+<A NAME="dtl:3"></A>&#8203;<A HREF="mmtheorems2.html#mm117h"><B>PART
+ 3&nbsp;&nbsp;ORIGINAL NKS DERIVATION OF SHEFFER BA AXIOMS FROM WOLFRAM
+ AXIOM</B></A><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:3.1"></A>&#8203;<A
+ HREF="mmtheorems2.html#mm117b"><B>3.1&nbsp;&nbsp;Lemmas nksL1 through nksL22
+ towards proving first Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems2.html#mm139s">3.1.1&nbsp;&nbsp;First Sheffer axiom</A> &nbsp;
+ <A HREF="nksT1.html">nksT1</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#5B71FF">139</SPAN><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:3.2"></A>&#8203;<A
+ HREF="mmtheorems2.html#mm140b"><B>3.2&nbsp;&nbsp;Lemmas nksL23 through nksL56
+ towards proving second Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems2.html#mm174s">3.2.1&nbsp;&nbsp;Second Sheffer axiom</A>
+ &nbsp; <A HREF="nksT2.html">nksT2</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#D019F2">174</SPAN><BR>
+&nbsp; &nbsp; &nbsp; <A NAME="dtl:3.3"></A>&#8203;<A
+ HREF="mmtheorems2.html#mm175b"><B>3.3&nbsp;&nbsp;Lemmas nksL57 through nksL81
+ towards proving third Sheffer axiom</B></A><BR>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <A
+ HREF="mmtheorems2.html#mm198s">3.3.1&nbsp;&nbsp;Third Sheffer axiom</A> &nbsp;
+ <A HREF="nksT3.html">nksT3</A>&nbsp;<SPAN CLASS=r
+ STYLE="color:#EE0089">198</SPAN><BR>
+<HR NOSHADE SIZE=1>
+<TABLE BORDER=0 WIDTH="100%">
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH="25%">
+      &nbsp;
+    </TD>
+    <TD NOWRAP ALIGN=CENTER>&nbsp;</TD>
+    <TD NOWRAP ALIGN=RIGHT VALIGN=TOP WIDTH="25%"><FONT
+      SIZE=-1 FACE=sans-serif>
+      <A HREF="mmtheorems2.html">&lt; Wrap</A>&nbsp;&nbsp;<A
+ HREF="mmtheorems1.html">Next &gt;</A>
+      </FONT></TD>
+  </TR>
+</TABLE>
+<HR NOSHADE SIZE=1>
+<A NAME="mmpglst"></A>
+<CENTER>
+<B>Page List</B>
+</CENTER>
+Jump to page:
+Contents&nbsp;
+<A HREF="mmtheorems1.html">1</A>&nbsp;<SPAN CLASS=r STYLE="color:#FB0000">1</SPAN>-<SPAN CLASS=r STYLE="color:#00915E">100</SPAN>
+<A HREF="mmtheorems2.html">2</A>&nbsp;<SPAN CLASS=r STYLE="color:#009062">101</SPAN>-<SPAN CLASS=r STYLE="color:#EE0089">198</SPAN>
+<HR NOSHADE SIZE=1>
+<TABLE BORDER=0 WIDTH="100%">
+  <TR>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH="25%">
+      &nbsp;
+    </TD>
+    <TD NOWRAP ALIGN=CENTER><FONT SIZE=-2
+      FACE=ARIAL>
+Copyright terms:
+<A HREF="../copyright.html#pd">Public domain</A>
+      </FONT></TD>
+    <TD NOWRAP ALIGN=RIGHT VALIGN=TOP WIDTH="25%"><FONT
+      SIZE=-1 FACE=sans-serif>
+      <A HREF="mmtheorems2.html">&lt; Wrap</A>&nbsp;&nbsp;<A
+ HREF="mmtheorems1.html">Next &gt;</A>
+      </FONT></TD>
+  </TR>
+</TABLE>
+</BODY></HTML>

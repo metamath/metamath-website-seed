@@ -1,0 +1,13 @@
+To navigate this directory, open the file index.html in your browser.
+
+=======================================================================
+
+Copyright
+---------
+
+See the file copyright.html in this directory for copyright and
+licensing information that applies to the content of this package.  The
+file is also at http://us.metamath.org/copyright.html on the web.
+
+
+Norm Megill nm (at) alum.mit.edu    30-May-05

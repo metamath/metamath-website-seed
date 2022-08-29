@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="EN-US">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<STYLE TYPE="text/css">
+<!--
+img { margin-bottom: -4px }
+.r { font-family: "Arial Narrow";
+     font-size: x-small;
+   }
+.i { font-family: "Arial Narrow";
+     font-size: x-small;
+     color: gray;
+   }
+-->
+</STYLE>
+<STYLE TYPE="text/css">
+<!--
+  .set { color: red; }
+  .wff { color: blue; }
+  .class { color: #C3C; }
+  .symvar { border-bottom:1px dotted;color:#C3C}
+  .typecode { color: gray }
+  .hidden { color: gray }
+  @font-face {
+    font-family: XITSMath-Regular;
+    src: url(xits-math.woff);
+  }
+  .math { font-family: XITSMath-Regular }
+-->
+</STYLE>
+<CENTER><B><FONT SIZE="+1">Theorem <FONT
+COLOR="#006633">sspwimpALT2VD</FONT></FONT></B>&nbsp;</CENTER>
+<CENTER><TABLE><TR><TD ALIGN=LEFT><B>Description: </B>If a class is a subclass of another class, then its power class is a
+      subclass of that other class's power class.  Left-to-right implication
+      of Exercise 18 of [<A HREF="mmset.html#TakeutiZaring">TakeutiZaring</A>] p. 18.  Proof derived by
+      completeusersproof.c from User's Proof in VirtualDeductionProofs.txt.
+      The User's Proof in html format is displayed in
+      <A HREF="http://www.virtualdeduction.com/sspwimpaltvd.html">http://www.virtualdeduction.com/sspwimpaltvd.html</A>.  (Contributed by
+      Alan Sare, 11-Sep-2016.)
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Assertion">
+<CAPTION><B>Assertion</B></CAPTION>
+<TR><TH>Ref
+</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT><TD><FONT COLOR="#006633"><B>sspwimpALT2VD</B></FONT></TD><TD>
+<SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN>(<SPAN
+CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN> &rarr; &#119979; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; &#119979; <SPAN CLASS=class
+STYLE="color:#C3C">&#x1D435;</SPAN>)</SPAN></TD></TR>
+</TABLE></CENTER>
+
+
+<HR NOSHADE SIZE=1>
+<CENTER><TABLE BORDER CELLSPACING=0 BGCOLOR="#EEFFFA"
+SUMMARY="Proof of theorem">
+<CAPTION><B>Proof of Theorem <FONT
+   COLOR="#006633">sspwimpALT2VD</FONT></B></CAPTION>
+<TR><TH>Step</TH><TH>Hyp</TH><TH>Expression</TH></TR>
+<TR ALIGN=LEFT> <TD> 1<TD>    <TD><A NAME="1"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 2<TD>    <TD><A NAME="2"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 3<TD><A HREF="#2">2</A>   <TD><A NAME="3"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 4<TD><A HREF="#3">3</A>,<A HREF="#1">1</A> <TD><A NAME="4"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 5<TD>    <TD><A NAME="5"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; V</SPAN>
+<TR ALIGN=LEFT> <TD> 6<TD><A HREF="#4">4</A>,<A HREF="#5">5</A> <TD><A NAME="6"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT SIZE=4>&#160;&#160;&#160;&#44;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN><SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 7<TD><A HREF="#6">6</A>   <TD><A NAME="7"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &rarr; <SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 8<TD><A HREF="#7">7</A>   <TD><A NAME="8"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&forall;<SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN>(<SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &rarr; <SPAN CLASS=set STYLE="color:red">&#x1D465;</SPAN> &isin; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)<SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> 9<TD><A HREF="#8">8</A>   <TD><A NAME="9"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN><SPAN STYLE="color:#00CD00">&#40;&#160;&#160;&#160;</SPAN><SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00"><FONT FACE=veranda>&#160;&#160;&#160;&#9654;&#160;&#160;&#160;</FONT></SPAN>&#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN><SPAN STYLE="color:#00CD00">&#160;&#160;&#160;&#41;</SPAN></SPAN>
+<TR ALIGN=LEFT> <TD> qed<TD><A HREF="#9">9</A> <TD><A NAME="qed"></A> <SPAN CLASS=math><SPAN CLASS=hidden STYLE="color:gray">&#8866; </SPAN>(<SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN> &rarr; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D434;</SPAN> &#8838; &#119979; <SPAN CLASS=class STYLE="color:#C3C">&#x1D435;</SPAN>)</SPAN>
+</TABLE> </TD></TR></TABLE></CENTER>
+
+<CENTER><FONT SIZE=-2 FACE=sans-serif>
+Copyright terms:
+<A HREF="http://us2.metamath.org:88/copyright.html#pd">Public domain</A>
+</FONT></CENTER>
+</BODY></HTML>

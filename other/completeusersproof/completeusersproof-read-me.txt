@@ -1,0 +1,1831 @@
+
+This package contains the program completeusersproof.c, and a second version of
+that program, completeusersproofp.c, and associated files.
+
+
+*******************************************************************************
+*******************************************************************************
+DESCRIPTION OF completeusersproof, FILES USED BY completeusersproof,
+AND ITS OUTPUT FILE
+
+Program name:  completeusersproof.c
+
+Copyright (C) 2017 NORMAN MEGILL nm at alum.mit.edu http://metamath.org
+(for the metamath.c base code)and ALAN SARE  alansare at alumni.cmu.edu
+(for the completeusersproof() function and functions it
+(directly) calls).
+
+License terms: GNU General Public License
+
+completeusersproof is a proof assistant designed to automatically
+complete Virtual Deduction Users' Proofs. A Virtual Deduction proof is
+a Metamath-specific Natural Deduction proof. A Virtual Deduction User's
+Proof uses Virtual Deduction Notation. Generally, a Virtual Deduction
+proof lacks some of the detail needed for it to be (after translation
+into conventional notation) a complete Metamath proof for which a
+Metamath RPN proof may be generated. completeusersproof automatically
+generates these missing details. For example,
+www.virtualdeduction.com/chordthmaltvd.html is a Virtual
+Deduction User's Proof. From it, completeusersproof has automatically
+generated chordthmALT , a completed Metamath Proof.
+
+completeusersproof may be run without GUIs or through a GUI run in parallel
+with two loaded instances of mmj2, each with a GUI. One of these two
+instances of mmj2 may be called as a service by completeusersproof when
+the mmj2Unify() function of completeusersproof is called.
+
+Running through the completeusersproof GUI may not be possible using a
+non-Windows operating system incompatible with AutoHotkey scripts.
+
+If completeusersproof is run by pressing the GUI button
+"Completeusersproof", it completes each subproof completable by the mmj2
+unification means by that means. It attempts to complete each remaining
+subproof by the unification theorem means, completing those which are
+completable. If the User presses the GUI button "Completeusersproof smv",
+it completes each subproof completable by the mmj2 unification means by
+that means. It completes each remaining subproof completable by the
+single metavariable deduction unification means by that means. It atempts
+to complete each remaining subproof by the unification theorem means,
+completing those which are completable. If the User presses the GUI
+button "Completeusersproof mv", it completes each subproof completable by
+the mmj2 unification means by that means. It completes each remaining
+subproof completable by the metavariable deduction unification means by
+that means. It attempts to complete each remaining subproof by the
+unification theorem means, completing those which are completable. For
+the definitions of the mmj2 unification means, the unification theorem
+means, the single metavariable deduction unification means, and the
+metavariable deduction unification means, see the
+"DETAILED DESCRIPTION OF THE completeusersproof.c PROGRAM" below.
+
+completeusersproof makes the stepprover() function available to the User
+as a stand-alone function. The User may open a User's Proof in the mmj2
+GUI and apply the "Stepprover" command by pressing the "Stepprover"
+button. completeusersproof will then attempt to 2-step prove any
+0-hypothesis proof steps which do not unify with a theorem in set.mm. If
+there exists in set.mm some theorem which is a semantic variation of such
+a step and if there exists in set.mm some 1-hypothesis deduction which
+deduces the proof step from that semantic variation, then
+completeusersproof will 2-step prove that proof step. This stand-alone
+stepprover capability of completeusersproof is intended to be used for
+non-Virtual Deduction User's Proofs. For Virtual Deduction proofs, the
+stepprover() function is utilized along with other functions upon
+application of either the "Completeusersproof" command, the
+"Completeusersproof smv" command, or the "Completeusersproof mv" command.
+If the "Completeusersproof" command, the "Completeusersproof smv"
+command, or the "Completeusersproof mv" command is applied to a User's
+Proof not written as a Virtual Deduction Proof, then useless steps may be
+generated. Applying the "Stepprover" command to a non-Virtual Deduction
+proof may generate useful 2-step subproofs without also generating
+useless steps which would have been useful only if the User's Proof was
+written as a Virtual Deduction Proof.
+
+When completeusersproof is run the Proof Worksheet input by the User
+and the text files derived from that Proof Worksheet are edited by
+completeusersproof. Some of these text files are also edited by one or
+two instances of mmj2. One instance of mmj2 is loaded with both the
+set.mm and fd.txt files. The other instance is loaded with only the
+set.mm file. completeusersproof is a procedural program which
+sequentially edits text files. At certain points during the execution of
+completeusersproof the function mmj2Unify() is called. If run through the
+GUI, mmj2Unify() "presses" buttons in the GUI of one of the running
+instances of mmj2. These button presses unify the text file passed to
+mmj2Unify(). Which instance of mmj2 is invoked depends on the value of
+the mmj2BatFile argument passed to mmj2Unify(). The button presses are
+executed by AutoHotkey scripts (see: https://autohotkey.com )invoked by
+mmj2Unify(). These scripts were compiled using the AutoHotkey program.
+It is not necessary to install the AutoHotkey program in order to use the
+compiled scripts included in the completeusersproof download.
+
+After downloading all needed files, to run completeusersproof through a
+GUI, double-click on the c:\mmj2\mmj2jar\completeusersproofGUI.exe file
+or run it from the Command Prompt. Three GUIs will open, one for
+completeusersproof and one for each of two instances of mmj2. Open the
+User's Proof to be processed by completeusersproof in the GUI of the
+instance of mmj2 not loaded with fd.txt and press either the
+"Completeusersproof" button, the "Completeusersproof smv" button, the
+"Completeusersproof mv" button, or the "Stepprover" button. As long as
+the three GUI's are open they remain available for processing User's
+Proofs on demand. Close the completeusersproof GUI by pressing the
+"Exit/Quit" button. Close each mmj2 GUI by pressing its "Exit/Quit"
+button.
+
+Sometimes a script will press buttons or send keystrokes before a mmj2
+process has completed. This may cause mmj2 to freeze and/or may corrupt a
+text file, usually the duplicateUnificationsThm.txt file. Or,
+c:\mmj2\mmj2jar\zz~tools<i>.tmp files may be generated by
+completeusersproof. When any of these errors occur the input User's
+Proof will not be correctly processed. Corrupted text files should be
+restored by over-writing them with a fresh copy.  completeusersproof
+will not run correctly again unless this is done. If any
+c:\mmj2\mmj2jar\zz~tools<i>.tmp files are generated by a faulty run of
+completeusersproof, completeusersproof will not run correctly again
+until these files are deleted. If a faulty run of completeusersproof
+occurs, depending on the cause, in addition to the above corrective
+measures, completeusersproof may not run correctly again until the three
+programs are re-booted. Most often, no corrective measures need to be
+taken after a failed attempt to process a User's Proof except to try
+again using a fresh copy of the original User's Proof. If the User uses
+the mouse or keyboard while completeusersproof is processing, these
+actions may sometimes interfere with the processing and cause errors.
+
+If completeusersproof is run on a computer which runs relatively slowly
+or if it is run on long proofs, then it is possible the AutoHotkey
+scripts included in the download may have Sleep statements of
+insufficient duration to permit some mmj2 processes to complete. The User
+may try to correct this by renaming unifyLD.exe, unifylongLD.exe, and
+unifyFFLD.exe, respectively, unify.exe, unifylong.exe, and unifyFF.exe.
+If this is done, it is recommended that copies of the original unify.exe,
+unifylong.exe, and unifyFF.exe files are saved before overwriting them.
+Each Sleep statement of the "LD" verison of a script has a duration of
+twice the duration of the non-LD version. "LD" is an abbreviation
+for "Long Duration". If even the LD versions of the scripts
+execute too quickly, the User has the option of increasing the Sleep
+statement durations further. This would require downloading the
+AutoHotkey program from the AutoHotkey website in order to compile the
+revised .ahk files.  Of course, the longer the Sleep durations the longer
+the runtime of completeusersproof. The Sleep statement durations of
+unify.exe, unifylong.exe, and unifyFF.exe are usually sufficient for the
+successful application of "Completeusersproof mv" to a9e2ndeqALTUP of
+VirtualDeductionProofs.txt, which is the longest proof contained in that
+file. Of all of completeusersproof's commands, "Completeusersproof mv"
+requires the longest Sleep durations.
+
+The primary advantage of using AutoHotkey scripts for mmj2 unifying
+proofs is that the duration for mmj2 unifying shorter proofs is
+less than using the mmj2 batch test run parm. For proofs of more
+than on the order of 700 steps, mmj2 unification using the mmj2 batch
+test run parm may be preferable because the processing duration is not
+much longer and because pressing buttons in an mmj2 GUI is sometimes
+unreliable. The User has the option of mmj2 unifying longer proofs using
+the mmj2 batch test run parm by assigning the second command line
+argument the value "onlyShortScripts". This is valuable for mmj2
+unification of the duplicateUnificationThms.txt proofs, which are long
+for values of utmax greater than 1. If argv2 is assigned the default
+value, all mmj2 unifications are by the mmj2 batch test run parm. This
+allows completeusersproof to be run on a non-Windows system for which
+AutoHotkey scripts are incompatible.
+
+stepprover() attempts to 2-step prove multiple 0-hypothesis steps in
+parallel, placing them and their numerous duplicates in a single Proof
+Worksheet, duplicateUnificationThms.txt. With the third command line
+argument, the User may specify the maximum number of 0-hypothesis steps
+to attempt to 2-step prove in parallel. A long User's Proof with more
+than eight 0-hypothesis steps to attempt to 2-step prove generates at
+least one duplicateUnificationThms.txt Proof Worksheet having more than
+3000 steps. If this is too long, it may be avoided by partitioning the
+collection of 0-hypothesis steps to 2-step prove into cells of less than
+8.
+
+The first command line argument default value specifies that the attempt
+to complete the User's Proof is by the unification theorem means. The
+value "runCompleteusersproofsmv" specifies processing by the single
+metavariable deduction unification means. The value
+"runcompleteusersproofmv" specifies processing by the metavariable
+deduction unification means. The value "runStepprover" specifies only
+running the stepprover() function.
+
+If completeusersproof is not run through a GUI, if the User's Proof is
+copied onto the file c:\mmj2\mmj2jar\proofWorksheet.txt, the User's Proof
+will be processed by double-clicking on the completeusersproof.exe file.
+The default values of the command line arguments apply: the unification
+theorem means with mmj2 unificiations by the batch test run parm with a
+maximum of 8 0-hypothesis steps in-parallel 2-step proof attempts. If a
+.bat file is used or completeusersproof.exe is run through the command
+prompt, the User may specify the value of each of the three command line
+arguments. The three command line arguments afford the User some choices
+as to how completeusersproof processes the input User's Proof.
+
+Files of the completeusersproof download:
+
+ completeusersproof.c         The source code without pauses. Unless
+                              otherwise noted, this and all other
+                              downloaded files should be placed in the
+                              c:\mmj2\mmj2jar folder. The mmj2 program
+                              files must be downloaded into their
+                              default folders for completeusersproof to
+                              run.
+
+ completeusersproof.exe       completeusersproof.c compiled.
+
+ completeusersproofp.c        The source code with pauses.
+
+ completeusersproofp.exe      completeusersproofp.c compiled.
+
+ <User's Proof file>          <User's Proof file> is the full path and
+                              filename of the mmj2 Proof Worksheet opened
+                              by the User in the mmj2 GUI of the mmj2
+                              instance which loads set.mm and not fd.txt.
+                              Any path may be used. Of course, this file
+                              is provided by the User and is not included
+                              in the completeusersproof download
+                              package.
+
+ VirtualDeductionProofs.txt   File of example Virtual Deduction Proofs.
+
+ labels.txt                   This text file is a list of 1-hypothesis
+                              set.mm labels, each with the potential to
+                              to deduce some step in the Proof Worksheet
+                              from some theorem in set.mm.
+
+ fd.txt                       An mmj2 input file of "false deductions".
+                              This file should be placed in the
+                              c:\metamath folder. A false eel* deduction
+                              is a true deduction for which one
+                              hypothesis, a "unification theorem", is
+                              implicit. completeusersproof explicates the
+                              implicit hypothesis and 2-step proves it if
+                              it is not in set.mm and a semantic
+                              variation of it is. For example, syl is the
+                              true deduction corresponding to
+                              the false deduction ff1,
+                              |- (. ph ->. ps ). infers |- (. ph ->. ch ).
+                              The implicit hypothesis is ( ps -> ch ) .
+                              A deduction with an implicit unification
+                              theorem as a hypothesis which is true from
+                              the User's perspective is false from
+                              Metamath's perspective because Metamath
+                              is implicit-hypothesis-blind.
+
+                              A false ffsmv* deduction is used to
+                              construct a subproof which may unify with a
+                              single metavariable deduction in set.mm. A
+                              false ffTmv* deduction is used for a
+                              subproof for which each original step has
+                              no virtual hypothesis collection. The
+                              ffTmv* deduction puts each of these steps
+                              into standard T form. It is used to
+                              construct a subproof which may unify with a
+                              single metavariable deduction in set.mm.
+                              Each ffTmv* deduction is, strictly
+                              speaking, a true deduction because its
+                              assertion is deducible from its last
+                              hypothesis.
+
+mapFfToEelUunNumPermFfsmv.txt This file specifies the one-one
+                              correspondence between each false deduction
+                              in fd.txt and its true counterpart in
+                              set.mm. Column one contains the false
+                              deduction labels and column two contains
+                              the true deduction labels.
+
+                              This file also specifies the mapping of
+                              each ff* false deduction label into its
+                              corresponding 0th premutation uun* label.
+                              That label is in the 3rd column of the same
+                              row. In the 4th column of the same row is
+                              the number of permutations of uun* labels
+                              corresponding to the ff* label. The uun*
+                              deductions are described at the beginning
+                              of the completeusersproof() function
+                              definition.
+
+                              This file also specifies the mapping of
+                              each ff* false deduction label into it
+                              corresponding ffsmv* or ffTmv* label, which
+                              is in the 5th column of the same row.
+
+ RunParmsFalseDeductionsG.txt File of mmj2 run parameters referenced by
+                              mmj2FalseDeductionsG.bat. This includes
+                              two Loadfile run parms, one for set.mm and
+                              one for fd.txt. The "G" indicates that the
+                              RunProofAsstGUI is an included run parm.
+
+ mmj2FalseDeductionsG.bat     Executes mmj2 using the run parameters
+                              specified by RunParmsFalseDeductionsG.txt.
+                              Subproofs having at least 1 hypothesis
+                              step not unifying with a deduction in
+                              set.mm unify with some ff* false deduction
+                              in fd.txt. Runs with a GUI.
+
+ RunParmsStepProverG.txt      File of mmj2 run parameters referenced by
+                              mmj2StepProverG.bat. This includes a set.mm
+                              Loadfile run parm. It does not include an
+                              fd.txt Loadfile run parm. RunProofAsstGUI
+                              run parm included.
+
+ mmj2StepProverG.bat          Executes mmj2 using the run parameters
+                              specified by RunParmsStepProverG.txt. Runs
+                              with a GUI.
+
+ RunParmsFalseDeductions.txt  Similar to "G" counterpart (above), except
+                              without RunProofAsstGUI run parm and with
+                              ProofAsstBatchTest run parm.
+
+ mmj2FalseDeductions.bat      Executes mmj2 using the run parameters
+                              specified by RunParmsFalseDeductions.txt.
+
+ RunParmsStepProver.txt       Similar to "G" counterpart (above), except
+                              without RunProofAsstGUI run parm and with
+                              ProofAsstBatchTest run parm.
+
+ mmj2StepProver.bat           Executes mmj2 using the run parameters
+                              specified by RunParmsStepProver.txt.
+
+ completeusersproofGUI.exe    This file runs an AutoHotkey script. The
+                              script first loads two instances of the
+                              mmj2 program (with their GUIs) by executing
+                              mmj2FalseDeductionsG.bat and
+                              mmj2StepProverG.bat. It then opens a third
+                              GUI window which contains the buttons
+                              "Completeusersproof",
+                              "Completeusersproof smv",
+                              "Completeusersproof mv", "Stepprover", and
+                              "Exit/Quit". Pressing one of the first
+                              four buttons runs completeusersproof.
+
+ completeusersproofGUI.ahk    AutoHotkey source code of
+                              completeusersproofGUI.exe.
+
+ Document-margins.ico         Icon in the Titlebar of the
+                              completeusersproof GUI.
+
+ completeusersproof.bat       Executes completeusersproof.exe
+                              specifying the value of command line
+                              argument argv1 to be the default value
+                              """".
+
+ completeusersproofSmv.bat    Executes completeusersproof.exe
+                              specifying the value of command line
+                              argument argv1
+                              "runCompleteusersproofsmv".
+
+ completeusersproofMv.bat     Executes completeusersproof.exe
+                              specifying the value of command line
+                              argument argv1
+                              "runCompleteusersproofmv".
+
+ completeusersproofSp.bat     Executes completeusersproof.exe
+                              specifying the value of command line
+                              argument argv1 "runStepprover".
+
+ unify.exe                    Executable AutoHotkey script file invoked
+                              by a call of mmj2Unify() with the value
+                              "unify.exe" for the mmj2BatFile argument.
+                              It "presses" the buttons of the mmj2
+                              instance without fd.txt loaded to open,
+                              unify, and save the file which is the
+                              value of the proofWorksheet argument of
+                              the mmj2Unify() call.
+
+ unify.ahk                    Source code for unify.exe.
+
+ unifylong.exe                Similar to unify.exe. "unifylong.exe" is
+                              passed by a mmj2Unify() call when
+                              proofWorksheet has the value
+                              "duplicateUnificationThms.txt", which may
+                              be a very long Proof Worksheet requiring
+                              longer-than-normal pauses between button
+                              presses to allow mmj2 processes to
+                              complete.
+
+ unifylong.ahk                Source code for unifylong.exe.
+
+ unifyFF.exe                  Similar to unify.exe except it presses the
+                              buttons of the mmj2 instance with fd.txt
+                              loaded.
+
+ unifyFF.ahk                  Source code for unifyFF.exe.
+
+ unifyLD.exe                  Long Duration version of unify.exe. Each
+                              Sleep statement has a duration of twice the
+                              duration of the non-LD version. The User
+                              has the option to rename this file
+                              unify.exe if the Sleep statement durations
+                              of unify.exe are too short to process a
+                              long proof or to process proofs on a slow
+                              computer.
+
+ unifyLD.ahk                  Source code for unifyLD.exe.
+
+ unifylongLD.exe              Long Duration version of unifylong.exe.
+
+ unifylongLD.ahk              Source code for unifylongLD.exe.
+
+ unifyFFLD.exe                Long Duration version of unifyFF.exe.
+
+ unifyFFLD.ahk                Source code for unifyFFLD.exe.
+
+ proofWorksheet.mmp           This file is to be placed in the
+                              c:\mmj2\mmj2jar\myproofs folder. It is the
+                              placeholder file used for all mmj2
+                              unifications of the instance of mmj2 for
+                              which fd.txt is not loaded.
+
+ proofWorksheetFF.mmp         This file is to be placed in the
+                              c:\mmj2\mmj2jar\myproofs folder. It is the
+                              placeholder file used for all mmj2
+                              unifications of the instance of mmj2 for
+                              which fd.txt is loaded.
+
+ proofWorksheet0.mmp          This file is to be placed in the
+                              c:\mmj2\mmj2jar\myproofs folder. It is a
+                              copy of proofWorksheet.mmp. Over-write
+                              proofWorksheet.mmp or
+                              duplicateUnificationThms.txt with this
+                              file if either becomes corrupted.
+
+ proofWorksheetFF0.mmp        This file is to be placed in the
+                              c:\mmj2\mmj2jar\myproofs folder. It is a
+                              copy of proofWorksheetFF.mmp. Over-write
+                              proofWorksheetFF.mmp with this file if it
+                              becomes corrupted.
+
+ _README.txt                  This file contains instructions on using
+                              completeusersproof and other information
+                              pertaining to completeusersproof.
+
+The completeusersproof output file:
+
+ c:\mmj2\mmj2jar\myproofs\<t> The User's Proof is edited by
+                              completeusersproof. If the User's Proof
+                              is correct and sufficiently detailed, the
+                              output file may contain a
+                              Metamath-generated RPN proof. Otherwise,
+                              as many subproofs of the User's Proof
+                              will be completed as possible. The output
+                              filename is <t>, where <t> is the theorem
+                              label specified in the header of the Proof
+                              Worksheet input by the User. Another file
+                              which holds the same output proof
+                              temporarily is
+                              c:\mmj2\mmj2jar\proofWorksheet.txt. This
+                              file is overwritten with each sucessive
+                              application of completeusersproof.
+
+
+Primary Functions:
+
+                          completeusersproof()
+                          addMvSubtheoremTs()
+                          addMvAssertionSteps()
+                          completeusersproofmv()
+                          addUnionizedAssertionPermutations()
+                          pickAPermutationOfEachUnionizedAssertion()
+                          pickALabelPermutation()
+                          completeTheoremSteps()
+                          pickUnifThmPermutations()
+                          removeDecoupledSteps()                          
+                          substituteLabels()
+                          stepprover()
+                          removeUnneededFfLabels()
+                          nameUsersProofFile()
+                          editHypFieldOfHypSteps()
+                          editHypFieldOfTAssertions()
+                          editHypFieldOfAssertions()
+
+Some Utility Functions:
+
+                          deleteStepsWithWorkVariables()
+                          mmj2Unify()
+                          translate()
+                          tagLabeledSteps()
+                          endTag()
+                          addMTLast()
+                          addMTMT()
+                          addMTMF()
+                          addMT()
+                          substituteMTMT()
+                          deleteLabels()
+                          removeATypeOfLabel()
+
+
+*******************************************************************************
+*******************************************************************************
+THE completeusersproof.exe COMMAND LINE ARGUMENTS
+
+The *char command line arguments of completeusersproof.exe argv[1], argv[2],
+and argv[3] are assigned to, respectively, argv1, argv2, and argv3. The User
+may customize what completeusersproof does by assigning particular values to
+each of these three command line arguments in accordance with the specification
+below. If all three command line arguments are omitted, then the three
+default values apply. If the second and third arguments are omitted, then
+the default values apply to argv2 and argv3. If only the third argument's
+value is omitted, the the default value applies to argv3. For all other
+combinations the default value of any command line argument, which is any
+character string not one of the values defined below, must be explicit.
+
+As an example, if the User wishes to process the User's Proof using the
+single metavariable deduction unification means, wishes all calls of
+mmj2Unify() except the one used to unify duplicateUnificationThms.txt to use
+AutoHotkey scripts, and wishes to attempt to 2-step-prove no more than 6
+0-hypothesis steps at a time, then the command to execute completeusersproof
+is:
+
+   completeusersproof.exe runCompleteusersproofsmv onlyShortScripts 6
+
+Note that there must be at least one white space between the .exe file and
+argv[1] and between adjacent pairs of command line arguments. If a .bat file is
+used, this line is the single line of the .bat file. The .bat file has the path
+c:\mmj2\mmj2jar . If completeusersproof is run through the command prompt, then
+the User types this line in the command prompt for the directory
+c:\mmj2\mmj2jar . If completeusersproof is run through the completeusersproof
+GUI, then the User may change the pre-existing values for the second and third
+command line arguments in completeusersproof.bat, completeusersproofSmv.bat,
+completeusersproofMv.bat, and completeusersproofSp.bat to other values.
+
+When the completeusersproof Graphic User Interface (GUI) is used for shorter
+proofs, it is recommended that argv[2] has the value "onlyShortScripts" and
+argv[3] has the default value of 8. "onlyShortScripts" is preferred to the
+default value of mmj2-unifying using the mmj2 batch test run parm.
+mmj2-unifying using an AutoHotkey script for a shorter Proof Worksheet not a
+duplicateUnificationThms.txt Proof Worksheet is usually reliable and is usually
+significantly faster than mmj2-unifying using the mmj2 batch test run parm.
+mmj2-unifying a duplicateUnificationThms.txt Proof Worksheet using the mmj2
+batch test run parm using the default argv[3] value of 8 is reliable without
+increasing the run time significantly. For a long User's Proof the default
+argv[2] of mmj2-unifying using the mmj2 batch test run parm is most reliable.
+
+
+argv<i> VALUE OF argv<i>            DESCRIPTION
+
+argv1   "runCompleteusersproofsmv"  Complete each subproof completable by
+                                    the mmj2 unification means by that
+                                    means. Complete each remaining
+                                    subproof completable by the single
+                                    metavariable deduction means by that
+                                    means. Attempt to complete each
+                                    remaining subproof by the unification
+                                    theorem means. Complete each subproof
+                                    completable by that means.
+
+
+        "runCompleteusersproofmv"   Complete each subproof completable by
+                                    the mmj2 unification means by that
+                                    means. Complete each remaining
+                                    subproof completable by the
+                                    metavariable deduction means by that
+                                    means. Attempt to complete each
+                                    remaining subproof by the unification
+                                    theorem means. Complete each subproof
+                                    completable by that means.
+
+        "runStepprover"             Run only the stepprover() function on
+                                    the User's Proof to try to 2-step
+                                    prove each 0-hypothesis step. Complete
+                                    each 2-step provable 0-hypothesis step.
+
+
+        <any character string not   Complete each subproof completable by
+         one of the above>          the mmj2 unification means by that
+                                    means. Attempt to complete each
+                                    remaining subproof by the unification
+                                    theorem means. Complete each subproof
+                                    completable by that means. This is the
+                                    default value. By convention, the
+                                    string """" may be used for this
+                                    value.
+
+argv2   "onlyShortScripts"          mmj2 unify using the AutoHotkey
+                                    scripts unify.exe or unifyFF.exe
+
+        "scripts"                   mmj2 unify using the AutoHotkey
+                                    scripts unify.exe, unifylong.exe, or
+                                    unifyFF.exe
+
+        <any character string not   mmj2 unify using the mmj2 batch test
+         one of the above>          run parm. This is the default value
+                                    of argv2. The character string """"
+                                    may be used.
+
+argv3   "<i>", where i = 1 to 7,    <i> is the maximum number of
+               inclusive            0-hypothesis steps to attempt to
+                                    2-step prove in parallel, with all
+                                    duplicates in a single
+                                    duplicateUnificationThms.txt text
+                                    file. mmj2 unifications using
+                                    unifylong.exe may not run properly
+                                    for larger values of i.
+
+        <any character string not   The maximum number of 0-hypothesis
+         one of the above>          steps to attempt to 2-step prove in
+                                    parallel is 8, the default value.
+                                    The character string """" or "8"
+                                    may be used.
+
+
+*******************************************************************************
+*******************************************************************************
+THE VirtualDeductionProofs.txt FILE:
+
+This text file contains example Virtual Deduction Users' Proofs of theorems. A
+Virtual Deduction proof is a Natural Deduction proof using conventional or
+virtual deduction notation. More information about Virtual Deduction may be
+found in the web page description of the set.mm syntax definition wvd1 .
+
+completeusersproof completes each proof in VirtualDeductionProofs.txt. For any
+proof, if the labels specified in the brief description are excluded from the
+unification search, then there will be no distinct variable violations. 
+
+
+*******************************************************************************
+*******************************************************************************
+PROCEDURE FOR USING completeusersproof WITHOUT GUIs
+
+step 1. Download the current version of set.mm from the Metamath website. Place
+        it in the folder c:\metamath .
+step 2. Download the latest version of mmj2.zip from the Metamath website.
+        Unzip it and place all extracted folders and files in the
+        c:\mmj2 folder.
+step 3. Download completeusersproof.zip from the Metamath website. This file
+        is connected to the "completeusersproof" hyperlink of
+        Metamath Home Page > Other Metamath-Related Topics
+        > Other tools for Metamath. Place the extracted files in the
+        c:\mmj2\mmj2jar folder.
+step 4. Move fd.txt in the c:\mmj2\mmj2jar folder to the c:\metamath folder.
+        Move proofWorksheet0.mmp, proofWorksheet.mmp, proofWorksheetFF0.mmp,
+        and proofWorksheetFF.mmp from the c:\mmj2\mmj2jar folder to the
+        c:\mmj2\mmj2jar\myproofs folder.
+step 5. Create a proof of a theorem on a valid mmj2 Proof Worksheet. Use
+        mmj2 to verify it contains no errors such as, for example, that there
+        is an invalid symbol in a proof step or a formula contains one or more
+        grammatical parse errors. If the first command line argument of the
+        completeusersproof.exe .bat file is "runStepprover", then
+        completeusersproof will attempt to 2-step-prove each 0-hypothesis step
+        which does not unify with a theorem in set.mm. The intended User's
+        Proof is any proof in conventional notation. If this is not the value
+        of the first command line argument, then the User's Proof should be
+        a Virtual Deduction proof, although some subproofs of a non-Virtual
+        Deduction proof may be completed by completeusersproof and any valid
+        mmj2 Proof Worksheet is acceptable.
+step 6. Copy the Proof Worksheet created in step 5 onto
+        c:\mmj2\mmj2jar\proofWorksheet.txt. This is the input file.
+step 7. completeusersproof will process a User's Proof by running only the
+        stepprover() function, by attempting to complete subproofs by the
+        unification theorem means, by attempting to complete subproofs by the
+        single metavariable deduction unification means, or(excl.) by
+        attempting to complete subproofs by the metavariable deduction
+        unification means. The value of the first command line argument
+        specifies which of these four means will be used to process the User's
+        Proof. If no value is specified, the User's Proof will be processed by
+        the unification theorem means, the default means. The command line
+        arguments are described above. The default value should be used for the
+        second command line argument because GUIs are not being used. Run
+        completeusersproof.exe through the command prompt specifying the
+        desired command line argument values or by double-clicking either the
+        completeusersproof.bat, completeusersproofSmv.bat,
+        completeusersproofMv.bat, or completeusersproofSp.bat file, with the
+        command line arguments specified as desired. If processing the User's
+        Proof by the unification theorem means using the default values for all
+        command line arguments, completeusersproof may be run by
+        double-clicking on the completeusersproof.exe file. The filename of the
+        output file is the theorem name specified in the header of the User's
+        Proof. The path of the output file is c:\mmj2\mmj2jar\myproofs. A
+        second copy of the output file is c:\mmj2\mmj2jar\proofWorksheet.txt
+        (which overwrites the input file). This copy will be overwritten with
+        the processing of the next User's Proof.
+step 8. Delete from the c:\mmj2\mmj2jar folder any zz~tools<i>.tmp files
+        which may have been generated by running completeusersproof. If a
+        file needed by completeusersproof can't be found, zz~tools<i>.tmp
+        files will be created. After they have been created, subsequent runs
+        of completeusersproof may be compromised due to the existence of these
+        files.
+
+
+*******************************************************************************
+*******************************************************************************
+PROCEDURE FOR USING completeusersproof WITH GUIs
+
+step 1. Same as step 1 above.
+step 2. Same as step 2 above.
+step 3. Same as step 3 above.
+step 4. Same as step 4 above.
+step 5. Same as step 5 above.
+step 6. double-click on the c:\mmj2\mmj2jar\completeusersproofGUI.exe file or
+        run this file through the command prompt. This will run the two mmj2
+        instances mmj2StepProverG.bat and mmj2FalseDeductionsG.bat and their
+        GUIs will open. Also, the completusersproof GUI will open.
+        completeusersproofGUI.exe will not run on a non-Windows operating
+        system not able to run AutoHotkey scripts. For such systems use the
+        above "PROCEDURE FOR USING completeusersproof WITHOUT GUIs".
+step 7. open the file containing the User's Proof in the GUI entitled
+        "ProofAsstGUI - proofWorksheet.mmp". The file may have any path and
+        any filename although the User may prefer that the filename matches
+        the theorem name in the Proof Worksheet header. The filename of the
+        output file is the theorem name of specified in the header of the
+        User's Proof. The path of the output file is c:\mmj2\mmj2jar\myproofs.
+        A second copy of the output file is c:\mmj2\mmj2jar\proofWorksheet.txt.
+        This copy will be overwritten with the processing of the next User's
+        Proof.
+step 8. The completeusersproof GUI contains the buttons "Completeusersproof"
+        for processing using the unification theorem means by running
+        completeusersproof.bat, "Completeusersproof smv" for processing using
+        the single metavariable deduction unification means by running
+        completeusersproofSmv.bat, "Completeusersproof mv" for processing using
+        the metavariable deduction unification means by running
+        completeusersproofMv.bat, and "Stepprover" to run only the stepprover()
+        function by running completeusersproofSp.bat. Press one of those
+        buttons and the User's Proof will be processing using the existing
+        command line arguments of the applicable .bat file. If the second
+        and/or third command line argument value the User wishes to use is
+        different from the existing value, the User should change it(them).
+        If the User wishes to do mmj2 unifications using AutoHotkey scripts,
+        then it is necessary to open the GUIs. With the GUIs open, the user
+        may specify the second argument value "scripts", "onlyShortScripts",
+        or(excl.) """" . If "scripts" is specified, every mmj2 unification
+        is by an AutoHotkey script. If "onlyShortScripts" is specified, then
+        the file duplicateUnificationThms.txt is mmj2-unified using the mmj2
+        batch test run parm and each other Proof Worksheet is mmj2-unified
+        using an AutoHotkey script. If value of argv[2] is the default value,
+        then each Proof Worksheet is mmj2-unified using the mmj2 batch test run
+        parm. The default value of argv[3] creates duplicateUnificationThms.txt
+        Proof Worksheets with a maximum of 8 0-hypothesis steps to be attempted
+        to be 2-step-proved in parallel. If the value of argv[3] is specified
+        to be "i" for 0 < i < 9 , then a maximum of i 0-hypothesis steps will
+        be attempted to be 2-step-proved in parallel. Additional information
+        about the command line arguments may be found above.
+step 9. If an error or errors occurred, most often because a script run has
+        errors, e.g., the GUI freezes and the execution of the script must
+        be terminated, then corrupted text files should be overwritten with
+        fresh copies. For example, proofWorksheet.mmp should be overwritten
+        by proofWorksheet0.mmp and a corrupted duplicateUnificationThms.txt
+        file should be overwritten with proofWorksheet0.mmp (or any other
+        uncorrupted text file). Delete from the c:\mmj2\mmj2jar folder any
+        zz~tools<i>.tmp files which may have been generated by running
+        completeusersproof.
+step 10. While the GUIs remain open the User may return to step 7 to process
+        another User's Proof. As many User's Proofs may be processed as
+        desired. Press the "Exit/Quit" button in the completeusersproof GUI to
+        close it. Press the "Exit/Quit" button in each mmj2 GUI to close each.
+
+
+*******************************************************************************
+*******************************************************************************
+DESCRIPTION OF completeusersproofp.c
+
+completeusersproofp.c is identical to completeusersproof.c except for
+intermittent "printf("point <i>");" or "printf("<some other remark>");"
+and "getchar();" pairs of statements which pause execution until the User
+presses <enter>. "point <i>" or "<some other remark>" identifies the line
+in the program at which execution has paused. At each pause the User is
+afforded the opportunity to observe the text file being edited by the
+program and to observe which statement executions caused the observed
+alterations.
+
+Files which the User may be interested in observing include proofWorksheet.txt,
+proofWorksheet0.txt, proofWorksheetTrFfLabeled.txt, unifThms.txt,
+duplicateUnificationThms.txt, tags.txt, and hypFields.txt.
+
+To observe a text file as it changes, keep the text file displayed during
+execution of the program. While execution is paused, click anywhere in the text
+file window. This will minimize the ms-dos window and, if TextPad is the text
+editor being used, cause a window to pop up stating: "Another application has
+updated file c:\mmj2\mmj2jar\<file>.txt. Reload it?" Press "Yes" to update the
+file. After viewing the updated text file, maximize the ms-dos window and press
+enter to resume execution. Repeat this procedure for every pause in program
+execution or only for pauses at points of interest. If completeusersproofp.c
+is also kept open during execution of completeusersproofp.exe, then one may
+concurrently observe the text file changes and the statements of the code
+causing them. The code statements causing changes may be identified by the
+statements printed in the console. For example, the changes made to
+proofWorksheet.txt immediately preceding the pause at "Point 7 of
+completeusersproofmv()" are due to the three statements occurring between the
+"Point 6 of completeusersproofmv()" (line 3032 of completeusersproofp.c) and
+"Point 7 of completeusersproofmv()" (line 3046 of completeusersproofp.c) print
+statements.
+
+The real-time observation of text file changes and the code statements causing
+them may be useful for learning the program, for finding program bugs, for
+finding deficiencies in data files used by the program, and for finding errors
+in the input Proof Worksheet.
+
+completeusersproofp.exe should not be run through GUIs because the
+button-pressing actions associated with observing the text files as they change
+may interfere with the running of the AutoHotkey scripts. The default value for
+argv[2] should be used so that mmj2 unifications are performed by the mmj2
+batch test run parm. The User may choose values for argv[1] and argv[3]. For
+example, the following command prompt command will run completeusersproofp.exe
+processing the User's Proof using only the stepprover() function with a maximum
+of 4 0-hypothesis step 2-step proof attempts made in parallel for each
+duplicateUnificationThms.txt file with mmj2 unifications performed by mmj2
+batch test.
+
+  c:\mmj2\mmj2jar>completeusersproofp.exe runStepprover "" 4
+
+
+*******************************************************************************
+*******************************************************************************
+AVOIDING UNIFICATIONS WITH REFERENCE THEOREMS WITH UNNECESSARY DISTINCT
+VARIABLE REQUIREMENTS
+
+completeusersproof may sometimes unify some proof steps with a reference
+theorem(s) with distinct variable requirements which are not necessary to the
+proof. In such a case, another(other) reference theorem(s) without distinct
+variable requirements or with fewer distinct variable requirements also
+unifies(unify) with the relevant proof step(s).  The only reason the reference
+theorem(s) with the unnecessary distinct variable requirements is(are) picked
+by completeusersproof over the reference theorem(s) with no or lesser distinct
+variable requirements is because it(they) precede(s) the latter reference
+theorem(s) in set.mm.
+
+The unnecessary distinct variable requirements may be avoided by temporarily
+adding the offending theorem(s) to the list of theorems to be excluded
+from the mmj2 unification search of the RunParmsStepProver.txt,
+RunParmsStepProverG.txt, RunParmsFalseDeductions.txt, and
+RunParmsFalseDeductionsG.txt run parm ProofAsstUnifySearchExclude. If the
+program is run again on the original User's Proof, unless another reference
+theorem(s) with unnecessary distinct variable requirements unifies(unify) with
+the same step(s), the completed proof will not have any unnecessary distinct
+variable requirements for that(those) step(s). If a non-excluded reference
+theorem(s) with distinct variable requirements unifies with the same step(s),
+it(they) too should be excluded. This may be repeated until a completed proof
+with the minimum distinct variable requirements is found.  If a reference
+theorem(s) with distinct variable requirements is(are) excluded and the
+User's Proof does not complete, then it is easily determined which reference
+theorems with distinct variable requirements are necessary with respect to the
+input User's Proof. It is possible that a different proof may exist with fewer
+or no distinct variable requirements.
+
+A search exclusion(s) should be specific to a particular proof and should be
+removed from the search exclusion list after applying it(them) to that proof.
+Otherwise, a future proof may not complete only because a step(s) of the proof
+require(s) an excluded reference theorem(s).
+
+A similar strategy may be employed as an alternative means of avoiding
+unifications with theorems not in the main set.mm (theorems in Mathboxes).
+
+A computer-assisted procedure to remove labels which violate the distinct
+variable requirements of the User's Proof is as follows.
+
+    step 1. Complete the User's Proof using completeusersproof.
+    step 2. If the distinct variable requirements of the Proof
+            generated by completeusersproof are greater than necessary,
+            add the proof to set.mm and specify the lesser distinct variable
+            requirements of the User's Proof. Run the "verify proof" command
+            of the metamath program. The program will identify the distinct
+            variable requirement violations.
+    step 3. Add the offending labels as labels to be excluded to the
+            ProofAsstUnifySearchExclude run parms.
+    step 4. Run completeusersproof again.
+    step 5. Repeat steps 2, 3, and 4 until all distinct variable violations
+            are removed.
+
+
+*******************************************************************************
+*******************************************************************************
+DETAILED DESCRIPTION OF THE completeusersproof.c PROGRAM
+
+MOTIVATION FOR COMPLETEUSERSPROOF. As explained in the description of
+wvd1, Natural Deduction is a powerful strategy for proving theorems
+and deductions. Natural Deduction uses a Gentzen-type system. We are
+motivated to write Natural Deduction proofs (for the power of proving
+using a Gentzen-type system) and verify them using Metamath's
+proofchecking capability. Metamath uses a Hilbert-type deductive system.
+As explained in wvd1, the virtual deduction notation has been added to
+set.mm to have a language of a Hilbert-type deductive system which
+can be used like a Gentzen-type system. Using the virtual deduction
+notation of set.mm, one can effectively write Natural Deduction Proofs
+in the virtual deduction language of Metamath. We call these proofs
+Virtual Deduction proofs. A Virtual Deduction proof is the
+Metamath-specific version of a Natural Deduction Proof. Examples of
+Virtual Deduction User's Proofs are
+https://www.virtualdeduction.com/chordthmaltvd.html and
+https://www.virtualdeduction.com/iunconlem2vd.html.
+
+A Virtual Deduction proof generally cannot be directly input on a mmj2
+Proof Worksheet and, after being translated into conventional notation,
+completed by the mmj2 tool because it is usually missing some proof steps
+which are not part of the Virtual Deduction proof but are necessary for a
+complete Metamath Proof. These missing steps may be automatically added
+by an automated proof assistant. completeusersproof is such a proof
+assistant. For some subproofs, completeusersproof may automatically
+generate one or more additional steps and may edit the hypothesis field of
+some steps. The mmj2 unify command labels assertion steps of the proof,
+unifying them with reference theorems or deductions in set.mm.
+
+The User may write a Virtual Deduction proof and automatically transform
+it into a complete Metamath proof using the completeusersproof tool. The
+completed proof has been checked by the Metamath program. The task of
+writing a complete Metamath proof is reduced to writing what is
+essentially a Natural Deduction Proof.
+
+Generally, proving a Virtual Deduction User's Proof with the assistance of
+the completeusersproof tool reduces the amount Metamath-specific knowledge
+required by the User. Often, no knowledge of the specific theorems and
+deductions in set.mm is required to write some of the subproofs of a
+Virtual Deduction proof. Often, no knowledge of the Metamath-specific
+names of reference theorems and deductions in set.mm is required for
+writing some of the subproofs of a User's Proof. Often, the User may write
+subproofs of a proof using theorems or deductions commonly used in
+mathematics and correctly assume that some form of each is contained in
+set.mm and that completeusersproof will automatically generate the steps
+necessary to utilize them to complete the subproofs. Often, the fraction
+of the work which may be considered tedious is reduced and the total
+amount of work is reduced.
+
+                                *  *  *
+
+completeusersproof() is the single primary function of the
+completeusersproof program. All other functions used by the
+completeusersproof program are called by completeusersproof().
+
+The input Proof Worksheet is the "User's Proof". completeusersproof
+completes each subproof of the translated User's Proof it is capable of
+completing.
+
+What do we mean by the term "subproof"? A subproof of the User's
+Proof might have been called simply a deduction within the User's Proof.
+We do not call it a deduction because a step or steps automatically added
+to the proof which are associated with the deduction may change the
+deduction into a deduction with more steps or may create an additional
+deduction associated with the modified or unmodified original deduction.
+The new collection of associated steps may not be a single deduction and
+therefore cannot properly be called a deduction. Therefore, we call the
+original deduction and this new collection of steps arising from the
+original deduction a "subproof". Our narrow definition differs from the
+usual definition of subproof. For the usual definition of subproof, a
+subproof may include many deductions of a proof. For our narrow
+definition, a subproof arises from and is associated with a single
+deduction of the original User's Proof. Generally, each original
+n-hypothesis deduction of the User's Proof, where n is any positive
+integer including 0, is a subproof, and may be modified by
+completeusersproof to be a different subproof which is the original
+subproof with the "details" necessary for a complete Metamath subproof
+added.
+
+DEFINITION OF A VIRTUAL DEDUCTION.
+
+                       A Theorem fine is Deduction,
+                       For it allows work-reduction:
+                          To show "A implies B",
+                          Assume A and prove B;
+                     Quite often a simpler production.
+
+                       -- Stefan Bilaniuk
+
+For the conventional notation virtual deduction ( ( ph /\ ps ) -> ch ) ,
+each conjunct of the antecedent is thought of as a hypothesis and the
+consequent is thought of as an assertion of the deduction ph and ps infers
+ch. ph and ps are not actual hypotheses and ch is not an actual assertion.
+We call ph a "virtual hypothesis" because it is not an actual hypothesis.
+ch is a "virtual conclusion" because it is not an actual assertion. Just
+as the virtual image seen in a plane mirror is not actual or real because
+it is formed in a location light does not actually reach,
+( ( ph /\ ps ) -> ch ) is a "virtual deduction" because it is not an
+actual or real deduction. We are motivated to think in terms of virtual
+objects because "it allows work-reduction" and because proving is "Quite
+often a simpler production." We call the proving style where one
+interprets the well-formed formula of each proof step to be a virtual
+deduction "Virtual Deduction" instead of "Natural Deduction" because
+Virtual Deduction may be given the above meaning and because Natural
+Deduction has a broader meaning than this Metamath-specific style with its
+own special notation.
+
+In the written description of the set.mm syntax definition wvd1 , a
+virtual deduction is defined to be the analog in H of a sequent in G1. The
+connective ->. (a mediator connective) separates the virtual hypothesis
+collection on the left side of ->. from the virtual conclusion on the
+right side of ->. . A virtual deduction with no ->. connective is a
+virtual deduction with no virtual hypotheses. A virtual deduction with no
+virtual hypotheses may be alternatively written in "standard T form". The
+empty virtual hypothesis collection is defined to be T. . |- <wff> and
+|- (. T. ->. <wff> ). denote equivalent virtual deductions, the latter
+being the former in standard T form. More about the standard T form may be
+found below.
+
+Only the User's Proof is written using Virtual Deduction notation. The
+User's Proof with as many subproofs as possible completed by
+completeusersproof is in conventional notation. This conventional
+notation complete or partially complete proof may be interpreted as a
+conventional notation virtual deduction proof.
+
+DEFINITION OF A CONVENTIONAL NOTATION VIRTUAL DEDUCTION. A conventional
+notation virtual deduction is a virtual deduction with conventional
+notation symbols substituted for virtual deduction symbols. If a
+conventional notation virtual deduction has no -> connective, then it
+has no virtual hypotheses. If one or more -> connectives occur in it,
+then the outermost -> connective is the mediator connective or(excl.)
+none of the -> connectives is the mediator connective and there are no
+virtual hypotheses.
+
+Some conventional notation virtual deductions are susceptible to more than
+one interpretation. The virtual deduction's context usually fully
+determines which interpretation is the correct one. As an example of
+ambiguity, the conventional notation virtual deduction
+|- ( x e. A -> x C_ B ) may correspond to the virtual deduction
+|- (. x e. A ->. x C_ B ). or(excl.) to the no-virtual-hypotheses
+virtual deduction |- ( x e. A -> x C_ B ) .
+
+The reason each step of a User's Proof is specified to be a virtual
+deduction with virtual deduction notation is to assure that each
+step of the proof has a unique interpretation. After the proof is
+translated, the correct interpretation of any original step, now a
+conventional notation virtual deduction, may be determined by its
+interpretation prior to translation if context alone is insufficient for
+disambiguation.
+
+The completeusersproof program relies on the Virtual Deduction notation
+because there is no ambiguity. Therefore, it is necessary for the User's
+Proof to be in Virtual Deduction notation in order to utilize the full
+potential of completeusersproof to complete as many of the subproofs of
+the User's Proof as possible. If a User's Proof is not written as a
+Virtual Deduction proof, then completeusersproof will interpret each step
+of the proof to be a virtual deduction with no virtual hypotheses.
+
+One sufficient reason why initial virtual deductions in Virtual Deduction
+notations are translated into conventional notation virtual deductions is
+because the theorems and deductions in set.mm are in conventional notation
+and may be utilized if and only if the steps of the User's Proof are
+translated into the same conventional notation after the disambiguation
+information contained in the original Virtual Deduction proof is extracted
+and saved. It is saved in the ff* labels, which may also be referred to as
+labels of type ff. A virtual deduction subproof cannot unify with a
+theorem or deduction in the main set.mm unless it is in conventional
+notation.
+
+Natural Deduction which is not Virtual Deduction may be and has been used
+as a way to simplify proving in Metamath. Some Users may find that even
+greater simplicity is achieved by constructing their Users Proofs to
+be compatible with the completeusersproof tool. That is, by writing Users
+Proofs as Virtual Deduction proofs in Virtual Deduction notation. If a
+User's Proof is not a Virtual Deduction proof in Virtual Deduction
+notation, the completeusersproof tool will generally not be useful. An
+exception to this is that the completeusersproof tool will attempt to
+2-step prove each 0-hypothesis step (each theorem) of the User's Proof and
+will complete any of these steps which are completable. If the argument
+completeusersproof tool is used with the value of the command line
+argv[1] equal to "runStepprover", then only the stepprover() function of
+completeusersproof will process the User's Proof and the User's Proof
+should not use Virtual Deduction notation.
+
+A Virtual Deduction proof in Virtual Deduction notation is written in what
+may be thought of as sort of a "higher level language", permitting the
+omission of some of the detail required by a conventional notation
+Metamath proof. The omitted details are the steps automatically generated
+by the completeusersproof proof assistant. These steps may be considered
+"technical steps" and the steps of the Virtual Deduction User's Proof may
+be considered to be the more creative steps of the proof.
+
+                                *  *  *
+
+We will sometimes refer to a conventional notation virtual deduction as
+a "virtual deduction". Context usually determines whether "virtual
+deduction" means a virtual deduction in non-conventional notation or a
+conventional notation virtual deduction.
+
+A proof is a Virtual Deduction proof in non-conventional notation if
+every step of the proof is a virtual deduction in non-conventional
+notation. A virtual deduction with no virtual hypotheses and no empty
+virtual hypothesis collection is a virtual deduction in Virtual Deduction
+notation (non-conventional notation) and a virtual deduction in
+conventional notation.
+
+Early in the execution of completeusersproof the original Virtual
+Deduction proof in non-conventional notation is translated into
+a conventional notation Virtual Deduction proof. Of the steps of the
+proof automatically generated by completeusersproof towards the goal
+of completing the original proof, with the exception of non-unionized
+assertion steps (used only in attempting to complete subproofs by the
+metavariable deduction unification means), each added step is a
+conventional notation virtual deduction. The wff of a non-unionized
+assertion step is not a virtual deduction unless every element of its
+collection of virtual hypothesis collections is a virtual hypothesis.
+Many of the terms used above are defined below.
+
+The virtual deduction
+
+    |- (. (. Tr A ,. ( z e. y /\ y e. A ) ). ->. z e. A ).  (wff1)
+
+is automatically translated by completeusersproof to be
+
+    |- (  (  Tr A /\ ( z e. y /\ y e. A ) )  ->  z e. A )   (wff2)
+
+wff2 is the conventional notation virtual deduction counterpart of the
+virtual deduction wff1. There are two virtual hypotheses. One is Tr A .
+The other is ( z e. y /\ y e. A ) . The virtual conclusion is z e. A .
+Every virtual deduction has one and only one virtual conclusion. For a
+virtual deduction in Virtual Deduction notation, " ,. " separates pairs of
+adjoining virtual hypotheses. In a conventional notation virtual deduction
+" /\ " may have the role of separating a pair of adjoining virtual
+hypotheses or(excl.) may be a component symbol (the conjunction symbol) of
+a virtual hypothesis or a virtual conclusion.
+( Tr A /\ ( z e. y /\ y e. A ) ) is the virtual hypothesis collection of
+wff2.
+
+With translation, " ,. " becomes " /\ ", " ->. " becomes " -> ", " (. "
+becomes " ( ", and " ), " becomes " ) ".
+
+There are three possible interpretations of wff2. The correct
+interpretation is the same interpretation as wff1. One incorrect
+interpretation interprets wff2 to have a single virtual hypothesis,
+( Tr A /\ ( z e. y /\ y e. A ) ) . The other incorrect interpretation is
+that wff2 has no virtual hypotheses, the entire wff being a virtual
+conclusion.
+
+A metavariable deduction is a deduction for which each hypothesis step may
+be interpreted to be a conventional notation virtual deduction having a
+virtual hypothesis collection which is a wff variable. We use the term
+"metavariable" for the wff variable as Mario Carneiro has in his
+presentation "Natural Deduction in the Metamath Proof Language" presented
+in the summer of 2014. We say a metavariable deduction is in standard form
+if the elements of the collection on the left side of the mediator -> of
+its assertion are exactly the virtual hypothesis collections of the
+hypothesis steps. Unless a standard form metavariable deduction has only
+one hypothesis, its assertion is not a virtual deduction because its
+collection of virtual hypothesis collections is not a virtual hypothesis
+collection. We could have defined this collection to be a virtual
+hypothesis collection on the ground that a wff variable is an single
+variable. We don't use that definition because a wff variable is a
+schemata for a virtual hypothesis collection. An example of a standard
+form metavariable deduction in set.mm is trelded.
+
+We say that the collection of virtual hypothesis collections of the
+assertion of a standard form metavariable deduction with more than one
+hypothesis is "non-unionized" and that the assertion is a non-unionized
+assertion. We use the term "union" because unionizing a collection of
+virtual hypothesis collections to obtain a virtual hypothesis collection
+is analogous to taking the union of a class. We define a "unionized
+assertion" to be an assertion derivable from a non-unionized assertion by
+unionizing its collection of virtual hypothesis collections. The
+unionized collection is a virtual hypothesis collection consisting of the
+elements of the elements of the collection of virtual hypothesis
+collections of the non-unionized assertion. We adopt the convention that
+the virtual hypothesis collection of a unionized assertion contains no
+duplicate elements. It is undesirable for a virtual hypothesis collection
+to contain duplicate virtual hypotheses because the virtual hypothesis
+collection is denoted by a longer and more complex character string which
+does not contain more information. More importantly, if the operation of
+unionizing a non-unionized collection of virtual hypothesis collections
+did not include the removal of duplicate virtual hypotheses, then there
+would exist a multiplier effect whereby proof steps with virtual
+hypothesis collections containing duplicate virtual hypotheses which are
+hypothesis steps of other proof steps would spawn more duplicate virtual
+hypotheses.
+
+One possible way a subproof may be completed is by unifying it with a
+standard form metavariable deduction in set.mm. If the unifying
+standard form metavariable deduction in set.mm is a 1-hypothesis
+deduction, then it will unify with the original deduction of the subproof.
+If the unifying standard form metavariable deduction in set.mm has more
+than one hypothesis, then it will not unify with the original deduction of
+the subproof because the assertion of the original deduction is unionized
+whereas the assertion of the metavariable deduction in set.mm is not.
+completeusersproof generates a non-unionized assertion. The deduction of
+that non-unionized assertion, which has the same hypotheses as the
+original deduction, unifies with the metavariable deduction in set.mm.
+The assertion of the original deduction is deduced from the non-unionized
+assertion with a 1-hypothesis uun* deduction. That deduction is the second
+deduction of the subproof. The number of steps of the subproof
+increases by one step. That added step is the non-unionized assertion.
+The non-unionized assertion immediately precedes the unionized assertion,
+which is the original assertion of the subproof. completeusersproof
+automatically generates the contents of the hypothesis field of the
+non-unionized assertion step to be the same as the original contents of
+the hypothesis field of the original assertion. completeusersproof deletes
+the original contents of the original assertion's hypothesis field and
+inserts into that hypothesis field the step number of the non-unionized
+assertion step.
+
+Each metavariable deduction in standard form in set.mm has a particular
+ordering of metavariable virtual hypothesis collections within the
+collection of virtual hypothesis collections of its assertion. The
+ordering of the virtual hypothesis collections of the collection of
+virtual hypothesis collections of the generated non-unionized assertion of
+a deduction of a subproof of a Proof Worksheet to be unified with a
+metavariable deduction in set.mm must match the ordering of the collection
+of the assertion of the metavariable deduction in set.mm. Therefore, all
+possible permutations of the ordering of the virtual hypothesis
+collections within the collection of virtual hypothesis collections of the
+non-unionized assertion must be tried. completeusersproof generates one
+non-unionized assertion for each permutation. The hypothesis steps of each
+deduction corresponding to each non-unionized assertion permutation are
+the same. They are the hypothesis steps of the original subproof. If one
+or more of these deductions unifies with one or more standard form
+metavariable deductions in set.mm, then one of the unifying deductions is
+picked by completeusersproof to be that metavariable deduction in set.mm
+to complete the non-unionized asssertion's deduction of the subproof. The
+remaining non-unionized assertion permutations are deleted. If no
+deduction permutation unifies with a standard form metavariable deduction
+in set.mm, then all non-unionized assertion permutations are deleted and
+the subtheorem is not completed.
+
+For each ff* false deduction corresponding to a subproof of the User's
+Proof there corresponds a collection of uun* labels which contains all
+possible permutations of uun* deductions which deduce the unionized
+assertion from the non-unionized assertion permutations. For example, the
+virtual hypothesis collections for the two hypotheses of a subproof of a
+User's Proof may be ( <wff1> /\ <wff2> ) and <wff2> . Then there are a
+total of two uun* permutations, each deducing the unionized assertion from
+one of the two non-unionized assertion permutations. One has as its
+hypothesis an assertion with the collection of virtual hypothesis
+collections ( ( <wff1> /\ <wff2> ) /\ <wff2> ) and the other
+( <wff2> /\ ( <wff1> /\ <wff2> ) ) . The unionized assertion for both
+deductions is the same and is the assertion of the original subproof. Its
+virtual hypothesis collection is either ( <wff1> /\ <wff2> ) or(excl.)
+( <wff2> /\ <wff1> ) . If there exists a non-unionized assertion deduction
+permutation which unfies with a standard form metavariable deduction in
+set.mm and that deduction is picked by completeusersproof, then the uun*
+deduction corresponding to the former deduction's non-unionized assertion
+deduces the unionized assertion of the original subproof from that
+non-unionized assertion. Both deductions of the subproof are completed and
+the subproof is completed. This means by which an attempt is made to
+complete a subproof is called the metavariable deduction unification
+means. Included in this means is putting in standard T form any
+no-virtual-hypothesis steps of the original subproof.
+
+If the virtual hypothesis collections of the hypotheses of a metavariable
+deduction in standard form in set.mm are identical, then the union of the
+the collection of virtual hypothesis collections of its hypotheses is
+identical to the virtual hypothesis collection of each hypothesis. Any
+metavariable deduction in set.mm having the same virtual hypothesis
+collection metavariable for each hypothesis may have as its assertion a
+virtual deduction having the same virtual hypothesis collection as the
+hypotheses. A metavariable deduction in this form will unify with a
+subproof in a Proof Worksheet using mmj2 alone. Mario Carneiro has
+employed this metavariable deduction form for many deductions he has
+added to set.mm. He discussed it in his presentation "Natural Deduction
+in the Metamath Proof Language". We shall call a metavariable deduction in
+this form a single metavariable deduction.
+
+Some steps of a User's Proof may have no virtual hypotheses. For example,
+
+    |- A C_ suc A    (wff3)
+
+may be such a step in a User's Proof. It is originally a virtual deduction
+in non-conventional notation. Upon translation of the proof, it becomes a
+conventional notation virtual deduction. Because it has no virtual
+hypotheses, the syntax of wff3 is the same whether it is interpreted as a
+virtual deduction in non-conventional notation or a conventional notation
+virtual deduction. wff3 may be put in "standard T form" so that it is a
+virtual deduction having a virtual hypothesis collection which is empty.
+
+    |- (. T. ->. A C_ suc A ).     (wff4)
+
+wff4 is wff3 in standard T form. wff4 translated is
+
+    |- (  T. ->  A C_ suc A )      (wff5)
+
+Both wff4 and wff5 are virtual deductions. wff4 is a virtual deduction in
+non-conventional notation and wff5 is a conventional notation virtual
+deduction. Both have the same interpretation.
+
+In order for completeusersproof to attempt to complete a subproof
+of the User's Proof using the metavariable deduction unification means, it
+puts each no-virtual-hypotheses step of the subproof into standard T form.
+This is necessary because every hypothesis of a metavariable deduction in
+set.mm has a metavariable virtual hypothesis collection.
+
+The union of a singleton is its element. U. { A } = A . A virtual
+hypothesis collection differs from a class in that, among other things, a
+singleton virtual hypothesis collection is identical to the virtual
+hypothesis it contains. If x e. A is the virtual hypothesis of a singleton
+virtual hypothesis collection, then that collection must be denoted by
+x e. A because ( x e. A ) is syntactically invalid.
+
+If the virtual hypothesis collection of each hypothesis of a subproof is
+a singleton and these virtual hypothesis collections are distinct, then
+the collection of these virtual hypothesis collections is a virtual
+hypothesis collection. This collection may be denoted by each one of n
+possible wffs, one wff for each virtual hypothesis ordering permutation,
+where n is the number of virtual hypothesis ordering permutations. One of
+those permutations is the virtual hypothesis collection of the unionized
+assertion of the original subproof. If there exists a standard form
+metavariable deduction in set.mm whose assertion has a collection of
+virtual hypothesis collections with a virtual hypothesis collection
+ordering matching that of the assertion of the original subproof, then it
+will unify with the original subproof and the subproof will be completed
+by mmj2 unification alone. No non-unionized assertion will be generated.
+If the standard form metavariable deduction in set.mm which completes the
+subproof has an assertion with a collection of virtual hypothesis
+collections with a different ordering, then completeuserproof will
+find the non-unionized assertion permutation which matches the permutation
+of the standard form metavariable deduction in set.mm and the subproof
+will be completed by adding that non-unionized assertion permutation step.
+
+( <wff6> /\ ( <wff6> /\ <wff7> ) /\ T. ) is a collection of virtual
+hypothesis collections occuring in a completeusersproof-generated
+non-unionized assertion of a subproof of a Proof Worksheet. <wff6> is
+the virtual hypothesis collection of one hypothesis of that
+subproof, ( <wff6> /\ <wff7> ) is another, and T. is the third.  The
+collection of the unionized assertion for this subproof, which is a step
+of the original subproof, is ( <wff6> /\ <wff7> ) . The collection of the
+non-unionized assertion is not a virtual hypothesis collection because the
+element T. is not a virtual hypothesis and the element
+( <wff6> /\ <wff7> ) is not a virtual hypothesis. The latter element is
+not a virtual hypothesis because it is not atomic - it contains two
+virtual hypotheses. Even if this element was divided to create
+( <wff6> /\ <wff6> /\ <wff7> /\ T. ) , the resultant collection is
+not a valid virtual hypothesis collection because it contains two <wff6>
+virtual hypotheses.
+
+Any subproof of a Proof Worksheet for which the virtual hypothesis
+collection of the original assertion is identical to each virtual
+hypothesis collection of each hypothesis of the subproof does not
+need a non-unionized assertion and will be completed by mmj2
+unification alone if a unifying single metavariable deduction exists in
+set.mm. If the only unifying metavariable deduction in set.mm is in
+standard form, then a non-unionized assertion step must be added for
+completion of the subproof.
+
+A subproof of a translated User's Proof may unify with a deduction in
+set.mm without any steps added to the original subproof. Such subproofs
+are said to be completed by the mmj2 unification means. This is the sole
+means by which the mmj2 program completes subproofs. completeusersproof
+is designed to first attempt to complete each subproof of the User's
+Proof by this means. If the value of argv1 is "runCompleteusersproofmv",
+if a subproof is not completed by the mmj2 unification means, then an
+attempt is made to complete it by the metavariable deduction unification
+means. All subproofs completable by this means and not completable by the
+mmj2 unification means are completed by the metavariable deduction
+unification means. If a subproof is not completable by either of these two
+means, then completeusersproof attempts to complete it by adding a
+unification theorem. If the unification theorem does not unify with a
+theorem in set.mm, then completeusersproof will attempt to 2-step prove
+the unification theorem in order to complete the subproof. We call the
+means of adding a unification theorem and, if it does not unify, trying to
+2-step prove it the unification theorem means. For an argv1 value of
+"runCompleteusersproofmv", if a subproof does not complete by any of these
+three means, the subproof will not be completed by completeusersproof.
+Generally, some subproofs of a proof will complete upon application of the
+mmj2 unification means, some will complete upon application of the
+metavariable deduction unification means, some will complete upon
+application of the unification theorem means, and some will not complete.
+If all subproofs are completed, an RPN proof will be generated.
+
+If a subproof unifies with a single metavariable deduction in set.mm, it is
+completed by the mmj2 unification means, not by the metavariable deduction
+unification means. If a non-unionized assertion's deduction of a subproof
+is unified with a metavariable deduction in set.mm by applying the
+metavariable deduction unification means, the metavariable deduction with
+which it unifies is in standard form and has more than one hypothesis.
+Every 1-hypothesis metavariable deduction is both a single metavariable
+deduction and is a metavariable deduction in standard form. If a subproof
+unifies with such a metavariable deduction, it completes by the mmj2
+unification means.
+
+Not all subproofs which complete by the mmj2 unification means unify with
+a single metavariable deduction. Generally, a subproof completing by the
+mmj2 unification means often does not unify with a single metavariable
+deduction. For example, the subproof
+
+  5::          |- ( x e. A -> x e. suc A )
+  9:2:         |- x e. A
+  15:5,9:ax-mp |- x e. suc A
+
+completes by the mmj2 unification means by unifying with the deduction
+ax-mp . ax-mp is not a single metavariable deduction. Neither its
+hypotheses or its assertion have a virtual hypothesis collection.
+
+Any subproof completable by the mmj2 unification means is completable
+using the mmj2 program alone. completeusersrpoof also has this same
+capability, relying exclusively on invocation of the mmj2 program.
+None of the steps of a Virtual Deduction User's Proof should be labeled.
+Given this restriction, the mmj2 unification means can only complete a
+subproof of a Virtual Deduction User's Proof if that subproof, after
+translation, without any steps automatically added and without the
+hypothesis field of any step edited, unifies with a theorem or deduction
+in set.mm. If a translated subproof of a User's Proof, unmodified, does
+not unify with a theorem or deduction in set.mm, then it may be
+automatically completable using the additional capabilities of
+completeusersproof, by automatically generating an additional step or
+steps, or by adding steps and editing the hypothesis field of some steps.
+These additional capabilities provide greater Virtual Deduction User's
+Proof subproof completing power than available using the mmj2 program
+alone.
+
+We now discuss in greater detail the unification theorem means of
+completing a subproof. A subproof having more than one step unifies with
+either a deduction in set.mm or(excl.) with a ff* false deduction in
+fd.txt. 1-step subproofs unify with a theorem in set.mm or(excl.) do not
+unify. There are no 0-hypothesis ff* deductions in fd.txt. Each ff* false
+deduction corresponds to an eel* deduction which is the same as the ff*
+deduction, except it is in conventional notation and has an additional
+hypothesis, a "unification theorem". Presuming the User wrote a correct
+subproof, that subproof is true before a unification theorem is added to
+it. If the translated subproof did not complete upon application of the
+mmj2 unification means, the subproof does not unify with any deduction in
+set.mm. It does unify with a ff* false deduction in fd.txt. The translated
+ff* deduction is false only because it is missing the unification theorem
+hypothesis step which its corresponding eel* deduction has. The eel*
+deduction is contained in set.mm. completeusersproof adds the unification
+theorem to the subproof by replacing the ff* label with its corresponding
+eel* label and applying the mmj2 unify command. The modified subproof
+unifies with the eel* deduction.
+
+The unification theorem of a virtual deduction deduction is that unique
+virtual deduction whose virtual hypothesis collection is the collection of
+the virtual conclusions of the hypotheses of the virtual deduction
+deduction and whose virtual conclusion is the virtual conclusion of the
+assertion of the virtual deduction deduction. Every unification theorem is
+a theorem which may or may not unify with a theorem in set.mm.
+
+If set.mm is sufficiently rich with respect to the mathematics which is
+the subject of the User's Proof, then it is likely that the unification
+theorem of a subproof or a semantic variation of it will be a theorem in
+set.mm. If the unification theorem unifies with a theorem in set.mm, then
+completeusersproof completes the subproof by adding it alone. If the
+unification theorem does not unify with a theorem in set.mm, then the
+stepprover() function of completeusersproof() will attempt to 2-step prove
+the unification theorem. If there exists in set.mm at least one semantic
+variation of the unification theorem and if there exists in set.mm at
+least one 1-hypothesis deduction which deduces the unification theorem
+from one of its semantic variations in set.mm, then stepprover()
+automatically generates an additional step which is a semantic variation
+of the unification theorem and which unifies with a theorem in set.mm and
+completes the subproof. Otherwise, the added unification theorem remains
+unproven and the subproof, although proveable (assuming the original
+subproof is correct), is not completed.
+
+Let's illustrate use of the unification theorem means by way of an
+example. The subproof of suctrALT4UP whose assertion is step 15 is shown
+in its original form below. The proof of suctrALT4UP is contained in
+the VirtualDeductionProofs.txt file included in the completeusersproof
+download.
+
+  8:7:                  |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. ( y e. A -> z e. suc A ) ).
+  ...
+  ...
+  12:11:                |- (.            ( z e. y /\ y e. suc A )    ->. ( y = A -> z e. suc A ) ).
+  ...
+  14:13:                |- (.            ( z e. y /\ y e. suc A )    ->. ( y e. A \/ y = A ) ).
+  15:8,12,14:           |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. z e. suc A ).
+
+The "..." lines represent other steps of the User's Proof which are not
+hypothesis steps of the example subproof which are interspersed between
+hypothesis steps of the example subproof. The subproof translated into
+conventional notation is
+
+  8:7:                  |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:                |- (             ( z e. y /\ y e. suc A )    ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:                |- (             ( z e. y /\ y e. suc A )    ->  ( y e. A \/ y = A ) )
+  15:14,12,8:           |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+completeusersproof automatically finds and adds to the assertion step the
+label, eel2221, of the deduction in set.mm which deduces the assertion
+step from the original hypotheses and the unification theorem, step d3.
+
+  8:7:                  |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:                |- (            ( z e. y /\ y e. suc A )     ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:                |- (            ( z e. y /\ y e. suc A )     ->  ( y e. A \/ y = A ) )
+  d3::                  |- (  (  ( y e. A \/ y = A ) /\ ( y = A -> z e. suc A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:14,12,8,d3:eel2221 |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+This particular unification theorem, although a true theorem, does not
+unify with any theorem in set.mm. If it did, the subproof would have
+been completed at this point. But there does exist a 1-hypothesis
+deduction in set.mm which deduces the unification theorem from a semantic
+variation of it, a semantic variation which is in set.mm. That deduction
+is 3imp31. The semantic variation is jao. completeusersproof automatically
+finds these and 2-step proves the unification theorem using the
+stepprover() function. This completes the subproof. The completed subproof
+is
+
+  8:7:                  |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:                |- (            ( z e. y /\ y e. suc A )     ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:                |- (            ( z e. y /\ y e. suc A )     ->  ( y e. A \/ y = A ) )
+  d6::jao               |- (  (  y e. A -> z e. suc A ) -> ( ( y = A -> z e. suc A ) -> ( ( y e. A \/ y = A ) -> z e. suc A ) ) )
+  d3:d6:3imp31          |- (  (  ( y e. A \/ y = A ) /\ ( y = A -> z e. suc A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:14,12,8,d3:eel2221 |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+Note that each of steps 8, 12, and 14 is the (translated)
+assertion of another subproof of the (translated) User's Proof. Those
+subproofs also complete. The labels of the set.mm deductions which
+complete these other subproofs are not shown only because those subproofs
+are not being discussed here.
+
+If ff2221 was not in fd.txt or(incl.) eel2221 was not in set.mm the above
+subproof wouldn't complete by the unification theorem means for labels of
+type eel and not of type ffeel. The type ffeel label is a subtype of type
+eel. A label of type ffeel is of type eel. Not all type eel labels are of
+type ffeel. Labels of type ffeel are more general than eel labels not of
+type ffeel. Type ffeel deductions are false deductions but are not of
+type ff. The type ff label corresponding to a type ffeel label is of the
+form ff<i>h<j>, where <i> is the number of hypothesis steps of the type
+ff false deduction and <j> is number of hypothesis steps of the ff
+deduction having no virtual hypotheses and no virtual hypothesis
+collection.
+
+The above subproof of the suctrALT4UP User's Proof has 3 hypothesis steps,
+none of which have no virtual deductions. The type ff labels for this
+subproof are ff2221, corresponding to the more specialized
+type eel label eel2221, and ff3h0, corresponding to the label of types
+eel and ffeel, ffeel3h0. When both of these type ff labels occur in fd.txt
+the more specialized, ff2221, is picked. If ff2221 is temporarily removed
+from fd.txt, ff3h0 is picked. Given that ff2221 does not occur in fd.txt,
+the present subproof subproof will unify with ff3h0 which will be replaced
+with ffeel3h0 by substituteLabels(). The unification theorem means
+completes type ffeel subproofs differently than type eel subproofs not of
+type ffeel. We'll illustrate how the unification theorem means completes
+type ffeel deductions using the subproof whose assertion is step 15 of
+suctrALT4UP. This subproof of the User's Proof is
+
+  8:7:                  |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. ( y e. A -> z e. suc A ) ).
+  ...
+  ...
+  12:11:                |- (.            ( z e. y /\ y e. suc A )    ->. ( y = A -> z e. suc A ) ).
+  ...
+  14:13:                |- (.            ( z e. y /\ y e. suc A )    ->. ( y e. A \/ y = A ) ).
+  15:8,12,14:           |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. z e. suc A ).
+
+Upon mmj2 unification with fd.txt and set.mm loaded this subproof
+becomes
+
+  8:7:int3              |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. ( y e. A -> z e. suc A ) ).
+  ...
+  ...
+  12:11:int2            |- (.            ( z e. y /\ y e. suc A )    ->. ( y = A -> z e. suc A ) ).
+  ...
+  14:13:ff1             |- (.            ( z e. y /\ y e. suc A )    ->. ( y e. A \/ y = A ) ).
+  15:8,12,14:ff3h0      |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. z e. suc A ).
+
+The subproof translated into conventional notation after the
+substitutelabels() is called is
+
+  8:7:                  |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:                |- (             ( z e. y /\ y e. suc A )    ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:syl             |- (             ( z e. y /\ y e. suc A )    ->  ( y e. A \/ y = A ) )
+  15:14,12,8:ffeel3h0   |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+The subproof after another mmj2 unification is
+
+  8:7:3expia            |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:ex              |- (            ( z e. y /\ y e. suc A )    -> ( y = A -> z e. suc A ) )
+  ...
+  14:13,d2:syl          |- (            ( z e. y /\ y e. suc A )    -> ( y e. A \/ y = A ) )
+  d3::                  |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y = A -> z e. suc A ) )
+  d4::                  |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A \/ y = A ) )
+  d5::                  |- ( &W5 -> ( y e. A -> z e. suc A ) )
+  d6::                  |- ( ( ( y = A -> z e. suc A ) /\ ( y e. A \/ y = A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:12,d3,14,d4,d5,8,d6:ffeel3h0 |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> z e. suc A )
+
+Steps d3,d4, and d5 correspond, respectively, to the original hypothesis
+steps 12,14, and 8. Because the virtual hypothesis collection of step 8 is
+equal to that of the assertion step, the generation of an intermediate
+hypothesis step is not required. Step d5 is not needed. The existence of
+a work variable in d5 implies that that step is not needed.
+completeusersproof deletes each generated step in which at least one work
+variable occurs. completeusersproof deletes step d5.
+
+The subproof after the hypothesis fields of the hypothesis steps have been edited is
+
+  8:7:3expia            |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:ex              |- (            ( z e. y /\ y e. suc A )    -> ( y = A -> z e. suc A ) )
+  ...
+  14:13,d2:syl          |- (            ( z e. y /\ y e. suc A )    -> ( y e. A \/ y = A ) )
+  d3:12:                |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y = A -> z e. suc A ) )
+  d4:14:                |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A \/ y = A ) )
+  d5::                  |- ( &W5 -> ( y e. A -> z e. suc A ) )
+  d6::                  |- ( ( ( y = A -> z e. suc A ) /\ ( y e. A \/ y = A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:12,d3,14,d4,d5,8,d6:ffeel3h0 |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> z e. suc A )
+
+Step d3 is deducible from step 12 and step d4 is deducible from
+step 14. Step d6 is the unification theorem. The subproof after the
+hypothesis field of the assertion step has been edited, step d5 has
+been eliminated, all existing labels have been removed, and after mmj2
+unifying again is
+
+  8:7:3expia            |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A -> z e. suc A ) )
+  ...
+  ...
+12:11:ex              |- (            ( z e. y /\ y e. suc A )    -> ( y = A -> z e. suc A ) )
+  ...
+  14:13,d2:syl          |- (            ( z e. y /\ y e. suc A )    -> ( y e. A \/ y = A ) )
+  d3:12:adant1          |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y = A -> z e. suc A ) )
+  d4:14:adant1          |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A \/ y = A ) )
+  d6::                  |- ( ( ( y = A -> z e. suc A ) /\ ( y e. A \/ y = A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:d3,d4,8,d6:syl3anc |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> z e. suc A )
+
+d6, the unification theorem, does not unify with a theorem in set.mm, but
+is deduced from jao by 3imp231. After the stepprover() function does
+this the completed subproof is
+
+  8:7:3expia            |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:ex              |- (            ( z e. y /\ y e. suc A )    -> ( y = A -> z e. suc A ) )
+  ...
+  14:13,d2:syl          |- (            ( z e. y /\ y e. suc A )    -> ( y e. A \/ y = A ) )
+  d3:12:adant1          |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y = A -> z e. suc A ) )
+  d4:14:adant1          |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> ( y e. A \/ y = A ) )
+  d9::jao               |- ( ( y e. A -> z e. suc A ) -> ( ( y = A -> z e. suc A ) -> ( ( y e. A \/ y = A ) -> z e. suc A ) ) )
+  d6:d9:3imp231         |- ( ( ( y = A -> z e. suc A ) /\ ( y e. A \/ y = A ) /\ ( y e. A -> z e. suc A ) ) -> z e. suc A )
+  15:d3,d4,8,d6:syl3anc |- ( ( Tr A /\ ( z e. y /\ y e. suc A ) ) -> z e. suc A )
+
+Note that syl3anc is the name of the deduction in set.mm which whould have
+been named eel111 if the eel label naming convention was used. As with the
+unification theorem means for labels of type eel and not of type ffeel,
+the unification theorem means for labels of type eel and type ffeel
+generates a unification theorem. Unlike the unification theorem means for
+labels not of type ffeel, for each hypothesis step without a virtual
+hypothesis collection equal to the virtual hypothesis collection of the
+assertion step, the unfication theorem means generates an intermediate
+hypothesis step having a virtual hypothesis collection equal to that of
+the assertion's virtual hypothesis collection.  The virtual conclusion is
+the same as that of the corresponding original hypothesis step. Or, if the
+original hypothesis step has no virtual hypotheses, the virtual conclusion
+of the generated intermediate hypothesis step is equal to the wff of the
+original hypothesis step.
+
+Each hypothesis step of the assertion's deduction has a virtual hypothesis
+collection equal to the assertion's virtual hypothesis collection. It is a
+single metavariable deduction. The deduction of the assertion step of
+every n-hypothesis User's Subproof processed by the unification theorem
+means for labels of type ffeel unfies with the unique label eel11...1,
+where there are n "1"s. This single eel11...1 label applies for all
+permutations of original hypothesis step virtual hypothesis collections.
+There are many such permutations because, generally, the virtual
+hypothesis collection of an original hypothesis step may be any virtual
+hypothesis collection which is a subcollection of the assertion's virtual
+hypothesis collection. By using eel labels of type ffeel it becomes
+unnecessary for the many possible permutations of specialized eel
+deductions to exist in set.mm. Those specialized eel deductions which are
+included in set.mm are included because they are frequently used. The
+ground for their existence in set.mm is to shorten frequently occurring
+subproofs completed by the unification theorem means.
+
+A Virtual Deduction User's Proof may have steps with many-element virtual
+hypothesis collections. Because conventional notation virtual deductions
+may not have more than 3-conjunct conjunctions, completeusersproof
+translates a more-than-3-element virtual hypothesis collection into a
+left-nested conjunction. For example, the conventional notation
+counterpart of the Virtual Deduction virtual hypothesis collection 
+
+  (. <wff1> ,. <wff2> ,. <wff3> ,. <wff4> ,. <wff5> ).
+  
+is
+
+  ( ( ( ( <wff1> /\ <wff2> ) /\ <wff3> ) /\ <wff4> ) /\ <wff5> )
+  
+The unification theorem means using type ffeel labels is especially useful
+for Users' Proofs containing steps with virtual hypothesis collections
+having more than 3 elements because, otherwise, it would be necessary to
+have a large number of specialized eel permutations. Additional adant*
+deductions are required, but their number is much smaller than the number
+of specialized eel permutations that would otherwise be required.
+
+If the value of argv1 is not specified by the User or the User presses the
+"Completeusersproof" button in the completeusersproofGUI, then
+completeusersproof completes each subproof of the input User's Proof
+completable by the mmj2 unification means by that means. It attempts to
+complete the remaining subproofs by the unification theorem means. All
+subproofs completable by the unification theorem means are completed by
+that means. If all subproofs are completed, the proof is completed and a
+RPN proof is generated.
+
+If argv1 is specified by the User to have the value
+"runCompleteusersproofsmv", then completeusersproof completes each
+subproof competable by the mmj2 unification means by that means. It
+completes the remaining subproofs which are completable by the single
+metavariable deduction unification means by that means. It attempts to
+complete the remaining subproofs by the unification theorem means. Each
+remaining subproof completable by the unification theorem means is
+completed by that means. If all subproofs are completed, a RPN proof is
+generated. Otherwise, each remaining subproof not a single step has a
+generated unification theorem, but is not completed because the unification
+theorem does not unify with a theorem in set.mm and is not deducible by a
+2-step proof from a theorem in set.mm which is a semantic variation of the
+unification theorem. Each remaining single step subproof, a theorem, does
+not unify with a theorem in set.mm and is not deducible by a 2-step proof
+from a theorem in set.mm which is a semantic variation of the theorem of
+the subproof.
+
+Earlier, we described the metavariable deduction unification means. By this
+means, a subproof unifies with a standard form metavariable deduction in
+set.mm. Here we describe the single metavariable deduction unification
+means, which is distinct from the metavariable deduction unification means.
+If a subproof of the original User's Proof, without modification, unifies
+with a single metavariable deduction in set.mm, then it is completable by
+the mmj2 unification means, as explained above. The virtual hypothesis
+collection of each hypothesis step of the original subproof is identical
+to the virtual hypothesis collection of the assertion. When some of the
+original hypothesis steps have a virtual hypothesis collection which is a
+proper subcollection of the virtual hypothesis collection of the assertion,
+for each such hypothesis step, in implementing the single metavariable
+unification deduction means, completeusersproof automatically generates
+a corresponding hypothesis step which has the same virtual conclusion as
+the original hypothesis step and whose virtual hypothesis collection is
+identical to the virtual hypothesis collection of the assertion step.
+Each generated hypothesis step is deducible from its original hypothesis
+step by a 1-hypothesis deduction in set.mm. After these additional
+hypothesis steps are generated the subproof may then unify with a a single
+metavariable deduction in set.mm, completing the subproof. We illustrate
+the completion of a subproof by the single metavariable deduction
+unification means with an example. Again, we use the subproof of
+suctrALT4UP whose assertion step is step 15. This subproof happens to be
+completable by both the unification theorem means and the single
+metavariable deduction unification means. The subproof of the original
+User's Proof is
+
+  8:7:             |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. ( y e. A -> z e. suc A ) ).
+  ...
+  ...
+  12:11:           |- (.            ( z e. y /\ y e. suc A )    ->. ( y = A -> z e. suc A ) ).
+  ...
+  14:13:           |- (.            ( z e. y /\ y e. suc A )    ->. ( y e. A \/ y = A ) ).
+  15:8,12,14:      |- (. (. Tr A ,. ( z e. y /\ y e. suc A ) ). ->. z e. suc A ).
+
+The subproof translated into conventional notation is
+
+  8:7:             |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:           |- (             ( z e. y /\ y e. suc A )    ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:           |- (             ( z e. y /\ y e. suc A )    ->  ( y e. A \/ y = A ) )
+  15:14,12,8:      |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+The virtual hypothesis collection of step 8 (in conventional notation),
+(  Tr A /\ ( z e. y /\ y e. suc A ) ), is identical to the virtual
+hypothesis collection of the assertion step, step 15. It is in single
+metavariable deduction form. An additional step is not required. The
+virtual hypothesis collection for each of steps 12 and 14 is not
+identical to the assertion's virtual hypothesis collection. For step
+12, step d3 is generated. Step d3 is deducible from step 12 and its
+virtual hypothesis collection is identical to the assertion's
+virtual hypothesis collection. Similarly, step 14's virtual
+hypothesis collection is not identical to step 15's, so step d4 is
+generated. We say that, with these steps added, the subproof will complete
+if there exists a single metavariable deduction in set.mm which unifies
+with it. In saying this, it is implicitly assumed that a deduction exists
+in set.mm which unifies with the deduction whose assertion is step d3 and
+that a deduction exists in set.mm which unifies with the deduction whose
+assertion is step d4. More precisely stated, the subproof will complete if
+there exists a single metavariable deduction in set.mm which unifies with
+the deduction whose assertion is step 15 and whose hypotheses are steps 8,
+d3, and d4. In addition to generating the steps d3 and d4,
+completeusersproof also fills their hypothesis fields and edits the
+hypothesis field of the assertion step, step 15, as required. The subproof
+becomes
+
+  8:7:              |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:            |- (             ( z e. y /\ y e. suc A )    ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:            |- (             ( z e. y /\ y e. suc A )    ->  ( y e. A \/ y = A ) )
+  d3:12:            |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y = A -> z e. suc A ) )
+  d4:14:            |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A \/ y = A ) )
+  15:d3,d4,8:       |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+In fact, there does exist a single metavariable deduction in set.mm which
+unifies with the deduction whose assertion is step 15, there exists a
+deduction in set.mm which unifies with the deduction whose assertion is
+step d4, and there exists a deduction in set.mm which unifies with the
+deduction whose assertion is step d3. Upon mmj2 unification the subproof
+completes. The completed subproof is
+
+  8:7:              |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A -> z e. suc A ) )
+  ...
+  ...
+  12:11:            |- (             ( z e. y /\ y e. suc A )    ->  ( y = A -> z e. suc A ) )
+  ...
+  14:13:            |- (             ( z e. y /\ y e. suc A )    ->  ( y e. A \/ y = A ) )
+  d3:12:adantl      |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y = A -> z e. suc A ) )
+  d4:14:adantl      |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  ( y e. A \/ y = A ) )
+  15:8,d3,d4:mpjaod |- (  (  Tr A /\ ( z e. y /\ y e. suc A ) )  ->  z e. suc A )
+
+mpjaod is the single metavariable deduction in set.mm that unfies with the
+subproof.
+
+Where the assertion of a subproof of a User's Proof has no virtual
+hypotheses that assertion should not have a virtual hypothesis collection
+because there is no need for it. Similarly, the hypotheses of the subproof
+have no virtual hypotheses and should not be in standard T form. An
+example of such a subproof is the subproof whose assertion is step 43 of
+the User's Proof a9e2ndeqALTUP, contained in VirtualDeductionProofs.txt.
+It is
+
+  39::                   |- ( A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) )
+  ...
+  41:40:                 |- ( -. A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) )
+  42::                   |- ( A. x x = y \/ -. A. x x = y )
+  43:39,41,42:           |- ( u = v -> E. x E. y ( x = u /\ y = v ) )
+
+It is completable by the single metavariable deduction unification means.
+In order to unify with a single metavariable deduction in set.mm, step d13
+is generated. It is the original assertion step in standard T form. For
+each hypothesis step a step deducible from it with the same empty virtual
+hypothesis collection is generated. The contents of the hypothesis field
+for each of these generated steps is automatically generated by
+completeusersproof. Below is the completed subproof. The modifications to
+the original subproof are similar to the subproof of the last example,
+except there is an extra generated step, a step from which the original
+assertion step is deduced by the set.mm deduction trud. This extra step is
+needed to complete a subproof by the single metavariable deduction
+unification means only when the assertion has no virtual hypotheses and no
+empty virtual hypothesis collection.
+
+  39::                   |- ( A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) )
+  ...
+  41:40:                 |- ( -. A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) )
+  42::                   |- ( A. x x = y \/ -. A. x x = y )
+  d10:41:a1i             |- ( T. -> ( -. A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) ) )
+  d11:39:a1i             |- ( T. -> ( A. x x = y -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) ) )
+  d12:42:a1i             |- ( T. -> ( A. x x = y \/ -. A. x x = y ) )
+  d13:d11,d10,d12:mpjaod |- ( T. -> ( u = v -> E. x E. y ( x = u /\ y = v ) ) )
+  43:d13:trud            |- ( u = v -> E. x E. y ( x = u /\ y = v ) )

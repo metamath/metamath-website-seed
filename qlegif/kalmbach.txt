@@ -1,0 +1,199 @@
+(N. Megill 14-Dec-03)
+
+A system with modus ponens as the only rule is described in G. Kalmbach,
+_Orthomodular Lattices_ (1983), pp. 236ff.
+
+Kalmbach's system has 15 axioms, A1-A15, plus one rule of inference, R1
+(modus ponens).  It has primitive connectives v, ^, ~, and ->.  The use
+of multiple primitive connectives allows it to be expressed more
+compactly.  I don't think that her system is complete.  If I am right,
+the mistake was that she proved the completeness of a system without ->,
+then she introduced the -> connective after the fact without adding
+enough axioms for it.  For example, I don't believe P -> P can be proved
+in her system.  (Someday I'll try to show this rigorously.)  Anyway I
+added an extra axiom, A16, that I believe is necessary.  Also, I have
+proved that A1, A11, and A15 are redundant (i.e. can be derived from the
+others).
+
+With the addition of my A16, here is Kalmbach's system:
+
+R1.  Rule of inference:  From P and P -> Q, infer Q
+A1.  P <-> P
+A2.  ~(P <-> Q) v (~(Q <-> R) v (P <-> R))
+A3.  ~(P <-> Q) v (~P <-> ~Q)
+A4.  ~(P <-> Q) v ((P ^ R) <-> (Q ^ R))
+A5.  (P ^ Q) <-> (Q ^ P)
+A6.  (P ^ (Q ^ R)) <-> ((P ^ Q) ^ R)
+A7.  (P ^ (P v Q)) <-> P
+A8.  (~P ^ P) <-> ((~P ^ P) ^ Q)
+A9.  P <-> ~~P
+A10.  ~(P v Q) <-> (~P ^ ~Q)
+A11.  (P v (~P ^ (P v Q))) <-> (P v Q)
+A12.  (P <-> Q) <-> (Q <-> P)
+A13.  ~(P <-> Q) v (~P v Q)
+A14.  (~P v Q) -> (P -> (P -> Q))
+A15.  ~(P -> Q) v (~P v Q)
+A16.  (P -> Q) <-> (((~P ^ Q) v (~P ^ ~Q)) v (P ^ (~P v Q)))
+
+where P <-> Q is defined as (P ^ Q) v (~P ^ ~Q).
+
+To obtain axioms with only ~ and ->, we can replace P v Q with ~P -> (~P
+-> Q) and P ^ Q with ~(P -> (P -> ~Q)).  When this is done, we end up
+with the system below with only the connectives ~ and ->.  While they
+are hardly manageable in this form, I show them below to dramatize how
+far there is to go to make them "elegant".  As a practical matter one
+would of course use the system above.  But if we only want to have just
+the connectives ~ and -> then the system below is the best that we have
+so far.  (Some double negatives can probably be deleted, but where we
+can do that without upsetting completeness is far from obvious:  for
+example, removing the double negative in A9 above would render the
+system incomplete.)
+
+QR1.  Rule of inference:  From P and P -> Q, infer Q
+
+QA1.  ~~(P -> (P -> ~P)) -> (~~(P -> (P -> ~P)) -> ~(~P -> (~P -> ~~P)))
+
+QA2.  ~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> (~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P
+-> ~~Q)))) -> (~~(~~(Q -> (Q -> ~R)) -> (~~(Q -> (Q -> ~R)) -> ~(~Q ->
+(~Q -> ~~R)))) -> (~~(~~(Q -> (Q -> ~R)) -> (~~(Q -> (Q -> ~R)) -> ~(~Q
+-> (~Q -> ~~R)))) -> (~~(P -> (P -> ~R)) -> (~~(P -> (P -> ~R)) -> ~(~P
+-> (~P -> ~~R)))))))
+
+QA3.  ~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> (~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P
+-> ~~Q)))) -> (~~(~P -> (~P -> ~~Q)) -> (~~(~P -> (~P -> ~~Q)) -> ~(~~P
+-> (~~P -> ~~~Q)))))
+
+QA4.  ~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> (~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P
+-> ~~Q)))) -> (~~(~(P -> (P -> ~R)) -> (~(P -> (P -> ~R)) -> ~~(Q -> (Q
+-> ~R)))) -> (~~(~(P -> (P -> ~R)) -> (~(P -> (P -> ~R)) -> ~~(Q -> (Q
+-> ~R)))) -> ~(~~(P -> (P -> ~R)) -> (~~(P -> (P -> ~R)) -> ~~~(Q -> (Q
+-> ~R)))))))
+
+QA5.  ~~(~(P -> (P -> ~Q)) -> (~(P -> (P -> ~Q)) -> ~~(Q -> (Q -> ~P))))
+-> (~~(~(P -> (P -> ~Q)) -> (~(P -> (P -> ~Q)) -> ~~(Q -> (Q -> ~P))))
+-> ~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~~~(Q -> (Q -> ~P)))))
+
+QA6.  ~~(~(P -> (P -> ~~(Q -> (Q -> ~R)))) -> (~(P -> (P -> ~~(Q -> (Q ->
+~R)))) -> ~~(~(P -> (P -> ~Q)) -> (~(P -> (P -> ~Q)) -> ~R)))) ->
+(~~(~(P -> (P -> ~~(Q -> (Q -> ~R)))) -> (~(P -> (P -> ~~(Q -> (Q ->
+~R)))) -> ~~(~(P -> (P -> ~Q)) -> (~(P -> (P -> ~Q)) -> ~R)))) -> ~(~~(P
+-> (P -> ~~(Q -> (Q -> ~R)))) -> (~~(P -> (P -> ~~(Q -> (Q -> ~R)))) ->
+~~~(~(P -> (P -> ~Q)) -> (~(P -> (P -> ~Q)) -> ~R)))))
+
+QA7.  ~~(~(P -> (P -> ~(~P -> (~P -> Q)))) -> (~(P -> (P -> ~(~P -> (~P
+-> Q)))) -> ~P)) -> (~~(~(P -> (P -> ~(~P -> (~P -> Q)))) -> (~(P -> (P
+-> ~(~P -> (~P -> Q)))) -> ~P)) -> ~(~~(P -> (P -> ~(~P -> (~P -> Q))))
+-> (~~(P -> (P -> ~(~P -> (~P -> Q)))) -> ~~P)))
+
+QA8.  ~~(~(~P -> (~P -> ~P)) -> (~(~P -> (~P -> ~P)) -> ~~(~(~P -> (~P ->
+~P)) -> (~(~P -> (~P -> ~P)) -> ~Q)))) -> (~~(~(~P -> (~P -> ~P)) ->
+(~(~P -> (~P -> ~P)) -> ~~(~(~P -> (~P -> ~P)) -> (~(~P -> (~P -> ~P))
+-> ~Q)))) -> ~(~~(~P -> (~P -> ~P)) -> (~~(~P -> (~P -> ~P)) -> ~~~(~(~P
+-> (~P -> ~P)) -> (~(~P -> (~P -> ~P)) -> ~Q)))))
+
+QA9.  ~~(P -> (P -> ~~~P)) -> (~~(P -> (P -> ~~~P)) -> ~(~P -> (~P ->
+~~~~P)))
+
+QA10.  ~~(~(~P -> (~P -> Q)) -> (~(~P -> (~P -> Q)) -> ~~(~P -> (~P ->
+~~Q)))) -> (~~(~(~P -> (~P -> Q)) -> (~(~P -> (~P -> Q)) -> ~~(~P -> (~P
+-> ~~Q)))) -> ~(~~(~P -> (~P -> Q)) -> (~~(~P -> (~P -> Q)) -> ~~~(~P ->
+(~P -> ~~Q)))))
+
+QA11.  ~~((~P -> (~P -> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> ((~P ->
+(~P -> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> ~(~P -> (~P -> Q)))) ->
+(~~((~P -> (~P -> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> ((~P -> (~P
+-> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> ~(~P -> (~P -> Q)))) ->
+~(~(~P -> (~P -> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> (~(~P -> (~P
+-> ~(~P -> (~P -> ~(~P -> (~P -> Q)))))) -> ~~(~P -> (~P -> Q)))))
+
+QA12.  ~~((~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> ((~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> ~(~~(Q -> (Q -> ~P)) -> (~~(Q -> (Q -> ~P)) -> ~(~Q -> (~Q ->
+~~P)))))) -> (~~((~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P ->
+(~P -> ~~Q)))) -> ((~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P ->
+(~P -> ~~Q)))) -> ~(~~(Q -> (Q -> ~P)) -> (~~(Q -> (Q -> ~P)) -> ~(~Q ->
+(~Q -> ~~P)))))) -> ~(~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) ->
+~(~P -> (~P -> ~~Q)))) -> (~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q))
+-> ~(~P -> (~P -> ~~Q)))) -> ~~(~~(Q -> (Q -> ~P)) -> (~~(Q -> (Q ->
+~P)) -> ~(~Q -> (~Q -> ~~P)))))))
+
+QA13.  ~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> (~~(~~(P -> (P -> ~Q)) -> (~~(P -> (P -> ~Q)) -> ~(~P -> (~P
+-> ~~Q)))) -> (~~P -> (~~P -> Q)))
+
+QA14.  (~~P -> (~~P -> Q)) -> (P -> (P -> Q))
+
+QA15.  ~~(P -> Q) -> (~~(P -> Q) -> (~~P -> (~~P -> Q)))
+
+QA16.  ~~((P -> Q) -> ((P -> Q) -> ~(~(~~(~P -> (~P -> ~Q)) -> (~~(~P ->
+(~P -> ~Q)) -> ~(~P -> (~P -> ~~Q)))) -> (~(~~ (~P -> (~P -> ~Q)) ->
+(~~(~P -> (~P -> ~Q)) -> ~(~P -> (~P -> ~~Q)))) -> ~(P -> (P -> ~(~~P ->
+(~~P -> Q)))))))) -> (~~((P -> Q) -> ((P -> Q) -> ~(~(~~(~P -> (~P ->
+~Q)) -> (~~(~P -> (~P -> ~Q)) -> ~(~P -> (~P -> ~~Q)))) -> (~(~~(~P ->
+(~P -> ~Q)) -> (~~(~P -> (~P -> ~Q)) -> ~(~P -> (~P -> ~~Q)))) -> ~(P ->
+(P -> ~(~~P -> (~~P -> Q)))))))) -> ~(~(P -> Q) -> (~(P -> Q) -> ~
+~(~(~~(~P -> (~P -> ~Q)) -> (~~(~P -> (~P -> ~Q)) -> ~(~P -> (~P ->
+~~Q)))) -> (~(~~(~P -> (~P -> ~Q)) -> (~~(~P -> (~P -> ~Q)) -> ~(~P ->
+(~P -> ~~Q)))) -> ~(P -> (P -> ~(~~P -> (~~P -> Q)))))))))
+
+
+Here is a list of some random theorems of the above logic.  They might
+interesting to look at in a search for a shorter axiomatization.
+
+Notes:
+
+1. All 1-variable theorems as the same as for classical propositional
+calculus.
+
+2. There is a decision procedure to verify all 2-variable theorems (I
+have a program to do this, and also to iteratively list all for a given
+number of connectives).
+
+3. I have formal proofs of 178 theorems in this system (contact me if
+you want them).
+
+
+P -> P
+P -> ~~P
+~~P -> P
+P -> (Q -> Q)
+P -> (P -> (Q -> P))
+P -> (Q -> (Q -> P))
+~P -> (P -> (P -> Q))
+~P -> (P -> (~P -> Q))
+P -> ((P -> Q) -> P)
+(P -> Q) -> (P -> (P -> Q))
+~(P -> Q) -> ((P -> Q) -> P)
+P -> (P -> ((Q -> ~P) -> ~Q))
+P -> (P -> (Q -> ~(Q -> ~P)))
+~(P -> ~Q) -> (P -> (P -> Q))
+P -> ((P -> Q) -> ( ~Q ->  ~P))
+(P -> Q) -> (P -> ( ~Q ->  ~P))
+( ~Q ->  ~P) -> (P -> (P -> Q))
+(P -> ( ~Q ->  ~P)) -> (P -> Q)
+(P -> ( ~Q ->  ~P)) -> (P -> Q)
+(P -> Q) -> ((P -> Q) -> (~Q -> ~P))
+(P -> (P -> (P -> Q))) -> (P -> (P -> Q))
+(P -> Q) -> ((P -> Q) -> ((Q -> P) -> ((Q -> P) ->
+      ((R -> (R -> P)) -> (R -> (R -> Q))))))
+(P -> Q) -> ((P -> Q) -> ((Q -> P) -> ((Q -> P) ->
+      ((Q -> R) -> ((Q -> R) -> ((R -> Q) -> ((R -> Q) -> (P -> R))))))))
+
+Other results:
+
+Define:
+P v Q  =def=  ~P -> (~P -> Q)
+P ^ Q  =def=  ~(~P v ~Q)
+Then:
+All OML =1 laws hold; e.g. x v x' = 1 means P v ~P holds
+
+If P -> (Q -> P) and Q -> (R -> Q), then {P,Q,R} is distributive triple
+e.g. (P ^ (Q v R)) -> ((P ^ Q) v (P ^ R)),
+     ((P ^ Q) v (P ^ R)) -> (P ^ (Q v R)),
+     (Q ^ (P v R)) -> ((Q ^ P) v (Q ^ R)),
+     ((Q ^ P) v (Q ^ R)) -> (Q ^ (P v R))
+
+

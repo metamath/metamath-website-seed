@@ -1,0 +1,12 @@
+# Default policy: exclude C programs (they cause confusing site searches),
+# the duplicated information in the Unicode versions, and the LaTeX sources
+User-agent: *
+Disallow: /metamath/
+Disallow: /mpegif/
+Disallow: /qlegif/
+Disallow: /latex/
+
+# Allow wget to mirror entire site
+User-agent: wget
+Disallow:
+

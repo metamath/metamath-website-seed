@@ -1,0 +1,1975 @@
+[Note - this file is an archived copy of the obsolete web page
+http://ghilbert.org/choice.txt . Copyrights, if any, belong to Raph
+Levien (who created this document) and the individual correspondents.
+- Norm Megill 9/28/2011]
+
+
+This file contains correspondence with Norm Megill, Bob Solovay,
+Michael Norrish, and Freek Wiedijk about construction of HOL in
+classical (ZFC) set theory. Deepest thanks are due to all who have
+chimed in on these questions.
+
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Norman Megill <nm_at_alum.mit.edu>
+Cc: Raph Levien <raph.levien_at_artifex.com>
+Subject: Stuck on choice
+
+Hi Norman,
+
+   My construction of HOL in Ghilbert was humming along nicely until I
+got to HOL's epsilon operator, which expresses choice in HOL. If P is
+a function from type alpha to bool (i.e. a predicate), then epsilon P
+is a value of type alpha such that P(epsilon P) is true (assuming such
+a value exists; it is undefined otherwise). Thus, it's basically the
+same as Hilbert's epsilon-calculus.
+
+http://plato.stanford.edu/entries/epsilon-calculus/
+
+   My first approach was to try to construct types as pairs consisting
+of a range of values and a well ordering relation. However, what I
+missed is that it's far from trivial to construct a well ordering of
+functions from alpha to beta, even if you have well orderings of alpha
+and beta. For total orderings it's easy (you use a lexicographical
+order), which helped mislead me.
+
+   The HOL description is cheerfully optimistic:
+
+The above assumptions on U are weaker than those imposed on a universe
+of sets by the axioms of Zermelo-Fraenkel set theory with the Axiom of
+Choice (ZFC), principally because U is not required to satisfy any
+form of the Axiom of Replacement. Indeed, it is possible to prove the
+existence of a set U with the above properties from the axioms of
+ZFC. (For example one could take U to consist of all non-empty sets in
+the von Neumann cumulative hierarchy formed before stage \omega + omega.) Thus,
+as with many other pieces of mathematics, it is possible in principal
+to give a completely formal version within ZFC set theory of the
+semantics of the HOL logic to be given below.
+
+(Kananaskis description, page 6)
+
+   However, it's far from obvious to me how to actually do this. I've
+spent quite a bit of time searching on Google, and the impression I
+get is of some very deep water. Even well-ordering the reals seems to
+be problematic.
+
+   You seem to be well-versed on the fundamental issues here. Can I,
+in fact, construct the U referenced in the Kananaskis description as
+an element of R1 ` ( om +o om ) ? The necessary properties seem to be
+that it includes the natural numbers, and is closed under ordered
+pairing, subset, and powerset. I get the sense that adding replacement
+would make this universe a proper class.
+
+   If I have a bound on the rank of a set, can I place the elements of
+the set in correspondence with (a subset of) the ordinals? If so, that
+would clearly buy me a suitable choice function.
+
+   Using the axiom of choice seems directly seems difficult. In
+particular, while it guarantees the existence of the suitable epsilon
+function, it doesn't let me write it as a closed term. One other
+possiblity I'm considering is adding Hilbert's epsilon to the set
+theory axiomatization. As far as I can tell, this would add only
+notational convenience, not the ability to prove any new theorems.  I
+can imagine a reasonably straightforward transformation of terms
+containing epsilon into equivalent terms that don't (probably of the
+form E. f ("f is a choice function") /\ "term with epsilon replaced by
+f").
+
+   Many, but not all, of the real-world uses of epsilon are in fact
+cases of "definite description", which would be satisfied by the much
+less problematic "iota" operator, basically the same as epsilon but
+only defined if the predicate is true for a single value.
+
+http://www.ftp.cl.cam.ac.uk/ftp/hvg/info-hol-archive/03xx/0348
+
+   It would be trivial to construct iota - it's basically just
+{ y | E. x ( y e. x /\ ph ) }.
+
+   Do you have any useful insight into these questions? I'm also
+tempted to post the issues to my blog.
+
+Wishing you a happy new year,
+
+Raph
+
+==========
+[very lightly edited at NM's request]
+
+To: raph.levien_at_artifex.com
+Subject: Re: Stuck on choice
+From: Norman Megill <nm_at_alum.mit.edu>
+
+Hi Raph,
+
+>    My construction of HOL in Ghilbert was humming along nicely until I
+> got to HOL's epsilon operator, which expresses choice in HOL. If P is
+> a function from type alpha to bool (i.e. a predicate), then epsilon P
+> is a value of type alpha such that P(epsilon P) is true (assuming such
+> a value exists; it is undefined otherwise). Thus, it's basically the
+> same as Hilbert's epsilon-calculus.
+>
+> http://plato.stanford.edu/entries/epsilon-calculus/
+>
+>    My first approach was to try to construct types as pairs consisting
+> of a range of values and a well ordering relation. However, what I
+> missed is that it's far from trivial to construct a well ordering of
+> functions from alpha to beta, even if you have well orderings of alpha
+> and beta.
+
+> For total orderings it's easy (you use a lexicographical
+> order), which helped mislead me.
+
+How do I use lexicographical ordering?  I'm not sure what you mean.
+
+>    The HOL description is cheerfully optimistic:
+>
+> The above assumptions on U are weaker than those imposed on a universe
+> of sets by the axioms of Zermelo-Fraenkel set theory with the Axiom of
+> Choice (ZFC), principally because U is not required to satisfy any
+> form of the Axiom of Replacement. Indeed, it is possible to prove the
+> existence of a set U with the above properties from the axioms of
+> ZFC. (For example one could take U to consist of all non-empty sets in
+> the von Neumann cumulative hierarchy formed before stage \omega + omega.) Thus,
+> as with many other pieces of mathematics, it is possible in principal
+> to give a completely formal version within ZFC set theory of the
+> semantics of the HOL logic to be given below.
+>
+> (Kananaskis description, page 6)
+>
+>    However, it's far from obvious to me how to actually do this. I've
+> spent quite a bit of time searching on Google, and the impression I
+> get is of some very deep water. Even well-ordering the reals seems to
+> be problematic.
+
+>    You seem to be well-versed on the fundamental issues here.
+
+Not really but I'll try. :)
+
+> Can I,
+> in fact, construct the U referenced in the Kananaskis description as
+> an element of R1 ` ( om +o om ) ?
+
+I'm not sure how to formally express "the von Neumann cumulative
+hierarchy formed before stage \omega + omega." since there is no last
+ordinal before omega.  Maybe I'm misunderstanding.  But if it is just
+defined as ( ( R1 ` ( om +o om ) ) \ { (/) } ) then I guess the intended
+U would be included, plus some extraneous things.  I don't know if
+extraneous things would be a problem or not.
+
+> The necessary properties seem to be
+> that it includes the natural numbers, and is closed under ordered
+> pairing, subset, and powerset.
+
+I don't have proofs, but it sounds like an interesting thing I could add
+to set.mm eventually if you don't.  I have a vague idea how I might
+attempt it, and overall they _might_ not be that hard - but there always
+seem to be nasty surprises when you actually try to formalize something.
+
+>  I get the sense that adding replacement
+> would make this universe a proper class.
+
+Sounds likely but I'm not sure.  Possibly it could be a set if
+inacessible cardinals were added.  Bob might be able to answer this.
+
+>    If I have a bound on the rank of a set, can I place the elements of
+> the set in correspondence with (a subset of) the ordinals? If so, that
+> would clearly buy me a suitable choice function.
+
+I don't know the answer, but what you are suggesting sounds like an
+intriguing idea to explore.  A powerful tool ("Scott's trick") is to
+reduce proper equivalence classes to sets with minimum rank.  Cardinal
+numbers can be developed without the Axiom of Choice this way (see
+kardex and karden in set.mm*).
+
+  * http://us.metamath.org/metamath/set.mm
+
+I've developed R1 and rank pretty well I think; I proved essentially all
+of Ch. 9 of Takeuti/Zaring except the last theorem - I've been meaning
+to get to it - as well as most of the stuff I found in other books.
+The last theorem of Ch. 9 seems to say something rather profound about
+ordering, using rank and R1, but I don't have a high-level grasp of it yet.
+
+Again, Bob might be able to shed more light.
+
+>    Using the axiom of choice seems directly seems difficult. In
+> particular, while it guarantees the existence of the suitable epsilon
+> function, it doesn't let me write it as a closed term.
+
+Yes.  Proofs can be tedious as a result, for example my proof of Zorn's
+Lemma, and df-ded often becomes of little use.
+
+> One other
+> possiblity I'm considering is adding Hilbert's epsilon to the set
+> theory axiomatization.
+
+I guess a new axiom would be needed for this.
+
+  http://plato.stanford.edu/entries/epsilon-calculus/
+  Hilbert's "transfinite axiom": A(x) -> A(ep x A)
+
+  Quantifiers can be defined as follows:
+  E. x A(x) <-> A(ep x A)
+  A. x A(x) <-> A(ep x ( -. A))
+
+  The usual quantifier axioms and rules can be derived from these, so the
+  definitions above serve to embed first-order logic in the epsilon
+  calculus.  The converse is, however, not true:  not every formula in the
+  epsilon calculus is the image of an ordinary quantified formula under
+  this embedding.  Hence, the epsilon calculus is more expressive than the
+  predicate calculus, simply because epsilon term can be combined in more
+  complex ways than quantifiers.
+
+Epsilon (conservatively) extends predicate calculus, but it is not clear
+to me what part of the theory could be emulated with definitions in ZFC.
+Epsilon seems to be almost universally ignored in set theory books as
+far as I can tell.
+
+> As far as I can tell, this would add only
+> notational convenience, not the ability to prove any new theorems.
+
+Yes, this sounds like the 2nd epsilon theorem.
+
+  http://plato.stanford.edu/entries/epsilon-calculus/
+  Second epsilon theorem:  Suppose Gamma u. {A} is a set of formulae not
+  involving the epsilon symbol.  If A is derivable from Gamma in the
+  epsilon calculus, then A is derivable from Gamma in predicate logic.
+
+> I can imagine a reasonably straightforward transformation of terms
+> containing epsilon into equivalent terms that don't (probably of the
+> form E. f ("f is a choice function") /\ "term with epsilon replaced by
+> f").
+>
+>    Many, but not all, of the real-world uses of epsilon are in fact
+> cases of "definite description", which would be satisfied by the much
+> less problematic "iota" operator, basically the same as epsilon but
+> only defined if the predicate is true for a single value.
+>
+> http://www.ftp.cl.cam.ac.uk/ftp/hvg/info-hol-archive/03xx/0348
+>
+>    It would be trivial to construct iota - it's basically just
+> { y | E. x ( y e. x /\ ph ) }.
+
+Yes.  I use, for example, U. { x e. CC | ( A + x ) = B } ) } to define A
+- B for complex numbers (df-neg).  I've thought about defining iota
+explicitly but never got around to it.  You could optionally condition your
+definition with E! x ph so that you get the empty set rather than e.g.
+V when ph is -. x e. x, if you want that.  I'm not sure how you handle
+"undefined".
+
+Norm
+
+==========
+
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Norman Megill <nm_at_alum.mit.edu>
+Cc: raph.levien_at_artifex.com
+Subject: Re: Stuck on choice
+
+On Wed, Dec 31, 2003 at 12:54:52PM -0500, Norman Megill wrote:
+> >    My first approach was to try to construct types as pairs consisting
+> > of a range of values and a well ordering relation. However, what I
+> > missed is that it's far from trivial to construct a well ordering of
+> > functions from alpha to beta, even if you have well orderings of alpha
+> > and beta.
+>
+> > For total orderings it's easy (you use a lexicographical
+> > order), which helped mislead me.
+>
+> How do I use lexicographical ordering?  I'm not sure what you mean.
+
+I need to state that more precisely: if you have a well-ordering of
+A and a well ordering of B, then it's easy to construct a total order
+of B ^m A  - it's:
+
+{<x,y> | E. z e. A ( A. w e. A (w <A z -> (x`w) = (y`w)) /\
+                     (x`z) <B (y`z)) }
+
+In other words, you pick the minimal element at which the two
+functions differ, and use that for the order. Of course, what this
+doesn't buy you is a well-ordering of B ^m A - for example, you can't
+use it to determine a minimal element of the set of singletons of nat.
+
+> > Can I,
+> > in fact, construct the U referenced in the Kananaskis description as
+> > an element of R1 ` ( om +o om ) ?
+>
+> I'm not sure how to formally express "the von Neumann cumulative
+> hierarchy formed before stage \omega + omega." since there is no last
+> ordinal before omega.  Maybe I'm misunderstanding.  But if it is just
+> defined as ( ( R1 ` ( om +o om ) ) \ { (/) } ) then I guess the intended
+> U would be included, plus some extraneous things.  I don't know if
+> extraneous things would be a problem or not.
+
+My gut feeling is not. It should be possible to use a recursive function
+and comprehension to trim it down.
+
+> > The necessary properties seem to be
+> > that it includes the natural numbers, and is closed under ordered
+> > pairing, subset, and powerset.
+>
+> I don't have proofs, but it sounds like an interesting thing I could add
+> to set.mm eventually if you don't.  I have a vague idea how I might
+> attempt it, and overall they _might_ not be that hard - but there always
+> seem to be nasty surprises when you actually try to formalize something.
+>
+> >  I get the sense that adding replacement
+> > would make this universe a proper class.
+>
+> Sounds likely but I'm not sure.  Possibly it could be a set if
+> inacessible cardinals were added.  Bob might be able to answer this.
+>
+> >    If I have a bound on the rank of a set, can I place the elements of
+> > the set in correspondence with (a subset of) the ordinals? If so, that
+> > would clearly buy me a suitable choice function.
+>
+> I don't know the answer, but what you are suggesting sounds like an
+> intriguing idea to explore.  A powerful tool ("Scott's trick") is to
+> reduce proper equivalence classes to sets with minimum rank.  Cardinal
+> numbers can be developed without the Axiom of Choice this way (see
+> kardex and karden in set.mm*).
+
+Right.
+
+One thing seems clear to me now, though. If there is any such closed-form
+expression mapping sets of rank \alpha to the ordinals, it entails (by
+tz9.13) the axiom of choice. In fact, since every set has a rank, it would
+seem to entail a closed-form expression for epsilon.
+
+Further, it seems to me that if you have a function that maps a
+well-ordering of A to a well-ordering of P~ A, you'd be able to construct
+such a closed-form expression as above by recursing over the rank.
+
+So, unless I'm missing something (quite likely), it would seem that
+the statement "there is no closed-form expression for Hilbert's
+epsilon choice operator" would imply "there is no closed-form
+expression mapping a well-ordering of a set to a well-ordering of its
+powerset". I'd imagine such a beast would be reasonably popular if it
+existed, so the fact that I can't find it (and that you don't know it
+off the top of your heat) is a bad sign.
+
+>   * http://us.metamath.org/metamath/set.mm
+>
+> I've developed R1 and rank pretty well I think; I proved essentially all
+> of Ch. 9 of Takeuti/Zaring except the last theorem - I've been meaning
+> to get to it - as well as most of the stuff I found in other books.
+> The last theorem of Ch. 9 seems to say something rather profound about
+> ordering, using rank and R1, but I don't have a high-level grasp of it yet.
+>
+> Again, Bob might be able to shed more light.
+
+I will ask him.
+
+> >    Using the axiom of choice seems directly seems difficult. In
+> > particular, while it guarantees the existence of the suitable epsilon
+> > function, it doesn't let me write it as a closed term.
+>
+> Yes.  Proofs can be tedious as a result, for example my proof of Zorn's
+> Lemma, and df-ded often becomes of little use.
+>
+> > One other
+> > possiblity I'm considering is adding Hilbert's epsilon to the set
+> > theory axiomatization.
+>
+> I guess a new axiom would be needed for this.
+>
+>   http://plato.stanford.edu/entries/epsilon-calculus/
+>   Hilbert's "transfinite axiom": A(x) -> A(ep x A)
+
+Yup, I'm sure this is the new axiom that would be required.
+
+>   Quantifiers can be defined as follows:
+>   E. x A(x) <-> A(ep x A)
+>   A. x A(x) <-> A(ep x ( -. A))
+>
+>   The usual quantifier axioms and rules can be derived from these, so the
+>   definitions above serve to embed first-order logic in the epsilon
+>   calculus.  The converse is, however, not true:  not every formula in the
+>   epsilon calculus is the image of an ordinary quantified formula under
+>   this embedding.  Hence, the epsilon calculus is more expressive than the
+>   predicate calculus, simply because epsilon term can be combined in more
+>   complex ways than quantifiers.
+>
+> Epsilon (conservatively) extends predicate calculus, but it is not clear
+> to me what part of the theory could be emulated with definitions in ZFC.
+> Epsilon seems to be almost universally ignored in set theory books as
+> far as I can tell.
+>
+> > As far as I can tell, this would add only
+> > notational convenience, not the ability to prove any new theorems.
+>
+> Yes, this sounds like the 2nd epsilon theorem.
+>
+>   http://plato.stanford.edu/entries/epsilon-calculus/
+>   Second epsilon theorem:  Suppose Gamma u. {A} is a set of formulae not
+>   involving the epsilon symbol.  If A is derivable from Gamma in the
+>   epsilon calculus, then A is derivable from Gamma in predicate logic.
+
+I didn't try to understand this theorem in detail; it seems quite
+intimidating, and it's not obvious that the "derivable" relationship
+is exactly the same as Metamath/Ghilbert.
+
+> > I can imagine a reasonably straightforward transformation of terms
+> >    Many, but not all, of the real-world uses of epsilon are in fact
+> > cases of "definite description", which would be satisfied by the much
+> > less problematic "iota" operator, basically the same as epsilon but
+> > only defined if the predicate is true for a single value.
+> >
+> > http://www.ftp.cl.cam.ac.uk/ftp/hvg/info-hol-archive/03xx/0348
+> >
+> >    It would be trivial to construct iota - it's basically just
+> > { y | E. x ( y e. x /\ ph ) }.
+>
+> Yes.  I use, for example, U. { x e. CC | ( A + x ) = B } ) } to define A
+> - B for complex numbers (df-neg).  I've thought about defining iota
+> explicitly but never got around to it.  You could optionally condition your
+> definition with E! x ph so that you get the empty set rather than e.g.
+> V when ph is -. x e. x, if you want that.  I'm not sure how you handle
+> "undefined".
+
+I'm not so worried about how to handle "undefined" - there are a bunch
+of different ways of doing it, so I basically need to pick the one that
+appeals to my aesthetic sense the most.
+
+> Norm
+
+Thanks for your quick answers!
+
+Raph
+
+==========
+
+Advogato post by raph on 1 Mar 2004
+http://www.advogato.org/person/raph/diary.html?start=368
+
+<b>Logic</b>
+
+<p> <a href="http://www.ghilbert.org/">Ghilbert</a> was cited in a recent
+<a href="http://www.arxiv.org/abs/math.HO/0311260">preprint</a> by
+Carlos T. Simpson. One of the central themes of this paper is a
+preference for untyped, set-theory flavored math as opposed to the
+more type-flavored variety you see in systems such as HOL, NuPRL, and
+Coq. He's also not a big fan of the constructive flavor of the latter
+two systems (meaning that x || !x is not an axiom).
+
+<p> The main thing I'm doing in Ghilbert now is constructing HOL in set
+theory. It's slow and steady progress, and very satisfying. One issue
+I'm running into, though, is HOL's <a
+href="http://plato.stanford.edu/entries/epsilon-calculus/">epsilon</a>
+operator. Essentially, if f is a function from some type T to bool,
+then epsilon(f) chooses a value (of type T) for which f is true. This
+construction is very useful, but does pose some challenges.
+
+<p> In the special case where there is only <i>one</i> value for which f is
+true, there's no problem (in this case, the similar "iota" operator
+suffices). But it's not hard to come up with situations in which f
+might hold for infinitely many values, and choosing one out of the
+many is a problem. If you accept the <a
+href="http://www.math.vanderbilt.edu/~schectex/ccc/choice.html">Axiom
+of Choice</a>, it tells you that it can be done, but it doesn't tell
+you <i>which</i> value to choose. So it doesn't provide much help for
+actually constructing HOL in set theory.
+
+
+<p> The HOL documentation adds further twists to the story. The <a
+href="http://prdownloads.sourceforge.net/hol/kananaskis-1-description.pdf?download">HOL
+description document</a> contains a paragraph (at the end of section
+1.1) suggesting that the universe of HOL terms is actually a pretty
+small set (by the standards of set theory, anyway - it's still quite
+infinite), and that it should be possible to choose an element from
+any subset quite straightforwardly, even without assuming the axiom of
+choice. I am beginning to get a vague sense what they're talking
+about, but don't really understand it. If anyone out there reading
+could explain it to me, I'd really appreciate it. If not, I think I
+know who to ask.
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+To: Raph Levien <raph_at_acm.org>
+Subject: HOL in set theory
+Reply-To: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+
+Hi,
+
+I was interested to read your latest post about proof systems.  I
+don't have any problem with your claim that set theory is likely the
+best place to do mathematics, rather than HOL.  This is, I'm sure, why
+the Mizar system does it this way.  There's just flexibility possible
+with sets that you can't have in simple type theory.  HOL's strength
+is that it seems admirably suited to a wide variety of computer
+science applications.  Moreover, the maths necessary to support those
+applications seems possible to formalise in HOL too.
+
+About the HOL model you're constructing in ZFC; I don't understand why
+you are having problems.
+
+Let AC be
+
+   (!x. ?y. P x y) = (?f. !x. P x (f x))
+
+Then do the following:
+
+   !P. (?x. x IN P) ==> (?y. y IN P)     (* tautology *)
+   !P. ?y. (?x. x IN P) ==> y IN P       (* boolean laws about ? *)
+   ?f. !P. (?x. x IN P) ==> f P IN P     (* Axiom of Choice *)
+
+The f we've just proved exists is the Hilbert choice operator.
+
+To make a new corresponding constant, you need a principle of
+definition that allows you to go from
+
+  ?x. P x
+
+to
+
+  P c
+
+where c is a new constant.  This is sound.
+
+----------------------------------------------------------------------
+
+Then you talk about the claim made in the HOL Description:
+
+   The above assumptions on $\cal U$ are weaker than those imposed on
+   a universe of sets by the axioms of
+   Zermelo-Fraenkel\index{Zermelo-Fraenkel set theory} set theory with
+   the Axiom of Choice (\theory{ZFC})\index{axiom of
+   choice}\index{ZFC@\ml{ZFC}}, principally because $\cal U$ is not
+   required to satisfy any form of the Axiom of
+   Replacement\index{axiom of replacement}.  Indeed, it is possible to
+   prove the existence of a set $\cal U$ with the above properties
+   from the axioms of \theory{ZFC}.  (For example one could take $\cal
+   U$ to consist of all non-empty sets in the von~Neumann cumulative
+   hierarchy formed before stage $\omega+\omega$.) Thus, as with many
+   other pieces of mathematics, it is possible in principal to give a
+   completely formal version within \theory{ZFC} set theory of the
+   semantics of the \HOL\ logic to be given below.
+
+I don't see why you say that this implies you can do without AC.  It
+only says the axiom of replacement is not necessary.
+
+----------------------------------------------------------------------
+
+Finally, why aren't you using Isabelle/ZF? :-)
+
+Regards,
+Michael.
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Cc: Raph Levien <raph_at_acm.org>, nm_at_alum.mit.edu
+Subject: Re: HOL in set theory
+
+On Tue, Mar 02, 2004 at 09:03:13AM +1100, Michael Norrish wrote:
+> Hi,
+>
+> I was interested to read your latest post about proof systems.  I
+> don't have any problem with your claim that set theory is likely the
+> best place to do mathematics, rather than HOL.  This is, I'm sure, why
+> the Mizar system does it this way.  There's just flexibility possible
+> with sets that you can't have in simple type theory.  HOL's strength
+> is that it seems admirably suited to a wide variety of computer
+> science applications.  Moreover, the maths necessary to support those
+> applications seems possible to formalise in HOL too.
+
+Thanks for the quick reply. It's exactly the kind of response I was
+looking for.
+
+I'm actually not claiming that set theory, or for that matter any one
+axiom-system, is the "best" place to do mathematics. The major goal
+of Ghilbert is to allow people to do work in the system of their choice,
+and make it as painless as possible to port those proofs to different
+systems.
+
+> About the HOL model you're constructing in ZFC; I don't understand
+> why you are having problems.  Let AC be (!x. ?y. P x y) = (?f. !x. P
+> x (f x)) Then do the following: !P. (?x. x IN P) ==> (?y. y IN P) (*
+> tautology *) !P. ?y. (?x. x IN P) ==> y IN P (* boolean laws about ?
+> *) ?f. !P. (?x. x IN P) ==> f P IN P (* Axiom of Choice *) The f
+> we've just proved exists is the Hilbert choice operator.  To make a
+> new corresponding constant, you need a principle of definition that
+> allows you to go from ?x. P x to P c where c is a new constant.
+> This is sound.
+
+You've put your finger right on the problem. Ghilbert, as it stands
+now, does _not_ have such a principle of definition. What it does have
+is very syntactic - it's essentially macro expansion. Combined with
+the axioms of ZFC (as formulated by Norm Megill in Metamath), it's
+quite powerful. For example, I have no trouble defining constructions
+for "x:T" "T is a valid type", "\x:T.A", and even "[t'/x]t". The
+epsilon operator is the one exception.
+
+I may very well have a situation analogous to syntax for comprehension,
+written { x | ph } in Metamath syntax, or { x e. A | ph } for the
+restricted variety (e. is MM for \in, and ph is MM for \varphi). The
+axiom of comprehension states that the latter set exists (assuming A
+exists), but doesn't let you write the set as a closed-form term. So
+this is what Norm does, and I follow: in the base axioms of the system,
+he introduces the { x | ph } syntax, provides a single axiom that
+effectively serves as its definition:
+
+http://us.metamath.org/mpegif/df-clab.html
+
+As it happens, this "definition" can't be expressed a definition in
+Ghilbert, because it's not strictly macro expansion. In particular,
+the LHS refers to not only the newly defined term, but also the e.
+connector. So it's got to be an axiom.
+
+Now, as it happens, there's a pretty straightforward argument that
+says that any proof containing { x | ph } syntax can be mechanically
+transformed into one that doesn't. That's a pretty solid justification
+for introducing it through an axiom, but the definitional framework I've
+chosen is too weak to let you introduce it without a new axiom. I've
+certainly thought about stronger definition frameworks, but in this
+particular case I felt that the added complexity in the definition
+framework outweighed the cost of requiring an additional axiom.
+
+The metalogic of Ghilbert (which it generally inherits from MM) is
+agnostic as to the actual choice of axioms. It also shies away from
+"justificational theorems" of the kind used in HOL to introduce new
+types. So it's not clear that a rule allowing you to go from ?x. P x
+to P c (where c is a constant) would fit in to the overall plan.
+What I'd rather do, if possible, is give a closed-form expression for
+c, then prove that it has the right properties.
+
+The most obvious path is to introduce a full epsilon into the set
+theory axiomatization. I can accept the argument that it's sound, but
+there's the practical issue of then being able to port proofs relying
+on it into a system that lacks it (for example, Norm's ZFC axioms in
+Metamath). It bothers me, because it feels like you don't really
+_need_ such an axiom.
+
+> ----------------------------------------------------------------------
+> Then you talk about the claim made in the HOL Description: The above
+> assumptions on $\cal U$ are weaker than those imposed on a universe
+> of sets by the axioms of Zermelo-Fraenkel\index{Zermelo-Fraenkel set
+> theory} set theory with the Axiom of Choice
+> (\theory{ZFC})\index{axiom of choice}\index{ZFC@\ml{ZFC}},
+> principally because $\cal U$ is not required to satisfy any form of
+> the Axiom of Replacement\index{axiom of replacement}.  Indeed, it is
+> possible to prove the existence of a set $\cal U$ with the above
+> properties from the axioms of \theory{ZFC}.  (For example one could
+> take $\cal U$ to consist of all non-empty sets in the von~Neumann
+> cumulative hierarchy formed before stage $\omega+\omega$.) Thus, as
+> with many other pieces of mathematics, it is possible in principal
+> to give a completely formal version within \theory{ZFC} set theory
+> of the semantics of the \HOL\ logic to be given below.  I don't see
+> why you say that this implies you can do without AC.  It only says
+> the axiom of replacement is not necessary.
+
+Right. I misspoke (misblogged?). I think I got confused between not
+needing to invoke AC individually for each instance of the epsilon
+operator, and not needing it at all in proofs of the construction.
+
+In fact, if I can come up with closed-form expression for U and the
+operators on it, then I think I could construct HOL with epsilon in my
+framework as follows: currently, each term is represented as a class
+(which happens to be not a proper class) representing its value. The
+base types all have simple set-valued expressions, for example false
+is the empty set and true is {false}. Functions are represented in the
+usual set-theoretic way, as a set of <argument, value> pairs. In the
+new construction, terms would be represented as a function from
+"choice function" to this basic value. The choice function would be of
+type U->U, and the top-level turnstile would wrap the judgement
+in an existential quantifier for a choice function satisfying the
+expected properties. Then, of course, you'd use AC to prove that
+such a function actually does exist.
+
+So then the only problem would be to come up with the appropriate
+construction of U. The MM library sounds like it's got powerful enough
+tools to carry this out, but it's definitely beyond my current skills,
+and Norm wasn't able to figure it off the top of his head either. Of
+course, it has to be a set (as opposed to a proper class), or else you
+wouldn't be able to quantify over it. The relevant bits in the MM
+library include the aleph function, the cumulative hierarchy of sets
+function (R1 in Takeuti & Zaring's notation), ordinal exponentiation
+(but not (yet) cardinal exp), and of course the straightforward
+consequences of AC.
+
+I'm certainly willing to give this a shot, but could definitely use a
+nudge in the right direction. The challenging bit is going to be
+proving !x. x e. U ==> Pow(x) e. U, while avoiding Pow(U) = U, which
+would force U to be a proper class. Would it make sense to attempt
+this, with U defined as R1(om +o om) ?
+
+Even with this approach, there may still be reason to prefer the
+iota-based axioms to the epsilon-ones, at least in some cases, because
+it's probably easier to mix sets and HOL in the iota world.
+
+If you want to look at my current construction, it's here:
+
+http://www.ghilbert.org/files/hol/hol-zfc.gh
+
+> ----------------------------------------------------------------------
+> Finally, why aren't you using Isabelle/ZF? :-) Regards, Michael.
+
+The short answer is because I'm a stubborn git who's come down with a
+case of NIH. The long answer is that I believe that I can do things
+in the Ghilbert framework that are not quite so easy in Isabelle, in
+particular to make it easier to write proofs which can then be ported
+to a wide variety of other systems (meaning both actual systems and
+abstract axiom-sets). That's something of an extraordinary claim, and
+when I'm a little farther along, assuming I don't run into a brick
+wall, I hope to be able to defend it. In the meantime I'm having fun
+learning this stuff and appreciate you taking the time to explain
+stuff to me.
+
+Take care,
+
+Raph
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Norman Megill <nm_at_alum.mit.edu>
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Subject: Re: HOL in set theory
+
+Hi Raph,
+
+> In fact, if I can come up with closed-form expression for U and the
+> operators on it, then I think I could construct HOL with epsilon in my
+> framework as follows: currently, each term is represented as a class
+> (which happens to be not a proper class) representing its value. The
+
+When I read the above I wondered whether there is some trick we can do
+with the rank function to get something useable as epsilon.  I'm not
+clear enough about what you're talking about to know if I'm off base,
+but let me describe it anyway; it might be worth looking into.
+
+A common use of rank is to obtain, as a set, a collection that would
+ordinarily be a proper class.  A standard example is the kard function
+described in Enderton p. 222.  Intuitively we want the class of all sets
+equinumerous to a given set to represent canonically the "size" of that
+set.  (This would let us avoid the Axiom of Choice.)  But this of course
+is a proper class.
+
+What kard does is obtain the class of all sets equinumerous to the given
+set but of least rank.  This turns out to be a set, not a proper class.
+(Somewhere I've heard the process for doing this called "Scott's trick"
+although I can't find a literature reference using that name.)  I prove
+the key kard theorem here:
+
+  http://us.metamath.org/mpegif/karden.html
+
+and show it is a set here:
+
+  http://us.metamath.org/mpegif/kardex.html
+
+The procedure is also described on p. 72 of Jech, where he says "One of
+the uses of the rank function is a definition of equivalence classes in
+case of an equivalence relation over a proper class" in reference to
+this technique.  I also prove his Collection Principle p. 72 using the
+technique:
+
+  http://us.metamath.org/mpegif/cp.html
+
+The key theorems for (what I call) Scott's trick itself are also from
+Jech p. 72:
+
+  http://us.metamath.org/mpegif/scott0.html
+  http://us.metamath.org/mpegif/scottex.html
+
+Norm
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+To: Raph Levien <raph.levien_at_artifex.com>
+Subject: Re: HOL in set theory
+Reply-To: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+
+Hi Raph,
+
+Here's an argument as to why you should allow
+
+  ?x. P x
+
+to justify the assertion of the existence of a constant c, such that
+the only thing you know about c is that it satisfies P.
+
+Any proof involving the constant c can be translated into one without,
+and entirely at the level of first order logic, without any appeal to
+axioms whatsoever.
+
+So, any theorem that uses c, but which doesn't mention c in the final
+statement of the theorem must really be a proof of
+
+   P c |- Q
+
+where Q is the conclusion.  (In proving Q, you will have used the
+assumption P c.) From this it is a rule of first order logic that
+
+  (?x. P x) |- Q
+
+follows.  We've already proved (?x. P x) once, so
+
+  |- Q
+
+must hold.
+
+If Q does mention c, then what you've proved is really
+
+  P c |- Q c
+
+which in turn implies
+
+  |- !x. P x ==> Q x
+
+If the Q(c) result is used in any subsequent proof, then you have
+really proved (for R without mentions of c).
+
+  Q(c) |- R
+
+But we have
+
+  P(c) |- Q(c)
+
+so you have
+
+  P(c) |- R
+
+and thus to (?x. P x) |- R, and then to
+
+  |- R
+
+----------------------------------------------------------------------
+
+Conclusion: adding the principle of definition I suggest must be sound
+for any axiomatisation involving first-order logic (intuitive or
+classical).   Even if you didn't add the principle as such, you could
+structure your proofs along the lines sketched above to make using
+Hilbert-choice relatively straightforward.
+
+Regards,
+Michael.
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Using AC in HOL?
+
+
+Raph,
+
+        One definitely needs AC to define the epsilon operator in HOL. One
+can prove in HOL that the reals can be well-ordered. But in ZF without the
+axiom of choice it's consistent that there is no well-ordering of the
+reals.
+
+        Here is how I would handle defining the epsilon operator in
+set-theory.
+
+        One has a domain of types. This is a collection [a *set*!] of sets
+closed under non-empty subset, containing one infinite set and closed
+under the mapping construction: if A and B are in the collection so is the
+set of maps of A into B.
+
+For example, one could take the non-empty sets of rank less than omega +
+omega as our collection.
+
+Using choice, well-order the union of this collection. Now if we are given
+something in the domain of epsilon it's the map of a non-empty type into
+2. If the set of things that map into 1 is non-empty take the least [with
+respect to our chosen well-ordering] member of this set. If not, take the
+least element of our type.
+
+        Apologies if I've been either too wordy or too cryptic [or both!].
+I'd be glad to fill in the details on any of this.
+
+        --Bob Solovay
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Some further comments
+
+
+        1. I'm not sure what description of the semantics of HOL you are
+referring to in your Advogato posting. The best description of the
+semantics of HOl that I know of can be found in the Description document
+[Chapter 1] that can be downloaded from the
+URL:http://hol.sourceforge.net/
+
+        2. This description talks of "standard model" semantics. Roughly
+this means that the function type  A -> B is to be interpreted as the full
+collection of **all** functions from the underlying set of the type A to
+the underlying set of the type B.
+
+        3. To define the epsilon operator for such stnadard models
+definitely requires the axiom of choice.
+
+        4. However [though this is not discussed in the reference I cited]
+there is an obvious notion of "ordinary model" of HOL. {One would not
+require that the function type consists of all functions, but just some.
+One would require that all the axioms of HOL come out true in the model.}
+
+        One can construct an ordinary model of HOL without using the axiom
+of choice in the set-theoretical metatheory. One would do this as follows.
+
+        1) Using Godel's technique of constructible sets, one can build a
+model M of Zermelo set theory [including the axiom of choice] in ZF. {ZF
+consists of all the axioms of Zermelo Frankel set theory except the axiom
+of choice.
+
+        2) Now one carries out "the usual" construction of a model of HOL
+inside the model M. The resulting model of HOL will not be standard, but
+will satisfy all the HOL axioms.
+
+        --Bob Solovay
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Last comment of the night
+
+
+I  looked at your advogato posting again. I see you were citing the same
+description I referenced in my second letter. But you write: "and that it
+should be possible to choose an element from any subset quite
+straightforwardly, even without assuming the axiom of choice. "
+
+        For the life of me I can't find any such claim in the HOL
+description.
+
+        --Bob
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Last comment of the night
+
+On Wed, Mar 03, 2004 at 01:21:10AM -0800, Robert M. Solovay wrote:
+>
+> I  looked at your advogato posting again. I see you were citing the same
+> description I referenced in my second letter. But you write: "and that it
+> should be possible to choose an element from any subset quite
+> straightforwardly, even without assuming the axiom of choice. "
+>
+>       For the life of me I can't find any such claim in the HOL
+> description.
+
+Thanks for all your comments. I goofed on that claim. The HOL
+description doesn't say you can do it without AC. What it says is you
+don't need the axiom of replacement to work for U. As you say, that
+means that U is contained in R1(omega+omega). It _finally_ dawned on
+me yesterday what that actually means. I think I can use that to
+construct HOL-with-epsilon in my ZFC framework.
+
+> But in ZF without the
+> axiom of choice it's consistent that there is no well-ordering of the
+> reals.
+
+I didn't know that! It's very good to know, of course. I was figuring
+that sufficiently "small" sets could be well-ordered without resorting
+to AC, but it looks like I completely missed the mark on what counts as
+sufficiently small - would I be correct in assuming it's R1(omega)?
+
+Here's another question. Assume AC. Can I write epsilon as a
+closed-form expression, using the language of Metamath (that would
+be standard predicate calculus plus class abstraction notation)? I
+see a fair amount of work on well-ordering of the reals which suggests
+to me that it is not possible without additional axioms, for example
+Saharon Shelah's "coding with ladders", which I only dimly understand.
+
+Thanks again for lending your wisdom.
+
+Raph
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Last comment of the night
+
+
+
+
+On Wed, 3 Mar 2004, Raph Levien wrote:
+
+> On Wed, Mar 03, 2004 at 01:21:10AM -0800, Robert M. Solovay wrote:
+>
+> > But in ZF without the
+> > axiom of choice it's consistent that there is no well-ordering of the
+> > reals.
+>
+> I didn't know that! It's very good to know, of course. I was figuring
+> that sufficiently "small" sets could be well-ordered without resorting
+> to AC, but it looks like I completely missed the mark on what counts as
+> sufficiently small - would I be correct in assuming it's R1(omega)?
+
+        Yes. If we mean  the same thing by R1(omega) [the sets of rank
+less than omega] than R1(omega] has [provably in ZF] a canonical
+well-ordering. There are models of ZF in which Rl(omega + 1) does not have
+a well-ordering.
+
+        The canonical well-ordering of Rl(omega) is cute. We inductively
+assign to each element of Rl(omega) a non-negative integer thus:
+
+        The empty set is assigned 0.
+
+        The set {x_1, ..., x_n} is assigned the integer:
+ 2^{x_1} + ... + 2^ {x_n}.
+
+        So 1 = {0} is assigned the integer 1 and 2 = {0,1} is assigned the
+integer 3. [And continuing this one step further, 3 = {0,1,2} is assigned
+the integer 11 = 1 + 2 + 8.]
+
+>
+> Here's another question. Assume AC. Can I write epsilon as a
+> closed-form expression, using the language of Metamath (that would
+> be standard predicate calculus plus class abstraction notation)? I
+> see a fair amount of work on well-ordering of the reals which suggests
+> to me that it is not possible without additional axioms, for example
+> Saharon Shelah's "coding with ladders", which I only dimly understand.
+
+        Not always. There is a model of ZFC in which there is no definable
+well-ordering of the reals. {I believe this result is due to Feferman. It
+was proved shortly after Cohen developed forcing.}
+
+        [Here ZFC is Zermelo Frankel set theory plus the axiom of choice.]
+
+> Thanks again for lending your wisdom.
+
+        Glad to be of help.
+
+        By the way, I'm curious about your project of doing HOL in
+Ghilbert. I'll write with some questions tomorrow when I have more time.
+
+        --Bob Solovay
+
+
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Cc: Raph Levien <raph.levien_at_artifex.com>
+Subject: Re: HOL in set theory
+
+On Tue, Mar 02, 2004 at 01:43:33PM +1100, Michael Norrish wrote:
+> Hi Raph,
+>
+> Here's an argument as to why you should allow
+>
+>   ?x. P x
+>
+> to justify the assertion of the existence of a constant c, such that
+> the only thing you know about c is that it satisfies P.
+
+[snip]
+
+> Conclusion: adding the principle of definition I suggest must be sound
+> for any axiomatisation involving first-order logic (intuitive or
+> classical).   Even if you didn't add the principle as such, you could
+> structure your proofs along the lines sketched above to make using
+> Hilbert-choice relatively straightforward.
+
+Right.
+
+The issue is that the "principle of definition" I've chosen for Ghilbert
+is quite conservative. It's basically macro expansion. All definitions
+are of the form:
+
+constant(x_0, x_1, ... x_n) == closed expression using x_i and dummies
+
+Then, the idea is that the provability of a term containing definitions
+is equivalent to the provability of the term resulting from expanding
+all such definitions.
+
+Metamath, from which Ghilbert derives, makes no distinction between
+axioms and definitions. Thus, any statement introduced with the $a
+command should have an (informal) argument for soundness. For
+definitions of the form above, the soundness argument is quite
+straightforward (I'd say trivial if it weren't for some subtleties
+involving Metamath's treatment of distinct variable constraints).
+
+Thus, there may very well be things that mathematicians would consider
+as definitions, but cannot be expressed within Ghilbert's definition
+framework. You can make the argument that class abstraction { x | ph }
+is one such construction. Perhaps epsilon, once it's proved to exist
+using AC, is another. From this, you could conclude one of two things:
+First, that Ghilbert sucks for having such a weak definitional
+framework (my argument against this is that overly powerful
+definitional frameworks are a serious source of portability problems
+between proof systems). Second, that in choosing an axiom-set for
+use in a Ghilbert/Metamath-like system, one should be very willing
+to accept terms such as epsilon which add to the expressive power
+and convenience of the system, but are conservative wrt the axioms.
+
+The main point of Ghilbert, though, is to facilitate proofs which make
+the minimal assumptions necessary about the "axioms" they import (and
+in this case, by "axioms" I mean both axioms in the traditional sense
+and these definition-like assertions). Thus, I can see doing not one
+but three HOL constructions in ZFC:
+
+1. No epsilon, but an iota. The construction of an HOL term is the
+straightforward set representation. The judgement " |- t " is
+interpreted as set-theoretic equality of t with the representation of
+"true" (by tradition, the ordinal 1).
+
+2. Full HOL with epsilon, using only the existence of the choice
+function. All HOL types are constrained to fit within a set U.
+The construction of an HOL term is a function from a choice function
+to a value in U. The judgement " |- t " is interpreted as "for all
+f s.t. f is a valid choice function over U, [[t]](f) = 1". The
+construction of HOL epsilon is the identity function (or, more
+likely, a restriction of it for well-typing purposes).
+
+3. Full HOL with epsilon, using a set-theoretic epsilon. Construction
+is as in (1), but with HOL epsilon constructed using the underlying
+epsilon.
+
+Each of these choices has different consequences for portability. In
+(1), it's pretty easy to mix HOL and set theory (in the sense of
+importing HOL theorems into a set-theoretic universe), because any
+nonempty set can become a type. However, only the iota-subset of
+HOL proofs will go through. In (2), such mixing is both less
+convenient (in that you have to deal with choice functions as explicit
+arguments) and less powerful (in that, for a set to become a type,
+it not only has to be nonempty but also belong to U). However, within
+these limitations, it's straightforward to import the resulting proofs
+into a world with AC but not an epsilon term. Finally, in (3), you
+get the same mixing as (1), but you can only import the resulting
+proofs into a world with epsilon.
+
+The cool thing is that I think I can formulate all three in the
+Ghilbert framework so that proofs can import an "interface" containing
+the HOL inference rules (with iota) that will go through when bound
+to all three constructions, or they can import a slightly different
+interface for HOL-with-epsilon that will go through in the latter two.
+If that's true, then hopefully I'm not wasting my time :)
+
+Thanks again for the feedback; it's definitely helped me see the
+issues more clearly.
+
+Raph
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Doing HOL in Ghilbert
+
+
+Raph,
+
+        I thought some over the last day as to what "doing HOL in ZFC"
+should mean. A formal treatment of HOL seems like quite an ambitious
+project.
+
+        I downloaded what you have on this on your Ghilbert website. It
+turns out I can't quickly parse what you are doing. {Not a criticism; just
+a fact.}
+
+        Because of the Flyspeck project
+http://www.math.pitt.edu/~thales/flyspeck/index.html
+I've shifted my attention from Mizar to HOL.
+
+        Currently I'm doing the reverse of what you are doing: developing
+ZFC inside of HOL. Of course, I need to add new axioms to HOL to do this.
+
+        Basically the plan is to add new axioms about some type asserting
+its cardinality is an inaccessible cardinal. Then I will define the
+standard model of ZFC and verify the ZFC axioms. Needless to say this is
+much less ambitious than doing HOL in ZFC. But I hope to use this as my
+"entrance exam" to the Flyspeck project.
+
+        There are a lot of variants of HOL out there, by the way,
+{Isabelle, ProofPower, etc.] and I think some of them have nicer working
+enviroments than HOL-light. It is a very nice feature of HOL-light that it
+has a relatively small and readable source. [Even when one is admitted to
+the inner circles of the Mizar community, the source proves to be quite
+crufty and difficult to read.]
+
+        I felt I had passed a milestone when I figured out how to prove 0
+= 1 in HOL-light. {The problem is a bug in the program that checks for
+alpha conversion. It's quite fixable but I'm not sure that John Harrison
+has repaired the sources on his web site yet.}
+
+        --Bob Solovay
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Norman Megill <nm_at_alum.mit.edu>
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Subject: Re: HOL in set theory - epsilon thoughts
+
+Hi Raph,
+
+We want to find something that satisfies Hilbert's "transfinite axiom"
+A(x) -> A(ep x A).  Since x is not free in the consequent, this is the
+same as E. x A(x) -> A(ep x A)
+
+I'll use metamath notation.  I'll use ph instead of A.  Define a class
+of all x's satisfying ph, of minimum rank:
+
+  { x | ( ph /\ A. y ( [ y / x ] ph -> ( rank ` x ) (_ ( rank ` y ) ) ) }
+
+For convenience call this ' minrank x ph '.
+
+  minrank x ph =
+      { x | ( ph /\ A. y ( [ y / x ] ph -> ( rank ` x ) (_ ( rank ` y ) ) ) }
+
+This is a set by scottex.  So by weth, it can be well-ordered:
+
+  E. w w We minrank x ph
+
+I think we can prove (I didn't actually try it but I can if we think
+this is useful):
+
+  ( w We minrank x ph ->
+      ( E. x ph -> [ U. { y e. minrank x ph | A. z -. z w y } / x ] ph ) )
+
+so in a sense  U. { y e. minrank x ph | A. z -. z w y }  is  ep x ph  but
+with a free variable w in it.
+
+The problem is that we have to drag around the ' w We minrank x ph '
+antecedent until we finally at some point eliminate w in the consequent
+(which will happen eventually since epsilon won't occur in the final
+theorem of interest).  I don't know how awkward this would be in
+practice.  When w disappears, we apply 19.23aiv and weth to eliminate
+the antecedent.
+
+' w We minrank x ph ' cannot normally be used as a hypothesis for dedth
+since in most cases we cannot exhibit a w that satisfies it.  However,
+for any theorem *scheme* involving an arbitrary ph, we can use dedth
+since anything well-orders the empty set by we0.
+
+Norm
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Norman Megill <nm_at_alum.mit.edu>
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Subject: Re: HOL in set theory
+
+Hi Raph,
+
+It looks like zornlem1 immediately yields the idea of my previous email
+with no new theorems needed.  In zornlem1, put V for R. Then gRz will
+always be true, so that D = A.  Eliminate all other hypotheses with
+cleqid (we have to change bound variables in some cases).  Assign (/) to
+x in the conclusion so that '(/) e. On' goes away with 0elon.  We will get:
+
+   |- A e. V    =>   |- ( ( w We A /\ -. A = (/) ) -> *** e. A )
+
+where *** is an (extremely complicated) expression that provides us with
+a fixed element in A given w.  I.e. *** is the epsilon.
+
+We substitute 'minrank x ph' for A and use scottex to eliminate the
+A e. V hypothesis.  As before, we would have to carry around the
+'w We minrank x ph' antecedent in an application, eventually eliminating
+it with weth.
+
+The horrendous expression *** is not as simple as the one in my previous
+email, but it is a quick and dirty way to get what we want with no extra
+work.  Maybe this is using a sledgehammer to kill a gnat but once you
+abbreviate it with a definition its complexity becomes irrelevant.
+
+Norm
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Norman Megill <nm_at_alum.mit.edu>
+Cc: Raph Levien <raph.levien_at_artifex.com>,
+        Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Subject: Re: HOL in set theory
+
+On Fri, Mar 05, 2004 at 09:26:13AM -0500, Norman Megill wrote:
+> Hi Raph,
+>
+> It looks like zornlem1 immediately yields the idea of my previous email
+> with no new theorems needed.  In zornlem1, put V for R. Then gRz will
+> always be true, so that D = A.  Eliminate all other hypotheses with
+> cleqid (we have to change bound variables in some cases).  Assign (/) to
+> x in the conclusion so that '(/) e. On' goes away with 0elon.  We will get:
+>
+>    |- A e. V    =>   |- ( ( w We A /\ -. A = (/) ) -> *** e. A )
+>
+> where *** is an (extremely complicated) expression that provides us with
+> a fixed element in A given w.  I.e. *** is the epsilon.
+>
+> We substitute 'minrank x ph' for A and use scottex to eliminate the
+> A e. V hypothesis.  As before, we would have to carry around the
+> 'w We minrank x ph' antecedent in an application, eventually eliminating
+> it with weth.
+>
+> The horrendous expression *** is not as simple as the one in my previous
+> email, but it is a quick and dirty way to get what we want with no extra
+> work.  Maybe this is using a sledgehammer to kill a gnat but once you
+> abbreviate it with a definition its complexity becomes irrelevant.
+
+Well, this is fascinating indeed!
+
+Am I to understand that we'll need a new dummy w for each instance of
+the epsilon operator? If so, I can see writing a mechanical translator
+which eliminates epsilons from proofs, but it sounds like it's well
+beyond the expressive power of Ghilbert's definitional framework.
+
+I am thinking, though, that if I come up with a set U, so that for
+a set to be a valid HOL type it has to be a member of U, then I can
+use a trick similar to this to define a single choice function which
+is then eliminated at the top-level judgement. That, I think, can be
+done in Ghilbert definitions.
+
+If I understand Bob Solovay correctly, there cannot be a closed-form
+epsilon that doesn't make use of a new dummy variable:
+
+> > Here's another question. Assume AC. Can I write epsilon as a
+> > closed-form expression, using the language of Metamath (that would
+> > be standard predicate calculus plus class abstraction notation)? I
+> > see a fair amount of work on well-ordering of the reals which suggests
+> > to me that it is not possible without additional axioms, for example
+> > Saharon Shelah's "coding with ladders", which I only dimly understand.
+>
+>         Not always. There is a model of ZFC in which there is no definable
+> well-ordering of the reals. {I believe this result is due to Feferman. It
+> was proved shortly after Cohen developed forcing.}
+>
+>        [Here ZFC is Zermelo Frankel set theory plus the axiom of choice.]
+
+So it seems like this choice issue is coming to a definite resolution.
+Thanks!
+
+Raph
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Norman Megill <nm_at_alum.mit.edu>
+To: Raph Levien <raph.levien_at_artifex.com>
+Subject: Re: HOL in set theory
+
+Hi Raph,
+
+> Am I to understand that we'll need a new dummy w for each instance of
+> the epsilon operator?
+
+Yes.  Each set 'minrank x ph' may have a different well-ordering, since
+there is no well-ordering that works simultaneously for all members of V.
+
+> If so, I can see writing a mechanical translator
+> which eliminates epsilons from proofs, but it sounds like it's well
+> beyond the expressive power of Ghilbert's definitional framework.
+
+Yes, an HOL translator would have to be more sophisticated in order to
+accumulate and manipulate these w's.  Although it still sounds less
+onerous than the "intimidating" (your word - I haven't looked at it)
+second epsilon theorem.  My guess is that that theorem probably goes
+through hoops to avoid AC and ends up with a very complex translation
+algorithm, and that by using AC (in the form of weth) we get all that
+for free.  With the one drawback of the dummy w.
+
+I don't have any concrete feel about how often epsilon is typically used
+in HOL - is it all the time, or just special cases here and there?  That
+would determine how ugly this is in practice.
+
+> I am thinking, though, that if I come up with a set U, so that for
+> a set to be a valid HOL type it has to be a member of U, then I can
+> use a trick similar to this to define a single choice function which
+> is then eliminated at the top-level judgement. That, I think, can be
+> done in Ghilbert definitions.
+
+If the universe of HOL is a set (is it?  If so, do we need the
+inaccessible cardinal axiom?) then we could have one w that can cover
+everything simultaneously, using theorem wess, and we also wouldn't need
+the rank stuff.  We still would have to carry w around in an antecedent
+until all epsilons are eliminated.
+
+> If I understand Bob Solovay correctly, there cannot be a closed-form
+> epsilon that doesn't make use of a new dummy variable:
+
+That was the conclusion I was also starting to conjecture, so that
+validates my feeling.  We're stuck with the w if we use this approach.
+
+The second epsilon theorem might eliminate w and might be worth studying
+at some point, just to understand the idea if nothing else.  But my gut
+feel is that proofs would be a lot longer than ones using AC.
+
+> So it seems like this choice issue is coming to a definite resolution.
+
+It does.  Not exactly the answer we hoped, but not too bad either.
+
+Norm
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Ghilbert
+
+
+Raph,
+
+        I've started looking at the python code for Gh. It would be very
+helpful to know the main changes between the design document and the
+current implementation.
+
+        Here's a wild surmise as to how you are doing HOL in ZFC. {I don't
+know Gh. well enough yet to really read the source code.}
+
+        A type is just a non-empty set with a distingusihed element...
+
+        If you are doing things this way, there is no way to define the
+global choice operator in ZFC. [This follows from my earlier remark that
+there are models of ZFC in which there is no definable well-ordering of
+the reals.]
+
+        Of course, I may be way off base here.
+
+        --Bob Solovay
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Doing HOL in Ghilbert
+
+On Thu, Mar 04, 2004 at 02:56:39PM -0800, Robert M. Solovay wrote:
+>
+> Raph,
+>
+>       I thought some over the last day as to what "doing HOL in ZFC"
+> should mean. A formal treatment of HOL seems like quite an ambitious
+> project.
+
+   I'm not sure. It seemed pretty modest when I started, and I think
+it's going well enough now, although I did run into a number of
+technical problems that I didn't foresee.
+
+>       I downloaded what you have on this on your Ghilbert website. It
+> turns out I can't quickly parse what you are doing. {Not a criticism; just
+> a fact.}
+
+   Right. There's a paucity of writing for two reasons. First, I'm
+trying to allot my writing time towards my thesis (from which Ghilbert
+is intensely distracting). Second, I'm trying to avoid the example of
+projects such as QED which begin with glorious manifesti but don't
+ever seem to bear fruit.
+
+>       Because of the Flyspeck project
+> http://www.math.pitt.edu/~thales/flyspeck/index.html
+> I've shifted my attention from Mizar to HOL.
+>
+>       Currently I'm doing the reverse of what you are doing: developing
+> ZFC inside of HOL. Of course, I need to add new axioms to HOL to do this.
+>
+>       Basically the plan is to add new axioms about some type asserting
+> its cardinality is an inaccessible cardinal. Then I will define the
+> standard model of ZFC and verify the ZFC axioms. Needless to say this is
+> much less ambitious than doing HOL in ZFC. But I hope to use this as my
+> "entrance exam" to the Flyspeck project.
+
+   It may be less ambitious for you, but I find large cardinals to be
+quite intimidating, whereas I've been designing and implementing
+programming languages since I was nine. I'm reminded of Ivan
+Sutherland's advice on choosing a research topic - pick something you
+think is easy and everybody else thinks is hard.
+
+>       There are a lot of variants of HOL out there, by the way,
+> {Isabelle, ProofPower, etc.] and I think some of them have nicer working
+> enviroments than HOL-light. It is a very nice feature of HOL-light that it
+> has a relatively small and readable source. [Even when one is admitted to
+> the inner circles of the Mizar community, the source proves to be quite
+> crufty and difficult to read.]
+>
+>       I felt I had passed a milestone when I figured out how to prove 0
+> = 1 in HOL-light. {The problem is a bug in the program that checks for
+> alpha conversion. It's quite fixable but I'm not sure that John Harrison
+> has repaired the sources on his web site yet.}
+
+   I think the proof of 0 = 1 is one of the most important for any new
+proof framework. The current implementation of Ghilbert fails to check
+a few things it should. When all that's implemented, then hopefully the
+proof of 0 = 1 will get a little harder.
+
+Raph
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Ghilbert
+
+On Fri, Mar 05, 2004 at 07:46:55PM -0800, Robert M. Solovay wrote:
+>
+> Raph,
+>
+>       I've started looking at the python code for Gh. It would be very
+> helpful to know the main changes between the design document and the
+> current implementation.
+
+It's pretty close.
+
+>       Here's a wild surmise as to how you are doing HOL in ZFC. {I don't
+> know Gh. well enough yet to really read the source code.}
+>
+>       A type is just a non-empty set with a distingusihed element...
+>
+>       If you are doing things this way, there is no way to define the
+> global choice operator in ZFC. [This follows from my earlier remark that
+> there are models of ZFC in which there is no definable well-ordering of
+> the reals.]
+
+Right. I understand that follows.
+
+Let me say a few things to try to ease the confusion. At the highest
+level, Ghilbert is just Metamath with S-expression syntax, a
+mechanism for definitions that's essentially textual substitution,
+and an import/export mechanism. Proof files import the interfaces they
+need for the base axioms, and other theorems they want to reference,
+and export another interface for the theorems proved (currently the
+export stuff is not implemented).
+
+One of the goals of Ghilbert is to separate out the process of
+generating proofs from that of verifying them. The latter ought to be
+as simple as possible, if not exactly trivial. So the Ghilbert proof
+language is designed to support reasonably concise proofs, but
+contains no features geared towards automating the process of proving
+theorems. Right now, I'm writing the theorem files by hand, but over
+time I can imagine that tools will spring up to carry out various
+mundane proof tasks.
+
+The HOL construction in hol-zfc imports the ZFC axioms lifted straight
+from Norm's set.mm, and, when it's done, will export a set of
+inference rules sufficient to verify HOL proofs. In theory, it should
+be reasonably straightforward to retrofit an HOL implementation to
+spit out Ghilbert proof files. The Ghilbert metalogic doesn't
+correspond precisely to that of HOL, so there's some work to be done
+to make this happen. For example, assumptions will be stored in a
+balanced binary tree of $, nodes. In addition, there will need to be
+some explicit manipulation of type assumptions, although I'm trying
+to craft the inference rules to make this as painless as possible.
+
+I now see multiple different HOL constructions as being reasonable.
+In particular, I can imagine one that has iota instead of epsilon,
+another that requires an epsilon axiom in the underlying ZFC
+axiomatization, and a third that restricts all types to belong to a
+set U, so I can interpret judgements as a universal quantification
+over all suitable choice functions over U.
+
+The hol-zfc.gh version you're looking at is suitable for the first two
+of these alternatives. A type is represented as a pair of the set of
+all possible values, and a distinguished value. Base values and
+functions are represented in the usual set-theoretic way. A judgement
+|- t is interpreted as set theoretic equality with the representation
+of "true" (which, following tradition, is the ordinal 1).
+
+Operations, such as lambda and application, generally follow the
+set-theoretic traditions, but there's a special effort to make these
+operations "strict". In other words, there's a special value for
+"bottom" (breaking tradition, I use the universe V for this), and
+the operations take on the bottom value whenever the arguments
+violate typing or other constraints. (I use Norm's "ded" operator to
+implement these; read ( ded ph A B ) as "if ph then A else B").
+
+The point of strictness is that I can then infer backwards; if A.B
+is not bottom, then I know that A is a function, and B's type matches.
+If you study the proofs, you'll note several such uses, and there are
+a couple more I think I can profitably add.
+
+There's one more quirk in this construction. I've set up (var x T)
+so that it's always of type T, even for out-of-type values of set
+variable x. My motivation was to make this a theorem (pardon the
+mix of notation):
+
+(var x N) + (var y N) = (var y N) + (var x N)
+
+without needing either restricted universal quantification or type
+assumptions for the variables. Now that I'm a little farther along,
+I'm not sure whether this was really worth it. From what I can see,
+HOL tradition is to use universal quantification, so most thm's don't
+have free variables. The downside of my approach is that it's not
+possible to infer A:T from (lambda x:T'. A):(T' -> T).
+
+In any case, the construction is reasonably far along. I can prove the
+first dozen or so "derived inference rules" from the HOL description.
+I've been finishing up the rules for beta conversion and the
+definition of "forall". Pretty much all that's left are the five
+axioms of theory "bool".
+
+I'm flattered that you're diving into the code, as unfinished and
+underdocumented as it is. Feel free to ask any questions - at some
+point I'll probably bash things together into a proper writeup.
+
+Take care,
+
+Raph
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>,
+        Raph Levien <raph_at_acm.org>
+Subject: Re: Ghilbert
+
+On Fri, Mar 05, 2004 at 11:19:48PM -0800, Raph Levien wrote:
+> On Fri, Mar 05, 2004 at 07:46:55PM -0800, Robert M. Solovay wrote:
+> >
+> > Raph,
+> >
+> >     I've started looking at the python code for Gh. It would be very
+> > helpful to know the main changes between the design document and the
+> > current implementation.
+>
+> It's pretty close.
+
+Here are the only differences I can think of:
+
+1. The rules for whitespace are relaxed, so you can split a command
+across multiple lines.
+
+2. "stat" has been renamed "stmt".
+
+3. There's now a "kindbind" mechanism for introducing new kinds.
+
+I'm not quite done with the design. I've realized over the last month
+or so that I need to make sure that dummy variables resulting from
+expanding definitions need to be completely fresh - the discussion
+under "definitional framework" isn't quite strong enough. I'm
+considering some changes that hopefully will resolve the soundness
+issues, and also clean up the syntax a bit (it would remove the "cv"
+term and proof step, which presently serves to "promote" set variables
+to class variables).
+
+Oh, and one other thing that might be useful is running gh_verify.py
+with a -v 9 (or whatever) so it dumps out the intermediate proof steps.
+
+Raph
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph_at_acm.org>
+Subject: Ghilbert
+
+
+Raph,
+
+        Thanks for your letters which are *very* helpful.
+
+        I'm mainly familiar with HOL-light [though I do use the HOL 4 web
+pages as a sort of online reference manual]. [That is, I've read a lot of
+the HOL-light sources but only *used* the HOL4 system.] In that treatment
+the epsilon operator is indispensible. It's how he gets classical logic.
+As I recall he doesn't need it to get the existential quantifier [but I'm
+not sure of this]. The HOL framework only makes pragmatic sense because
+one can define the quantifiers and propositional connectives from = and
+epsilon [as I recall].
+
+        So I guess the point I'm tentatively making is that one has to be
+careful to get all one needs from HOL.
+
+        Definitely ZFC + an epsilon operator is sufficient to get HOL with
+types as non-empty sets; I'm just not sure that just having iota [and not
+epsilon] gives one a useful system.
+
+        --Bob Solovay
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Ghilbert
+
+On Sat, Mar 06, 2004 at 12:28:35AM -0800, Robert M. Solovay wrote:
+>
+> Raph,
+>
+>       Thanks for your letters which are *very* helpful.
+>
+>       I'm mainly familiar with HOL-light [though I do use the HOL 4 web
+> pages as a sort of online reference manual]. [That is, I've read a lot of
+> the HOL-light sources but only *used* the HOL4 system.] In that treatment
+> the epsilon operator is indispensible. It's how he gets classical logic.
+> As I recall he doesn't need it to get the existential quantifier [but I'm
+> not sure of this]. The HOL framework only makes pragmatic sense because
+> one can define the quantifiers and propositional connectives from = and
+> epsilon [as I recall].
+>
+>       So I guess the point I'm tentatively making is that one has to be
+> careful to get all one needs from HOL.
+>
+>       Definitely ZFC + an epsilon operator is sufficient to get HOL with
+> types as non-empty sets; I'm just not sure that just having iota [and not
+> epsilon] gives one a useful system.
+
+   I actually think I understand the issue here. It's straightforward
+to get classical logic in HOL by introducing the excluded middle as an
+explicit axiom (it's called BOOL_CASES_AX in theory "bool"). You can
+then define FALSE (!x.x) and NOT (\x.x=false), and the expected
+properties follow. Then you define existential quantification in terms
+of FORALL and NOT.
+
+   Since the excluded middle follows from the axiom of choice, I can
+see that a minimal HOL axiomatization (with an epsilon operator and a
+suitable axiom which implies AC) will leave it out, and define either
+FALSE or EXISTS in terms of it. After all, why introduce more concepts
+than are strictly necessary?
+
+   But I think there's no fundamental problem with using an explicit
+excluded middle to introduce classical logic, and then using iota
+instead of epsilon for definite descriptions - you just lose the
+expressive power when doing things like function inverses.
+
+   Of course, I could be missing something here, in which case I'm
+sure you'll point out my error.
+
+Raph
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Raph Levien <raph_at_acm.org>
+Subject: Re: Ghilbert
+
+
+
+
+On Sat, 6 Mar 2004, Raph Levien wrote:
+
+>
+>    Of course, I could be missing something here, in which case I'm
+> sure you'll point out my error.
+>
+        I'm going to wait to think this through till I think about your
+treatment of hol in zfc. But [though the full details are not yet clear to
+me] there definitely should be a vesion of HOl that has classical logic
+plus the quantifiers but not AC.
+
+        --Bob
+
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>,
+        Michael Norrish <Michael.Norrish_at_nicta.com.au>,
+        Norman Megill <nm_at_alum.mit.edu>
+Cc: raph_at_levien.com
+Subject: permission to post choice thread?
+
+Hi Michael, Robert, Norm,
+
+   The conversation I've been having individually and collectively
+with you about constructing HOL-with-epsilon in ZFC has been most
+enlightening. What I'd like to do, given your permission of course,
+is batch it up into a text file and post it to ghilbert.org. I think
+it will be very helpful to others who are grappling with epsilon.
+
+Raph
+X-Original-To: raph_at_levien.com
+From: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>
+X-X-Sender: solovay_at_blue1
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: Michael Norrish <Michael.Norrish_at_nicta.com.au>,
+        Norman Megill <nm_at_alum.mit.edu>, raph_at_levien.com
+Subject: Re: permission to post choice thread?
+
+Permission granted.
+
+        --Bob Solovay
+
+
+On Sat, 6 Mar 2004, Raph Levien wrote:
+
+> Hi Michael, Robert, Norm,
+>
+>    The conversation I've been having individually and collectively
+> with you about constructing HOL-with-epsilon in ZFC has been most
+> enlightening. What I'd like to do, given your permission of course,
+> is batch it up into a text file and post it to ghilbert.org. I think
+> it will be very helpful to others who are grappling with epsilon.
+>
+> Raph
+>
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Norman Megill <nm_at_alum.mit.edu>
+To: Raph Levien <raph.levien_at_artifex.com>
+Cc: "Robert M. Solovay" <solovay_at_Math.Berkeley.EDU>,
+        Michael Norrish <Michael.Norrish_at_nicta.com.au>
+Subject: ZFC emulation of epsilon
+
+Hi Raph et. al.,
+
+I put the metamath proof of a ZFC emulation of Hilbert's transfinite
+axiom for epsilon here:
+
+  http://us.metamath.org/mpegif/hta.html
+
+I think this is the best we can do in ZFC.
+
+Norm
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Freek Wiedijk <freek_at_cs.kun.nl>
+Subject: HOL epsilon in ZFC
+To: raph_at_acm.org
+
+Dear Raph,
+
+I saw your remark on defining epsilon on the HOL universe in
+ZFC.  Although the sentence you put there very much gives the
+impression that it can be done, my guess would be that it can't.
+
+For if you have a specific epsilon you can define a specific
+free ultrafilter (in fact I think I have a HOL formalization
+from John Harrison that does just that.)  And I seem to
+remember that that can't be done.  Specifically, there isn't
+a ZFC predicate P[x] such that: if P[x] then x is an free
+ultrafilter on the natural numbers, and you can prove in ZFC
+that there exists exactly one x that satisfies P[x].
+
+So tell me where I'm mistaken :-)
+
+Freek
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+To: "Robert M. Solovay" <solovay_at_math.berkeley.edu>
+Cc: Raph Levien <raph.levien_at_artifex.com>, Norman Megill <nm_at_alum.mit.edu>,
+        raph_at_levien.com
+Subject: Re: permission to post choice thread?
+Reply-To: Michael Norrish <Michael.Norrish_at_nicta.com.au>
+
+Robert M. Solovay writes:
+> >    The conversation I've been having individually and collectively
+> > with you about constructing HOL-with-epsilon in ZFC has been most
+> > enlightening. What I'd like to do, given your permission of course,
+> > is batch it up into a text file and post it to ghilbert.org. I think
+> > it will be very helpful to others who are grappling with epsilon.
+
+Go ahead.
+
+Michael.
+
+==========
+
+X-Original-To: raph_at_levien.com
+From: Raph Levien <raph.levien_at_artifex.com>
+To: Freek Wiedijk <freek_at_cs.kun.nl>
+Cc: raph_at_acm.org
+Subject: Re: HOL epsilon in ZFC
+
+On Sun, Mar 07, 2004 at 10:33:35PM +0100, Freek Wiedijk wrote:
+> Dear Raph,
+>
+> I saw your remark on defining epsilon on the HOL universe in
+> ZFC.  Although the sentence you put there very much gives the
+> impression that it can be done, my guess would be that it can't.
+>
+> For if you have a specific epsilon you can define a specific
+> free ultrafilter (in fact I think I have a HOL formalization
+> from John Harrison that does just that.)  And I seem to
+> remember that that can't be done.  Specifically, there isn't
+> a ZFC predicate P[x] such that: if P[x] then x is an free
+> ultrafilter on the natural numbers, and you can prove in ZFC
+> that there exists exactly one x that satisfies P[x].
+>
+> So tell me where I'm mistaken :-)
+
+No, I think you're right. The trick is that you _can_ do it if you're
+willing to accept a dummy variable and assumption when you introduce
+epsilon, and then eliminate it later in the proof. I'm putting together
+the thread with all the comments - mind if I add yours? It seems like
+a crisper statement of the negative result than what Bob Solovay came
+up with.
+
+Take care,
+
+Raph
+
+==========
+
+X-Original-To: raph_at_artofcode.com
+From: Freek Wiedijk <freek_at_cs.kun.nl>
+Subject: Re: HOL epsilon in ZFC
+To: Raph Levien <raph.levien_at_artifex.com>
+
+Dear Raph,
+
+>The trick is that you _can_ do it if you're willing to
+>accept a dummy variable and assumption when you introduce
+>epsilon, and then eliminate it later in the proof.
+
+This sounds interesting, but I don't think I understand what
+you precisely mean here.  Which means I'm looking forward to
+your summary!
+
+So would this mean that you can _in principle_ (you don't
+need to actually do it to convince me) systematically
+translate the whole HOL Light library to Metamath?
+
+>I'm putting together the thread with all the comments - mind
+>if I add yours?
+
+No, of course not.
+
+>It seems like a crisper statement of the negative result
+>than what Bob Solovay came up with.
+
+But I don't have a reference for that "no definable free
+ultrafilter" result.  I just seem to remember having read it
+somewhere.  But probably Bob knows all about that (he might
+even have been the one who proved it :-))
+
+Freek
+

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="folding" VALUE="indent" />
+		<PROPERTY NAME="indentSize" VALUE="2" />
+		<PROPERTY NAME="noWordSep" VALUE="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~" />
+		<PROPERTY NAME="noTabs" VALUE="true" />
+		<PROPERTY NAME="wrap" VALUE="none" />
+	</PROPS>
+
+	<RULES IGNORE_CASE="FALSE">
+		<SPAN TYPE="COMMENT1" NO_LINE_BREAK="FALSE">
+			<BEGIN>$(</BEGIN>
+			<END>$)</END>
+		</SPAN>
+
+		<SEQ_REGEXP TYPE="LITERAL1">\S+(?= \$p)</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="LITERAL2">\S+(?= \$[ef])</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="LITERAL3">\S+(?= \$a)</SEQ_REGEXP>
+
+		<SEQ_REGEXP TYPE="OPERATOR" DELEGATE="PROOF">\$=</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="OPERATOR">\$[acdefpv.]</SEQ_REGEXP>
+		
+		<SEQ_REGEXP	TYPE="KEYWORD3"> ([EAUXCeo]\.|[UXC]_|\|^\|_|~P|suc|ran|dom|iota_?|=|\|-|wff|class|set)(?!\S)</SEQ_REGEXP>
+
+		<SEQ_REGEXP	TYPE="KEYWORD2"> ([A-Z]|ph|ps|ch|th|ta|et|ze|si|rh|mu|la|ka)(?!\S)</SEQ_REGEXP>
+
+		<SEQ_REGEXP	TYPE="KEYWORD4"> [a-z](?!\S)</SEQ_REGEXP>
+
+		<SEQ_REGEXP	TYPE="KEYWORD1"> (_[EVI]|\(/\)|On|om|Fin|Undef|sup|rank|card|aleph|sqr|cf|1st|2nd)(?!\S)</SEQ_REGEXP>
+		<SEQ_REGEXP	TYPE="KEYWORD1"> (\+(o|c|N|P\.|p?[QR])|\.(o|N|p?[QR]|P\.)|[NQPRx]\.|&lt;[NQPR]|~[QR]|1[PQR]|0R|-1R|\*Q)(?!\S)</SEQ_REGEXP>
+		<SEQ_REGEXP	TYPE="KEYWORD1"> (CC|RR[+*]?|NN0?|ZZ|QQ|[01]|_i|\+|&lt;(RR|pQ)|\d|[12]o|/Q)(?!\S)</SEQ_REGEXP>
+		
+	</RULES>
+
+	<RULES SET="PROOF" IGNORE_CASE="FALSE">
+		<SEQ_REGEXP TYPE="OPERATOR" DELEGATE="MAIN">\$.</SEQ_REGEXP>
+		<SPAN TYPE="COMMENT2" NO_LINE_BREAK="FALSE">
+			<BEGIN>(</BEGIN>
+			<END>)</END>
+		</SPAN>
+		<SEQ_REGEXP TYPE="COMMENT3"> ([A-Z]+|\?)(?!\S)</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="COMMENT4"> [a-z0-9]\S+</SEQ_REGEXP>
+		
+  </RULES>
+</MODE>

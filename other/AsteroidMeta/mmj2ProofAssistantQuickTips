@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>AsteroidMeta: mmj2ProofAssistantQuickTips</title><link type="text/css" rel="stylesheet" href="wiki.css" /><meta name="robots" content="INDEX,NOFOLLOW" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta" href="index.html@action=rss" /><link rel="alternate" type="application/rss+xml" title="AsteroidMeta: mmj2ProofAssistantQuickTips" href="http://planetx.cc.vt.edu/AsteroidMeta?action=rss;rcidonly=mmj2ProofAssistantQuickTips" /></head><body class="http://planetx.cc.vt.edu/AsteroidMeta"><div class="header"><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><h1><a title="Click to search for references to this page" href="http://planetx.cc.vt.edu/AsteroidMeta?search=mmj2ProofAssistantQuickTips">mmj2ProofAssistantQuickTips</a></h1></div><div class="content browse"><h2>Contents</h2><ul><li>mmj2 Proof Assistant Quick Tips</li><li>Start-up Speed-up Tip</li><li>Quick Tip: mmj2 for Metamath Solitaire users</li></ul><p>[Is there any way to have hyperlink anchors to other points on the same page?]</p><h2>mmj2 Proof Assistant Quick Tips</h2><p>The other day I used <a class="local" href="mmj2">mmj2</a> to reprove the first 60 or so theorems in set.mm. This task only took me a few hours, which is pretty amazing considering how long proving took me when I first started back in 2004 using metamath.exe. Granted, I have done these proofs before and am already familiar with their patterns. However, I have not memorized the theorem labels &#x2013; or the majority of the theorems themselves. (No one can be expected to memorize the 16,000 <a class="local" href="metamath">metamath</a> statements in set.mm, not even Norm himself&#x2026;)</p><p>The fact is, the many mmj2 enhancements that I installed during the last couple of years greatly increased the power of the mmj2 Proof Assistant. Norm suggested that I write up something to help people just getting started.</p><p>The mmj2 tutorial, mmj2.html, and the Help screens are prerequisites for what follows, as I assume that the reader is familiar with the basic aspects of mmj2.</p><p>Suppose that you are attempting to re-prove an existing  set.mm theorem &#x2013; say, syl5 &#x2013; and have used either File/New Proof or File/New Next Proof to bring up the Proof Worksheet proof  "skeleton":</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    qed::              |- ( ph -&gt; ( th -&gt; ch ) )
+     
+    $)
+     </pre><p>"Reproving" syl5 requires completing the 'qed' step's Hyp (if any) and Ref fields, and pressing Ctrl-U. For example:</p><pre>    qed:1,2:xyz        |- ( ph -&gt; ( th -&gt; ch ) )
+     </pre><p>"1,2" are the Hyps, referring to previous proof step numbers and "xyz" is the Ref, which must be the Label of an assertion occuring prior to syl5 in the input set.mm file.</p><p>There are two immediate problems with this example:</p><p>1) If a proof consisted of just Hypothesis Proof Steps and a 'qed' step then there would be something wrong with the set.mm file, because that would mean that the theorem being proven is just an <i>instance</i> of another theorem in the file! Ergo, to reprove syl5 we need to add at least one Derivation Proof Step.</p><p>2) How does one know without laboriously checking which assertions occur prior to syl5 in set.mm? Because we are re-proving an existing theorem we are only allowed to use prior theorems even though another proof might be <i>obvious</i> given what we already now about logic? Well, Norm does allow theorem  resequencing if appropriate. But the answer is to use the Unify/Unify+Get Hints function (Alt-U + H) &#x2013; then hit Alt-Tab to view the full screen version of Request Messages, which shows this message:</p><pre>    I-PA-0413 Theorem syl5 Step qed: Hint(s): The step's formula 
+    unified with the following assertion formulas, disregarding 
+    hypotheses: ax-mp, a1i, syl, com12, a1d, 3syl
+    </pre><p>A "Hint" is the Label of an assertion in the input .mm file whose (conclusion) formula is unifiable with the referenced proof step formula, irrespective of the assertion's (Essential) hypotheses. In addition, assuming that the Maximum Hints limit (see RunParm<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParm">?</a> documentation) limit of 50 is not reached, the Ref of syl5's 'qed' step <b>must</b> be among the Hints &#x2013; there <i>are</i> no other possibilities!!!</p><p>Now, to complete the 'qed' step and create at least one new  Derivation Proof Step for the proof, there are several  "short-cuts", aside from manually typing in all of the information, assuming that we know it (which is most likely not the case.) We can 1) use the Derive Feature, or, 2) use Edit/Cut and Paste to clone and modify existing proof steps, and then use the Unification Search capabilities to fill in the necessary Ref labels. These two methods can be used separately or in combination &#x2013; basically they represent the Bottom-Up and Top-Down methods, and when combined represent a Middle-Out approach.</p><h1>1) Derive Feature</h1><p>The Derive Feature generates hypotheses and/or formulas when given a Ref Label. For example, assume I manually type "ax-mp" into the 'qed' step's Ref field, as follows:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    qed::ax-mp         |- ( ph -&gt; ( th -&gt; ch ) )
+     
+    $)
+     </pre><p>Then I hit Ctrl-U. Here is what results:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    1002:?:            |- &amp;W1
+    2002:?:            |- ( &amp;W1 -&gt; ( ph -&gt; ( th -&gt; ch ) ) )
+    qed:1002,2002:ax-mp |- ( ph -&gt; ( th -&gt; ch ) )
+     
+    $)
+          </pre><p>Notice how step numbers 1002 and 2002 are generated -- the algorithm adds 1000 to the highest step number previously used in the Proof Worksheet.</p><p>NOTE: a partial Hyp entry, such as ",1" can be used where "1" is a previous step number. Derive will only generate one Hypothesis Proof Step for ax-mp in this case. ALSO&#x2026;if a generated Hypothesis Proof Step formula is identical to a prior proof step then the existing proof step is used in place of the generated step &#x2013; but this will not work (as of this mmj2 version) if the generated Hypothesis Proof Step formula is not identical but could be unified with the prior proof step.</p><p>Now, assume (correctly) that ax-mp is undesirable in this situation. Therefore, use Edit/Undo (twice) to undo it (Ctrl-Z twice), and perhaps take another guess!</p><p>"Derive" can also generate a formula. For example, you can create a "model" proof step given any assertion  label. For example, input a proof step containing just this:</p><pre>    999::ax-2
+     </pre><p>Then press Ctrl-U and the following is generated:</p><pre>    999::ax-2          |- (  ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W3 ) )
+                          -&gt; ( ( &amp;W1 -&gt; &amp;W2 ) -&gt; ( &amp;W1 -&gt; &amp;W3 ) ) )
+    </pre><p>The "&amp;W1", "&amp;W2" and "&amp;W3" symbols are "Work Variables" and represent unresolved expressions which can be resolved during unification &#x2013; mmj2 will handle the job or you can manually change, say, "&amp;W1" to "ph" and  the next time you press Ctrl-U <i>all</i> occurrences of "&amp;W1" will be changed to "ph". (Pretty slick!)</p><p>OK, that's "Derive" in a nutshell. The other approach involves&#x2026;</p><h1>Unification Search</h1><p>Suppose that I see a way to transform step "h1" below but I cannot remember the Label of the assertion required to justify the derivation. What to do?</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    qed::              |- ( ph -&gt; ( th -&gt; ch ) )
+     
+    $)
+     </pre><p>Easy. Use Edit/Cut and Paste to clone and then manually type in the changes to step "h1". Like this:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    3:1:               |- ( ( th -&gt; ph ) -&gt; ( th -&gt; ( ps -&gt; ch ) ) )
+    qed::              |- ( ph -&gt; ( th -&gt; ch ) )
+     
+    $)
+     </pre><p>Notice that I entered "3:1: ", meaning Step Number 3 using Hyp 1 and Ref equal Blank. Unification Search will <i>compute</i> the Ref Label for Step 3, if a justifying assertion exists in the input set.mm file prior to syl5. So&#x2026;press Ctrl-U:</p><pre>    $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=syl5  LOC_AFTER=?
+     
+    * A syllogism rule of inference.  The second premise is used to replace
+      the second antecedent of the first premise.
+     
+    h1::syl5.1         |- ( ph -&gt; ( ps -&gt; ch ) )
+    h2::syl5.2         |- ( th -&gt; ps )
+    3:1:imim2i         |- ( ( th -&gt; ph ) -&gt; ( th -&gt; ( ps -&gt; ch ) ) )
+    qed::              |- ( ph -&gt; ( th -&gt; ch ) )
+    
+    $)
+     </pre><p>Voila, the Ref for step 3 is "imim2i". That was easy. Unification Search works, when it works at all, because set.mm contains most of the common derivations and inferences for manipulating theorems. In some cases you may find that a valid formula will not unify because a necessary supporting theorem is missing&#x2026; so add it (theorems are like subroutines &#x2013; you don't recode the same lines over and over, right?)</p><p>OTOH, If I had already <i>knew</i> the correct Label then I could have used the Derive Feature to save time and just entered this:</p><pre>    3:1:imim2i
+     </pre><p>and Ctrl-U would have derived the correct formula.</p><h1>Done</h1><p>Well, this write-up is done &#x2013; even though the proof is not. I don't want to spoil your surprise :-) Once you become familiar with the mechanics of the mmj2 Proof Assistant, I think you will find that the process is not horribly painful. Good mental exercise. Better than Sudoko!</p><p>P.S. Feel free to recommend enhancements of your own! Many, if not most of mmj2's finest features were recommended by people who use it. Discussion and criticism are also welcomed.</p><h2>Start-up Speed-up Tip</h2><p>When perform a study of an early portion of a massive database such as set.mm it is <i>very</i> helpful to customize your RunParms<a class="edit" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=RunParms">?</a>.txt file to only load the portion of the database you need. Unasterisk one of these statements in the file and specify how much of set.mm to load</p><pre>    *LoadEndpointStmtNbr,5000
+    *LoadEndpointStmtLabel,999999mdsymlem5 
+     </pre><p>For example, if you are studying <i>just</i> propositional logic, figure out the label of the first statement in predicate logic and specify the label of first Metamath statement in predicate logic:</p><pre>    LoadEndpointStmtLabel,wal
+     </pre><p>Or if you just want to play around with the first 100 theorems, put in:</p><pre>    LoadEndpointStmtNbr,5000     
+     </pre><p>The speed-up in doing this is remarkable. My version of set.mm has 123,965 text lines and more than 16,000 Metamath statements. By not loading the entire database you save not only I/O time (negligible), but the time required to unpack proofs, verify syntax, verify proofs, build grammar, etc.</p><hr /><h2>Quick Tip:  mmj2 for Metamath Solitaire users</h2><p>With the advent of "work variables", the latest releases of mmj2 have hidden inside of them the same algorithm that <a class="url outside" href="http://us2.metamath.org:8888/mmsolitaire/mms.html">Metamath Solitaire</a> uses for its unification. (Well, the algorithm may be different, but I mean the same in terms of its outcome.)</p><p>So, it is possible to emulate Metamath Solitaire with mmj2. And unlike the Metamath Solitaire applet, you can save a partially completed proof to continue to work on later. In addition, mmj2 not only can be used to create proofs forward as Metamath Solitaire does, it can also be used to create them backwards from the conclusion.</p><h1>Backwards proof example</h1><p>I'll start with a backwards proof example, since it can be entered "blindly" from an existing Metamath Solitaire proof in a very simple manner.</p><p>I'll start at the beginning, assuming you are using Windows, so you won't have to read the mmj2 documentation. Download the latest <a class="url outside" href="http://us2.metamath.org:8888/index.html#mmj2">mmj2.zip</a> and put it in c:\mmj2.zip. Extract the Zip file to create c:\mmj2 with default settings. From the result, move or copy the directory c:\mmj2\mmj2jar to c:\mmj2jar (run c:\mmj2\mmj2jar\copymmj2jar.bat to create and copy c:\mmj2jar &#x2013; see below for instructions on running a ".bat" file.)</p><p>I assume you have Java installed. If not, I guess you'll have to read the mmj2 documentation after all.</p><p>Next, download <a class="url outside" href="http://us2.metamath.org:8888/metamath/set.mm">set.mm</a> (6MB) into the directory c:\metamath. Or, if you want it somewhere else, change the parameter </p><pre>  LoadFile,c:\metamath\set.mm</pre><p>accordingly, using a text editor like Notepad to edit</p><pre>   c:\mmj2jar\RunParms.txt</pre><p>In Windows, select Start &#x2192; Run, type "cmd", click OK, and a Command Prompt window will open. Type </p><pre>  c:\mmj2jar\mmj2.bat</pre><p>following by Enter to start mmj2.</p><p>A useful reference file for playing with Metamath Solitaire is the <a class="url outside" href="http://us2.metamath.org:8888/mmsolitaire/pmproofs.txt">pmproofs.txt -
+Shortest known proofs</a> list. Each of the 193 proofs begins with two lines: the theorem itself and the "Result of proof" when you enter the proof into the Metamath Solitaire applet. The "Result of proof" line is what you want to focus on: the theorem itself often requires the introduction of definitions, which is beyond the scope of this tutorial and is an exercise for advanced users.</p><p>It turns out that all of these 193 theorems also exist in set.mm. Most of them have definitions incorporated and don't match the "Result of proof". But some of them do, such as set.mm's "imim2" for theorem "*2.05 Syll". So for this example, we will pick that one, since it is already in set.mm and we won't have to type it in.</p><p>From the mmj2 ProofAsstGUI screen, select File &#x2192; New Proof &#x2192; imim2. The screen will look like this:</p><pre> $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre> * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+   [WhiteheadRussell] p. 100.</pre><pre> qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre> $)</pre><p>We can see that the "qed" step matches the "Result of proof" for theorem "*2.05 Syll", which is what we want. (For other proofs where it doesn't, we can change the qed step so that it does.) Look at the proof in the pmproofs.txt file:</p><pre>  DD2D121; ! 7 steps</pre><p>Unlike the Metamath Solitaire applet, we are going to enter this proof from left-to-right instead of right-to-left. The letter D means ax-mp, 2 means ax-2, and 1 means ax-1.</p><p>On the mmj2 ProofAsstGUI screen, the cursor should be positioned immediately after the second colon in "qed::". Here are the exact steps to enter the proof, following the "DD2D121" above exactly: Type ax-mp (just the 5 characters "ax-mp" with no Enter), ctrl-u (hold down the ctrl key and press "u"), ax-mp, ctrl-u, ax-2, ctrl-u, ax-mp, ctrl-u, ax-1, ctrl-u, ax-2, ctrl-u, ax-1, ctrl-u. Voila, the proof is done and will look like this:</p><pre> $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre> * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+   [WhiteheadRussell] p. 100.</pre><pre> 1000::ax-1             |- ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+ 5000::ax-2         |- (  ( ch -&gt; ( ph -&gt; ps ) )
+                       -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )
+ 6000::ax-1         |- (  (  ( ch -&gt; ( ph -&gt; ps ) )
+                          -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )
+                       -&gt; (  ( ph -&gt; ps )
+                          -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                             -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) ) )
+ 3000:5000,6000:ax-mp
+                    |- (  ( ph -&gt; ps )
+                       -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                          -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+ 4000::ax-2         |- (  (  ( ph -&gt; ps )
+                          -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                             -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+                       -&gt; (  ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+                          -&gt; (  ( ph -&gt; ps )
+                             -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) ) )
+ 2000:3000,4000:ax-mp
+                    |- (  ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+                       -&gt; ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+ qed:1000,2000:ax-mp     |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre> $=  wph wps wi wch wph wps wi wi wi wph wps wi wch wph wi wch wps wi
+     wi wi wph wps wi wch ax-1 wph wps wi wch wph wps wi wi wch wph wi
+     wch wps wi wi wi wi wph wps wi wch wph wps wi wi wi wph wps wi wch
+     wph wi wch wps wi wi wi wi wch wph wps wi wi wch wph wi wch wps wi
+     wi wi wph wps wi wch wph wps wi wi wch wph wi wch wps wi wi wi wi
+     wch wph wps ax-2 wch wph wps wi wi wch wph wi wch wps wi wi wi wph
+     wps wi ax-1 ax-mp wph wps wi wch wph wps wi wi wch wph wi wch wps wi
+     wi ax-2 ax-mp ax-mp $.
+ $)</pre><h1>Forward proof example</h1><p>We can also enter a proof in the "forward" direction like Metamath Solitaire does. An interesting and sometimes useful feature of a forward proof is that at any point during proof entry, the "most general" theorem possible for the steps up to that point is displayed. This can help give us a somewhat better picture of what's going on in a proof, especially for the cryptic condensed detachment style proofs from pmproofs.txt. For example, if "( ph &#x2192; ph )" results from an intermediate subtheorem in a proof, we would see this actual formula resulting from the steps leading to it, or more precisely a work-variable representation of it like "( &amp;W4 &#x2192; &amp;W4 )", instead of a complicated substitution instance that might result in a backwards-entered proof. This can help us "reverse engineer" the proof if we are trying to understand it in detail.</p><p>Metamath Solitaire is designed exclusively for forward proofs and has built-in a "stack" of proof steps that is pushed by axioms entered and popped by inference rules like ax-mp. On the other hand, mmj2 has no fixed stack  concept built in, because it is meant to be a general-purpose tool that allows the hypotheses of ax-mp to be connected to any proof step, not just those steps corresponding to the top entries of a stack.</p><p>This means that when you enter a forward proof, you will have to manually imitate the stack behavior whenever you add a step using ax-mp. Our detailed example will show how.</p><p>We will use the same proof as in the backwards proof example above. Create a blank proof for imim2 as described there:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>The proof steps for a forward proof (reading DD2D121 from right to left) are ax-1, ax-2, ax-1, ax-mp, ax-2, ax-mp, ax-mp. You will place these steps before the "qed" step (except the last step you enter, as explained later). Enter "1::ax-1" for the first step:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>then press crtl-u:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W1 ) )
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>The first "1" in "1::ax-1" is the step number, which you increase every time you enter a new step. Continuing, enter "2::ax-2", ctrl-u, "3::ax-1", ctrl-u:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W1 ) )
+  2::ax-2            |- (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                        -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+  3::ax-1            |- ( &amp;W6 -&gt; ( &amp;W7 -&gt; &amp;W6 ) )
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>The next step is ax-mp, and to imitate the stack behavior of Metamath Solitaire you need to use the following procedure. The idea is that a step may be referenced by (a later) ax-mp only once, after which it is considered "consumed" and not available for future ax-mps. Each new ax-mp will reference the last two non-consumed steps. So, whenever you enter a new ax-mp,</p><dl class="quote"><dt /><dd>1. Scan backwards until the first step is found that isn't otherwise referenced by an ax-mp. Use that step number as the <em>second</em> ax-mp hypothesis. (In the above case, this is step 3.)</dd><dt /><dd>2. Continue scanning backwards until the first step is found that isn't otherwise referenced by an ax-mp. Use that step number for the <em>first</em> ax-mp hypothesis. (In the above case, this is step 2.)</dd></dl><p>To add the step for ax-mp, we put "2,3" between the double colons in "4::ax-mp":</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W1 ) )
+  2::ax-2            |- (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                        -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+  3::ax-1            |- ( &amp;W6 -&gt; ( &amp;W7 -&gt; &amp;W6 ) )
+  4:2,3:ax-mp
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>Now press ctrl-u:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W1 ) )
+  2::ax-2            |- (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                        -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+  3::ax-1            |- (  (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                           -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+                        -&gt; (  &amp;W7
+                           -&gt; (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                              -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) ) )
+  4:2,3:ax-mp        |- (  &amp;W7
+                        -&gt; (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                           -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) )
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>Continue with "5::ax-2", ctrl-u, "6:4,5:ax-mp" (4 and 5 are the last non-referenced earlier steps), ctrl-u:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( &amp;W1 -&gt; ( &amp;W2 -&gt; &amp;W1 ) )
+  2::ax-2            |- (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                        -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+  3::ax-1            |- (  (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                           -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) )
+                        -&gt; (  &amp;W6
+                           -&gt; (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                              -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) ) )
+  4:2,3:ax-mp        |- (  &amp;W6
+                        -&gt; (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                           -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) )
+  5::ax-2            |- (  (  &amp;W6
+                           -&gt; (  ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) )
+                              -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) )
+                        -&gt; (  ( &amp;W6 -&gt; ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) ) )
+                           -&gt; ( &amp;W6 -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) ) )
+  6:4,5:ax-mp        |- (  ( &amp;W6 -&gt; ( &amp;W3 -&gt; ( &amp;W4 -&gt; &amp;W5 ) ) )
+                        -&gt; ( &amp;W6 -&gt; ( ( &amp;W3 -&gt; &amp;W4 ) -&gt; ( &amp;W3 -&gt; &amp;W5 ) ) ) )
+  qed::              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $)</pre><p>For the <em>last</em> step, we do not enter a new step number. Instead, we modify the "qed::" step to become "qed:1,6:ax-mp" (1 and 6 are the last - and now the only - non-referenced earlier steps). Then press ctrl-u, and the proof is done:</p><pre>  $( &lt;MM&gt; &lt;PROOF_ASST&gt; THEOREM=imim2  LOC_AFTER=?</pre><pre>  * A closed form of syllogism (see ~ syl ).  Theorem *2.05 of
+    [WhiteheadRussell] p. 100.</pre><pre>  1::ax-1            |- ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+  2::ax-2            |- (  ( ch -&gt; ( ph -&gt; ps ) )
+                        -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )
+  3::ax-1            |- (  (  ( ch -&gt; ( ph -&gt; ps ) )
+                           -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )
+                        -&gt; (  ( ph -&gt; ps )
+                           -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                              -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) ) )
+  4:2,3:ax-mp        |- (  ( ph -&gt; ps )
+                        -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                           -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+  5::ax-2            |- (  (  ( ph -&gt; ps )
+                           -&gt; (  ( ch -&gt; ( ph -&gt; ps ) )
+                              -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+                        -&gt; (  ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+                           -&gt; (  ( ph -&gt; ps )
+                              -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) ) )
+  6:4,5:ax-mp        |- (  ( ( ph -&gt; ps ) -&gt; ( ch -&gt; ( ph -&gt; ps ) ) )
+                        -&gt; ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) ) )
+  qed:1,6:ax-mp              |- ( ( ph -&gt; ps ) -&gt; ( ( ch -&gt; ph ) -&gt; ( ch -&gt; ps ) ) )</pre><pre>  $=  wph wps wi wch wph wps wi wi wi wph wps wi wch wph wi wch wps wi
+      wi wi wph wps wi wch ax-1 wph wps wi wch wph wps wi wi wch wph wi
+      wch wps wi wi wi wi wph wps wi wch wph wps wi wi wi wph wps wi wch
+      wph wi wch wps wi wi wi wi wch wph wps wi wi wch wph wi wch wps wi
+      wi wi wph wps wi wch wph wps wi wi wch wph wi wch wps wi wi wi wi
+      wch wph wps ax-2 wch wph wps wi wi wch wph wi wch wps wi wi wi wph
+      wps wi ax-1 ax-mp wph wps wi wch wph wps wi wi wch wph wi wch wps wi
+      wi ax-2 ax-mp ax-mp $.
+  $)</pre><p>As we mentioned, at any point during proof entry, the "most general" theorem is displayed for last step that is entered. For example, when step 3 is first entered, the most general result is displayed, i.e. "( &amp;W6 &#x2192; ( &amp;W7 &#x2192; &amp;W6 ) )". As the proof progresses, more and more specialized substitutions are made into it, until at the end of the proof it ends up as "( ( ( ch &#x2192; ( ph &#x2192; ps ) ) &#x2192; ( ( ch &#x2192; ph ) &#x2192; ( ch &#x2192; ps ) ) ) &#x2192; ( ( ph &#x2192; ps ) &#x2192; ( ( ch &#x2192; ( ph &#x2192; ps ) ) &#x2192; ( ( ch &#x2192; ph ) &#x2192; ( ch &#x2192; ps ) ) ) ) )" which may or may not be immediately obvious as an instance of ax-1. Of course step 3 in our example corresponds to a one-step proof - just an axiom reference - but in more complex cases, the "most general" form of a subproof can be more useful than the complicated final substitution if we are trying to grasp the meaning of the step. Also, useful subtheorems can be suggested by the "most general" form of a proof step.</p><p>In the end, you have to decide whether the additional effort of the ax-mp analysis needed for a forward proof is worth the different kind of insight that you might gain seeing the "most general" forms of the proof steps evolve.</p><p>As a final note, it is sometimes interesting to see if the proof as a whole leads to a more general theorem than the one shown by the qed step. To do that, just add the last ax-mp in its own new step instead of modifying the qed step. In this example, a more general theorem does not result, as you can verify as an exercise.</p><p>&#x2013; Norm 22 Jan 2008 (feel free to edit this section to improve it)</p></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="HomePage">HomePage</a> <a class="local" href="RecentChanges">RecentChanges</a> </span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" href="http://planetx.cc.vt.edu/AsteroidMeta?action=edit;id=mmj2ProofAssistantQuickTips">Edit this page</a> <a class="history" href="http://planetx.cc.vt.edu/AsteroidMeta?action=history;id=mmj2ProofAssistantQuickTips">View other revisions</a> <a class="admin" href="http://planetx.cc.vt.edu/AsteroidMeta?action=admin;id=mmj2ProofAssistantQuickTips">Administration</a></span><span class="time"><br /> Last edited 2008-01-23 08:16 UTC by <a class="author" title="from 207-172-220-9.c3-0.lex-ubr2.sbo-lex.ma.cable.rcn.com" href="norm">norm</a> <a class="diff" href="http://planetx.cc.vt.edu/AsteroidMeta?action=browse;diff=1;id=mmj2ProofAssistantQuickTips">(diff)</a></span><form method="get" action="http://planetx.cc.vt.edu/AsteroidMeta" enctype="application/x-www-form-urlencoded">
+<p>Search: <input type="text" name="search"  size="20" accesskey="f" /> <input type="submit" name="dosearch" value="Go!" /></p></form></div>
+</body>
+</html>
