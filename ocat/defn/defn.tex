@@ -1,0 +1,591 @@
+\RequirePackage{amsmath}
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{hyperref}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage[usenames]{xcolor}
+\usepackage{enumitem}
+\usepackage{mathrsfs}
+\usepackage{cleveref}
+\usepackage{url}
+\usepackage{todonotes}
+
+%\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
+%\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+%\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
+\newcommand\thlink[1]{\href{http://us.metamath.org/mpegif/#1.html}{\textsf{#1}}}
+\newcommand{\cn}{\textit{\textsf{CN}}} % Constants
+\newcommand{\vr}{\textit{\textsf{VR}}} % Variables
+\newcommand{\ex}{\textit{\textsf{EX}}} % Expressions
+\newcommand{\ec}{\textit{\textsf{EX}}_C} % Expr w/ constant
+\newcommand{\dv}{\textit{\textsf{DV}}} % Distinct variables
+\newcommand{\vh}{\textit{\textsf{VH}}} % Variable hypothesis
+\newcommand{\tc}{\textit{\textsf{TC}}} % Typecodes
+\newcommand{\vt}{\textit{\textsf{VT}}} % Variable typecodes
+\newcommand{\vl}{\textit{\textsf{VL}}} % Valuations
+\newcommand{\uv}{\textit{\textsf{U}}} % Universe
+\newcommand{\sa}{\textit{\textsf{SA}}} % Syntax axioms
+\newcommand{\st}{\textit{\textsf{ST}}} % Syntax trees
+\newcommand{\et}{\textit{\textsf{EX}}_T} % Expr w/ constant
+\newcommand{\ang}[1]{\langle#1\rangle}
+\newcommand{\vph}{\varphi}
+\newcommand{\type}{{\rm Type}}
+\newcommand{\syn}{{\rm Syn}}
+\newcommand{\expr}{{\rm Expr}}
+\newcommand{\fresh}{\mathbin{\#}}
+\newcommand{\bool}{\textsf{Bool}}
+\newcommand{\tT}{\texttt{T}}
+\newcommand{\tF}{\texttt{F}}
+\newcommand{\tM}{\texttt{M}}
+\newcommand{\tI}{\texttt{I}}
+\newcommand{\tU}{\texttt{U}}
+\newcommand{\ep}{\mathbin{\varepsilon}}
+\newcommand{\pt}[1]{\pi_\texttt{#1}}
+\newcommand{\ab}{\allowbreak}
+\newcommand{\pow}[1]{\mathscr{P}(#1)}
+\DeclareMathOperator{\ran}{ran}
+\DeclareMathOperator{\NF}{NF}
+
+\let\subsectionautorefname\sectionautorefname
+\let\subsubsectionautorefname\sectionautorefname
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Definitions in Metamath}
+
+% a short form should be given in case it is too long for the running head
+%\titlerunning{Lecture Notes in Computer Science: Authors' Instructions}
+
+\author{Mario Carneiro}
+%
+%\authorrunning{Lecture Notes in Computer Science: Authors' Instructions}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+\institute{Carnegie Mellon University, Pittsburgh PA, USA}
+
+\maketitle
+
+
+\begin{abstract}
+Definitions are great.
+\keywords{Metamath $\cdot$ Model theory $\cdot$ formal proof $\cdot$ consistency $\cdot$ ZFC $\cdot$ Mathematical logic}
+\end{abstract}
+
+
+\section{Introduction}\label{sec:intro}
+
+Metamath is a proof language, developed in 1992, on the principle of minimizing the foundational logic to as little as possible \cite{metamath}. From the beginning, definitions have been treated as the same thing as axioms, which yields an extremely simple structure for verifiers. However, this standpoint is undesirable when we want to assert that a certain small set of axioms leads to a given theorem, because each new definition requires one or more axioms along with it, which leak through to the final theorem, even though these axioms are in principle eliminable.
+
+This paper builds on \cite{models}, which defines the model theory of Metamath (we borrow notation and definitions directly from that paper, so readers are encouraged to consult it). In this work, we develop a framework for discussing conservative extensions of a formal system.
+
+\subsubsection{Modifications from \cite{models}}
+In \cite{models}, the sets $\tc$ and $\vt$ (typecodes and variable typecodes) were inferred from the axioms and variable definitions, respectively. In this paper, we will assume instead that these sets are given separately as part of the definition of a formal system $\ang{\cn,\vr,\type,\vt,\tc,\Gamma}$, subject to the restrictions $\vt\subseteq\tc\subseteq\cn$, $\type:\vr\to\vt$, and $\ec=\{e\in\ex\mid(|e|>0 \wedge e_0\in\tc)\}$. This does not change any of the results of \cite{models}.
+
+We will also assume that $\eta$ is surjective on $\uv$, that is, for each $c\in\tc,v\in\uv_c$ there is some $\mu\in\vl$ and $e\in\ec$ such that $\eta_\mu(e)$ is defined and equals $v$. For $c\in\vt$ this is trivially true, and in grammatical formal systems it is also true, but in general it must be added as an extra requirement.
+
+\subsubsection{Extra notation from \cite{models}}
+We will use some extra notation for the definitions in \cite{models}.
+\begin{itemize}
+  \item Formal systems are usually denoted by $T=\ang{\cn,\vr,\type,\vt,\tc,\Gamma}$; in each case we will assume that all the definitions associated to $T$ such as $\dv,\ec$ etc. are available.
+  \item When multiple theories are in use these will be disambiguated by primes or sub/superscripts as in $\tc'$ or $\tc^T$.
+  \item Similarly, models are denoted by $M=\ang{\uv,\fresh,\eta}$ with associated definitions such as $\vl$.
+  \item The notation $M\models T$ means that $M$ is a model for $T$.
+  \item The statement ``$\eta_\mu(e)$ is defined'', which means that $e$ is true in the model relative to the valuation $\mu$, is written $M\models_\mu e$.
+  \item The notation $M\models e$ means that $M\models_\mu e$ for all $\mu\in\vl$.
+  \item The notation $M\models\ang{D,H,A}$ means that for every $\mu\in\vl$, if $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D$ and $M\models_\mu H$, then $M\models_\mu A$. (The previous definition is a special case of this, $M\models e$ iff $M\models\ang{\emptyset,\emptyset,e}$.)
+\end{itemize}
+
+\section{The category of models of a formal system}
+We begin with a definition of model homomorphism:
+\begin{definition}
+Given two models $M,M'\models T$ for the same formal system, we say that $f:M\to M'$ is a model homomorphism if $f$ is a family of functions $f_c:\uv_c\to\uv'_c$ for $c\in\tc$ such that:
+\begin{itemize}
+  \item For $v\in\uv_c,w\in\uv_{c'}$, if $v\fresh w$, then $f_c(v)\fresh'f_{c'}(w)$.
+  \item For each $\mu\in\vl$ and $e\in\ec$, if $\eta_\mu(e)$ is defined then $\eta'_{f(\mu)}(e)=f_{\type(e)}(\eta_\mu(e))$, where $f(\mu)\in\vl'$ is defined by $f(\mu)(v)=f_{\type(v)}(\mu(v))$ for each $v\in\vr$.
+\end{itemize}
+We say that $f$ is injective (surjective) if each $f_c$ is injective (surjective).
+\end{definition}
+
+From this, we immediately get a derived notion of the category ${\bf Mdl}(T)$ of all models of a formal system $T$, as well as the category ${\bf GMdl}(T)$ of models of a grammatical formal system (which differs only in that models of a grammatical system must respect the $\syn$ function as well; the morphisms are defined the same as in the general case). All of the constructions in this section apply with ${\bf GMdl}(T)$ in place of ${\bf Mdl}(T)$.
+
+There is also a preorder on models (which we will treat as a partial order, implicitly taking equivalence classes):
+\begin{definition}
+Given two models $M,M'\models T$ for the same formal system, we say that $M\le M'$, or ``$M$ is {\em stronger} than $M'$'', if $M\models\ang{D,H,A}$ implies $M'\models\ang{D,H,A}$ for all statements $\ang{D,H,A}$.
+\end{definition}
+
+The model $\bf 1$ in which $\uv_c=\{\ast\}$ for each $c$, $\ast\fresh\ast$ is true, and $\eta_\mu(e)=\ast$ for all $\mu,e$, is a terminal object in this category, and the top of the poset.
+
+\begin{theorem}
+${\bf Mdl}(T)$ has arbitrary products, and furthermore $\forall i\;N\le M_i$ implies $N\le M$ (one direction of the lattice meet property is valid).
+\end{theorem}
+\begin{proof}
+Let $M=\prod_{i\in I}M_i$ be the model defined by $\uv_c=\prod_{i\in I}\uv^i_c$, $v\fresh w$ if $\forall i\in I,v_i\fresh_iw_i$, and $(\eta_\mu(e))_i=\eta^i_{\mu_i}(e)$, where $\mu_i$ is defined by $\mu_i(v)=(\mu(v))_i$, and $\eta_\mu(e)$ is defined only if each component is defined. The construction of $\bf 1$ above is a special case of this for $I=\emptyset$.
+
+Now suppose that $M_i\models\ang{D,H,A}$ for each $i$, and let $\mu\in\vl$, $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D$, and $M\models_\mu H$. Then $\mu(\alpha)\fresh\mu(\beta)$ implies $\mu(\alpha)\fresh_i\mu(\beta)$ for all $i$, and $M\models_\mu H$ (i.e. $\eta_\mu(e)$ is defined for all $e\in H$) implies that $M\models_{\mu_i} H$ for each $i$. Thus $M\models_{\mu_i} A$ for each $i$, so $M\models_\mu A$.
+\qed\end{proof}
+
+\begin{theorem}\label{thm:quot}
+Given $f,g:X\to Y$, where $X,Y\in{\bf Mdl}(T)$, if $Y$ is compatible with the equivalence relation (see below), then there is a coequalizer object $Q$ with morphism $q:Y\to Q$, and furthermore, $Q\le Y$.
+\end{theorem}
+\begin{proof}
+$Q$ and $q:Y\to Q$ are defined such that:
+\begin{itemize}
+  \item $\uv^Q_c$ is the quotient of $\uv^Y_c$ by the smallest equivalence relation $\sim_c$ such that for each $e\in\ec$ with $\type(e)=c$:
+  \begin{itemize}
+    \item For each $\mu\in\vl^X$, $f_c(\eta^X_\mu(e))\sim_c g_c(\eta^X_\mu(e))$, and
+    \item For all $\mu,\nu\in\vl^Y$, if $\mu(v)\sim_{\type(v)}\nu(v)$ for all $v\in{\cal V}(e)$, then $\eta^Y_\mu(e)\sim_c\eta^Y_\nu(e)$.
+    \item $Y$ is {\em compatible with the equivalence relation} if $\eta^Y_\mu(e)$ and $\eta^Y_\nu(e)$ in the previous clause are either both defined or neither defined.
+  \end{itemize}
+  \item The morphism $q$ is the canonical map $q_c:\uv^Y_c\to\uv^Y_c/\sim_c$.
+  \item The freshness relation is given by $q_c(v)\fresh^Q q_{c'}(w)$ if for some $v'\sim_c v$ and $w'\sim_{c'} w$, we have $v'\fresh^Y w'$.
+  \item The interpretation function $\eta^Q_\mu(e)$ is defined by $\eta^Q_{q(\mu)}(e)=q_{\type(e)}(\eta^Y_\mu(e))$ (where $e\in\ec$ and $\mu\in\vl^Y$). The second part of the definition of $\sim_c$ ensures that this is well-defined.
+\end{itemize}
+
+Suppose that $Q\models\ang{D,H,A}$, and let $\mu\in\vl^Y$, $\mu(\alpha)\fresh^Y\mu(\beta)$ for all $\{\alpha,\beta\}\in D$, and $Y\models_\mu H$. Then $q(\mu(\alpha))\fresh^Qq(\mu(\beta))$, and $Q\models_{q(\mu)} H$ because for each $e\in H$, $\eta^Q_{q(\mu)}(e)=q_{\type(e)}(\eta^Y_\mu(e))$ is defined. Thus $Q\models_{q(\mu)} A$, so $\eta^Y_\mu(A)$ is defined, which means $Y\models_\mu A$. Thus $Q\le Y$.
+\qed\end{proof}
+
+\begin{theorem}\label{thm:noinit}
+${\bf Mdl}(T)$ does not necessarily have an initial object.
+\end{theorem}
+\begin{proof}
+Consider the empty formal system, where $\Gamma=\emptyset$. (We can denote this by $T=\emptyset$, in slight abuse of notation, because the other components $\cn,\vr,\vt,\tc,\type$ are all still there.) In this case, there is a model in which $\eta_\mu$ is only defined for variables, with all composite expressions being undefined (false in the model), and $v\fresh w$ is always true. Then the only constraint on $M$ is the choice of $\uv$ subject to the requirement that $\uv_c\ne\emptyset$ for $c\in\vt$, and the constraints on morphisms are trivialized, so the subcategory of models with these trivial $\fresh,\eta$ functions is naturally isomorphic to the category $\prod_{c\in\tc}{\bf Set}$ of $\tc$-indexed set families and functions between them.
+
+It is clear by considering this subcategory that there is not necessarily an initial object, because if $\vt$ is nonempty then there is no equivalent of the empty set; concretely, with $T$ defined such that $\vt=\tc=\cn=\{\texttt{A}\}$ and $\vr=\{x\}$, any model $M$ of $T$ must have some $v\in\uv_\texttt{A}$, so there are at least two morphisms into $M'$ with $\uv'_\texttt{A}=\{a,b\}$, mapping $f(v)=a$ and $f'(v)=b$. Thus ${\bf Mdl}(\emptyset)$ has no initial object.
+\qed\end{proof}
+
+This also implies that there are not necessarily equalizers, since the equalizer of functions $f$ and $f'$ would be an initial object (if $v$ is the only member of $\uv_\texttt{A}$).
+
+\begin{theorem}
+${\bf Mdl}(T)$ does not necessarily have coproducts.
+\end{theorem}
+\begin{proof}
+Again, the freshness constraint is the barrier to this property. Consider the same example as in \autoref{thm:noinit}, but allowing $\fresh$ to be sometimes false. Since model homomorphisms go from models with a smaller $\fresh$ relation to a larger one, we need $\fresh$ to be as small as possible given the injection morphisms to the coproduct. But often the minimal such relation will not actually be a freshness relation.
+
+For example, take $M_1$ to have base set $\{a,b\}$ and $M_2$ to be $\{c,d\}$ (with only one typecode), and suppose that $\fresh_1$ and $\fresh_2$ are always true. The coproduct $M$ must contain at least the elements $\{a,b,c,d\}$, and we wish to know if e.g. $a\fresh c$ or not. If these four are the only elements in $M$, then by the freshness constraint at least one of the four must be fresh for all of them, so that if $a$ is fresh from everything we have at most $\neg(b\fresh\{c,d\})$ (with all other pairs fresh). But this choice is not unique, and we could have $\neg(a\fresh\{c,d\})$ instead; but then, being minimal, $M$ would need all of these, $\neg(\{a,b\}\fresh\{c,d\})$, a contradiction (since now no element is fresh for all of them).
+
+Thus there is some other element $e\fresh\{a,b,c,d\}$. But since we are assuming there are no axioms, nothing else constrains the value of $e$, that is, the canonical injections are insufficient to determine a morphism from the coproduct. Thus the coproduct cannot exist.
+\qed\end{proof}
+
+\begin{theorem}\label{sec:resfunc}
+If $T$ is a grammatical formal system, then ${\bf GMdl}(T)$ is a full reflective subcategory of ${\bf Mdl}(T)$. 
+\end{theorem}
+\begin{proof}
+Recall that a model for a grammatical formal system, $M\in{\bf GMdl}(T)$, is a model in the sense of general formal systems $M\in{\bf Mdl}(T)$, subject to the additional constraints:
+\begin{itemize}
+  \item $\uv_c\subseteq\uv_{\syn(c)}$
+  \item $v\fresh\ang{c,w}\leftrightarrow v\fresh\ang{\syn(c),w}$ 
+  \item $\eta_\mu(e)=\eta_\mu(\syn(e))$ if $\eta_\mu(\syn(e))\in\uv_c$, else undefined.
+\end{itemize}
+
+Since the set of homomorphisms is unchanged in ${\bf GMdl}(T)$, this is a full subcategory. To show it is reflective, suppose $M\in{\bf Mdl}(T)$; we will construct $G\in{\bf GMdl}(T)$ and $a:M\to G$ such that any other $a':M\to G'$ factors uniquely through $a$.
+
+Each $f\in\uv^G_c$ will be a partial function on $\syn^{-1}\{c\}$, defined at $c$, such that either $f(d)$ is undefined or $f(d)\in\uv_d$. Specifically, for $c\in\vt$, $\uv^G_c$ is the set, over each $\mu\in\vl$ and $e\in\ec$ such that $\type(e)=c$ and $\eta_\mu(e)$ is defined, of the partial function $f$ defined by $f(d)=\eta_\mu([d/e_0]e)$ for $d\in\syn^{-1}\{c\}$, where $[d/e_0]e\in\ec$ denotes the expression formed by setting the typecode $e_0$ of $e$ to $d$.
+
+For $d\in\tc\setminus\vt$, we define $\uv^G_d$ as the subset of $f\in\uv^G_c$ (where $c=\syn(d)$) such that $f(d)$ is defined.
+
+Define $f\fresh^Gg$ if $f(c)\fresh g(d)$ for some $c,d$ in the domains of $f,g$ resp. For $e\in\ec,\mu\in\vl^G$ with $\type(e)=c\in\vt$, let $\eta^G_\mu(e)$ be the partial function $\eta^G_\mu(e)(d)=\eta_\nu([d/e_0]e)$, where $\nu(v)=\mu(v)(\type(v))$ (which is defined because $\type(v)\in\vt$). The value of $\fresh^G$ and $\eta^G$ on $\tc$ is now forced by the definition, so this defines the model $G\in{\bf GMdl}(T)$.
+
+The homomorphism $a$ is defined such that \todo{finish the proof}
+\qed\end{proof}
+
+\begin{theorem}
+A subset of a model is a model iff the restricted $\fresh$ relation is still a freshness relation, and the restricted $\eta$ function satisfies the type correctness law. In particular, the image of a model under a homomorphism is a model.
+\end{theorem}
+\begin{proof}
+Since all laws other than axiom application and type correctness are equational, they are still satisfied by a restricted $\eta$ function. Axiom application is still true because it deals with only one $\eta_\mu$, for $\mu$ in the restricted $\vl$.
+
+The image $f(X)$ of a model homomorphism satisfies the freshness condition because any finite set $W$ is the $f$-image of some set $W'$, and taking $v\fresh W'$, we have $f(v)\fresh W$. For type correctness, if $\eta_\mu(e)$ is defined, then $\eta^{f(X)}_{f(\mu)}(e)=f_{\type(e)}(\eta^X_\mu(e)) \in\uv^{f(X)}_{\type(e)}$.
+\qed\end{proof}
+
+\begin{theorem}
+A monomorphism is an injective morphism, and an epimorphism is a surjective morphism.
+\end{theorem}
+\begin{proof}
+Suppose we have a monomorphism $f:X\to Y$, and $c\in\tc,x,y\in\uv^X_c$ with $f_c(x)=f_c(y)$. Let $g^1,g^2:{\bf 1}\to X$, with $g^1_c(\ast)=x$, $g^2_c(\ast)=y$, and all other $c'$ set to the same value $g^1_{c'}(\ast)=g^2_{c'}(\ast)$. Then $f\circ g^1=f\circ g^2\implies g^1=g^2$, and hence $x=y$.
+
+To show that an epimorphism $f:X\to Y$ is surjective, we can use the coequalizer construction to build the quotient $Y/f(X)$. That is, we take the coequalizer of $\pi_1\circ\iota,\pi_2\circ\iota:f(X)\times f(X)\to Y$, where $\pi_1,\pi_2$ are the projections from the product, and $\iota:f(X)\to Y$ is the inclusion. This gives a function $q:Y\to Y/f(X)$. For the other function $g:Y\to Y/f(X)$, we let $g(v)=q(f(x))$ for each $v\in Y$, where $x$ is some fixed element of $X$.
+
+To verify that $g$ is a morphism: Given $\mu\in\vl$ and $e\in\ec$, with $\eta_\mu(e)$ defined, and $c=\type(e)$, let $\nu\in\vl^X$ such that $\nu(v)=x_{\type(v)}$. Then $\eta^{Y/f(X)}_{g(\mu)}(e)=q(\eta_{f(\nu)}(e))=q(f(\eta_\nu(e)))$, and $g(\eta_\mu(e))=q(f(x))$. Since $f(\eta_\nu(e))\sim f(x)$ by definition of the quotient $Y/f(X)$, these two are equal.
+
+Now by the epimorphism property, $q\circ f=g\circ f$, and hence $q=g$. Thus given $y\in Y$, $y\sim f(x)$. But $\sim$ is already closed inside $f(X)\times f(X)$ because $f$ is a homomorphism, so $y\in f(X)$.
+\qed\end{proof}
+
+For the next result, we will need the category $\bf Fresh$, whose objects are $\tc$-indexed sets with a freshness relation (that is, models without the $\eta$ component), and homomorphisms, which are just model homomorphisms with the $\eta$ preservation rule dropped. (Note that $\bf Fresh$ implicitly depends on $\vt$ and $\tc$ -- but not $\Gamma$ or the other components.)
+
+\begin{theorem}\label{thm:freemod}
+${\bf Mdl}(T)$ has free objects, in the sense that the forgetful functor $U:{\bf Mdl}(T)\to{\bf Fresh}$ has a left adjoint.
+\end{theorem}
+\begin{proof}
+Given $X=\ang{\uv^X,\fresh^X}$, let $W_c=\{p\in(\cn\sqcup\bigsqcup\uv^X)^{<\omega}\mid p_0=c\}$, the set of expressions with variables replaced by elements of $\uv^X$. We will define first $\fresh$ and $\eta$ on $W_c$, then pare it down to the actual set $\uv_c\subseteq W_c$.
+\begin{itemize}
+  \item Let ${\cal V}(e)$ for $e\in W_c$ denote the elements of $\bigsqcup\uv^X$ in $e$.
+  \item For $e\in W_c,e'\in W_{c'}$, let $e\fresh e'$ if for all $v\in{\cal V}(e),w\in{\cal V}(e')$, $v\fresh^X w$.
+  \item For $e\in\ec$, $\mu\in\vl^W$ (where $\vl^W$ is the set of valuations where each variable $v$ takes a value from $W_{\type(v)}$), define $\eta_\mu(e)$ to be the substitution of each variable in $e$ with the string $\mu(v)$; the result will be a member of $W_{\type(e)}$.
+\end{itemize}
+
+Now, we define each $\uv_c\subseteq W_c$, for $c\in\tc$, simultaneously as the minimal set family subject to the constraints: 
+\begin{itemize}
+  \item For each $v\in\uv^X_c$, $\ang{c,v}\in\uv_c$.
+  \item For each $\mu\in\vl$ (with $\vl$ defined in terms of $\uv$) and $\ang{D,H,A}\in\Gamma$, if
+  \begin{itemize}
+    \item $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D$, and
+    \item $\eta_\mu(h)\in\uv_{\type(h)}$ for all $h\in H$,
+  \end{itemize}
+  then $\eta_\mu(A)\in\uv_{\type(A)}$.
+\end{itemize}
+
+With $\fresh$ and $\eta$ restricted to $\uv$, this gives the desired free model on $X$. The canonical injection sets $v\mapsto\ang{c,v}$ for each $c\in\tc,v\in\uv^X_c$.
+\qed\end{proof}
+
+\begin{remark}\label{rem:modcls}
+Note that for any family $S_c\subseteq W_c$, we can add $S_c\subseteq\uv_c$ to the closure conditions for $\uv$ to get a different model $F(X, S)$, which is no longer free but is instead thought of as ``the free model on $X$ generated by $S$''. Roughly speaking, this model satisfies $F(X, S)\models_\mu s$ for each $s\in S_c$ and is universal among such models. (``Roughly'' here because $s$ is not an expression but is a member of the model itself, so there are some problems with stating the universal property. But this is the intuition. In many cases such as \autoref{thm:godmod2}, $s$ will be closely related to an expression, and then this can be made precise.)
+\end{remark}                                              
+
+The G\"{o}delian construction of a formal system as a model of itself in \cite{models} is a special case of this construction, where $X$ sets $\uv^X_c=\{v\in\vr'\mid\type(v)=c\}$ (where $\vr'$ chosen such that $\uv^X_c$ is infinite for each $c\in\vt$), and $v\fresh w$ iff $v\ne w$. But we can improve the result with a different choice of $X$:
+
+\begin{theorem}[G\"{o}del's completeness theorem 2]\label{thm:godmod2}
+Assuming $\vr$ has infinitely many variables of each type, a theorem $\ang{D,H,A}$ of a formal system is provable if and only if $M\models\ang{D,H,A}$ in every model $M$. (This improves on \cite{models} by allowing a nonempty $H$ and a non-full $D$.)
+\end{theorem}
+\begin{proof}
+As in the first proof, the forward direction of both versions of the theorem is trivial by the definition of a model. Let $\uv_c=\{v\in\vr\mid\type(v)=c\}$. For $v,w\in\vr$, let $v\fresh w$ if either $\{v,w\}\in D$ or $v\ne w$ and one of $v,w$ is not in ${\cal V}(H\cup\{A\})$. (The set $D^\ast=\{\{v,w\}\mid v\fresh w\}$ is the largest DV set whose reduct is $D$.) Finally, let $S_c$ be the set of all expressions in $H$ of type $c$.
+
+Let $M=F(\ang{\uv,\fresh}, S)$ be the model induced by $\uv,\fresh$, and generated by the set $S$, by \autoref{rem:modcls}, and let $I\in\vl$ map each variable to itself (specifically, $I(v)=\vh_v$), so that $\eta_I(e)=e$. Then $I(v)\fresh^M I(w)$ for all ${v,w}\in D$, and for each $h\in H$, $\eta_I(h)\in S_{\type(h)}$, so $M\models_I H$. Thus by the theorem hypothesis, $M\models_I A$, that is, $A\in\uv_{\type(A)}$.
+
+By induction, we claim that for each $c\in\tc$ and $A\in\uv_c$, $\ang{D^\ast,H,A}$ is a provable pre-statement, i.e. $A\in C$, the closure of $H$ with respect to $D^\ast$. Thus, the reduct of $\ang{D^\ast,H,A}$, which is $\ang{D,H,A}$ by construction, is a theorem.
+
+\begin{itemize}
+  \item If $A=\ang{c,v}$ for a variable $v$ of type $c$, then $A=\vh_v\in C$.
+  \item If $A\in S_c$, then $A\in H\subseteq C$.
+  \item Otherwise, by the induction hypothesis we are given $\ang{D',H',A'}$ and $\mu\in\vl$, where
+  \begin{itemize}
+    \item $\mu(v)\in C$ for each $v\in\vr$,
+    \item $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D'$,
+    \item $\eta_\mu(h)\in C$ for all $h\in H'$,
+    \item and $A=\eta_\mu(A')$.
+  \end{itemize}
+  Define the substitution $\sigma$ such that $\sigma(\vh_v)=\mu(v)$. Then $\sigma(e)=\eta_\mu(e)$, so $\sigma(h)\in C$ for each $h\in H'$ and $\sigma(\vh_v)=\mu(v)\in C$ for each $v\in\vr$, and for each $\{\alpha,\beta\}\in D'$, $\gamma\in{\cal V}(\sigma(\ang{\alpha}))$ and $\delta\in{\cal V}(\sigma(\ang{\beta}))$, by definition of $\fresh$ we have $\{\gamma,\delta\}\in D^\ast$, so $\sigma(A')=A\in C$.
+\end{itemize}
+\qed\end{proof}
+
+\begin{remark}\label{rem:modcls}
+It is unfortunate that \autoref{thm:godmod2} requires infinitely many variables, because this is not the case in any actual Metamath database, which is a finite thing. However, there is an easy compactness result here: One can take an existing database, extend it with infinitely many variables, then prove the theorem and throw away all the unused variables to achieve the proof in a finite formal system. But there is no bound on how many variables will be needed to prove a given theorem (just as there is no bound on the length of the proof).
+\end{remark}                                              
+
+\subsection{Extensions}\label{sec:extension}
+All of the above work deals with different models over a fixed formal system. We can also consider modification of the underlying theory.
+
+\begin{definition}
+A formal system $T'$ {\em extends} another formal system $T$, denoted $T\le T'$, if:
+\begin{itemize}
+  \item $\cn\subseteq\cn'$
+  \item $\vr\subseteq\vr'$
+  \item $\vt\subseteq\vt'$
+  \item $\tc\setminus\vt\subseteq\tc'\setminus\vt'$
+  \item $\type\subseteq\type'$ (that is, the functions agree on their common domain)
+  \item $\Gamma\subseteq\Gamma'$
+\end{itemize}
+If $T$ and $T'$ are grammatical formal systems, then we also require $\syn\subseteq\syn'$. If all components are equal except $\Gamma\subseteq\Gamma'$, then this is called an {\em axiomatic extension}, denoted $T\unlhd T'$.
+\end{definition}
+
+\begin{theorem}\label{sec:resfunc}
+If $T\le T'$, then there is a restriction functor $R:{\bf Mdl}(T')\to{\bf Mdl}(T)$, which is full, and an embedding if $\tc=\tc'$.
+\end{theorem}
+\begin{proof}
+Given $M\in{\bf Mdl}(T')$, let $\uv^{RM}_c=\uv^M_c$ for $c\in\tc^T$, $\fresh^{RM}$ be the restriction of $\fresh^M$, and $\eta^{RM}_\mu(e)=\eta^M_\mu(e)$ for each $e\in\ec^T$ and $\mu\in\vl^{RM}$. On morphisms, it just restricts $(f(c))_{c\in\tc'}$ to $(f(c))_{c\in\tc}$. 
+
+The fact that this is full is a simple consequence of the fact that it is a restriction on the set families, and it is an embedding when $\tc=\tc'$ because in this case the functor does nothing to objects or morphisms (it is the inclusion map from a subcategory at this point).
+\qed\end{proof}
+
+An important question that will come up later is the ``extension problem'': given $M\in{\bf Mdl}(T)$, what can we say about those $M'\in{\bf Mdl}(T')$ such that $RM'=M$? Note that by combining the forgetful functor $U:{\bf Mdl}(T)\to{\bf Fresh}$ with $F:{\bf Fresh}\to{\bf Mdl}(T')$, we can build the model $RFUM\in{\bf Mdl}(T)$. This 
+
+\begin{theorem}\label{sec:resadj}
+If $\tc=\tc'$ in the extension $T\le T'$, then the restriction functor $R:{\bf Mdl}(T')\to{\bf Mdl}(T)$ has a left adjoint $E:{\bf Mdl}(T)\to{\bf Mdl}(T')$. 
+\end{theorem}
+\begin{proof}
+Given $M\in{\bf Mdl}(T)$, by combining the forgetful functor $U:{\bf Mdl}(T)\to{\bf Fresh}$ with $F:{\bf Fresh}\to{\bf Mdl}(T')$, we get $FUM\in{\bf Mdl}(T')$. (The assumption $\tc=\tc'$ ensures that $\bf Fresh$ is the same for $T$ and $T'$.) However, we have forgotten too much of the structure of $T$ with the composition. Given any $N\in{\bf Mdl}(T')$ and $f:M\to RN$,
+Given $M\in{\bf Mdl}(T')$, let $\uv^{RM}_c=\uv^M_c$ for $c\in\tc^T$, $\fresh^{R(M)}$ be the restriction of $\fresh^M$, and $\eta^{R(M)}_\mu(e)=\eta^M_\mu(e)$ for each $e\in\ec^T$ and $\mu\in\vl^{R(M)}$.
+\todo{finish the proof}
+\qed\end{proof}
+
+\subsection{Conservative and definitional extensions}\label{sec:conservative}
+Now we have the structure we need to start homing in on conservative extensions, from which we can extract a definition for definitions. In conventional logic, a theory $T'$ is a conservative extension of a theory $T$ if the language of $T'$ extends the language of $T$, and every theorem of $T$ is a theorem of $T'$ (i.e. $T'$ is an extension of $T$), and every theorem of $T'$ in the language of $T$ is a theorem of $T$.
+
+In Metamath, the hard part of the above definition is the notion of ``language''. \textit{A priori} there is no notion of language beyond what is achievable through the applications of the axioms; but of course this is not suitable because if we allowed ``in the language of $T$'' to simply mean ``a theorem of $T$'', then the only conservative extensions to a formal system are equivalent formal systems (with the same theorems), which trivializes the notion.
+
+We may notice, however, that expressions are strings of constants and variables, and so perhaps we can use the set of constants as our ``language''. This brings us to the first definition:
+
+\begin{definition}\label{def:cext}
+A {\em conservative extension} of a formal system $T$ is a formal system $T'\ge T$ such that for every theorem $\ang{D,H,A}$ of $T'$, if each $e\in H\cup\{A\}$ is a member of $\ex_c$ (that is, an expression in $\cn\cup\vr$), then $\ang{D,H,A}$ is a theorem of $T$.
+\end{definition}
+
+We can recharacterize conservative extensions categorically:
+
+\begin{theorem}
+$T\le T'$ is a conservative extension iff the restriction functor of \autoref{sec:resfunc} is surjective on objects. 
+\end{theorem}
+\begin{proof}
+In the forward direction, given that $T\le T'$ is conservative, and given some $M\in{\bf Mdl}(T)$
+\qed\end{proof}
+
+This is as good as we can do in general formal systems. However, it is not quite as accurate as we would like. For example, if $T$ is a formal system containing the rule ${\rm wff}(\vph]$ (where $\vph$ is a $\rm wff$ variable), and $T'$ has rules ${\rm wff}(\vph]$ and ${\rm wff}[\vph)$, then $T'$ is a conservative extension of $T$. However, in the very similar case where $T$ has ${\rm wff}[:\vph]$ and $T'$ has ${\rm wff}[:\vph]$ and ${\rm wff}[\vph:]$, $T'$ is not a conservative extension.
+
+The problem is that in the second case, the ``language'' is the same, because both expression builders draw from the same set of constants ``['', ``:'', ``]''. To resolve this, we must assume that we have a grammatical formal system, in which case we have a framework of syntax expressions that form the ``language''. This yields the second and preferred definition for a conservative extension in a grammatical formal system.
+
+\begin{definition}\label{def:gcext}
+A {\em conservative extension} of a grammatical formal system $T$ is a grammatical formal system $T'\ge T$ such that for every theorem $\ang{D,H,A}$ of $T'$, if for each $e\in H\cup\{A\}$, $e_0\in\tc$ and $\syn'(e)$ is a theorem of $T$ (that is, $e$ has a valid parse in $T$), then $\ang{D,H,A}$ is a theorem of $T$.
+\end{definition}
+
+\begin{remark}
+Any unambiguous formal system can be mapped to a tree formal system and then back to a string formal system, where the strings are now (reverse) Polish notation with unique constants for each syntax axiom. Thus we can also go backwards from the more expressive \autoref{def:gcext} to the original \autoref{def:cext}, under a new representation.
+\end{remark}
+
+For the rest of this work, we shall restrict our attention to unambiguous formal systems, because there isn't much more to say about the general case.
+
+\section{Definitions}\label{sec:definition}
+Although conservative extension is the goal, it is not the means. Instead, we make use of ``definitions'', which can be explained as a syntax axiom which is an abbreviation for an expression in the original language. However, there are some subtleties with bound variables here, and it is easiest to give our initial definition in terms of a model.
+
+\begin{definition}
+Given a model $M=\ang{\uv,\fresh,\pi}$ for the unambiguous formal system $T$ (which we will also write $M\models T$), a {\em conservative model extension} of $M$ is a model $M'=\ang{\uv,\fresh,\pi'}$ for an extended unambiguous formal system $T'\ge T$ such that:
+\begin{itemize}
+  \item $\tc'=\tc$
+  \item $\pi_a=\pi'_a$ for each $a\in\sa$
+\end{itemize}
+\end{definition}
+
+The important thing to notice about this definition is that $\uv$ and $\fresh$ are unchanged in the extended model, so the only freedom is in choosing $\pi_a$ for new syntax axioms in $\sa'\setminus\sa$. However, there are no restrictions on new {\em logical} axioms in $T'$, provided that $M'$ remains a model of it, which corresponds to the idea that if the $\pi_a$ ``abbreviations'' are expanded in these new axioms, one gets the same value in the model, and hence the same truth value as well. If one starts with a very strict model like the G\"{o}delian model of a formal system over itself, this is sufficient to ensure that these axioms are mapped to theorems of the original system.
+
+\begin{theorem}\label{thm:cmodel}
+Assume $\vr_T$ has infinitely many variables of each type. If for every model $M\models T$ there is some model $N\le M$ and a conservative model extension $N'\models T'$ of $N$, then $T'$ is a conservative extension of $T$.
+\end{theorem}
+\begin{proof}By definition, $T'\ge T$. Now suppose $\ang{D,H,A}$ is a theorem of $T'$, and for each $e\in H\cup\{A\}$, $\syn'(e)$ is a theorem of $T$.  By \autoref{thm:godmod2}, it suffices to show $M\models\ang{D,H,A}$ for every $M\models T$. Let $N'\models T'$ be a conservative model extension of $N\models T$.  $N'\models\ang{D,H,A}$ means that for every $\mu\in\vl$, if $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D$ and $N'\models_\mu H$, then $N'\models_\mu A$.  Thus we must show $N\models_\mu e\iff N'\models_\mu e$ for $e\in H\cup\{A\}$ in order to establish $N\models\ang{D,H,A}$ and thus $M\models\ang{D,H,A}$ (since $N\le M$).
+
+In these cases, we know $\syn'(e)$ is a theorem of $T$, and since $\tc=\tc'$ and $\syn$ agrees with $\syn'$ on their common domain, $\syn'=\syn$ and thus $\syn'(e)=\syn(e)$ is in the language of $T$, because it is a theorem of $T$.
+
+Since $\pi_a=\pi'_a$ for each syntax axiom $a$, by induction all syntax proofs $e$ satisfy $\eta_\mu(e)=\eta'_\mu(e)$. But $\syn(e)$ is a syntax proof because it begins with a syntax typecode, so $\eta_\mu(\syn(e))=\eta'_\mu(\syn(e))$ and thus $N\models_\mu e\iff N'\models_\mu e$.
+\qed\end{proof}
+
+To make this existential more constructive, we would like a function ${\cal D}(M)$ which maps each model $M\models T$ to a conservative model extension ${\cal D}(M)\models T'$. If $\sa=\sa'$ then there is nothing to show, but if there is some $a\in\sa'\setminus\sa$ we are tasked with inventing a function $\pi_a:\prod_i\uv_{\type(v^a_i)}\to\uv_{\type(a)}$ using the given arbitrary model $M$, and there aren't too many options for such.
+
+As the base case, we have the projection functions: the function $f(\{v_i\})=v_k$ is a valid function $\prod_i\uv_{c_i}\to\uv_{c_k}$. The induction step is the application of a syntax axiom in $T$, along with multi-composition: if $a\in\sa$ and for each $i$, $g_i:X\to\uv_{\type(v^a_i)}$, then $f(x)=\pi_a(\{g_i(x)\})$ is a function $X\to\uv_{\type(a)}$.
+
+This rigorously justifies the usage of abbreviational definitions such as $(\vph\land\psi)\leftrightarrow\lnot(\vph\to\lnot\psi)$, but it lacks a mechanism for introducing dummy variables, which are essential to set theoretical definitions.
+
+We can use the above induction to define a function $f:\prod_{i\le n}\uv_{c_i}\to\uv_{c'}$ which has ``too many variables'' $n>k$, and pare it down to the real function $\pi_a:\prod_{i\le k}\uv_{c_i}\to\uv_{c'}$ (where the syntax axiom $a$ has $k$ variables) by requiring $\pi_a(\{v_i\}_1^k)=f(\{v_i\}_1^n)$ for all $\{v_i\}_1^n$ such that $v_i\fresh v_j$ whenever $i,k<j$.
+
+This causes a problem in that the uniqueness of $\pi_a$ here requires the original function $f$ to take exactly the same value at different dummy arguments, which in many models is not true (such as the G\"{o}delian model in which the statement string is the model element). To resolve this, we use the auxiliary model $N$, which will be a quotient with respect to the appropriate equivalence relation.
+
+\begin{definition}\label{def:equiv}
+Given a model $M$, and $x,y\in\bigsqcup\uv$, say that $x$ and $y$ are {\em equivalent} and write $x\simeq y$ if $M$ respects the smallest model equivalence relation $\sim$ satisfying $x\sim y$. (That is, $\sim$ is required to be an equivalence relation closed under $\eta$ application, so if $\mu(v)\sim\nu(v)$ for all $v$, then $\eta_\mu(e)\sim\eta_\nu(e)$; and $M$ must respect the equivalence, so $\eta_\mu(e)$ is defined iff $\eta_\nu(e)$ is.)
+\end{definition}
+
+\begin{theorem}\label{thm:equiv}
+Equivalence is itself an equivalence relation, and it is also respected by $M$.
+\end{theorem}
+\begin{proof}
+Symmetry and reflexivity of $\simeq$ are immediate. If $x\simeq y\simeq z$, let $\sim_{xy},\sim_{yz}$, etc. denote the smallest model equivalence relating the subscripts. We will prove that $\eta_\mu(e)$ is defined iff $\eta_\nu(e)$ is whenever $\mu(v)\sim_{xyz}\nu(v)$. Because $\eta_\mu(e)$ depends on only a finite number of values of $\mu$, we can assume $\mu$ and $\nu$ differ at all but finitely many positions; and then by changing each value from $\mu(v)$ to $\nu(v)$ we are reduced to the case of proving $\eta_\mu(e)$ is defined iff $\eta_\nu(e)$ is whenever $\mu$ and $\nu$ differ at only one point $v$. This latter property we prove by induction on $\sim_{xyz}$.
+
+In the base case we have $\mu(v)=x$, $\nu(v)=y$, or $\mu(v)=y$, $\nu(v)=z$, which are handled by the assumptions on $\sim_{xy},\sim_{yz}$. Equivalence properties are immediate because the consequent is of the form ``$P(x)$ iff $P(y)$''. For $\eta$ application, suppose that $a,b$ are such that for all expressions $e$ and valuations $\tau$, $\eta_{\tau[a]}(e)$ is defined iff $\eta_{\tau[b]}(e)$ is, where $\tau[a]=\tau[v\to a]$ is the valuation $\tau$ with $\tau(v)$ set to $a$. We want to show that $\eta_\mu(e')$ is defined iff $\eta_\nu(e')$ is, where $\mu(v)=\eta_{\tau[a]}(e)$ and $\nu(v)=\eta_{\tau[b]}(e)$.
+
+Define the substitution $\sigma$ such that $\sigma(v)=e$ and $\sigma(v')=v'$ for $v'\ne v$. Since $\sigma(\mu[a])(v)=\eta_{\tau[a]}(e)=\mu(v)$ and $\sigma(\mu[a])(v')=\eta_{\tau[a]}(v')=\mu(v')$, we have $\sigma(\mu[a])=\mu$ so that $\eta_{\mu[a]}(\sigma(e))=\eta_{\sigma(\mu[a])}(e)=\eta_\mu(e)$, and similarly $\eta_{\mu[b]}(\sigma(e))=\eta_\nu(e)$ (since $\mu[b]=\nu[b]$). By assumption, $\eta_{\mu[a]}(\sigma(e))$ is defined iff $\eta_{\mu[b]}(\sigma(e))$ is, so $\eta_\mu(e)$ is defined iff $\eta_\nu(e)$ is, as we wanted to show.
+
+Then since $\mu(v)\sim_{xyz}\nu(v)$ implies $\mu(v)\sim_{xz}\nu(v)$, we have $x\simeq z$.
+
+If $\mu(v)\simeq\nu(v)$ for each $v$, and we wish to show $\eta_\mu(e)\simeq\eta_\nu(e)$ (with one side defined iff the other is), as before by transitivity we are reduced to the case of $\mu$, $\nu$ differing only at $v$. Then $\mu(v')\sim_{\mu\nu}\nu(v')$ for all $v'$, by assumption for $v'=v$ and by reflexivity otherwise, so $\eta_\mu(e)$ is defined iff $\eta_\nu(e)$ is. Then since $\sim(\eta_\mu(e),\eta_\nu(e))$ is contained in $\sim_{\mu\nu}$ we immediately have the definedness requirement.
+\qed\end{proof}
+
+\begin{definition}\label{def:nf}
+For a fixed formal system $T$, given an expression $e$ and a variable $x$, and a set of variables $V$, $\NF_V(x,e)$, read ``$x$ is {\em not free} in the variables $V$ of $e$'', means that for all models $M\models T$ and valuations $\mu,\nu\in\vl$ that differ only at $x$, if for all $v\in V$ other than $x$, $\mu(v)\fresh\mu(x)$ and $\mu(v)\fresh\nu(x)$, then $\eta_\mu(e)\simeq\eta_\nu(e)$. $\NF(x,e)$ means $\NF_{{\cal V}(e)}(x,e)$ and is read ``$x$ is {\em not free} in $e$''.
+\end{definition}
+
+We show that all this defines a valid interpretation function in the following theorem:
+
+\begin{theorem}\label{thm:defncext}
+Let $T$ be an unambiguous formal system, and let $\sa'\supseteq\sa$, such that for each $a\in\sa'\setminus\sa$, $P=P(a)$ is a syntax tree of $T$, $s=s(a)$ is an injective map from each $v^a_i$ to a variable $s(v^a_i)\in\vr$ (which may appear in the leaves of $P$), and $\NF(x,P)$ for all $x\in\vr\setminus\ran s$.
+
+Let $T'$ be defined from $T$ with the new $\sa'$. Then $T'$ is a conservative extension of $T$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:cmodel}, we are given a model $M\models T$ and must create a conservative model extension $N'\models T'$ over some $N\le M$. The reason we need the extra step of reduction via $N$ is because the definition of $\pi_a$ we will make forces $\eta$ to take equal values on the target expression with different dummy variable assignments.
+
+For our choice of $N$, we take the quotient of $M$ with respect to $\simeq$ using \autoref{thm:quot} to get a quotient model $N=M/\simeq\le M$.
+
+To build the conservative model extension $N'$, we need a definition of $\pi_a$ for each $a\in\sa'\setminus\sa$. Set $V={\cal V}(P)\cup\ran s$, and define $\pi_a(\{x_i\})=\eta_\mu(P)$, where $\mu$ is any valuation such that $\mu(s(v^a_i))=x_i$, and $\mu(v)\fresh\mu(w)$ whenever $v,w\in V$, $v\ne w$, and $w\notin\ran s$.
+
+We first must show that $\pi_a$ is well-defined. We can find a valuation with the given properties by assigning first $\mu(s(v^a_i))=x_i$ (which is consistent because $s$ is injective), then repeatedly extending with some $w$ fresh from all previous values until all $\mu(v)$ for $v\in V$ are assigned, then giving any value to the other ``unused'' variables.
+
+To show uniqueness, first we note that if $\mu$ and $\nu$ differ only outside $V$, the dependence on present variables rule for models ensures that $\eta_\mu(P)=\eta_\nu(P)$. Thus we can assume they coincide in this range, and by definition they coincide on $\ran s$ (since $\mu(s(v^a_i))=\nu(s(v^a_i))=x_i$). By changing one variable at a time, by transitivity we are reduced to showing $\eta_\mu(P)=\eta_\nu(P)$ where $\mu,\nu$ differ only at some $x\in V\setminus\ran s$. Given $v\in{\cal V}(P)$ different from $x$, the $\pi_a$ assumption gives $\mu(v)\fresh\mu(x)$ and $\mu(v)\fresh\nu(x)$, so the $\NF(x,P)$ assumption gives $\eta_\mu(P)\simeq\eta_\nu(P)$ in $M$ and $\eta_\mu(P)=\eta_\nu(P)$ in $N$.
+
+The only property we must check to ensure that $N'$ is a model is freshness substitution: for all $v\in\bigsqcup\uv$ and $x_i\in\uv_{\type(v^a_i)}$, $v\fresh x_i$ for each $i$, then $v\fresh\pi_a(\{x_i\})$. As in the proof of existence, we define $\mu(s(v^a_i))=x_i$, then extend with $w$ fresh from all previous values, but also fresh from $v$, until all $\mu(v)$ for $v\in V$ are assigned. The resulting $\pi_a(\{x_i\})=\eta_\mu(P)$ will satisfy $v\fresh\mu(w)$ for each $w\in V$, and thus $v\fresh\eta_\mu(P)$ by freshness substitution in $T$.
+\qed\end{proof}
+
+As it stands, \autoref{thm:defncext} is not very useful, because it does not introduce any axioms besides new ``uninterpreted'' syntax. However, there is a whole class of possible new axioms that can now be consistently added to $T'$:
+
+\begin{theorem}\label{thm:defncext2}
+The formal system and model $N'\models T'$ in \autoref{thm:defncext} remains a model if $T'$ is extended with $\ang{D',H',A'}$, formed from $N'\models\ang{D,H,A}$ by replacing, for some substitution $\sigma$, an instance of $\sigma(P)$ one of the subtrees of $H\cup\{A\}$ with the syntax tree $a[\{\sigma(s(v^a_i))\}]$, and adding $\{\sigma(v),\sigma(w)\}$ to $D'$ for each $v,w\in V$ with $v\ne w$ and $w\notin\ran s$.
+\end{theorem}
+\begin{proof}
+We wish to show that $N'\models\ang{D',H',A'}$, so let $\mu\in\vl$, and suppose $\mu(\alpha)\fresh\mu(\beta)$ for all $\{\alpha,\beta\}\in D'$. Since $D'\supseteq D$, we have that $N'\models_\mu H$ implies  $N'\models_\mu A$, and want to show $N'\models_\mu H'$ implies  $N'\models_\mu A'$. In other words, $\eta_\mu(e)=\eta_\mu(e')$ where $e'$ is obtained from $e$ by the tree substitution in the theorem assumption.
+
+This follows by induction, with the base case being the subtree substitution itself: $\eta_\mu(a[\{\sigma(s(v^a_i))\}])=\eta_\mu(\sigma(P))$. If $v,w\in V$, $v\ne w$, and $w\notin\ran s$, then $\{\sigma(v),\sigma(w)\}\in D'$, so $\mu(\sigma(v))\fresh\mu(\sigma(w))$. Thus $\sigma(\mu)$ is admissible for expanding the definition of $\pi_a$, so
+\begin{align*}
+\eta_\mu(\sigma(P))&=\eta_{\sigma(\mu)}(P)\\
+&=\pi_a(\{\sigma(\mu)(s(v^a_i))\})\\
+&=\pi_a(\{\eta_\mu(\sigma(s(v^a_i)))\})\\
+&=\eta_\mu(a[\{\sigma(s(v^a_i))\}]),
+\end{align*}
+as we wanted to show.
+\qed\end{proof}
+
+Now we are in a position to use the results. \autoref{thm:defncext2} produces a new $N'\models\ang{D',H',A'}$ from $N'\models\ang{D,H,A}$, so it can be iterated as many times as necessary to replace multiple substituted subtrees of $P$ in a theorem. The base case is any theorem from $T$, which is also a theorem of $T$ and hence modeled by $N'$.
+
+As an example, if we are defining $\vdash V=\{x\mid x=x\}$, the base theory $T$ satisfies $T\vdash\{x\mid x=x\}=\{x\mid x=x\}$, so $T'$ can be consistently extended with $\vdash V=\{x\mid x=x\}$, which is the result of replacing $\{x\mid x=x\}$ (this is $P$) with the new constant syntax expression $V$.
+
+Finally, we would like to make the precondition of \autoref{thm:defncext} something easily checkable, using some basic theorems for not-freeness.
+
+\begin{theorem}\label{thm:nf}
+\begin{enumerate}
+  \item If $x\notin{\cal V}(e)$, then $\NF_V(x,e)$.
+  \item\label{thm:nf-comp} If $\NF_V(x,e_i)$ for each subtree $e_i$ in the tree $a[\{e_i\}]$, then $\NF_V(x,a[\{e_i\}])$.
+  \item\label{thm:nf-subst} If $\sigma$ is a substitution and $\NF(x,e)$ for all $x$ such that $y\in{\cal V}(\sigma(x))$, then $\NF_V(y,\sigma(e))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix a model $M\models T$.
+\begin{enumerate}
+  \item If $\mu,\nu$ are valuations that differ only at $x\notin{\cal V}(e)$, then $\eta_\mu(e)=\eta_\nu(e)$, so certainly $\eta_\mu(e)\simeq\eta_\nu(e)$.
+  \item Let $\mu,\nu$ be valuations that differ only at $x$. Now $\eta_\mu(a[\{e_i\}])=\pi_a(\{\eta_\mu(e_i)\})$, and for each $i$, $\eta_\mu(e_i)\simeq\eta_\nu(e_i)$, so by \autoref{thm:equiv} $\eta_\mu(a[\{e_i\}])\simeq\eta_\nu(a[\{e_i\}])$.
+  \item Let $\mu,\nu$ be valuations that differ only at $y$, and xxx. We have $\eta_\mu(\sigma(e))=\eta_{\sigma(\mu)}(e)$, and $\sigma(\mu)(x)=\eta_\mu(\sigma(x))$, so $\sigma(\mu)$ differs from $\sigma(\nu)$ only when $y\in{\cal V}(\sigma(x))$; then since by assumption $\NF(x,e)$ for each of these $x$, $\eta_{\sigma(\mu)}(e)\simeq\eta_{\sigma(\nu)}(e)$.
+\end{enumerate}
+\qed\end{proof}
+
+These theorems are true under very general circumstances, but a major complicating factor is being able to show the $x\simeq y$ relation, which involves many individual elements of the model. To that end, we introduce a reduction to a single theorem in the object language:
+
+\begin{definition}
+An {\em equality} in the formal system $T$ for the type $c$ is an expression $e(x,y)$ containing two variables $x,y$ of type $c$, such that for all models $M\models T$ and valuations $\mu$, $M\models_\mu e(x,y)$ iff $\mu(x)\simeq\mu(y)$.
+\end{definition}
+
+A classic example of an equality is the expression $\vdash x=y$ in set theory, or the relation $\vdash(\vph\leftrightarrow\psi)$ in predicate logic. That these are actually equalities by this definition remains to be shown, but first let us derive the essential properties of an equality. We write $x\approx y$ instead of $e(x,y)$ for a given equality $\approx$.
+
+\begin{theorem}\label{thm:eq}
+Let $\approx$ be an equality in $T$.
+\begin{enumerate}
+  \item The definition of equality generalizes to expressions: for all $M,\mu$ and syntax expressions $e,e'$, $M\models_\mu e\approx e'$ iff $\eta_\mu(e)\simeq\eta_\mu(e')$.
+  \item $\approx$ is provably an equivalence relation in $T$.
+  \item $\approx$ is the unique equality of type $c$.
+  \item\label{thm:eq-subst} For any expression $e$ and substitutions $\sigma,\sigma'$, if for each $v\in{\cal V}(e)$ with $\sigma(v)\ne\sigma'(v)$ there is some equality $\equiv$ on the type $\type(v)$ such that $T\vdash\sigma(v)\equiv\sigma'(v)$, then $T\vdash \sigma(e)\approx\sigma'(e)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}\leavevmode
+\begin{enumerate}
+  \item Applying the definition to the valuation $\sigma(\mu)$, where $\sigma(x)=e$ and $\sigma(y)=e'$, we get $\eta_\mu(e)\simeq\eta_\mu(e')$ iff $\sigma(\mu)(x)\simeq\sigma(\mu)(y)$, iff $M\models_{\sigma(\mu)}x\approx y$, iff $\eta_{\sigma(\mu)}(x\approx y)=\eta_{\mu}(\sigma(x\approx y))=\eta_{\mu}(\sigma(x)\approx\sigma(y))=\eta_{\mu}(e\approx e')$ is defined, iff $M\models_\mu e\approx e'$. 
+  \item We will show transitivity; reflexivity and symmetry are proven by an analogous argument. Suppose $T\vdash x\approx y$ and $T\vdash y\approx z$, and let $M,\mu$ be given such that $M\models_\mu x\approx y$ and $M\models_\mu y\approx z$. The definition of equality gives $\mu(x)\simeq\mu(y)$ and $\mu(y)\simeq\mu(z)$, and $\simeq$ is an equivalence relation, so $\mu(x)\simeq\mu(z)$ and hence $M\models_\mu x\approx z$. Thus $T\vdash x\approx z$ by G\"{o}del's theorem.
+  \item $T\vdash x\approx y$ iff for all $M,\mu$,  $M\models_\mu x\approx y$, iff for all $M,\mu$, $\mu(x)\simeq\mu(y)$. Since this latter expression does not depend on $\approx$, it follows that if $\equiv$ is another equality for the same type $c$, then $T\vdash x\approx y$ iff $T\vdash x\equiv y$, so $\approx$ and $\equiv$ are provably equivalent.
+  \item By G\"{o}del's theorem we are given $M,\mu$ such that $M\models_\mu \sigma(v)\approx\sigma'(v)$ for each $v\in{\cal V}(e)$, and want to show $M\models_\mu \sigma(e)\approx\sigma'(e)$, or equivalently $\eta_{\sigma(\mu)}(e)\simeq\eta_{\sigma'(\mu)}(e)$.
+  
+  By the substitution property of $\simeq$, this follows if for all $v$, $\sigma(\mu)(v)\simeq\sigma'(\mu)(v)$, equivalently $\eta_\mu(\sigma(v))\simeq\eta_\mu(\sigma'(v))$, and WLOG we can assume this is satisfied outside $v\in{\cal V}(e)$. If $\sigma(v)=\sigma'(v)$ this is clearly satisfied so we can assume $\sigma(v)\ne\sigma'(v)$.
+  
+  But then the assumption applies: for each $v\in{\cal V}(e)$ we are given an equality for the type such that $T\vdash\sigma(v)\equiv\sigma'(v)$, which implies that $M\models_\mu\sigma(v)\equiv\sigma'(v)$, which is equivalent to $\eta_\mu(\sigma(v))\simeq\eta_\mu(\sigma'(v))$ or $\sigma(\mu)(v)\simeq\sigma'(\mu)(v)$.
+\end{enumerate}
+\qed\end{proof}
+
+We now have definitions of equality and bound variables that make sense in an arbitrary grammatical formal system, even though we did not assume anything resembling a first order logic system in $T$.  The catch is that there may not be any expression in the logic that adequately represents an equality.  In order to make use of this architecture, we must have a way to construct actual equalities in $T$, so we need the converse of \autoref{thm:eq}(\ref{thm:eq-subst}).
+
+\begin{theorem}\label{thm:eq}
+Suppose expressions $x\approx_c y$ are given for each $c\in C\subseteq\vt$, and the following are theorems:
+\begin{gather}
+\vdash x\approx_c x\label{eqn:refl}\\
+x\approx_c y\vdash y\approx_c x\label{eqn:sym}\\
+x\approx_c y,\ y\approx_c z\vdash x\approx_c z;\label{eqn:trans}
+\end{gather}
+and for every provable typecode $c\in\tc\setminus\vt$, $\syn(c)\in C$ and
+\begin{gather}
+x,\ x\approx_{\syn(c)} y\vdash y;\label{eqn:mp}
+\end{gather}
+and for each syntax axiom $a$ and each $i$, if the $i$-th variable of $a$ is of type $c'\in C$, $a$ is of some type $c\in C$ and
+\begin{gather}
+x\approx_{c'} y\vdash a[v_1,\dots,v_{i-1},x,v_{i+1},\dots,v_k]\approx_c a[v_1,\dots,v_{i-1},y,v_{i+1},\dots,v_k].\label{eqn:subst}
+\end{gather}
+(All variables $v_i$ and $x,y,z$ above are variables, not expressions, of the appropriate type.) Then $\approx_c$ is an equality for each $c\in C$.
+\end{theorem}
+\begin{proof}
+Let a model $M$ and valuation $\mu$ be given. We wish to show $M\models_\mu x\approx y$ iff $\mu(x)\simeq\mu(y)$. ($\Leftarrow$) In the reverse direction, $\mu(x)\simeq\mu(y)$ implies $\eta_\mu(x\approx y)=\pi_\approx(\mu(x),\mu(y))\simeq\pi_\approx(\mu(y),\mu(y))$, so $M\models_\mu x\approx y$ iff $M\models_\mu y\approx y$, which is true by \autoref{eqn:refl}.
+
+($\Rightarrow$) In the forward direction, we have $M\models_\mu x\approx_c y$, and want to prove $\mu(x)\simeq\mu(y)$.  Define an equivalence relation $\sim$ on the elements of the model such that $v\sim w$ if $v,w$ have the same type $c$, and:
+\begin{itemize}
+  \item If $c\in C$, then there is some $\nu$ with $\nu(x)=v$ and $\nu(y)=w$ such that $M\models_\nu x\approx_c y$.
+  \item If $c\notin C$, then $\mu(v)=\mu(w)$.
+\end{itemize}
+(Note that the ``for some $\nu$'' can be replaced by ``for any $\nu$'', because any two valuations which take the same values at $x,y$ give the same result in the model, since $x\approx_c y$ only depends on $x,y$.)
+
+Then $x\sim y$, and \cref{eqn:refl,eqn:sym,eqn:trans} imply that $\sim$ is an equivalence relation. (For transitivity, given $a\sim b\sim c$, we apply the transitivity theorem for a valuation such that $\nu(x)=a$, $\nu(y)=b$, $\nu(z)=c$.)
+
+For $\eta$-closure, by induction it is sufficient to prove it for the syntax axioms. So we are given that $v_i\sim w_i$ for each $i$, and we want to show $\pi_a(\{v_i\})\sim\pi_a(\{w_i\})$. By transitivity we can reduce to the case when $v_i=w_i$ except at one point $k$. If $\type(v_k)$ is not in $C$, then $v_k=w_k$ so $\pi_a(\{v_i\})=\pi_a(\{w_i\})$. Otherwise by $v_k\sim w_k$, we can choose variables $\{p_i,q_i\}_i$ such that $p_i=q_i$ if $i\ne k$, and $p_k=x$, $q_k=y$; then choose a valuation such that $\mu(p_i)=v_i$ for each $i$, and $\mu(y)=w_k$ (so $\mu(q_i)=w_i$ for each $i$); and such that $M\models_\mu x\approx_c y$.
+
+\Cref{eqn:subst} then applies for the valuation $\mu$, to get $M\models_\mu a[\{p_i\}]\approx_{c'} a[\{q_i\}]$, where $c'\in C$ is the type of $a$. Thus $\mu(a[\{p_i\}])\sim\mu(a[\{q_i\}])$, and $\mu(a[\{p_i\}])=\pi_a(\{\mu(p_i)\})=\pi_a(\{v_i\})$, and similarly for $q_i$, so $\pi_a(\{v_i\})\sim\pi_a(\{w_i\})$.
+
+Finally, we must show that $M$ respects $\sim$, so we want (with the same $v_i$, $w_i$ as above) that $\eta_\mu\ang{c,a[\{p_i\}]}$ is defined iff $\eta_\mu\ang{c,a[\{q_i\}]}$ is, where here $c\in\tc$ is the explicitly written root typecode (satisfying $\syn(c)=\type(a)$). Equivalently, $M\models_\mu \ang{c,a[\{p_i\}]}$ iff $M\models_\mu\ang{c,a[\{q_i\}]}$.  \Cref{eqn:mp}, applied in each direction, proves that this follows from  $M\models_\mu,a[\{p_i\}]\approx_{c'} a[\{q_i\}]$, which we have already shown.
+
+Thus, $M$ respects the model equivalence relation $\sim$, and then by \autoref{def:equiv}, $M\models_\mu x\approx_c y$ implies $\mu(x)\simeq\mu(y)$.
+\qed\end{proof}
+
+\begin{remark}
+It should be noted that this is not the easiest way to prove that $\approx_c$ satisfies the substitution rules -- we would be better served by echewing models altogether and performing induction directly on the recursive definition of well formed formulas in the language. This approach, however, clearly marks the relationship between the formal system definition and the definition from within a model.
+\end{remark}
+
+\subsection{Definitions in \texttt{set.mm}}
+
+\begin{remark}\label{rem:set-eq}
+The principal ``consumer'' of \autoref{thm:eq}, and the source of intuition, is the case of set theory, with typecodes $\{\mathrm{set},\mathrm{class},\mathrm{wff},\vdash\}$. We take $C=\{\mathrm{class},\mathrm{wff}\}$, with $\approx_\mathrm{class}=``\vdash A=B''$ and $\approx_\mathrm{wff}=``\vdash \vph\leftrightarrow\psi''$. The closure properties of $C$ are important here: the non-variable typecode $\vdash$ has $\syn(\vdash)=\mathrm{wff}\in C$, and every syntax axiom produces a value of some type $c\in C$. (This is trivial for $\vdash$ because it is a non-variable typecode, but it is important that $\mathrm{set}$ has no syntax axioms, so that only set variables can substitute for other set variables.)
+\end{remark}
+
+Incidentally, it is not required to restrict $C$ to just these two; in fact $\mathrm{set}$ also has an equality on it: $x\approx_\mathrm{set} y$ iff $\vdash\forall x\;x=y$. Note that this is saying not that $x$ and $y$ have the save value in the logic, but they {\em are the same variable}. In standard FOL $x$ and $y$ are distinct simply because t
+hey are textually different, so that $y$ is unbound and the statement states that the universe has only one element (which is provably false). But in Metamath it is possible for them to be the same variable, in which case it reads $\vdash\forall x\;x=x$ which is true. You can in fact prove the equality substitution formulas using this: $\vdash\forall x\;x=y\to(\forall x\;\vph[x]\leftrightarrow\forall y\;\vph[x])$ is a peculiar but provable assertion in $\texttt{set.mm}$.
+
+How does the not-free predicate translate to $\texttt{set.mm}$? We already have a candidate for $\NF(x,\vph)$, namely $\vdash(\vph\to\forall x\;\vph)$. Now that we know that $=$ is an equality in $\texttt{set.mm}$ we may be able to finish the job.
+
+\begin{theorem}\label{thm:set-nf}
+In the formal system $T$ of $\texttt{set.mm}$, for every expression $\vph$ of type $\mathrm{wff}$, $\NF(x,\vph)$ iff $T\vdash(\vph\to\forall x\;\vph)$ is provable with disjoint variable conditions $\{v,x\}$ for each $v\in{\cal V}(\vph)$ with $v\ne x$.
+\end{theorem}
+\begin{proof}
+($\Rightarrow$) In the forward direction, we want to show that $M\models_\mu(\vph\to\forall x\;\vph)$ for all $M,\mu$ given $\NF(x,\vph)$. By the disjoint variable condition, we can assume $\mu(v)\fresh\mu(x)$ for each $v\in{\cal V}(\vph)$, $v\ne x$. Let $\nu(v)=\mu(v)$ for all $v\ne x$, and $\nu(x)=w$, where $w$ is chosen to be fresh from $\mu(v)$ for all $v\in{\cal V}(e)$. The definition of $\NF(x,\vph)$ says that if $\nu$ is any other valuation which differs from $\mu$ only at $x$, and $\mu(v)\fresh\mu(x)$, $\mu(v)\fresh\nu(x)$ for all $v\in{\cal V}(e)$ other than $x$, then $\eta_\mu(\vph)\simeq\eta_\nu(\vph)$.
+
+We can expand $M\models_\mu(\vph\to\forall x\;\vph)$ as $\pi_\to(\eta_\mu(\vph),\pi_\forall(\mu(x),\eta_\mu(\vph))$, and then $\eta_\mu(\vph)\simeq\eta_\nu(\vph)$ implies that $\pi_\to(\eta_\nu(\vph),\pi_\forall(\mu(x),\eta_\nu(\vph))$ is also defined in $\uv_\vdash$. Finally, augment $\nu$ with $\nu(y)=\mu(x)$, where $y$ is a variable not in ${\cal V}(\vph)\cup\{x\}$. Then we can write the goal as $M\models_\nu(\vph\to\forall y\;\vph)$. (In other words, we just rewrote a statement like $(\exists x,x\in z\to\forall x\;\exists x,x\in z)$ to $(\exists y,y\in z\to\forall x\;\exists y,y\in z)$, where $y$ is fresh from $x,z$.)
+
+Now $\nu(y)=x\fresh\mu(v)=\nu(v)$ for each $v\in{\cal V}(\vph)$, so by freshness substitution, $\nu(y)\fresh\eta_\mu(\vph)$. Thus \thlink{ax-17} applies:
+$$\vdash(\vph\to\forall x\;\vph),\quad\mbox{ where }x,\vph\mbox{ are disjoint}$$
+so that $M\models_\nu(\vph\to\forall y\;\vph)$ as desired.
+
+($\Leftarrow$) In the reverse direction, we know $T\vdash(\vph\to\forall x\;\vph)$ is provable with disjoint variable conditions $\{v,x\}$ for each $v\in{\cal V}(\vph)$ with $v\ne x$, and we want $\NF(x,\vph)$.  Take a model $M$ and valuations $\mu,\nu$ that differ only at $x$, such that for all $v\in{\cal V}(\vph)$ other than $x$, $\mu(v)\fresh\mu(x)$ and $\mu(v)\fresh\nu(x)$.  Let $\nu$ be extended as before, choosing some $y\notin{\cal V}(\vph)$ and setting $\nu(y)=\mu(x)$. Then our goal is to show $M\models_\nu\vph\leftrightarrow\vph[x\to y]$, where $\vph[x\to y]$ is the result of (textually) replacing all $x$ variables in $\vph$ with $y$, or just $M\models_\nu\vph\to\vph[x\to y]$ by symmetry.
+
+Since $\vph\to\forall x\;\vph$ is provable this reduces to $M\models_\nu\forall x\;\vph\to\vph[x\to y]$. Application of \thlink{a4v} reduces the goal to $M\models_\nu x=y\to(\vph\leftrightarrow\vph[x\to y])$,which is provable by induction on $\vph$ using equality theorems. The interesting case is when $\vph=\forall z\;\psi$. If $z=x$ (or $z=y$, by symmetry), this is $M\models_\nu x=y\to(\forall x\;\psi\leftrightarrow\forall y\;\psi[x\to y])$, and we can drop the hypothesis $x=y$ and apply \thlink{cbvalv} to reduce; while if $z\ne x$ and $z\ne y$, this is $M\models_\nu x=y\to(\forall z\;\psi\leftrightarrow\forall z\;\psi[x\to y])$ which is reducible using \thlink{albidv}. In either case the disjoint variable conditions are satisfied because $\nu(x),\nu(y),\nu(z)$ are all fresh from each other by assumption (note that $z\in{\cal V}(\vph)$).  
+\qed\end{proof}
+
+\begin{remark}
+It is unfortunate that we must reprove that equality is preserved under substitution, since we already have this from \autoref{thm:eq}. This is necessary because {\em conditional} equality does not necessarily behave the same way as unconditional equality, which is what we were reasoning about in the previous section, and in any case something resembling \texttt{set.mm} implication is not even available in the more general situation.
+\end{remark}
+
+\begin{remark}
+It should be noted that the assumption of disjointness in \autoref{thm:set-nf}, while necessary for the biconditional, is not usually used. That is, not-free theorems in \texttt{set.mm} are usually established with few or no disjoint variable conditions, because these compose better. We can safely add these superfluous DV conditions in the final step to use the theorem. 
+\end{remark}
+
+To use \autoref{thm:set-nf}, we note that from \thlink{hbal}, $\vdash\forall x\;vph\to\forall x\;\forall x\;\vph$ (with no DV conditions), $\NF(x,\forall x\;\vph)$ is true, so \autoref{thm:nf}(\ref{thm:nf-subst}) allows us to map $x\mapsto x$ and $\vph\mapsto e$ for any expression $e$ (which may contain $x$), and then $\NF(x,\forall x\; e)$ is true. That is, $x$ is bound in any expression of the form $\forall x\;-$, which matches our intuition for bound variables. \autoref{thm:nf}(\ref{thm:nf-comp}) then allows us to prove $\NF(x,\psi\lor\forall x\;\vph)$ and similar expressions as well.
+
+If $\sigma=\{x\mapsto x, \vph\mapsto e\}$ is a substitution and $\NF(y,\forall x\; e)$ for all $y$ such that $x\in{\cal V}(\sigma(y))$, then $\NF(x,\sigma(\forall x\; e))$.
+
+Using \autoref{thm:defncext}, \autoref{thm:nf}
+
+\begin{thebibliography}{4}
+
+\bibitem{models} Carneiro, M.: Models for Metamath. Preprint,	\href{http://arxiv.org/abs/1601.07699}{arXiv:1601.07699} [math.LO].
+
+\bibitem{metamath} Megill, N.: Metamath: A Computer Language for Pure Mathematics. Lulu Publishing, Morrisville, North Carolina (2007), \url{http://us.metamath.org/downloads/metamath.pdf}
+
+\bibitem{tarski} Tarski, A.: ``A Simplified Formalization of Predicate Logic with Identity,'' {\em Archiv f\"{u}r Mathematische Logik und Grundlagenforschung}, 7:61-79 (1965) [QA.A673].
+
+\bibitem{hofstadter} Hofstadter, D.: {\em G\"{o}del, Escher, Bach}. Basic Books, Inc., New York (1979) [QA9.H63 1980].
+\end{thebibliography}
+\end{document}
