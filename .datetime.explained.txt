@@ -1,0 +1,11 @@
+The .datetime file stores datetime information for files.
+One file per line (we assume filenames don't embed newlines).
+Each line is tab-separated, of the form:
+last access time \t last data modification \t TAB last status change \t path
+
+Times are in UTC.
+
+It was generated with this command ("gstat is for MacOS after using
+"brew install coreutils"; on Linux it's just "stat"):
+
+TZ=UTC find . -type f -exec gstat --format $'%x\t%y\t%z\t%n' {} \; > .datetime
