@@ -85,7 +85,9 @@
 # The script is intended to be robust in that it can be re-run if
 # it is aborted in the middle.
 #
-# Please report any problems to "nm at alum.mit.edu" (change " at " to "@").
+# Please report any problems via github issue at
+# https://github.com/metamath/metamath-website-seed
+# or via the contact methods at https://us.metamath.org/email.html
 #
 ##############################################################################
 # (The following notes are intended for N. Megill only)

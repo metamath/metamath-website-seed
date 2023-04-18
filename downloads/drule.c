@@ -12,7 +12,7 @@
 /* legally possible, the right is granted to use the work for any purpose,   */
 /* without any conditions, unless such conditions are required by law.       */
 /*                                                                           */
-/* Norman Megill nm(at)alum(dot)mit(dot)edu                                  */
+/* Norman Megill                                                             */
 /*****************************************************************************/
 
 /* History:

@@ -10,4 +10,4 @@ licensing information that applies to the content of this package.  The
 file is also at http://us.metamath.org/copyright.html on the web.
 
 
-Norm Megill nm (at) alum.mit.edu    30-May-05
+Norm Megill        30-May-05
