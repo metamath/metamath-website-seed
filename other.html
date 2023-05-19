@@ -304,6 +304,15 @@ software is available</A> [retrieved 16-Aug-2016] under the MIT license.
 <A NAME="verifiers"></A><B><FONT COLOR="#006633">
 Known Metamath proof verifiers</FONT></B>
 
+<P>These are tools that can take the .mm database and verify that
+it's correct (or not).
+Some, such as <a href="#metamath-exe">Metamath-exe program</a> (the
+original C program) and <a href="#mmj2">mmj2</a>, include functions to
+help create proofs.
+Note that some programs (like metamath-lamp) focus only on
+helping create proofs and thus are put in a different list,
+while other programs (like metamath-knife) are in this list but don't have
+significant functions to help create proofs.
 
 <P>The proof verifiers in this list sometimes have a local archived copy.
   When an external link is also available, check it to see that you
@@ -313,33 +322,21 @@ version or updated external link, let me know so I can update it.
 
 <OL>
 
-
- <LI> <A NAME="mmprog"></A><A
-HREF="index.html#mmprog">metamath</A> (current version) -
+<LI id="metamath-exe"> <A NAME="mmprog"></A><A
+HREF="index.html#mmprog">metamath</A> (current version), aka metamath-exe -
 the original Metamath proof verifier and proof assistant
 (written in C by Norman Megill)
-
-  <UL><LI> Sean B. Palmer has a
-     <A HREF="https://sbp.github.io/mmjs/">web page</A>
-      [retrieved 6-Oct-2017] that runs the metamath program
-     in JavaScript.  He writes,
-     "When you load that page it emulates an entire Linux stack running on
-     an OpenRISC CPU simulator written by Sebastian Macke. I added Metamath
-     to its filesystem, compiled it, and set it up so that it runs in
-     screen. It takes about 30 seconds to boot to Metamath on this page in
-     Firefox and Chrome for me... To verify all proofs took my browser about
-     half an hour. But at least this may serve as a curiosity."
-  </LI></UL>
-
 </LI>
 
- <LI> <A
+<LI id="mmj2"> <A
 HREF="index.html#mmj2">mmj2</A> proof assistant and verifier
 (written in Java by Mel O'Cat; enhanced and maintained by Mario Carneiro).
 Archived <A
 HREF="https://web.archive.org/web/20131219001737/http://wiki.planetmath.org/cgi-bin/wiki.pl/mmj2">AsteroidMeta
  wiki page</A> [retrieved 3-Aug-2016] as of 2011.
  </LI>
+
+<li><a name="metamath-knife"></a><a href=https://github.com/david-a-wheeler/metamath-knife">Metamath-knife</a> - Metamath system written in Rust, a fork of metamath-rs (below).</li>
 
 <LI> <A NAME="leanmmverify"></A> <A
 HREF="https://github.com/digama0/mm-lean4/">mm-lean4</A>
@@ -447,8 +444,6 @@ the checkmm Metamath proof verifier
 Metamath system engine [retrieved 3-Aug-2016] (written in Rust by Stefan
 O'Rear).  </LI>
 
-<li><a name="metamath-knife"></a><a href=https://github.com/david-a-wheeler/metamath-knife">Metamath-knife</a> - Metamath system written in Rust, a fork of metamath-rs.
-
 <LI><A NAME="metamath-ada"></A><A
 HREF="https://github.com/david-a-wheeler/metamath-ada">metamath-ada</A>
 (16-Jul-2017) - a simple Metamath proof checker [retrieved 15-Aug-2016]
@@ -462,6 +457,19 @@ to that message.  </LI>
 >Metamatix</a> is a verified implementation of a Metamath proof checker
 written using Coq.
 
+
+<LI> Sean B. Palmer has a
+     <A HREF="https://sbp.github.io/mmjs/">web page</A>
+      [retrieved 6-Oct-2017] that runs the metamath (metamath-exe) C program
+     in JavaScript.  He writes,
+     "When you load that page it emulates an entire Linux stack running on
+     an OpenRISC CPU simulator written by Sebastian Macke. I added Metamath
+     to its filesystem, compiled it, and set it up so that it runs in
+     screen. It takes about 30 seconds to boot to Metamath on this page in
+     Firefox and Chrome for me... To verify all proofs took my browser about
+     half an hour. But at least this may serve as a curiosity."
+</LI>
+
 </OL>
 
 
@@ -472,22 +480,27 @@ written using Coq.
 Other tools for Metamath</FONT></B>
 
 <OL>
-<LI><A href="metamath-proof-assistant-js"></A>
-metamath-proof-assistant is a proof assistant by Igor Ieskov that lets
+<LI><A href="metamath-lamp"></A>
+metamath-lamp (formerly named metamath-proof-assistant-js)
+is a proof assistant by Igor Ieskov that lets
 you create Metamath proofs.
-It's written in JavaScript and can work within a browser
-(so you don't need to install anything).
+It's written in JavaScript and can work within a browser,
+so you don't need to install anything - a major plus over mmj2.
 You can
-<a href="https://igorocky.github.io/mm-proof-assistant/demo/latest/index.html"
->try it out from your web browser (this redirects to the current version)</a>
-You can also check out its
-<a href="https://github.com/expln/metamath-proof-assistant"
->source code repository (MIT license)</a>; note that it depends
+<a href="https://expln.github.io/lamp/latest/index.html"
+>try out metamath-lamp from your web browser (this redirects to the current version)</a>
+You can also check out the
+<a href="https://github.com/expln/metamath-lamp"
+>metamath-lamp source code repository (MIT license)</a>; note that it depends
 <a href="https://github.com/expln/rescript-utils"
 >@expln/utils npm module</a>.
+When you'll need to select and load a database; you can even download
+set.mm from the metamath.org website (so you don't need a local copy).
+It has various nice capabilities like parentheses autocompletion,
+syntax aware selection, and graphical visualization of justifications.
 It uses a notation very similar to mmj2.
 There's a short
-<a href="https://drive.google.com/file/d/1JCDffUXkb_J-TiA07aNwK9SBKyaukaA3/view?usp=share_link "
+<a href="https://drive.google.com/file/d/1IwdHLpQreZ_1CJFZJmptRJc2unO8aNh4/view?usp=sharing"
 >demo video</a> (without sound) available.
 <LI><A NAME="mmpp"></A> mmpp is a proof editing environment for the
 Metamath language, by Giovanni Mascellani.  Still under development, the
