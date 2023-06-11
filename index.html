@@ -69,6 +69,9 @@ Page</B></FONT>
 
 </TR></TABLE>
 
+<P>
+Metamath is a simple and flexible computer-processable language that supports presenting, archiving, and rigorously verifying mathematical proofs. See the <A HREF="#faq">FAQ</A> for more information.
+
 <!-- <HR NOSHADE SIZE=1> -->
    <!-- old: 73D3A8 celadon=ACE1AF darkceladon=306136 -->
   <!-- patina color: 93C592 -->
@@ -489,34 +492,69 @@ VALUE=" "> <INPUT TYPE="SUBMIT" VALUE="Submit"> </FORM> -->
 <A NAME="faq"></A>
 <CENTER><B><FONT COLOR="#006633" SIZE="+1">Mini FAQ</FONT></B>
 </CENTER>
-
-
 <FONT COLOR="#006633"><B>Q:</B> What is Metamath?</FONT><BR> <B>A:</B>
-Metamath is a tiny language that can express theorems in abstract
-mathematics, accompanied by proofs that can be verified by a computer
-program.  This site has a collection of web pages generated from those
-proofs and lets you see mathematics developed in complete
-detail from first principles, with absolute rigor.  Hopefully it will
+As noted above, Metamath is a simple, robust, and flexible computer-processable language for presenting, archiving, and rigorously verifying mathematical proofs.
+Metamath has a small specification that
+enables you to state a collection of axioms (assumptions), theorems, and proofs
+(aka a "database").
+We have databases for several axiomatic systems.
+Metamath provides precision,
+certainty, and the elimination of human error.
+Through Metamath you can see mathematics developed in complete
+detail from first principles, with absolute rigor, in a way
+unlike any other system.  Hopefully it will
 amuse you, amaze you, and possibly enlighten you in its own special way.
 
-<!--
- <BR>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Metamath also has a
-<A HREF="http://en.wikipedia.org/wiki/Metamath">Wikipedia entry</A>.
--->
+<P><A NAME="distinctives"></A><FONT COLOR="#006633"><B>Q:</B> What is
+distinctive about Metamath?</FONT><BR>
+Metamath is probably unlike anything you have encountered.
+Here are some distinctive traits of Metamath:
+<OL>
+<LI>The Metamath language is extremely simple, with an almost total absence of hard-wired syntax. We believe that it provides about the simplest possible framework that allows essentially all of mathematics to be expressed with absolute rigor.
+<LI>Metamath is not tied to any particular set of axioms, instead, axioms are defined in a database.
+<LI>Metamath proofs include every step, <i>no exceptions</i>, where each step
+is <I>only</i> an application of an axiom or a previously-proved statement.
+This is different from
+almost all other computer-verifiable proof systems, which allow statements
+(like "simp", "auto", or "blast") that don't show the proof steps but
+instead ask a computer to rediscover the proof steps.
+Metamath's unique approach enables <I>anyone</I> to follow every proof step,
+improves archiving, and speeds verification.
+<LI>Many tools support Metamath, instead of requiring a "canonical" tool.
+<LI>Metamath verifiers have been independently
+implemented by different people in different programming languages,
+reducing the risk of accepting an invalid proof.
+<LI>Metamath's fundamental operation (substitution) is easy to understand,
+even by those who aren't professional mathematicians
+<LI>Proofs stay proven.  In many systems changes to a system's
+syntax or tactics cause proofs to stop working. Metamath's architecture
+provides better support for long-term archival.
+<LI>Metamath is one of the top systems in the
+<A HREF="https://www.cs.ru.nl/~freek/100/>"
+>Formalizing 100 Theorems challenge</A>.
+The Metamath Proof Explorer (MPE) database alone
+has over 23,000 proven theorems.
+</OL>
+<P>
+Of course, other systems may have advantages over Metamath
+that are more compelling to you.
+Some users of Metamath also use or develop other systems;
+we're always delighted to cooperate with other systems' users when we can.
 
 <P><A NAME="discussion"></A><FONT COLOR="#006633"><B>Q:</B> How can I ask
 questions or discuss Metamath-related topics?</FONT><BR>
 
 <B>A:</B> The <A HREF="http://groups.google.com/group/metamath">Metamath
-Google Group</A> [retrieved 22-Sep-2020] mailing list is being used for
-discussion about Metamath.  If you have questions, that is a good place
-to ask them.  (The <A
+Google Group mailing list</A> is a great place to discuss
+Metamath.  If you have questions, that is a good place
+to ask them.
+<!-- If you want very old material, here's one place to get it, but
+few will care:
+The <A
 HREF="https://web.archive.org/web/20131219031208/http://wiki.planetmath.org/cgi-bin/wiki.pl/metamath"
 >AsteroidMeta</A> [retrieved 22-Sep-2020] wiki was used for many older
 Metamath discussions, but is no longer available.  Archived discussions
-such as this one can be found on archive.org.)
+such as this one can be found on archive.org.) -->
 
 <P><A NAME="start"></A><FONT COLOR="#006633"><B>Q:</B> Where do I
 start?</FONT><BR>
@@ -545,23 +583,75 @@ The video series
 [retrieved 27-Sep-2017] may also be helpful.
 <BR>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You can experiment with simple
-proofs in the <A HREF="mmsolitaire/mms.html">Metamath Solitaire</A>
-applet.
-To actually create real metamath proofs, you'll want to
-<a href="#downloads">download</a> a tool.
-A common tool is <A HREF="#mmj2">mmj2</A>.
-David A. Wheeler produced an introductory video, <A
-HREF="https://www.youtube.com/watch?v=Rst2hZpWUbU">"Introduction to
-Metamath &amp; mmj2"</A> [retrieved 4-Aug-2016].
-
-
 <!--
 The <I>Stanford Encyclopedia of Philosophy</I> has an informative
 overview of <A HREF="http://plato.stanford.edu/entries/set-theory/">set
 theory</A> [external].   You can also check out these <A
 HREF="mpeuni/mmset.html#read">reading suggestions</A> that closely
 follow our material.
+-->
+
+<P><A NAME="tool-types"></A><FONT COLOR="#006633"><B>Q:</B> What kinds
+of tools support Metamath?</FONT><BR>
+
+Many tools support Metamath. There are three categories of Metamath tools,
+though some tools belong to more than one category:
+
+<OL>
+<LI><I>Proof assistants</I> help you create proofs.
+<LI><I>Verifiers</I> verify that a database is correct - in particular,
+that the proofs in a database are correct).
+There are over a dozen verifiers available.
+Metamath verifiers do not make logical inferences; they just verify
+that the proof as stated is correct.
+<LI><I>Support tools</I> perform other tasks such as generate HTML pages and
+database statistics.
+</OL>
+
+<P><A NAME="tool-types"></A><FONT COLOR="#006633"><B>Q:</B> What
+proof assistants support Metamath?<FONT><BR>
+
+To create new Metamath proofs, you'll want to use a proof assistant.
+The main Metamath proof assistants are:
+
+<OL>
+<LI><I>mmj2</I> - <A HREF="#mmj2">mmj2</A> is currently
+the most commonly-used tool.  It's written in Java.
+David A. Wheeler produced an introductory video, <A
+HREF="https://www.youtube.com/watch?v=Rst2hZpWUbU">"Introduction to
+Metamath &amp; mmj2"</A> [retrieved 4-Aug-2016].
+<LI><I>metamath-lamp</I> -
+<a href="https://expln.github.io/lamp/latest/index.html"
+>metamath-lamp</A>
+(Lite Assistant for Metamath Proofs)
+is a new Metamath proof assistant by Igor Ieskov
+written in JavaScript.
+You don't need to install anything to use it, just use your web browser
+(including your smartphone web browser) to view the
+<a href="https://expln.github.io/lamp/latest/index.html"
+>Metamath-lamp application page</A>.
+You can learn to use metamath-lamp from the extensive
+<A HREF="https://lamp-guide.metamath.org/">Metamath-lamp Guide</A>
+by David A. Wheeler.
+Software developers may want to see the
+<A HREF="https://github.com/expln/metamath-lamp"
+>Metamath-lamp source code repository</A>.
+<LI><I>metamath-exe</I> - the 
+  <A HREF="mmprog">metamath-exe</A> program is an
+  ASCII-based ANSI C program with a command-line interface.
+  This is the original program for processing Metamath; today it's
+  it's often called "metamath-exe" to distinguish it from other Metamath tools.
+<LI><I>yamma</I> -
+  Yamma is a Metamath proof assistant for Visual Studio Code.
+  It's implemented as a vSCode extension for Metamath.
+  See the <A HREF="https://github.com/glacode/yamma"
+  >Yamma source repository</A> for more information.
+</OL>
+
+<!-- Solitaire requires Java applets, which are generally unsupported:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You can experiment with simple
+proofs in the <A HREF="mmsolitaire/mms.html">Metamath Solitaire</A>
+applet.
 -->
 
 <P><A NAME="learn"></A><FONT COLOR="#006633"><B>Q:</B> Will Metamath
@@ -795,12 +885,15 @@ by using multiple independently-implemented verifiers
 (since it is unlikely that all verifiers will have the same kind of bug).
 For example, the
 <A HREF="mpeuni/mmset.html">Metamath Proof Explorer</A>
-is routinely checked by 4 independent verifiers:
+is routinely checked by 5 independently-created verifiers in 5
+different programming languages:
 <A HREF="#mmprog">metamath</A> (a C verifier by Norm Megill),
 <A HREF="#mmj2">mmj2</A> (a Java verifier by Mel O'Cat and Mario Carneiro),
 <A HREF="other.html#smetamath-rs">smetamath-rs</A>
- (a high-speed Rust verifier by Stefan O'Rear), and
+ (a high-speed Rust verifier by Stefan O'Rear),
 <A HREF="other.html#checkmm">checkmm</A> (a C++ verifier by Eric Schmidt).
+<A HREF="other.html#mmyverify.py">mmverify.py</A>
+a Python verifier by Raph Levien).
 In addition, the databases are public and can easily be inspected;
 the hypertext links in generated proofs make it especially easy to move
 from one theorem to the next.
@@ -1024,13 +1117,11 @@ is also included.
 <A HREF="downloads/metamath.zip">metamath.zip</A> (17 MB)
   <UL>
   <LI><FONT COLOR="#006633"><I>Description:</I></FONT> The
-    <B>metamath program</B> (version 0.198 7-Aug-2021), which is an
+    <B>metamath-exe (aka "metamath program")</B> is an
     ASCII-based ANSI C program with a command-line interface.
-    It was used (along with
-    mmj2 below) to build and
-    verify the proofs in the Metamath Proof Explorer, and it generated
-    its web pages.  The *.mm ASCII databases (<B>set.mm</B> and others) are
-    also included in this download.
+    This is the original program for processing Metamath, but since there
+    are many other tools it's typically called "metamath-exe" to distinguish
+    it from other tools.
 <!--
 <B>(5-Apr-2021) The compiled program for Windows, metamath.exe, has been temporarily
 removed due to a false positive in an antivirus program.  Contact
