@@ -70,7 +70,9 @@ Page</B></FONT>
 </TR></TABLE>
 
 <P>
-Metamath is a simple and flexible computer-processable language that supports presenting, archiving, and rigorously verifying mathematical proofs. See the <A HREF="#faq">FAQ</A> for more information.
+Metamath is a simple and flexible computer-processable language that supports
+rigorously verifying, archiving, and presenting mathematical proofs.
+See the <A HREF="#faq">FAQ</A> for more information.
 
 <!-- <HR NOSHADE SIZE=1> -->
    <!-- old: 73D3A8 celadon=ACE1AF darkceladon=306136 -->
@@ -493,7 +495,9 @@ VALUE=" "> <INPUT TYPE="SUBMIT" VALUE="Submit"> </FORM> -->
 <CENTER><B><FONT COLOR="#006633" SIZE="+1">Mini FAQ</FONT></B>
 </CENTER>
 <FONT COLOR="#006633"><B>Q:</B> What is Metamath?</FONT><BR> <B>A:</B>
-As noted above, Metamath is a simple, robust, and flexible computer-processable language for presenting, archiving, and rigorously verifying mathematical proofs.
+As noted above,
+Metamath is a simple and flexible computer-processable language that supports
+rigorously verifying, archiving, and presenting mathematical proofs.
 Metamath has a small specification that
 enables you to state a collection of axioms (assumptions), theorems, and proofs
 (aka a "database").
@@ -517,9 +521,9 @@ is <I>only</i> an application of an axiom or a previously-proved statement.
 This is different from
 almost all other computer-verifiable proof systems, which allow statements
 (like "simp", "auto", or "blast") that don't show the proof steps but
-instead ask a computer to rediscover the proof steps.
-Metamath's unique approach enables <I>anyone</I> to follow every proof step,
-improves archiving, and speeds verification.
+instead ask a computer to try to rediscover the proof steps.
+Metamath's unique approach speeds verification, improves archiving, and enables
+<I>anyone</I> to follow every proof step.
 <LI>Many tools support Metamath, instead of requiring a "canonical" tool.
 <LI>Metamath verifiers have been independently
 implemented by different people in different programming languages,
@@ -527,8 +531,10 @@ reducing the risk of accepting an invalid proof.
 <LI>Metamath's fundamental operation (substitution) is easy to understand,
 even by those who aren't professional mathematicians
 <LI>Proofs stay proven.  In many systems changes to a system's
-syntax or tactics cause proofs to stop working. Metamath's architecture
-provides better support for long-term archival.
+syntax or tactics cause older proofs to stop being verifiable.
+Metamath's approach, which cleanly
+separates proof verification from discovery,
+provides better support for long-term archives.
 <LI>Metamath is one of the top systems in the
 <A HREF="https://www.cs.ru.nl/~freek/100/>"
 >Formalizing 100 Theorems challenge</A>.
@@ -609,7 +615,7 @@ database statistics.
 </OL>
 
 <P><A NAME="tool-types"></A><FONT COLOR="#006633"><B>Q:</B> What
-proof assistants support Metamath?<FONT><BR>
+proof assistants support Metamath?</FONT><BR>
 
 To create new Metamath proofs, you'll want to use a proof assistant.
 The main Metamath proof assistants are:
