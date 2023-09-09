@@ -62,7 +62,7 @@ Notes
 
 1. The script install.sh is the actual script used to rebuild this site
 periodically.  In the hopefully unlikely event there is a problem,
-please report it to Norm Megill - this is important to help maintain the
+please report it - this is important to help maintain the
 quality of the Metamath site!  There are also some additional notes in
 the comments at the beginning of the install.sh file.
 
@@ -83,4 +83,4 @@ licensing information that applies to the content of this package.  The
 file is also at http://us.metamath.org/copyright.html on the web.
 
 
-Norm Megill  nm(at)alum(dot)mit(dot)edu  10-Dec-2006
+Norm Megill  10-Dec-2006
