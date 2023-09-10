@@ -1,4 +1,4 @@
-This is the REAME.TXT file that accompanies the Metamath site download,
+This is the README.TXT file that accompanies the Metamath site download,
 extracted from one of the downloaded files metamathsite.tar.bz2,
 metamathsite.tar.gz, or metamathsite.zip.
 
