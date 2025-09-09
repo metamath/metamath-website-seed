@@ -1,5 +1,5 @@
 // Metamath database verifier
-// Eric Schmidt (eric41293@comcast.net)
+// Eric Schmidt (erics41293@gmail.com)
 //
 // I release this code to the public domain under the
 // Creative Commons "CC0 1.0 Universal" Public Domain Dedication:
@@ -43,6 +43,9 @@
 #include <string>
 #include <vector>
 #include <utility>
+
+namespace
+{
 
 std::queue<std::string> tokens;
 
@@ -465,7 +468,7 @@ bool readexpression
 // Make a substitution of variables. The result is put in "destination",
 // which should be empty.
 void makesubstitution
-    (Expression const & original, std::map<std::string, Expression> substmap,
+    (Expression const & original, std::map<std::string, Expression> const & substmap,
      Expression * destination
     )
 {
@@ -1271,6 +1274,8 @@ bool parsev()
     tokens.pop(); // Discard $. token
 
     return true;
+}
+
 }
 
 int main(int argc, char ** argv)
