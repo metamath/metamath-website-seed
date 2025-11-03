@@ -76,6 +76,7 @@ HREF="email.html">contact us</A>.
 <MENU>
 
   <LI> <A HREF="#verifiers">Known Metamath proof verifiers</A></LI>
+  <LI> <A HREF="#assistants">Metamath proof assistants</A></LI>
   <LI> <A HREF="#mmtools">Other tools for Metamath</A></LI>
   <LI> <A HREF="#mmrelated">Metamath-related programs</A></LI>
   <LI> <A HREF="#mathematica">Mathematica program to generate
@@ -307,13 +308,9 @@ Known Metamath proof verifiers</FONT></B>
 
 <P>These are tools that can take the .mm database and verify that
 it's correct (or not).
-Some, such as <a href="#metamath-exe">Metamath-exe program</a> (the
-original C program) and <a href="#mmj2">mmj2</a>, include functions to
-help create proofs.
-Note that some programs (like metamath-lamp) focus only on
-helping create proofs and thus are put in a different list,
-while other programs (like metamath-knife) are in this list but don't have
-significant functions to help create proofs.
+Some are also <a href="#assistants" >proof assistants</a>, which
+can create proofs, but we list verifiers and assistants separately here.
+</P>
 
 <P>The proof verifiers in this list sometimes have a local archived copy.
   When an external link is also available, check it to see that you
@@ -480,12 +477,72 @@ written using Coq.
 
 <LI> <A HREF="https://github.com/marloBruder/mmt1">mmt1</A> (27-Oct-2025) -
   A mmj2-style proof assistant written by Marlo Bruder using the Tauri
-  framework that also includes a verifier. 
+  framework that also includes a verifier.
 </LI>
 
 </OL>
 
+<HR NOSHADE SIZE=1>
 
+<a name="assistants"></a><B><FONT COLOR="#006633">
+Metamath Proof Assistants</FONT></B>
+
+<p>By proof assistant, we mean any tool which can help you create
+metamath proofs. Some of them can also fill in some of the proof steps
+for you.</p>
+
+<OL>
+<li><A HREF="index.html#mmj2">mmj2</A> (updated 16-Sep-2024) is one
+commonly-used tool.  It's written in Java.
+David A. Wheeler produced an introductory video, <A
+HREF="https://www.youtube.com/watch?v=Rst2hZpWUbU">"Introduction to
+Metamath &amp; mmj2"</A>. <!-- [retrieved 4-Aug-2016]-->
+Also see the <a href="https://github.com/digama0/mmj2">mmj2 source
+code repository</a></li>
+<LI><a href="https://expln.github.io/lamp/latest/index.html"
+>metamath-lamp</A> (updated 14-Oct-2025)
+(Lite Assistant for Metamath Proofs)
+is a Metamath proof assistant by Igor Ieskov
+written in JavaScript.
+You don't need to install anything to use it, just use your web browser
+(including your smartphone web browser) to view the
+<a href="https://expln.github.io/lamp/latest/index.html"
+>Metamath-lamp application page</A>.
+You can learn to use metamath-lamp from the extensive
+<A HREF="https://lamp-guide.metamath.org/">Metamath-lamp Guide</A>
+or the
+<A HREF="https://www.youtube.com/playlist?list=PL1jSu6GGefBk3RhHW5Srpc2qxWMqhga9J">Introduction to Metamath-lamp videos</a>
+by David A. Wheeler.
+Software developers may want to see the
+<A HREF="https://github.com/expln/metamath-lamp"
+>Metamath-lamp source code repository</A>.
+<li><A HREF="index.html#mmprog">metamath-exe</A> (updated 28-Jul-2025)
+  is a text-based
+  program with a command-line interface.
+  Specifically the PROVE command starts its proof assistant features;
+  use HELP PROVE inside metamath-exe for further documentation.
+  Also see the <a href="https://github.com/metamath/metamath-exe"
+  >metamath-exe source code repository</a></li>
+<li><A HREF="https://github.com/glacode/yamma"
+  >Yamma</A> (retrieved 31-Oct-2025) -
+  Yamma is a Metamath proof assistant for Visual Studio Code (VS Code).
+  It's implemented as a VS Code extension for Metamath.</li>
+
+<LI> <A HREF="https://github.com/marloBruder/mmt1">mmt1</A> (27-Oct-2025) -
+  mmt1 is a mmj2-style proof assistant written by Marlo Bruder using the Tauri framework. Its 
+  features include a built-in theorem explorer, a Unicode preview and the ability of adding
+  statements to the database with only a few clicks. It also uses monaco editor, a standalone
+  version of VSCode's editor. See its <A HREF="https://github.com/marloBruder/mmt1">Github 
+  repository</A> for more information and install instructions.</LI>
+
+<li><A HREF="https://github.com/giomasce/mmpp">mmpp</A> (updated
+4-Jun-2019) - an experimental
+proof editing environment for the
+Metamath language by Giovanni Mascellani.
+It can be built under Linux, MacOS, and Windows.  See also its <A
+HREF="https://groups.google.com/d/msg/metamath/UsqyBvemGoY/c82rZAh2BQAJ">Google
+group announcement</A>.</li>
+</OL>
 
 <HR NOSHADE SIZE=1>
 
